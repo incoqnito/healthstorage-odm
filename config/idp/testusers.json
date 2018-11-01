@@ -1,0 +1,60 @@
+{
+  "Users": [
+    {
+      "subjectId": "9c60e3ff-2fa2-4f8a-be23-0f2fb58d3f5c",
+      "username": "Test1User1",
+      "password": "test1user1",
+      "claims": [
+        {
+          "id": "name",
+          "value": "Test1 User1" 
+        },
+        {
+          "id": "given_name",
+          "value": "Test1"
+        },
+        {
+          "id": "family_name",
+          "value": "User1" 
+        },
+        {
+          "id": "email",
+          "value": "test1.user1@t1u1.com" 
+        },
+        {
+          "id": "email_verified",
+          "value": "true",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "subjectId": "9200918d-aea0-4573-aa61-4dfd810609f5",
+      "username": "Test2User2",
+      "password": "test2user2",
+      "claims": [
+        {
+          "id": "name",
+          "value": "Test2 User2"
+        },
+        {
+          "id": "given_name",
+          "value": "Test2"
+        },
+        {
+          "id": "family_name",
+          "value": "User2"
+        },
+        {
+          "id": "email",
+          "value": "test2.user2@t2u12com"
+        },
+        {
+          "id": "email_verified",
+          "value": "true",
+          "type": "boolean"
+        }
+      ]
+    }
+  ]
+}

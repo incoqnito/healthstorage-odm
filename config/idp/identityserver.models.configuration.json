@@ -1,0 +1,37 @@
+{
+  "apiResources": [
+    {
+      "name": "hs-storage-api",
+      "scopes": [
+        {
+          "name": "hs-storage-api",
+          "displayName": "Health Storage Api",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "f3cfb602-3c3d-4fe4-8adc-32818a29db1f",
+      "clientName": "Windows Client",
+      "accessTokenLifetime": 7200,
+      "allowedGrantTypes": [
+        "password"
+      ],
+      "requireConsent": false,      
+      "allowedScopes": [
+        "hs-storage-api",
+        "openid"
+      ]
+    }    
+  ],
+  "identityResources": [
+    {
+      "name": "user-name",
+      "displayName": "Your Given- and Familyname",
+      "required": true,      
+      "userClaims": [ "given_name", "family_name" ]
+    }
+  ]
+}

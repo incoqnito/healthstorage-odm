@@ -1,0 +1,42 @@
+version: "3.4"
+services:
+  api:
+    image: blacktuskdc/btstorage:latest
+    depends_on: 
+      - hsdb
+    networks: 
+      - hsbackend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./config/api:/app/config      
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+  idp:
+    image: blacktuskdc/btidp:latest
+    depends_on: 
+      - hsdb
+    networks: 
+      - hsbackend
+    ports: 
+      - "8081:80"
+    volumes: 
+      - ./config/idp:/app/config      
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+  hsdb: 
+    image: microsoft/mssql-server-linux:2017-latest
+    networks: 
+      - hsbackend    
+    ports: 
+      - "1433:1433"
+    volumes: 
+      - sqlvolume:/var/opt/mssql
+    environment: 
+      - MSSQL_SA_PASSWORD=Was@ch1mmer
+      - ACCEPT_EULA=Y
+volumes: 
+  sqlvolume:
+  mongovolume:
+networks: 
+  hsbackend:

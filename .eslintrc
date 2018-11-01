@@ -1,0 +1,19 @@
+{
+    "parser": "babel-eslint",
+    "extends": [
+      "standard"
+    ],
+    "plugins": [
+      "jest"
+    ],
+    "rules": {
+      "standard/no-callback-literal": 0,
+      "ignoreRestSiblings": true,
+      "no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+      "no-debugger": 0,
+      "no-test-prefixes": 0
+    },
+    "env": {
+      "jest/globals": true
+    }
+  }

@@ -1,0 +1,42 @@
+{
+  "name": "healthstorage-odm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "development": "forever --watchDirectory=./src index.js",
+    "build": "babel ./src --out-dir lib",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incoqnito/healthstorage-odm.git"
+  },
+  "author": "Christian Birg <cbirg@incoqnito.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/incoqnito/healthstorage-odm/issues"
+  },
+  "homepage": "https://github.com/incoqnito/healthstorage-odm#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/register": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "eslint": "^4.13.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jest": "^21.22.1",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "forever": "^0.15.3",
+    "jest": "19.0.2",
+    "jest-cli": "^23.6.0",
+    "standard": "10.0.2"
+  }
+}
