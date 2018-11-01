@@ -1,7 +1,10 @@
 /**
  * Test Case - Check given SDO Title and Options
  * node ./src/__tests__/cases/checkSDO.js
- * @argument SDOFilename
+ *
+ * Test if Debugger works properly
+ * 
+ * @argument sdoName
  * @argument Options
  */
 
@@ -12,22 +15,22 @@ import Debug from "../debug/debug";
 
 var args = process.argv.slice(2);
 
-if(args!== undefined && args[0] !== undefined && args[1] !== undefined) {
-    var sdoTitle = args[0];
+if (args !== undefined && args[0] !== undefined && args[1] !== undefined) {
+    var sdoName = args[0];
     var options = args[1];
-    
+
     Debug.debugStart("Check define variables");
 
     try {
 
-        HealthStorage.define(sdoTitle, options);
-        var returnTitle = HealthStorage.getSdoTitle();
+        HealthStorage.define(sdoName, options);
+        var returnTitle = HealthStorage.getSdoName();
         var returnOptions = HealthStorage.getSdoOptions();
-        
-        Debug.debugValue("SdoTitle", returnTitle);
+
+        Debug.debugValue("SdoType", returnTitle);
         Debug.debugValue("Sdooptions", returnOptions);
 
-    } catch(exp) {
+    } catch (exp) {
         Debug.debugValue(exp);
     }
 

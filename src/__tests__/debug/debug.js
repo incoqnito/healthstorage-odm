@@ -1,9 +1,7 @@
 'use-strict';
 
-
 class Debug 
 {
-
     /**
      * Construct
      */
