@@ -1,14 +1,12 @@
 'use-strict';
 
-import Validator from "./helper/Validator";
+import Validator from "./helper/validator";
+import ValidationError from "./helper/exceptions";
 
-const STRING = string;
+const STRING = "string";
 
 class HealthStorage extends Validator
 { 
-
-  static STRING;
-
   /**
    * Cosntruct
    * @param {String} name Title of the SDO
@@ -19,6 +17,8 @@ class HealthStorage extends Validator
     super(title, options);
     this.name = title;
     this.options = options;
+
+    this.setSchema(this.options);
   }
 
   /**
@@ -32,6 +32,14 @@ class HealthStorage extends Validator
   }
 
   /**
+   * Return string type field
+   * @returns  {String}
+   */
+  static get STRING() {
+    return STRING;
+  }
+
+  /**
    * Return SDO title
    * @returns {String}
    */
@@ -40,13 +48,6 @@ class HealthStorage extends Validator
     return this.name;
   }
 
-  /**
-   * 
-   */
-  static get constant1() {
-    return constant1;
-  }
-  
   /**
    * Return SDO mimetype
    * @returns {String}
@@ -64,6 +65,26 @@ class HealthStorage extends Validator
   {
     return this.options;
   }
+
+  /**
+   * Return SDO options
+   * @returns {Object}
+   */
+  getSchema()
+  {
+    return this.schema.schema;
+  }
+
+  /**
+   * Compile schema
+   */
+  setSchema(options)
+  {
+    this.schema = this.ajv.compile(options);
+    if(this.schema.errors !== null) throw new ValidationError("the provided schema is not valid");
+  }
+
+
 
   /**
    * Return a list of all found shemas

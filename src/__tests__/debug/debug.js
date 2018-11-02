@@ -13,7 +13,7 @@ class Debug
      */
     debugStart(value = "") 
     {
-        var debugStr = (value != "") ? "========= DEBUG START: " + value + "=========" : "========= DEBUG START: =========";
+        var debugStr = (value != "") ? "========= DEBUG START: " + value + " =========" : "========= DEBUG START: =========";
         console.log("\n" + debugStr + "\n");
     }
 
@@ -23,7 +23,10 @@ class Debug
     */
     debugValue(key, value) 
     {
-        console.log(key + ": " + value);
+        console.log(key);
+        console.log("---------------------------------------------------------");
+        console.log(value);
+        console.log("---------------------------------------------------------");
     }
 
     /**
@@ -32,7 +35,7 @@ class Debug
      */
     debugEnd(value = "") 
     {
-        var debugStr = (value != "") ? "========= DEBUG END: " + value + "=========" : "========= DEBUG END: =========";
+        var debugStr = (value != "") ? "========= DEBUG END: " + value + " =========" : "========= DEBUG END: =========";
         console.log("\n" + debugStr + "\n");
     }
 }

@@ -11,34 +11,30 @@ require('@babel/register');
 import HealthStorage from "../../healthStorage";
 import Debug from "../debug/debug";
 
-var schema = require("./../schema/sample.json");
 var args = process.argv.slice(2);
 
-if (schema !== undefined) {
-    
-    Debug.debugStart("Create SDO");
+Debug.debugStart("Create SDO");
 
-    try {
-      console.log(HealthStorage.STRING);
-      const SampleSchema = HealthStorage.define(
-        "Sample",
-        {
-          filename: {
-            type: HealthStorage.STRING
-          },
-          mimetype: {
-            type: HealthStorage.STRING
-          }
-        }
-      );
-
-    } catch (exp) {
-        Debug.debugValue(exp);
+try {
+  const SampleSchema = HealthStorage.define(
+    "Sample",
+    {
+      filename: {
+        type: HealthStorage.STRING
+      },
+      mimetype: {
+        type: HealthStorage.STRING
+      }
     }
+  );
 
-    Debug.debugEnd("Create SDO");
+  var schema = SampleSchema.getSchema();
+  Debug.debugValue("Created schema", schema);
 
-} else {
-    Debug.debugValue("Error - No arguments passed to script :(");
+} catch (exp) {
+    Debug.debugValue(exp);
 }
+
+Debug.debugEnd("Create SDO");
+
 
