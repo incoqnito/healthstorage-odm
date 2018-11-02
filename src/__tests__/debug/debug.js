@@ -25,7 +25,7 @@ class Debug
     {
         console.log(key);
         console.log("---------------------------------------------------------");
-        console.log(value);
+        console.log(JSON.stringify(value));
         console.log("---------------------------------------------------------");
     }
 

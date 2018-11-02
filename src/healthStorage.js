@@ -12,13 +12,14 @@ class HealthStorage extends Validator
    * @param {String} name Title of the SDO
    * @param  {Object} options Options object
    */
-  constructor(title, options) 
+  constructor(title, properties, options) 
   {
     super(title, options);
     this.name = title;
+    this.properties = properties;
     this.options = options;
 
-    this.setSchema(this.options);
+    this.setSchema(this.properties);
   }
 
   /**
@@ -26,16 +27,17 @@ class HealthStorage extends Validator
    * @param {String} name Title of the SDO
    * @param  {Object} options Options object
    */
-  static define(title, options) 
+  static define(title, properties, options) 
   {
-    return new this(title, options);
+    return new this(title, properties, options);
   }
 
   /**
    * Return string type field
    * @returns  {String}
    */
-  static get STRING() {
+  static get STRING() 
+  {
     return STRING;
   }
 
@@ -77,14 +79,21 @@ class HealthStorage extends Validator
 
   /**
    * Compile schema
+   * @param {Object} properties
    */
-  setSchema(options)
+  setSchema(properties)
   {
-    this.schema = this.ajv.compile(options);
+    this.schema = this.ajv.compile(properties);
     if(this.schema.errors !== null) throw new ValidationError("the provided schema is not valid");
   }
 
-
+  /**
+   * 
+   */
+  testPropertiesAgainstSchema(properties)
+  {
+    return this.ajv.validate(this.schema.schema, properties);
+  }
 
   /**
    * Return a list of all found shemas
@@ -116,10 +125,11 @@ class HealthStorage extends Validator
 
   /**
    * Create a new schema based on defined type
-   * @param {Object} options
+   * @param {Object} properties
    */
-  create(options)
+  create(properties)
   {
+    this.testPropertiesAgainstSchema(properties);
     // @TODO: PUT /schemas/ 
   }
 
