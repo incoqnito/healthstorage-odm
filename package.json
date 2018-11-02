@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/incoqnito/healthstorage-odm#readme",
   "dependencies": {
+    "ajv": "^6.5.4",
     "babel-polyfill": "^6.26.0"
   },
   "devDependencies": {

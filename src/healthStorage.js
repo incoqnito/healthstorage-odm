@@ -1,38 +1,68 @@
 'use-strict';
 
-class HealthStorage
-{
+import Validator from "./helper/Validator";
+
+const STRING = string;
+
+class HealthStorage extends Validator
+{ 
+
+  static STRING;
+
   /**
    * Cosntruct
+   * @param {String} name Title of the SDO
+   * @param  {Object} options Options object
    */
-  constructor() {}
+  constructor(title, options) 
+  {
+    super(title, options);
+    this.name = title;
+    this.options = options;
+  }
 
   /**
    * Define function 
-   * @param {String} sdoTitle Title of the SDO
+   * @param {String} name Title of the SDO
    * @param  {Object} options Options object
    */
-  define(sdoName, options) 
+  static define(title, options) 
   {
-      this.sdoName = sdoName;
+    return new this(title, options);
   }
 
   /**
    * Return SDO title
    * @returns {String}
    */
-  getSdoName()
+  getTitle()
   {
-      return this.sdoName;
+    return this.name;
+  }
+
+  /**
+   * 
+   */
+  static get constant1() {
+    return constant1;
+  }
+  
+  /**
+   * Return SDO mimetype
+   * @returns {String}
+   */
+  getMimetype()
+  {
+    return this.mimetype;
   }
 
   /**
    * Return SDO options
    * @returns {Object}
    */
-  getSdoOptions()
+  getOptions()
   {
-      return this.sdoOptions;
+    return this.options;
   }
 
   /**
@@ -65,7 +95,7 @@ class HealthStorage
 
   /**
    * Create a new schema based on defined type
-   * @param {Object} option
+   * @param {Object} options
    */
   create(options)
   {
@@ -111,4 +141,4 @@ class HealthStorage
   }
 }
 
-module.exports = new HealthStorage();
+module.exports = HealthStorage;

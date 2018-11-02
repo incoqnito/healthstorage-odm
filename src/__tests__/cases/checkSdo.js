@@ -16,6 +16,7 @@ import Debug from "../debug/debug";
 var args = process.argv.slice(2);
 
 if (args !== undefined && args[0] !== undefined && args[1] !== undefined) {
+    
     var sdoName = args[0];
     var options = args[1];
 
@@ -23,12 +24,12 @@ if (args !== undefined && args[0] !== undefined && args[1] !== undefined) {
 
     try {
 
-        HealthStorage.define(sdoName, options);
-        var returnTitle = HealthStorage.getSdoName();
-        var returnOptions = HealthStorage.getSdoOptions();
+        var hs = HealthStorage.define(sdoName, options);
+        var returnTitle = hs.getTitle();
+        var returnOptions = hs.getOptions();
 
-        Debug.debugValue("SdoType", returnTitle);
-        Debug.debugValue("Sdooptions", returnOptions);
+        Debug.debugValue("SdoTitle", returnTitle);
+        Debug.debugValue("SdoOptions", returnOptions);
 
     } catch (exp) {
         Debug.debugValue(exp);
