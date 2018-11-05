@@ -23,12 +23,11 @@ try {
       type: HealthStorage.STRING
     },
     mimetype: {
-      type: HealthStorage.STRING,
-      required: true
+      type: HealthStorage.STRING
     }
   };
   var schemaOptions = {
-    foo: "bar"
+    required: []
   };
 
   const SampleSchema = HealthStorage.define(schemaTitle, schemaProperties, schemaOptions);

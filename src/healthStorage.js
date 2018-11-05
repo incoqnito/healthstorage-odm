@@ -1,8 +1,9 @@
 'use-strict';
 
 import Validator from "./helper/validator";
-import ValidationError from "./helper/exceptions";
+import AjvInvalidError from "./helper/exceptions";
 
+const BLUEPRINT = require("./schema/blueprint.json");
 const STRING = "string";
 
 class HealthStorage extends Validator
@@ -15,11 +16,11 @@ class HealthStorage extends Validator
   constructor(title, properties, options) 
   {
     super(title, options);
-    this.name = title;
+    this.title = title;
     this.properties = properties;
     this.options = options;
 
-    this.setSchema(this.properties);
+    this.setSchema();
   }
 
   /**
@@ -42,7 +43,16 @@ class HealthStorage extends Validator
   }
 
   /**
-   * Return SDO title
+   * Return blueprint schema object
+   * @returns  {Object}
+   */
+  static get BLUEPRINT() 
+  {
+    return BLUEPRINT;
+  }
+
+  /**
+   * Return schema title
    * @returns {String}
    */
   getTitle()
@@ -51,16 +61,7 @@ class HealthStorage extends Validator
   }
 
   /**
-   * Return SDO mimetype
-   * @returns {String}
-   */
-  getMimetype()
-  {
-    return this.mimetype;
-  }
-
-  /**
-   * Return SDO options
+   * Return schema options
    * @returns {Object}
    */
   getOptions()
@@ -69,30 +70,56 @@ class HealthStorage extends Validator
   }
 
   /**
-   * Return SDO options
+   * Return schema properties
+   * @returns {Object}
+   */
+  getProperties()
+  {
+    return this.properties;
+  }
+
+  /**
+   * Return schema options required list
+   * @returns {Arry}
+   */
+  getRequired()
+  {
+    return (this.options.required !== undefined) ? this.options.required : undefined;
+  }
+
+  /**
+   * Return schema
    * @returns {Object}
    */
   getSchema()
   {
-    return this.schema.schema;
+    return this.schema;
   }
 
   /**
    * Compile schema
    * @param {Object} properties
    */
-  setSchema(properties)
+  setSchema()
   {
-    this.schema = this.ajv.compile(properties);
-    if(this.schema.errors !== null) throw new ValidationError("the provided schema is not valid");
+    var blueprint = BLUEPRINT;
+
+    blueprint.title = this.getTitle();
+    Object.assign(blueprint.properties, this.getProperties());
+    if(this.getRequired() !== undefined) blueprint.required = blueprint.required.concat(this.getRequired());
+
+    var compiledSchema = this.ajv.compile(blueprint);
+    if(compiledSchema.errors !== null) throw new ValidationError("the provided blueprint is not valid after merging your options");
+    
+    this.schema = compiledSchema.schema;
   }
 
   /**
    * 
    */
-  testPropertiesAgainstSchema(properties)
+  validateProperties(properties)
   {
-    return this.ajv.validate(this.schema.schema, properties);
+    return this.ajv.validate(this.getSchema(), properties);
   }
 
   /**
@@ -129,7 +156,8 @@ class HealthStorage extends Validator
    */
   create(properties)
   {
-    this.testPropertiesAgainstSchema(properties);
+    if (!this.validateProperties(properties)) throw new AjvInvalidError(JSON.stringify(this.ajv.errors));
+
     // @TODO: PUT /schemas/ 
   }
 

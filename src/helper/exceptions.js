@@ -1,9 +1,10 @@
 
-class ValidationError extends Error {
+class AjvInvalidError extends Error {
   constructor(message) {
     super(message);
-    this.name = "ValidationError";
+    this.name = "AjvInvalidError";
+    this.stack = "";
   }
 }
 
-module.exports = ValidationError;
+module.exports = AjvInvalidError;
