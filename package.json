@@ -20,6 +20,7 @@
   "homepage": "https://github.com/incoqnito/healthstorage-odm#readme",
   "dependencies": {
     "ajv": "^6.5.4",
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0"
   },
   "devDependencies": {

@@ -115,7 +115,9 @@ class HealthStorage extends Validator
   }
 
   /**
-   * 
+   * Validate given properties against schema
+   * @param {Object} properties
+   * @returns {Boolean}
    */
   validateProperties(properties)
   {
@@ -154,10 +156,10 @@ class HealthStorage extends Validator
    * Create a new schema based on defined type
    * @param {Object} properties
    */
-  create(properties)
+  create(properties, options)
   {
-    if (!this.validateProperties(properties)) throw new AjvInvalidError(JSON.stringify(this.ajv.errors));
-
+    if(!this.validateProperties(properties)) throw new AjvInvalidError(JSON.stringify(this.ajv.errors));
+    
     // @TODO: PUT /schemas/ 
   }
 
