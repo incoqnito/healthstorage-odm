@@ -58,6 +58,7 @@
     "type": "object",
     "properties": {
       "md": {
+        "type": "string",
         "$ref": "#/definitions/MetadataSdo"
       },
       "filename": {

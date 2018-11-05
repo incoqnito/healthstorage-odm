@@ -60,7 +60,5 @@
       "$ref": "#/definitions/MetadataSdo"
     }
   },
-  "required": [
-    "md"
-  ]
+  "required": []
 }

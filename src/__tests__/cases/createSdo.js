@@ -31,10 +31,10 @@ try {
   };
 
   const SampleSchema = HealthStorage.define(schemaTitle, schemaProperties, schemaOptions);
-  Debug.debugValue("Define health storage schema", {schemaTitle, schemaProperties, schemaOptions});
+  Debug.debugValue("1. Define health storage schema", {schemaTitle, schemaProperties, schemaOptions});
 
   var schema = SampleSchema.getSchema();
-  Debug.debugValue("Created health storage schema", schema);
+  Debug.debugValue("2. Created health storage schema", schema);
   
   var sdoProperties = {
     filename: "Test Filename",
@@ -45,12 +45,12 @@ try {
   }
 
   var sdoId = SampleSchema.create(sdoProperties, sdoOptions);
-  Debug.debugValue("Try to create sdo", {sdoProperties, sdoOptions});
+  Debug.debugValue("3. Try to create sdo", {sdoProperties, sdoOptions});
 
 } catch (exp) {
     Debug.debugValue(exp);
 }
 
-Debug.debugEnd("Create SDO");
+Debug.debugEnd("4. Create SDO");
 
 
