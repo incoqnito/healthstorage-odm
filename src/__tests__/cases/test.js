@@ -26,10 +26,7 @@ try {
                 type: HealthStorage.STRING
             }
         },
-        {
-            required: [],
-            additionalProperties: false
-        }
+        {} // options
     );    
 
     SomeSampleSchema.create(
@@ -37,7 +34,7 @@ try {
             filename: "testtest",
             mimetype: "test"
         },
-        {}
+        {} // options
     );
 
 } catch (exp) {

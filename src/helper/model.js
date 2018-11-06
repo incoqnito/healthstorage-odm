@@ -99,7 +99,6 @@ class Model extends Validator
     return this.schema;
   }
 
-
   /**
    * Return a list of all found shemas
    * @param {Object} where eg. sort order
