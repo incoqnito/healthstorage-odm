@@ -26,7 +26,7 @@ class HealthStorage extends Validator
   /**
    * Define function 
    * @param {String} name Title of the SDO
-   * @param  {Object} options Options object
+   * @param {Object} options Options object
    */
   static define(title, properties, options) 
   {
@@ -88,6 +88,15 @@ class HealthStorage extends Validator
   }
 
   /**
+   * Return schema options required list
+   * @returns {Arry}
+   */
+  getAdditionalProperties()
+  {
+    return (this.options.additionalProperties !== undefined) ? this.options.additionalProperties : undefined;
+  }
+
+  /**
    * Return schema
    * @returns {Object}
    */
@@ -97,7 +106,7 @@ class HealthStorage extends Validator
   }
 
   /**
-   * Compile schema
+   * Assign properties an options to schema and complie
    * @param {Object} properties
    */
   setSchema()
@@ -107,6 +116,7 @@ class HealthStorage extends Validator
     blueprint.title = this.getTitle();
     Object.assign(blueprint.properties, this.getProperties());
     if(this.getRequired() !== undefined) blueprint.required = blueprint.required.concat(this.getRequired());
+    if(this.getAdditionalProperties() !== undefined) blueprint.additionalProperties = this.getAdditionalProperties();
 
     var compiledSchema = this.ajv.compile(blueprint);
     if(compiledSchema.errors !== null) throw new ValidationError("the provided blueprint is not valid after merging your options");
@@ -159,7 +169,6 @@ class HealthStorage extends Validator
   create(properties, options)
   {
     if(!this.validateProperties(properties)) throw new AjvInvalidError(JSON.stringify(this.ajv.errors));
-    
     // @TODO: PUT /schemas/ 
   }
 

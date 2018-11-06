@@ -21,8 +21,8 @@
           },
           "eId": {
             "type": [
-                "string",
-                "null"
+              "string",
+              "null"
             ]
           },
           "sId": {
@@ -80,4 +80,3 @@
     ]
   }
 }
-  

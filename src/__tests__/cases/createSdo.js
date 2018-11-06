@@ -27,7 +27,8 @@ try {
     }
   };
   var schemaOptions = {
-    required: []
+    required: [],
+    additionalProperties: false
   };
 
   const SampleSchema = HealthStorage.define(schemaTitle, schemaProperties, schemaOptions);
@@ -38,7 +39,8 @@ try {
   
   var sdoProperties = {
     filename: "Test Filename",
-    mimetype: "application/json"
+    mimetype: "application/json",
+    test: "hiii"
   }
   var sdoOptions = {
     foo: 'bar'
