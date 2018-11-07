@@ -16,6 +16,8 @@ var args = process.argv.slice(2);
 Debug.debugStart("Create SDO");
 
 try {
+
+    // Define SomeSampleSchema
     const SomeSampleSchema = HealthStorage.define(
         "SomeSampleSchema",
         {
@@ -29,18 +31,21 @@ try {
         {} // options
     );    
 
-    SomeSampleSchema.create(
-        {
-            filename: "testtest",
-            mimetype: "test"
+    // Print out found UUID of schema
+    Debug.debugValue("UUID", SomeSampleSchema.getUid());
+
+    // Find all SomeSampleObjects
+    SomeSampleSchema.findAll({},{}).then(
+        queryResult => {
+            Debug.debugValue("FindAll => Promise answered", queryResult);
         },
-        {} // options
-    );
+        error => {
+            Debug.debugValue("FindAll: Promise error", "Database is undefined");
+        }
+    ); 
 
 } catch (exp) {
     Debug.debugValue(exp);
 }
-
-Debug.debugEnd("4. Create SDO");
 
 

@@ -5,6 +5,8 @@ import Validator from "./validator";
 import AjvInvalidError from "./exceptions";
 import NoTitleForModelError from "./exceptions";
 
+const JSON_QUERY = require('json-query');
+
 class Model extends Validator
 {
 
@@ -20,11 +22,22 @@ class Model extends Validator
     this.setProperties(properties);
     this.setOptions(options);
 
+    this.loadDb();
+
     if(this.getTitle() !== undefined) {
-      this.setSchema(title)
+      this.setSchema(title);
+      if(this.getSchema() !== undefined) this.setUid(this.getSchema());
     } else {
       throw new NoTitleForModelError("You provide no title for your model");
     }
+  }
+
+  /**
+   * Load DB
+   */
+  loadDb()
+  {
+    this.db = require("./../__tests__/data/db.json");
   }
 
   /**
@@ -100,13 +113,38 @@ class Model extends Validator
   }
 
   /**
+   * Set options of model
+   * @returns {String} options
+   */
+  getUid()
+  {
+    return this.uid;
+  }
+
+  /**
+   * Get options of model
+   * @param {String} options
+   */
+  setUid(schema)
+  {
+    this.uid = schema.schema.$id;
+  }
+
+  /**
    * Return a list of all found shemas
    * @param {Object} where eg. sort order
    * @param {Object} sort eg. sort order
    */
   findAll(where, sort)
   {
-    // @TODO: GET /schemas/ 
+    return new Promise((resolve, reject) => {
+      var queryResult = JSON_QUERY(this.getTitle() + "[filename=Filename1].filename", {data: this.db});
+      if(queryResult !== undefined) {
+        resolve(queryResult.references);
+      } else {
+        reject(ueryResult);
+      }
+    });
   }
 
   /**

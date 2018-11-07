@@ -1,0 +1,21 @@
+{
+  "SomeSampleSchema": [
+    {
+      "filename": "Filename1",
+      "mimetype": "mimetype1"
+    },
+    {
+      "filename": "Filename1",
+      "mimetype": "mimetype1"
+    },
+    {
+      "filename": "Filename1",
+      "mimetype": "mimetype1"
+    },
+    {
+      "filename": "Filename1",
+      "mimetype": "mimetype1"
+    }
+  ],
+  "TodoSchema": []
+}

@@ -21,7 +21,8 @@
   "dependencies": {
     "ajv": "^6.5.4",
     "axios": "^0.18.0",
-    "babel-polyfill": "^6.26.0"
+    "babel-polyfill": "^6.26.0",
+    "json-query": "^2.2.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

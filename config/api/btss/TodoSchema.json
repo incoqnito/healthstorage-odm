@@ -1,7 +1,7 @@
 {
   "schema": {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Sample",
+    "title": "TodoSchema",
     "definitions": {
       "MetadataSdo": {
         "type": [
@@ -21,8 +21,8 @@
           },
           "eId": {
             "type": [
-              "string",
-              "null"
+                "string",
+                "null"
             ]
           },
           "sId": {
@@ -58,13 +58,18 @@
     "type": "object",
     "properties": {
       "md": {
-        "type": "string",
         "$ref": "#/definitions/MetadataSdo"
       },
-      "filename": {
+      "title": {
         "type": "string"
       },
-      "mimetype": {
+      "assigned": {
+        "type": "string"
+      },
+      "status": {
+        "type": "integer"
+      },
+      "dueDate": {
         "type": "string"
       },
       "blobRefs": {
