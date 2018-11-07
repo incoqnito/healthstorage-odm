@@ -35,7 +35,11 @@ try {
     Debug.debugValue("UUID", SomeSampleSchema.getUid());
 
     // Find all SomeSampleObjects
-    SomeSampleSchema.findAll({},{}).then(
+    SomeSampleSchema.findAll({
+        filename: {
+            value: 'Filename1' 
+        }
+    },{}).then(
         queryResult => {
             Debug.debugValue("FindAll => Promise answered", queryResult);
         },

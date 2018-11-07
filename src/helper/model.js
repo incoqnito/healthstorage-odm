@@ -4,6 +4,7 @@
 import Validator from "./validator";
 import AjvInvalidError from "./exceptions";
 import NoTitleForModelError from "./exceptions";
+import QueryBuilder from "./queryBuilder";
 
 const JSON_QUERY = require('json-query');
 
@@ -138,7 +139,10 @@ class Model extends Validator
   findAll(where, sort)
   {
     return new Promise((resolve, reject) => {
-      var queryResult = JSON_QUERY(this.getTitle() + "[filename=Filename1].filename", {data: this.db});
+
+      var whereQuery = QueryBuilder.buildQuery(where);
+      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db});
+      
       if(queryResult !== undefined) {
         resolve(queryResult.references);
       } else {
