@@ -1,53 +1,61 @@
 
-const EQUAL = "";
-const UNEQUAL = "";
-const LIKE = "";
+'use-strict';
+
+const OPERATIONS = {
+  "UNEQUAL": {
+    lead: "*",
+    op: "!="
+  }, 
+  "EQUAL": {
+    lead: "",
+    op: "="
+  },
+};
 
 class QueryBuilder
 {
   /**
-   * Return equal operation regex
-   * @returns  {String}
+   * Consturct
    */
-  static get EQUAL() 
-  {
-    return EQUAL;
-  }
+  constructor() {}
 
   /**
-   * Return unequal operation regex
-   * @returns  {String}
+   * Get Operation
    */
-  static get UNEQUAL() 
+  get OPERATIONS()
   {
-    return UNEQUAL;
+    return OPERATIONS;
   }
-
+  
   /**
-   * Return like operation regex
-   * @returns  {String}
+   * Get Operation fields
+   * @param {String} where 
    */
-  static get LIKE() 
+  getOperation(idx)
   {
-    return LIKE;
+    var operations = this.OPERATIONS;
+    return operations[idx];
   }
 
   /**
    * Build json query
+   * @todo impplement schema names on top level, multiple cols search and operators
    * @param {Object} where
    */
-  static buildQuery(where) 
+  buildQuery(where) 
   {
     var query = "[";
     
     for(var field in where) {
-      query += field + "=" + where[field].value;
+      var operation = this.getOperation(where[field].operation);
+      query += operation.lead + field + operation.op + where[field].value;
     }
 
     query += "]";
-    console.log(query);      
+    console.log(query);
+
     return query;
   }
 }
 
-module.exports = QueryBuilder;
+module.exports = new QueryBuilder();

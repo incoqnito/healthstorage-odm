@@ -35,16 +35,42 @@ try {
     Debug.debugValue("UUID", SomeSampleSchema.getUid());
 
     // Find all SomeSampleObjects
+    SomeSampleSchema.findAll({},{}).then(
+        queryResult => {
+            Debug.debugValue("FindAll (no where) => Promise answered", queryResult);
+        },
+        error => {
+            Debug.debugValue("FindAll (no where): Promise error", "Database is undefined");
+        }
+    ); 
+    
+    // Find all SomeSampleObjects matched for where
     SomeSampleSchema.findAll({
         filename: {
-            value: 'Filename1' 
+            value: 'Filename1',
+            operation: HealthStorage.EQUAL
         }
     },{}).then(
         queryResult => {
-            Debug.debugValue("FindAll => Promise answered", queryResult);
+            Debug.debugValue("FindAll (EQUAL) => Promise answered", queryResult);
         },
         error => {
-            Debug.debugValue("FindAll: Promise error", "Database is undefined");
+            Debug.debugValue("FindAll (EQUAL): Promise error", "Database is undefined");
+        }
+    ); 
+
+    // Find all SomeSampleObjects matched for where
+    SomeSampleSchema.findAll({
+        filename: {
+            value: 'Filename1',
+            operation: HealthStorage.UNEQUAL
+        }
+    },{}).then(
+        queryResult => {
+            Debug.debugValue("FindAll (UNEQUAL) => Promise answered", queryResult);
+        },
+        error => {
+            Debug.debugValue("FindAll (UNEQUAL): Promise error", "Database is undefined");
         }
     ); 
 
