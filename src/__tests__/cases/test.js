@@ -170,6 +170,24 @@ try {
         }
      ); 
 
+    // Find one (new created)
+    SomeSampleSchema.update({
+        filename: {
+            value: "Filename1",
+            operation: HealthStorage.EQUAL
+        }
+    }, {
+        filename: "Filename Override 2",
+        mimetype: "Mimetype Override 2"
+    }).then(
+        queryResult => {
+            Debug.debugValue("Update => Promise answered", queryResult, true);
+        },
+        error => {
+            Debug.debugValue("Update => Promise error", "Database is undefined");
+        }
+     ); 
+
 } catch (exp) {
     Debug.debugValue(exp);
 }

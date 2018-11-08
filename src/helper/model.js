@@ -143,8 +143,8 @@ class Model extends Validator
       var whereQuery = QueryBuilder.buildQuery(where);
       var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
       
-      if(queryResult !== undefined) {
-        resolve(queryResult.references[0]);
+      if(queryResult !== undefined && queryResult.value !== undefined) {
+        resolve(queryResult.value);
       } else {
         reject(queryResult);
       }
@@ -163,7 +163,7 @@ class Model extends Validator
       var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
 
       if(queryResult !== undefined) {
-        var res = (queryResult.value !== null && queryResult.key != null) ? queryResult.references[0] : [];
+        var res = (queryResult.value !== null) ? queryResult.value : [];
         resolve(res);
       } else {
         reject(queryResult);
@@ -235,9 +235,34 @@ class Model extends Validator
    * @param {Object} where
    * @param {Object} fields
    */
-  update(where, fields)
+  update(where, properties)
   {
-    // @TODO: POST /schemas/ 
+    return new Promise((resolve, reject) => {
+
+      var whereQuery = QueryBuilder.buildQuery(where);
+      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
+
+      if(queryResult !== undefined && queryResult.value !== null && queryResult.key != null) {
+        var changed = [];
+        if(Array.isArray(queryResult.key)) {
+          for(var id in queryResult.key) {
+            if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined && properties != undefined && properties != {}) {
+              this.db[this.getTitle()][id] = Object.assign(this.db[this.getTitle()][id], properties);
+              changed.push(this.db[this.getTitle()][id]);
+            }
+          }
+        } else {
+          var id = queryResult.key;
+          if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined && properties != undefined && properties != {}) {
+            this.db[this.getTitle()][id] = Object.assign(this.db[this.getTitle()][id], properties);
+            changed.push(this.db[this.getTitle()][id]);
+          }
+        }
+        resolve(changed);
+      } else {
+        reject(queryResult);
+      }
+    });
   }
 
   /**
