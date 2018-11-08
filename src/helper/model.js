@@ -141,12 +141,12 @@ class Model extends Validator
     return new Promise((resolve, reject) => {
 
       var whereQuery = QueryBuilder.buildQuery(where);
-      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db});
+      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
       
       if(queryResult !== undefined) {
         resolve(queryResult.references);
       } else {
-        reject(ueryResult);
+        reject(queryResult);
       }
     });
   }
@@ -155,18 +155,21 @@ class Model extends Validator
    * Return a single schema by its id
    * @param {String} id 
    */
-  findById(id)
-  {
-    // @TODO: GET /schemas/{id}
-  }
-
-  /**
-   * Return a single schema 
-   * @param {Object} where
-   */
   findOne(where)
   {
-    // @TODO: GET /schemas/{where}
+    return new Promise((resolve, reject) => {
+
+      var whereQuery = QueryBuilder.buildQueryOne(where);
+      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
+
+      if(queryResult !== undefined) {
+        var res = (queryResult.value !== null && queryResult.key != null) ? queryResult.references : [];
+        resolve(res);
+      } else {
+        reject(queryResult);
+      }
+    });
+    // @TODO: GET /schemas/{id}
   }
 
   /**

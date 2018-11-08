@@ -1,20 +1,29 @@
 {
   "SomeSampleSchema": [
     {
+      "id": 1,
       "filename": "Filename1",
       "mimetype": "mimetype1"
     },
     {
-      "filename": "Filename1",
-      "mimetype": "mimetype1"
+      "id": 2,
+      "filename": "Filename2",
+      "mimetype": "mimetype2"
     },
     {
-      "filename": "Filename1",
-      "mimetype": "mimetype1"
+      "id": 3,
+      "filename": "Filename3",
+      "mimetype": "mimetype3"
     },
     {
-      "filename": "Filename1",
-      "mimetype": "mimetype1"
+      "id": 4,
+      "filename": "Filename4",
+      "mimetype": "mimetype4"
+    },
+    {
+      "id": 5,
+      "filename": "Filename1_2",
+      "mimetype": "mimetype1_2"
     }
   ],
   "TodoSchema": []

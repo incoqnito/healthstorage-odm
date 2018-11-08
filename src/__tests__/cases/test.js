@@ -21,6 +21,9 @@ try {
     const SomeSampleSchema = HealthStorage.define(
         "SomeSampleSchema",
         {
+            id: {
+                type: HealthStorage.INTEGER
+            },
             filename: {
                 type: HealthStorage.STRING
             },
@@ -73,6 +76,66 @@ try {
             Debug.debugValue("FindAll (UNEQUAL): Promise error", "Database is undefined");
         }
     ); 
+
+    // Find all SomeSampleObjects matched for where
+    SomeSampleSchema.findAll({
+        filename: {
+            value: 'Filename1',
+            operation: HealthStorage.LIKE
+        }
+    },{}).then(
+        queryResult => {
+            Debug.debugValue("FindAll (LIKE) => Promise answered", queryResult);
+        },
+        error => {
+            Debug.debugValue("FindAll (LIKE): Promise error", "Database is undefined");
+        }
+    ); 
+
+    // Find one
+    SomeSampleSchema.findOne({
+        'filename': {
+        value: "Filename1",
+        operation: HealthStorage.EQUAL
+        }
+    }).then(
+        queryResult => {
+            Debug.debugValue("FindOne (filename) => Promise answered", queryResult);
+        },
+        error => {
+            Debug.debugValue("FindOne (filename) => Promise error", "Database is undefined");
+        }
+    ); 
+
+    // Find one
+    SomeSampleSchema.findOne({
+        'id': {
+           value: 4,
+           operation: HealthStorage.EQUAL
+        }
+    }).then(
+       queryResult => {
+           Debug.debugValue("FindOne (id) => Promise answered", queryResult);
+       },
+       error => {
+           Debug.debugValue("FindOne (id) => Promise error", "Database is undefined");
+       }
+   ); 
+
+    // Find one
+    SomeSampleSchema.findOne({
+        'filename': {
+           value: "Filename1",
+           operation: HealthStorage.LIKE
+        }
+    }).then(
+       queryResult => {
+           Debug.debugValue("FindOne (like Filename1) => Promise answered", queryResult);
+       },
+       error => {
+           Debug.debugValue("FindOne (like Filename1) => Promise error", "Database is undefined");
+       }
+   ); 
 
 } catch (exp) {
     Debug.debugValue(exp);

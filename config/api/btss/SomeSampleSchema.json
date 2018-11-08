@@ -60,6 +60,9 @@
       "md": {
         "$ref": "#/definitions/MetadataSdo"
       },
+      "id": {
+        "type": "integer"
+      },
       "filename": {
         "type": "string"
       },
