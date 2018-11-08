@@ -144,7 +144,7 @@ class Model extends Validator
       var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
       
       if(queryResult !== undefined) {
-        resolve(queryResult.references);
+        resolve(queryResult.references[0]);
       } else {
         reject(queryResult);
       }
@@ -163,7 +163,7 @@ class Model extends Validator
       var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
 
       if(queryResult !== undefined) {
-        var res = (queryResult.value !== null && queryResult.key != null) ? queryResult.references : [];
+        var res = (queryResult.value !== null && queryResult.key != null) ? queryResult.references[0] : [];
         resolve(res);
       } else {
         reject(queryResult);

@@ -21,11 +21,15 @@ class Debug
     * Print value
     * @param {*} value 
     */
-    debugValue(key, value) 
+    debugValue(key, value, table = false) 
     {
         console.log(key);
         console.log("---------------------------------------------------------");
-        console.log(JSON.stringify(value));
+        if(!table){
+            console.log(JSON.stringify(value));
+        } else {
+            console.table(value);
+        }
         console.log("---------------------------------------------------------");
     }
 

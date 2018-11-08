@@ -40,7 +40,7 @@ try {
     // Find all SomeSampleObjects
     SomeSampleSchema.findAll({},{}).then(
         queryResult => {
-            Debug.debugValue("FindAll (no where) => Promise answered", queryResult);
+            Debug.debugValue("FindAll (no where) => Promise answered", queryResult, true);
         },
         error => {
             Debug.debugValue("FindAll (no where): Promise error", "Database is undefined");
@@ -55,7 +55,7 @@ try {
         }
     },{}).then(
         queryResult => {
-            Debug.debugValue("FindAll (EQUAL) => Promise answered", queryResult);
+            Debug.debugValue("FindAll (EQUAL) => Promise answered", queryResult, true);
         },
         error => {
             Debug.debugValue("FindAll (EQUAL): Promise error", "Database is undefined");
@@ -70,7 +70,7 @@ try {
         }
     },{}).then(
         queryResult => {
-            Debug.debugValue("FindAll (UNEQUAL) => Promise answered", queryResult);
+            Debug.debugValue("FindAll (UNEQUAL) => Promise answered", queryResult, true);
         },
         error => {
             Debug.debugValue("FindAll (UNEQUAL): Promise error", "Database is undefined");
@@ -85,7 +85,7 @@ try {
         }
     },{}).then(
         queryResult => {
-            Debug.debugValue("FindAll (LIKE) => Promise answered", queryResult);
+            Debug.debugValue("FindAll (LIKE) => Promise answered", queryResult, true);
         },
         error => {
             Debug.debugValue("FindAll (LIKE): Promise error", "Database is undefined");
@@ -100,7 +100,7 @@ try {
         }
     }).then(
         queryResult => {
-            Debug.debugValue("FindOne (filename) => Promise answered", queryResult);
+            Debug.debugValue("FindOne (filename) => Promise answered", queryResult, true);
         },
         error => {
             Debug.debugValue("FindOne (filename) => Promise error", "Database is undefined");
@@ -115,7 +115,7 @@ try {
         }
     }).then(
        queryResult => {
-           Debug.debugValue("FindOne (id) => Promise answered", queryResult);
+           Debug.debugValue("FindOne (id) => Promise answered", queryResult, true);
        },
        error => {
            Debug.debugValue("FindOne (id) => Promise error", "Database is undefined");
@@ -130,7 +130,7 @@ try {
         }
     }).then(
        queryResult => {
-           Debug.debugValue("FindOne (like Filename1) => Promise answered", queryResult);
+           Debug.debugValue("FindOne (like Filename1) => Promise answered", queryResult, true);
        },
        error => {
            Debug.debugValue("FindOne (like Filename1) => Promise error", "Database is undefined");
