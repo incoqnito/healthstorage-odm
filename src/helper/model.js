@@ -173,12 +173,40 @@ class Model extends Validator
   }
 
   /**
+   * Return a single schema by its id
+   * @param {String} id 
+   */
+  findById(id)
+  {
+    return new Promise((resolve, reject) => {
+      if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined) {
+        resolve( this.db[this.getTitle()][id]);
+      } else {
+        reject([]);
+      }
+    });
+    // @TODO: GET /schemas/{id}
+  }
+
+  /**
    * Create a new schema based on defined type
+   * @todo implement options
    * @param {Object} properties
    */
   create(properties, options)
   {
     if(!this.validateProperties(properties)) throw new AjvInvalidError(JSON.stringify(this.ajv.errors));
+
+    return new Promise((resolve, reject) => {
+
+      if(this.db[this.getTitle()] !== undefined) {
+        this.db[this.getTitle()] = this.db[this.getTitle()].concat(properties);
+        resolve( this.db[this.getTitle()]);
+      } else {
+        reject([]);
+      }
+    });
+
     // @TODO: PUT /schemas/ 
   }
 
@@ -187,8 +215,18 @@ class Model extends Validator
    * @param {String} id
    * @param {Object} fields
    */
-  updateById(id, fields)
+  updateById(id, properties)
   {
+    if(!this.validateProperties(properties)) throw new AjvInvalidError(JSON.stringify(this.ajv.errors));
+    
+    return new Promise((resolve, reject) => {
+      if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined) {
+        this.db[this.getTitle()][id] = Object.assign(this.db[this.getTitle()][id], properties);
+        resolve(this.db[this.getTitle()][id]);
+      } else {
+        reject([]);
+      }
+    });
     // @TODO: POST /schemas/ 
   }
 

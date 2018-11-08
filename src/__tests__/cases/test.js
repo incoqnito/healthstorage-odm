@@ -32,10 +32,7 @@ try {
             }
         },
         {} // options
-    );    
-
-    // Print out found UUID of schema
-    Debug.debugValue("UUID", SomeSampleSchema.getUid());
+    );   
 
     // Find all SomeSampleObjects
     SomeSampleSchema.findAll({},{}).then(
@@ -61,6 +58,7 @@ try {
             Debug.debugValue("FindAll (EQUAL): Promise error", "Database is undefined");
         }
     ); 
+
 
     // Find all SomeSampleObjects matched for where
     SomeSampleSchema.findAll({
@@ -105,22 +103,7 @@ try {
         error => {
             Debug.debugValue("FindOne (filename) => Promise error", "Database is undefined");
         }
-    ); 
-
-    // Find one
-    SomeSampleSchema.findOne({
-        'id': {
-           value: 4,
-           operation: HealthStorage.EQUAL
-        }
-    }).then(
-       queryResult => {
-           Debug.debugValue("FindOne (id) => Promise answered", queryResult, true);
-       },
-       error => {
-           Debug.debugValue("FindOne (id) => Promise error", "Database is undefined");
-       }
-   ); 
+    );
 
     // Find one
     SomeSampleSchema.findOne({
@@ -137,8 +120,56 @@ try {
        }
    ); 
 
+   // Find one
+   SomeSampleSchema.create({
+        'filename': "Currently created",
+        'mimetype': "type/best",
+    }).then(
+        queryResult => {
+            Debug.debugValue("Create => Promise answered", queryResult, true);
+        },
+        error => {
+            Debug.debugValue("Create => Promise error", "Database is undefined");
+        }
+    );
+
+    // Find one (new created)
+    SomeSampleSchema.findOne({
+        'mimetype': {
+           value: "type",
+           operation: HealthStorage.LIKE
+        }
+    }).then(
+       queryResult => {
+           Debug.debugValue("FindOne (like type currently created) => Promise answered", queryResult, true);
+       },
+       error => {
+           Debug.debugValue("FindOne (like type currently created) => Promise error", "Database is undefined");
+       }
+    ); 
+
+    // Find one (new created)
+    SomeSampleSchema.findById(3).then(
+       queryResult => {
+           Debug.debugValue("FindById => Promise answered", queryResult, true);
+       },
+       error => {
+           Debug.debugValue("FindById => Promise error", "Database is undefined");
+       }
+    ); 
+
+    // Find one (new created)
+    SomeSampleSchema.updateById(2, {
+        filename: "Filename Override"
+    }).then(
+        queryResult => {
+            Debug.debugValue("UpdateById => Promise answered", queryResult, true);
+        },
+        error => {
+            Debug.debugValue("UpdateById => Promise error", "Database is undefined");
+        }
+     ); 
+
 } catch (exp) {
     Debug.debugValue(exp);
 }
-
-
