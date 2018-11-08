@@ -82,7 +82,7 @@ class QueryBuilder
       }
     }
     query += "]";
-console.log(query);
+    
     return query;
   }
 }
