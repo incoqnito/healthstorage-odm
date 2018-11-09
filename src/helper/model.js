@@ -271,6 +271,14 @@ class Model extends Validator
    */
   deleteById(id)
   {
+    return new Promise((resolve, reject) => {
+      if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined) {
+        this.db[this.getTitle()].splice(id, 1);
+        resolve(this.db[this.getTitle()]);
+      } else {
+        reject([]);
+      }
+    });
     // @TODO: DELETE /schemas/ 
   }
 
@@ -280,6 +288,29 @@ class Model extends Validator
    */
   delete(where)
   {
+    return new Promise((resolve, reject) => {
+
+      var whereQuery = QueryBuilder.buildQueryOne(where);
+      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
+
+      if(queryResult !== undefined && queryResult.value !== null && queryResult.key != null) {
+        if(Array.isArray(queryResult.key)) {
+          for(var id in queryResult.key) {
+            if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id]) {
+              this.db[this.getTitle()].splice(id, 1);
+            }
+          }
+        } else {
+          var id = queryResult.key;
+          if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id]) {
+            this.db[this.getTitle()].splice(id, 1);
+          }
+        }
+        resolve(this.db[this.getTitle()]);
+      } else {
+        reject(queryResult);
+      }
+    });
     // @TODO: DELETE /schemas/ 
   }
 

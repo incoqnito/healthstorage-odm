@@ -33,7 +33,7 @@ try {
         },
         {} // options
     );   
-
+        
     // Find all SomeSampleObjects
     SomeSampleSchema.findAll({},{}).then(
         queryResult => {
@@ -185,6 +185,32 @@ try {
         },
         error => {
             Debug.debugValue("Update => Promise error", "Database is undefined");
+        }
+     ); 
+
+    // Delte by id
+    SomeSampleSchema.deleteById(3).then(
+        queryResult => {
+            Debug.debugValue("DeleteById => Promise answered", queryResult, true);
+        },
+        error => {
+            Debug.debugValue("DeleteById => Promise error", "Database is undefined");
+        }
+     ); 
+
+    // Delte by id
+    SomeSampleSchema.delete({
+        filename: {
+            value: "Filename1_2",
+            operation: HealthStorage.EQUAL
+        }
+    })
+    .then(
+        queryResult => {
+            Debug.debugValue("Delete => Promise answered", queryResult, true);
+        },
+        error => {
+            Debug.debugValue("Delete => Promise error", "Database is undefined");
         }
      ); 
 
