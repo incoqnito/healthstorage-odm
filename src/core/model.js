@@ -1,16 +1,16 @@
 
 'use-strict';
 
-import Validator from "./validator";
-import AjvInvalidError from "./exceptions";
-import NoTitleForModelError from "./exceptions";
-import QueryBuilder from "./queryBuilder";
+import Api from "./api.js";
+import Validator from "./helper/validator";
+import AjvInvalidError from "./helper/exceptions";
+import NoTitleForModelError from "./helper/exceptions";
+import QueryBuilder from "./helper/queryBuilder";
 
 const JSON_QUERY = require('json-query');
 
 class Model extends Validator
 {
-
   /**
    * Cosntruct
    * @param {String} name Title of the SDO
@@ -23,22 +23,22 @@ class Model extends Validator
     this.setProperties(properties);
     this.setOptions(options);
 
-    this.loadDb();
-
     if(this.getTitle() !== undefined) {
       this.setSchema(title);
       if(this.getSchema() !== undefined) this.setUid(this.getSchema());
     } else {
       throw new NoTitleForModelError("You provide no title for your model");
     }
+
+    this.loadModel();
   }
 
   /**
    * Load DB
    */
-  loadDb()
+  loadModel()
   {
-    this.db = require("./../__tests__/data/db.json");
+    this.model = require("./../__tests__/data/db.json");
   }
 
   /**
@@ -128,7 +128,9 @@ class Model extends Validator
    */
   setUid(schema)
   {
-    this.uid = schema.schema.$id;
+    var uidWithRevision = schema.schema.$id.replace("urn:btssid:", "");
+    var uid = uidWithRevision.split("/")[0];
+    this.uid = uid;
   }
 
   /**
@@ -141,7 +143,7 @@ class Model extends Validator
     return new Promise((resolve, reject) => {
 
       var whereQuery = QueryBuilder.buildQuery(where);
-      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
+      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.model, allowRegexp: true});
       
       if(queryResult !== undefined && queryResult.value !== undefined) {
         resolve(queryResult.value);
@@ -160,7 +162,7 @@ class Model extends Validator
     return new Promise((resolve, reject) => {
 
       var whereQuery = QueryBuilder.buildQueryOne(where);
-      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
+      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.model, allowRegexp: true});
 
       if(queryResult !== undefined) {
         var res = (queryResult.value !== null) ? queryResult.value : [];
@@ -179,8 +181,8 @@ class Model extends Validator
   findById(id)
   {
     return new Promise((resolve, reject) => {
-      if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined) {
-        resolve( this.db[this.getTitle()][id]);
+      if(this.model[this.getTitle()] !== undefined && this.model[this.getTitle()][id] !== undefined) {
+        resolve(this.model[this.getTitle()][id]);
       } else {
         reject([]);
       }
@@ -198,10 +200,10 @@ class Model extends Validator
     if(!this.validateProperties(properties)) throw new AjvInvalidError(JSON.stringify(this.ajv.errors));
 
     return new Promise((resolve, reject) => {
-
-      if(this.db[this.getTitle()] !== undefined) {
-        this.db[this.getTitle()] = this.db[this.getTitle()].concat(properties);
-        resolve( this.db[this.getTitle()]);
+      if(this.model !== undefined) {
+        this.model = this.model.concat(properties);
+        
+        resolve(this.model);
       } else {
         reject([]);
       }
@@ -220,9 +222,9 @@ class Model extends Validator
     if(!this.validateProperties(properties)) throw new AjvInvalidError(JSON.stringify(this.ajv.errors));
     
     return new Promise((resolve, reject) => {
-      if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined) {
-        this.db[this.getTitle()][id] = Object.assign(this.db[this.getTitle()][id], properties);
-        resolve(this.db[this.getTitle()][id]);
+      if(this.model[this.getTitle()] !== undefined && this.model[this.getTitle()][id] !== undefined) {
+        this.model[this.getTitle()][id] = Object.assign(this.model[this.getTitle()][id], properties);
+        resolve(this.model[this.getTitle()][id]);
       } else {
         reject([]);
       }
@@ -238,30 +240,31 @@ class Model extends Validator
   update(where, properties)
   {
     return new Promise((resolve, reject) => {
-
-      var whereQuery = QueryBuilder.buildQuery(where);
-      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
-
-      if(queryResult !== undefined && queryResult.value !== null && queryResult.key != null) {
-        var changed = [];
-        if(Array.isArray(queryResult.key)) {
-          for(var id in queryResult.key) {
-            if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined && properties != undefined && properties != {}) {
-              this.db[this.getTitle()][id] = Object.assign(this.db[this.getTitle()][id], properties);
-              changed.push(this.db[this.getTitle()][id]);
+      this.findAll().then(
+        queryResult => {
+          var changed = [];
+          if(queryResult !== undefined && queryResult.value !== null && queryResult.key != null) {
+            if(Array.isArray(queryResult.key)) {
+              for(var id in queryResult.key) {
+                if(this.model[this.getTitle()] !== undefined && this.model[this.getTitle()][id] !== undefined && properties != undefined && properties != {}) {
+                  this.model[this.getTitle()][id] = Object.assign(this.model[this.getTitle()][id], properties);
+                  changed.push(this.model[this.getTitle()][id]);
+                }
+              }
+              } else {
+              var id = queryResult.key;
+              if(this.model[this.getTitle()] !== undefined && this.model[this.getTitle()][id] !== undefined && properties != undefined && properties != {}) {
+                this.model[this.getTitle()][id] = Object.assign(this.model[this.getTitle()][id], properties);
+                changed.push(this.model[this.getTitle()][id]);
+              }
             }
+            resolve(changed);
           }
-        } else {
-          var id = queryResult.key;
-          if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined && properties != undefined && properties != {}) {
-            this.db[this.getTitle()][id] = Object.assign(this.db[this.getTitle()][id], properties);
-            changed.push(this.db[this.getTitle()][id]);
-          }
+        },
+        error => {
+          reject(error);
         }
-        resolve(changed);
-      } else {
-        reject(queryResult);
-      }
+      )
     });
   }
 
@@ -272,9 +275,9 @@ class Model extends Validator
   deleteById(id)
   {
     return new Promise((resolve, reject) => {
-      if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id] !== undefined) {
-        this.db[this.getTitle()].splice(id, 1);
-        resolve(this.db[this.getTitle()]);
+      if(this.model[this.getTitle()] !== undefined && this.model[this.getTitle()][id] !== undefined) {
+        this.model[this.getTitle()].splice(id, 1);
+        resolve(this.model[this.getTitle()]);
       } else {
         reject([]);
       }
@@ -289,27 +292,28 @@ class Model extends Validator
   delete(where)
   {
     return new Promise((resolve, reject) => {
-
-      var whereQuery = QueryBuilder.buildQueryOne(where);
-      var queryResult = JSON_QUERY(this.getTitle() + whereQuery, {data: this.db, allowRegexp: true});
-
-      if(queryResult !== undefined && queryResult.value !== null && queryResult.key != null) {
-        if(Array.isArray(queryResult.key)) {
-          for(var id in queryResult.key) {
-            if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id]) {
-              this.db[this.getTitle()].splice(id, 1);
+      this.findAll().then(
+        queryResult => {
+          if(queryResult !== undefined && queryResult.value !== null && queryResult.key != null) {
+            if(Array.isArray(queryResult.key)) {
+              for(var id in queryResult.key) {
+                if(this.model[this.getTitle()] !== undefined && this.model[this.getTitle()][id]) {
+                  this.model[this.getTitle()].splice(id, 1);
+                }
+              }
+            } else {
+              var id = queryResult.key;
+              if(this.model[this.getTitle()] !== undefined && this.model[this.getTitle()][id]) {
+                this.model[this.getTitle()].splice(id, 1);
+              }
             }
           }
-        } else {
-          var id = queryResult.key;
-          if(this.db[this.getTitle()] !== undefined && this.db[this.getTitle()][id]) {
-            this.db[this.getTitle()].splice(id, 1);
-          }
+          resolve(this.model[this.getTitle()]);
+        },
+        error => {
+          reject(error);
         }
-        resolve(this.db[this.getTitle()]);
-      } else {
-        reject(queryResult);
-      }
+      )
     });
     // @TODO: DELETE /schemas/ 
   }

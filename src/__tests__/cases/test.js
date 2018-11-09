@@ -1,17 +1,13 @@
 /**
- * Test Case - Create a new SDO schema
- * node ./src/__tests__/cases/createSdo.js
+ * Test Case - Test functions
+ * node ./src/__tests__/cases/test.js
  * 
- * @argument sdoName
- * @argument Options
  */
 
 require('@babel/register');
 
 import HealthStorage from "../../healthStorage";
 import Debug from "../debug/debug";
-
-var args = process.argv.slice(2);
 
 Debug.debugStart("Create SDO");
 
@@ -33,7 +29,7 @@ try {
         },
         {} // options
     );   
-        
+
     // Find all SomeSampleObjects
     SomeSampleSchema.findAll({},{}).then(
         queryResult => {
@@ -93,8 +89,8 @@ try {
     // Find one
     SomeSampleSchema.findOne({
         'filename': {
-        value: "Filename1",
-        operation: HealthStorage.EQUAL
+            value: "Filename1",
+            operation: HealthStorage.EQUAL
         }
     }).then(
         queryResult => {
@@ -112,16 +108,17 @@ try {
            operation: HealthStorage.LIKE
         }
     }).then(
-       queryResult => {
-           Debug.debugValue("FindOne (like Filename1) => Promise answered", queryResult, true);
-       },
-       error => {
-           Debug.debugValue("FindOne (like Filename1) => Promise error", "Database is undefined");
-       }
+        queryResult => {
+            Debug.debugValue("FindOne (like Filename1) => Promise answered", queryResult, true);
+        },
+        error => {
+            Debug.debugValue("FindOne (like Filename1) => Promise error", "Database is undefined");
+        }
    ); 
 
    // Find one
-   SomeSampleSchema.create({
+   SomeSampleSchema.create(
+    {
         'filename': "Currently created",
         'mimetype': "type/best",
     }).then(

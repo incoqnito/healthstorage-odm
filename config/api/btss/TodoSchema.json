@@ -54,30 +54,20 @@
         ]
       }
     },
-    "$id": "urn:btssid:82897c48-92f8-4a7f-8360-929e8b99833c/1",
+    "$id": "urn:btssid:82897c48-92f8-4a7f-8360-929e8b12356c/1",
     "type": "object",
     "properties": {
       "md": {
         "$ref": "#/definitions/MetadataSdo"
       },
+      "id": {
+        "type": "string"
+      },
       "title": {
         "type": "string"
       },
-      "assigned": {
-        "type": "string"
-      },
       "status": {
-        "type": "integer"
-      },
-      "dueDate": {
         "type": "string"
-      },
-      "blobRefs": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
-        }
       }
     },
     "required": [
