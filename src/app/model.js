@@ -103,7 +103,7 @@ class Model
     var md = this.md;
     md.id = id;
     data.md = md;
-    console.log(data);
+
     return RequestHandler.apiPutSdo(id, data);
   }
 
