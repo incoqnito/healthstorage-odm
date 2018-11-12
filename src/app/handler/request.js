@@ -69,7 +69,7 @@ class RequestHandler
   }
 
    /**
-   * Update sdo 
+   * Update sdo
    * @returns {Promise}
    */
   apiPutSdo(id, sdo)
@@ -84,8 +84,8 @@ class RequestHandler
         }
       }
     )
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
+    .then(response => response.status)
+    .catch(error => error.response.status)
   }
 }
 

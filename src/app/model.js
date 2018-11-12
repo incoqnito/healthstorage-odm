@@ -28,7 +28,6 @@ class Model
       oId: this.options.oId,
       tsp: new Date().toISOString()
     }
-    
   }
 
   /**
@@ -100,10 +99,6 @@ class Model
 
   update(id, data)
   {
-    var md = this.md;
-    md.id = id;
-    data.md = md;
-
     return RequestHandler.apiPutSdo(id, data);
   }
 

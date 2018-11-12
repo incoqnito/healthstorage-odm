@@ -52,15 +52,32 @@ const TodoSchema = HealthStorage.define(
         var TodoSchemaSdos = await TodoSchema.findAll();
         Debug.debugValue("Data (FindAll)", TodoSchemaSdos);
 
+        // Get by id
+        var TodoSchemaSdoById = await TodoSchema.findById(TodoSchemaCreatedId);
+        Debug.debugValue("Data (FindById)", TodoSchemaSdoById);
+
         // Update sdo item
-        // var TodoSchemaSdoUpdated = await TodoSchema.update(
-        //     TodoSchemaCreatedId,
-        //     {
-        //         title: "Test 34",
-        //         status: "working"
-        //     }
-        // );
-        // Debug.debugValue("Sdo (Updated)", TodoSchemaSdoUpdated);
+        var TodoSchemaSdoUpdated = await TodoSchema.update(
+            TodoSchemaCreatedId,
+            {
+                title: "Test34",
+                status: "working",
+                md: {
+                    id: TodoSchemaSdoById.md.id,
+                    r: TodoSchemaSdoById.md.r + 1,
+                    eId: TodoSchemaSdoById.md.eId,
+                    sId: TodoSchemaSdoById.md.sId,
+                    sr: TodoSchemaSdoById.md.sr,
+                    oId: TodoSchemaSdoById.md.oId,
+                    tsp: TodoSchemaSdoById.md.tsp
+                }
+            }
+        );
+        Debug.debugValue("Sdo (Updated)", TodoSchemaSdoUpdated);
+
+        // Get by id updated
+        var TodoSchemaSdoUpdatedById = await TodoSchema.findById(TodoSchemaCreatedId);
+        Debug.debugValue("Data (FindById)", TodoSchemaSdoUpdatedById);
 
         Debug.debugEnd("End API Playground");
         
