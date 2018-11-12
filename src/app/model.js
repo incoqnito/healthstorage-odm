@@ -97,6 +97,11 @@ class Model
     return RequestHandler.apiPostSdos(this.options.id, data);
   }
 
+  /**
+   * Update sdo
+   * @param {String} id 
+   * @param {Object} data 
+   */
   update(id, data)
   {
     return RequestHandler.apiPutSdo(id, data);
