@@ -1,6 +1,6 @@
 'use-strict';
 
-import Model from "./core/model";
+import Model from "./app/model";
 
 const STRING = "string";
 const NUMBER = "number";
@@ -12,7 +12,7 @@ const UNEQUAL = "UNEQUAL";
 const LIKE = "LIKE";
 
 class HealthStorage
-{ 
+{
   /**
    * Define function 
    * @param {String} name Title of the SDO

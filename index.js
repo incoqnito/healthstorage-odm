@@ -1,2 +1,2 @@
 require('@babel/register')
-require('./src/__tests__/cases/test.js');
+require('./src/__tests__/cases/api.js');
