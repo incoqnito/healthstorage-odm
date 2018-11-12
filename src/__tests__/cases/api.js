@@ -60,8 +60,8 @@ const TodoSchema = HealthStorage.define(
         var TodoSchemaSdoUpdated = await TodoSchema.update(
             TodoSchemaCreatedId,
             {
-                title: "Test34",
-                status: "working",
+                title: "Test789",
+                status: "canceled",
                 md: {
                     id: TodoSchemaSdoById.md.id,
                     r: TodoSchemaSdoById.md.r + 1,
@@ -77,7 +77,7 @@ const TodoSchema = HealthStorage.define(
 
         // Get by id updated
         var TodoSchemaSdoUpdatedById = await TodoSchema.findById(TodoSchemaCreatedId);
-        Debug.debugValue("Data (FindById)", TodoSchemaSdoUpdatedById);
+        Debug.debugValue("Data (FindById) updated item", TodoSchemaSdoUpdatedById);
 
         Debug.debugEnd("End API Playground");
         
