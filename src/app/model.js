@@ -94,7 +94,7 @@ class Model
   create(data)
   {
     data.md = this.md;
-    return RequestHandler.apiPostSdos(this.options.id, data);
+    return RequestHandler.apiPostSdo(this.options.id, data);
   }
 
   /**

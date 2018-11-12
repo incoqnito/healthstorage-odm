@@ -52,7 +52,7 @@ class RequestHandler
    * Create sdo
    * @returns {Promise}
    */
-  apiPostSdos(id, sdo)
+  apiPostSdo(id, sdo)
   {
     return AXIOS.post(
       SRVURL + SDOENDPOINT + id,
