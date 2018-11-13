@@ -6,4 +6,13 @@ class SchemaValidationError extends Error {
   }
 }
 
+class PropertyValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "PropertyValidationError";
+    this.stack = "";
+  }
+}
+
 module.exports = SchemaValidationError;
+module.exports = PropertyValidationError;

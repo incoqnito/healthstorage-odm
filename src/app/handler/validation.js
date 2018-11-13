@@ -33,11 +33,24 @@ class ValidationHandler
 
   /**
    * Validate schema
+   * @param {Object} schema
+   * @returns {Boolean}
    */
   validateSchema(schema)
   {
     var validated = this.ajv.compile(schema);
     return (validated.errors === undefined || validated.errors === null) ? true : false; 
+  }
+
+   /**
+   * Validate schema
+   * @param {Object} schema
+   * @returns {Boolean}
+   */
+  validateProperties(schema, properties)
+  {
+    var validated = this.ajv.validate(schema, properties);
+    return validated;
   }
 }
 

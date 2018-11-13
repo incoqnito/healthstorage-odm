@@ -37,8 +37,6 @@ Debug.debugStart("API Playground");
               oId: oId
           }
         );
-        
-        return;
 
         // Create Todo Item
         var TodoSchemaCreatedId = await TodoSchema.create(

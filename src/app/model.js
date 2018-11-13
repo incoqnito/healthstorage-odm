@@ -6,6 +6,7 @@ import SchemaHandler from "./handler/schema";
 import ValidationHandler from "./handler/validation";
 import RequestHandler from "./handler/request";
 import SchemaValidationError from "./handler/excpetions";
+import PropertyValidationError from "./handler/excpetions";
 
 class Model
 {
@@ -18,7 +19,7 @@ class Model
   constructor(title, properties, options)
   {
     this.schema = new SchemaHandler(title, properties, options);
-    if(!ValidationHandler.validateSchema(this.schema.schema)) throw new SchemaValidationError();
+    if(!ValidationHandler.validateSchema(this.schema.schema)) throw new SchemaValidationError("Schema is invalid.");
 
     this.md = {
       id: uuid(),
@@ -113,6 +114,7 @@ class Model
   create(data)
   {
     data.md = this.md;
+    if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
     return RequestHandler.postSdo(this.schema.options.id, data);
   }
 
@@ -123,6 +125,7 @@ class Model
    */
   update(id, data)
   {
+    if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
     return RequestHandler.putSdo(id, data);
   }
 
