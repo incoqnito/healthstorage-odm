@@ -2,8 +2,10 @@
 'use-strict';
 
 import uuid from 'uuid/v4';
+import SchemaHandler from "./handler/schema";
 import ValidationHandler from "./handler/validation";
 import RequestHandler from "./handler/request";
+import SchemaValidationError from "./handler/excpetions";
 
 class Model
 {
@@ -15,19 +17,36 @@ class Model
    */
   constructor(title, properties, options)
   {
-    this.title = title;
-    this.properties = properties;
-    this.options = options;
+    this.schema = new SchemaHandler(title, properties, options);
+    if(!ValidationHandler.validateSchema(this.schema.schema)) throw new SchemaValidationError();
 
     this.md = {
       id: uuid(),
       r: 1,
       eId: '',
-      sId: this.options.id,
+      sId: this.schema.options.id,
       sr: 1,
-      oId: this.options.oId,
+      oId: this.schema.options.oId,
       tsp: new Date().toISOString()
     }
+  }
+
+  /**
+   * Set schema property
+   * @returns {String}
+   */
+  set schema(schema)
+  {
+    this._schema = schema;
+  }
+
+  /**
+   * Get schema property
+   * @returns {String}
+   */
+  get schema()
+  {
+    return this._schema;
   }
 
   /**
@@ -94,7 +113,7 @@ class Model
   create(data)
   {
     data.md = this.md;
-    return RequestHandler.apiPostSdo(this.options.id, data);
+    return RequestHandler.postSdo(this.schema.options.id, data);
   }
 
   /**
@@ -104,7 +123,7 @@ class Model
    */
   update(id, data)
   {
-    return RequestHandler.apiPutSdo(id, data);
+    return RequestHandler.putSdo(id, data);
   }
 
   /**
@@ -116,7 +135,7 @@ class Model
    */
   findAll()
   {
-    return RequestHandler.apiGetSdos(this.options.oId, this.options.id);
+    return RequestHandler.getSdos(this.schema.options.oId, this.schema.options.id);
   }
 
   /**
@@ -126,7 +145,7 @@ class Model
    */
   findById(id)
   {
-    return RequestHandler.apiGetSdo(id);
+    return RequestHandler.getSdo(id);
   }
 }
 

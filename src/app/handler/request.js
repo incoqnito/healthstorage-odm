@@ -1,17 +1,16 @@
 'use-strict';
 
-import FormData from 'form-data'
-
 const AXIOS = require("axios");
 const SRVURL = "http://localhost:8080/";
 const SDOENDPOINT = "sdos/"
+const SCHEMAENDPOINT = "schemas/"
 
 class RequestHandler
 {
-  constructor() 
-  {
-    
-  }
+  /**
+   * Constructor
+   */
+  constructor() {}
 
   /**
    * Get class
@@ -23,10 +22,50 @@ class RequestHandler
   }
 
   /**
+   * Get schma by its identifier with highest revision
+   * @param {String} sId 
+   * @returns {Object}
+   */
+  getSchemaBySid(sId)
+  {
+     return AXIOS.get(
+      SRVURL + SCHEMAENDPOINT + sId,
+      {
+        headers: {
+          accept: 'application/schema+json',
+          responseType: 'application/schema+json'
+        }
+      }
+    )
+    .then(response => response.data) 
+    .catch(error => error.status);
+  }
+
+  /**
+   * Get schma by its identifier and revison
+   * @param {String} sId 
+   * @returns {Object}
+   */
+  getSchemaBySidr(sId , r)
+  {
+    return AXIOS.get(
+      SRVURL + SCHEMAENDPOINT + sId + "/" + r,
+      {
+        headers: {
+          accept: 'application/schema+json',
+          responseType: 'application/schema+json'
+        }
+      }
+    )
+    .then(response => response.data) 
+    .catch(error => error.status);
+  }
+
+  /**
    * Get Sdos for given Schema 
    * @returns {Promise}
    */
-  apiGetSdos(oId, id)
+  getSdos(oId, id)
   {
     return AXIOS.get(
       SRVURL + SDOENDPOINT + oId + "/" + id
@@ -39,7 +78,7 @@ class RequestHandler
    * Get Sdos for given Schema 
    * @returns {Promise}
    */
-  apiGetSdo(id)
+  getSdo(id)
   {
     return AXIOS.get(
       SRVURL + SDOENDPOINT + id + "/"
@@ -52,7 +91,7 @@ class RequestHandler
    * Create sdo
    * @returns {Promise}
    */
-  apiPostSdo(id, sdo)
+  postSdo(id, sdo)
   {
     return AXIOS.post(
       SRVURL + SDOENDPOINT + id,
@@ -72,7 +111,7 @@ class RequestHandler
    * Update sdo
    * @returns {Promise}
    */
-  apiPutSdo(id, sdo)
+  putSdo(id, sdo)
   {
     return AXIOS.put(
       SRVURL + SDOENDPOINT + id,

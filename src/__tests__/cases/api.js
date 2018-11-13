@@ -14,30 +14,31 @@ var oId = "82897c48-92f8-4a7f-4550-929e8b12356c";
 
 Debug.debugStart("API Playground");
 
-// Define TodoSchema
-const TodoSchema = HealthStorage.define(
-  "TodoSchema",
-  {
-      id: {
-          type: HealthStorage.STRING
-      },
-      title: {
-          type: HealthStorage.STRING
-      },
-      status: {
-          type: HealthStorage.STRING
-      }
-  },
-  {
-      id: id,
-      oId: oId
-  }
-);
 
 // Async => await not working without
 (async () => {
-
+    
     try {
+
+        // Define TodoSchema
+        const TodoSchema = await HealthStorage.define(
+          "TodoSchema",
+          {
+              title: {
+                  type: HealthStorage.STRING
+              },
+              status: {
+                  type: HealthStorage.STRING
+              }
+          },
+          {
+              required: ['md'],
+              id: id,
+              oId: oId
+          }
+        );
+        
+        return;
 
         // Create Todo Item
         var TodoSchemaCreatedId = await TodoSchema.create(

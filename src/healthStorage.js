@@ -5,11 +5,7 @@ import Model from "./app/model";
 const STRING = "string";
 const NUMBER = "number";
 const INTEGER = "integer";
-const BOLLEAN = "boolean";
-
-const EQUAL = "EQUAL";
-const UNEQUAL = "UNEQUAL";
-const LIKE = "LIKE";
+const BOOLEAN = "boolean";
 
 class HealthStorage
 {
@@ -58,34 +54,6 @@ class HealthStorage
   {
     return BOOLEAN;
   }
-
-   /**
-   * Return equal operation regex
-   * @returns  {String}
-   */
-  static get EQUAL() 
-  {
-    return EQUAL;
-  }
-
-  /**
-   * Return unequal operation regex
-   * @returns  {String}
-   */
-  static get UNEQUAL() 
-  {
-    return UNEQUAL;
-  }
-
-  /**
-   * Return like operation regex
-   * @returns  {String}
-   */
-  static get LIKE() 
-  {
-    return LIKE;
-  }
-
 }
 
 module.exports = HealthStorage;
