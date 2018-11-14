@@ -1,6 +1,6 @@
 'use-strict';
 
-import Model from "./app/model";
+import Model from "./core/model";
 
 const STRING = "string";
 const NUMBER = "number";

@@ -1,18 +1,17 @@
 /**
  * Test Case - Test Api functions
- * node ./src/__tests__/cases/api.js
+ * node ./core/__tests__/cases/api.js
  */
 require('babel-polyfill');
 require('@babel/register');
 
 import HealthStorage from "../../healthStorage";
-import Debug from "../debug/debug";
-
+import DebugHandler from "./../../core/handler/debug";
 
 var id = "82897c48-92f8-4a7f-8360-929e8b12356c";
 var oId = "82897c48-92f8-4a7f-4550-929e8b12356c";
 
-Debug.debugStart("API Playground");
+DebugHandler.debugStart("API Playground");
 
 
 // Async => await not working without
@@ -45,15 +44,15 @@ Debug.debugStart("API Playground");
                 staus: "open"
             }
         );
-        Debug.debugValue("SdoId (Create)", TodoSchemaCreatedId);
+        DebugHandler.debugValue("SdoId (Create)", TodoSchemaCreatedId);
         
         // Get all Todos
         var TodoSchemaSdos = await TodoSchema.findAll();
-        Debug.debugValue("Data (FindAll)", TodoSchemaSdos);
+        DebugHandler.debugValue("Data (FindAll)", TodoSchemaSdos);
 
         // Get by id
         var TodoSchemaSdoById = await TodoSchema.findById(TodoSchemaCreatedId);
-        Debug.debugValue("Data (FindById)", TodoSchemaSdoById);
+        DebugHandler.debugValue("Data (FindById)", TodoSchemaSdoById);
 
         // Update sdo item
         var TodoSchemaSdoUpdated = await TodoSchema.update(
@@ -72,13 +71,13 @@ Debug.debugStart("API Playground");
                 }
             }
         );
-        Debug.debugValue("Sdo (Updated)", TodoSchemaSdoUpdated);
+        DebugHandler.debugValue("Sdo (Updated)", TodoSchemaSdoUpdated);
 
         // Get by id updated
         var TodoSchemaSdoUpdatedById = await TodoSchema.findById(TodoSchemaCreatedId);
-        Debug.debugValue("Data (FindById) updated item", TodoSchemaSdoUpdatedById);
+        DebugHandler.debugValue("Data (FindById) updated item", TodoSchemaSdoUpdatedById);
 
-        Debug.debugEnd("End API Playground");
+        DebugHandler.debugEnd("End API Playground");
         
     } catch (err) {
         console.log(err);

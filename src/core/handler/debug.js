@@ -1,6 +1,6 @@
 'use-strict';
 
-class Debug 
+class DebugHandler 
 {
     /**
      * Construct
@@ -44,7 +44,7 @@ class Debug
     }
 }
 
-module.exports = new Debug();
+module.exports = new DebugHandler();
 
 
 

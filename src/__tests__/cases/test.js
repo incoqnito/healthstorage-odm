@@ -1,6 +1,6 @@
 /**
  * Test Case - Test functions
- * node ./src/__tests__/cases/test.js
+ * node ./core/__tests__/cases/test.js
  * 
  */
 
