@@ -4,19 +4,28 @@
     "classnames": "^2.1.5",
     "director": "^1.2.0",
     "react": "^0.13.3",
+    "react-dom": "^16.6.3",
+    "react-router": "^4.3.1",
     "todomvc-app-css": "^2.0.0",
     "todomvc-common": "^1.0.1"
   },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "devDependencies": {
-    "bin-up": "^1.1.0"
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "bin-up": "^1.1.0",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   },
   "scripts": {
-    "cy:open": "bin-up cypress open --project ../.. --env framework=react",
-    "cy:run": "bin-up cypress run --project ../.. --env framework=react",
-    "cy:run:record": "npm run cy:run -- --record",
-    "start": "bin-up gulp test-server",
-    "test:gui": "bin-up run-p --race start cy:open",
-    "test": "bin-up run-p --race start cy:run",
-    "test:record": "bin-up run-p --race start cy:run:record"
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development"
   }
 }

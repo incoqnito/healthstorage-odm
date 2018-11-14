@@ -3,6 +3,8 @@
 /*jshint trailing:false */
 /*jshint newcap:false */
 /*global React */
+import React from 'react';
+
 var app = app || {};
 
 (function () {

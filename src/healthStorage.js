@@ -56,4 +56,4 @@ class HealthStorage
   }
 }
 
-module.exports = HealthStorage;
+export default HealthStorage;
