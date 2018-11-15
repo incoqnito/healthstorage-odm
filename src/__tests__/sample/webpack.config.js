@@ -3,8 +3,7 @@ module.exports = {
     bundle: [
       './js/utils.js',
       './js/todoModel.js',
-      './js/todoItem.jsx',
-      './js/footer.jsx',
+      './js/todo.jsx',
       './js/app.jsx'
     ]
   },
