@@ -41,7 +41,7 @@ DebugHandler.debugStart("API Playground");
         var TodoSchemaCreatedId = await TodoSchema.create(
             {
                 title: "Test",
-                staus: "open"
+                staus: "init"
             }
         );
         DebugHandler.debugValue("SdoId (Create)", TodoSchemaCreatedId);
@@ -59,7 +59,7 @@ DebugHandler.debugStart("API Playground");
             TodoSchemaCreatedId,
             {
                 title: "Test789",
-                status: "canceled",
+                status: "cancelled",
                 md: {
                     id: TodoSchemaSdoById.md.id,
                     r: TodoSchemaSdoById.md.r + 1,

@@ -1,10 +1,9 @@
 module.exports = {
   entry: {
     bundle: [
-      './js/utils.js',
-      './js/todoModel.js',
-      './js/todo.jsx',
-      './js/app.jsx'
+      'babel-polyfill',
+      './js/src/utils.js',
+      './js/index.js'
     ]
   },
   module: {
