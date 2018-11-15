@@ -13,7 +13,6 @@ var oId = "82897c48-92f8-4a7f-4550-929e8b12356c";
 
 DebugHandler.debugStart("API Playground");
 
-
 // Async => await not working without
 (async () => {
     

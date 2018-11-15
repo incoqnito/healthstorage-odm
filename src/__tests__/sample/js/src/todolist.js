@@ -70,18 +70,36 @@ class TodoList extends Component
   async addNewTodo(event) 
 	{
 		if(event.keyCode != ENTER_KEY || event.target.value.trim() == "") return;
-	
+    
 		var todo = {
-			title:event.target.value,
+			title: event.target.value,
 			status: 'init'
 		}
 
-    await this.model.create(todo);
+    await this.model.create(todo, this.uuid());
     
     this.setState({
       todos: await this.model.findAll()
     });
-	}
+  }
+  
+  /**
+   * UUID
+   * @returns {String}
+   */
+  uuid() {
+    var i, random;
+    var uuid = '';
+    for (i = 0; i < 32; i++) {
+      random = Math.random() * 16 | 0;
+      if (i === 8 || i === 12 || i === 16 || i === 20) {
+        uuid += '-';
+      }
+      uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random))
+        .toString(16);
+    }
+    return uuid;
+  }
 
 	/**
 	 * Render View

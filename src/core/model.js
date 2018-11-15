@@ -111,8 +111,9 @@ class Model
    * 
    * @todo Implement meta data
    */
-  create(data)
+  create(data, uuid)
   {
+    this.md.id = (uuid !== undefined) ? uuid : this.md.id;
     data.md = this.md;
     if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
     return RequestHandler.postSdo(this.schema.options.id, data);
