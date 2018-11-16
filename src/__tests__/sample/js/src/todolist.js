@@ -16,6 +16,7 @@ class TodoList extends Component
   constructor() 
   {
     super();
+
     this.model = HealthStorage.define(
 			"TodoSchema",
 			{
@@ -31,7 +32,7 @@ class TodoList extends Component
 				id: '82897c48-92f8-4a7f-8360-929e8b12356c',
 				oId: '82897c48-92f8-4a7f-4550-929e8b12356c'
 			}
-		);
+    );
   }
 
   /**
@@ -40,6 +41,7 @@ class TodoList extends Component
   getInitialState() 
   {
     return {
+      todoInput: '',
       todos: {}
     };
   }
@@ -50,7 +52,8 @@ class TodoList extends Component
   componentWillMount()
   {
     this.fetchTodos().then(res => this.setState({
-      todos: res
+      todos: res,
+      todoInput: ''
     }));
   }
   
@@ -61,6 +64,15 @@ class TodoList extends Component
   fetchTodos() 
   {
     return this.model.findAll();
+  }
+
+  /**
+	 * Handle input update
+	 * @param {Mixed} event 
+	 */
+  changeInputValue(event)
+  {
+    this.setState({todoInput: event.target.value});
   }
 
   /**
@@ -76,11 +88,17 @@ class TodoList extends Component
 			status: 'init'
 		}
 
-    await this.model.create(todo, this.uuid());
+    var uuid = await this.model.create(todo, this.uuid());
     
-    this.setState({
-      todos: await this.model.findAll()
-    });
+    if(uuid !== undefined) {
+      
+      var todos = await this.model.findAll();
+      
+      this.setState({
+        todos: todos,
+        todoInput: ''
+      });
+    }
   }
   
   /**
@@ -121,7 +139,9 @@ class TodoList extends Component
               className="new-todo"
               placeholder="What needs to be done?"
               onKeyDown={this.addNewTodo.bind(this)}
+              onChange={this.changeInputValue.bind(this)}
               autoFocus={true}
+              value={this.state !== null ? this.state.todoInput : ''}
             />
 					</header>
           <section className="main">
@@ -142,7 +162,7 @@ class TodoList extends Component
    */
   renderTodo(key, todo)
   {
-    return <Todo key={key} todo={todo}/>;
+    return <Todo key={key} todo={todo} model={this.model}/>;
   }
 }
 
