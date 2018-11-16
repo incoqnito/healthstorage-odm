@@ -13,6 +13,9 @@ class Todo extends Component
 		super(properties);
 	}
 
+	/**
+	 * Set todo completed
+	 */
 	async toggleState()
 	{
 		this.props.todo.status = (this.props.todo.status == 'init') ? 'completed' : 'init';
@@ -21,6 +24,17 @@ class Todo extends Component
 
 		await this.props.model.update(this.props.todo.md.id, this.props.todo);
 
+		this.setState({
+			todos: await this.props.model.findAll()
+		});
+	}
+
+		/**
+	 * Set todo completed
+	 */
+	async delete()
+	{
+		await this.props.model.delete(this.props.todo.md.id);
 		this.setState({
 			todos: await this.props.model.findAll()
 		});
@@ -38,7 +52,7 @@ class Todo extends Component
 					<label>
 						{this.props.todo.title}
 					</label>
-					<button className="destroy" onClick={this.delete}/>
+					<button className="destroy" onClick={this.delete.bind(this)}/>
 				</div>
 				<input ref="editField" className="edit" value="Hiiii" />
 			</li>

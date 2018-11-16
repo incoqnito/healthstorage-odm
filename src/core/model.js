@@ -131,6 +131,16 @@ class Model
   }
 
   /**
+   * Delete sdo (only for development)
+   * @param {String} id 
+   * @param {Object} data 
+   */
+  delete(id)
+  {
+    return RequestHandler.deleteSdo(id);
+  }
+
+  /**
    * Get all sdos from owner and schema
    * @param {Object} data 
    * @returns {Promise}

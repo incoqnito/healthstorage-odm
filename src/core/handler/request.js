@@ -2,8 +2,9 @@
 
 const AXIOS = require("axios");
 const SRVURL = "http://localhost:8080/";
-const SDOENDPOINT = "sdos/"
-const SCHEMAENDPOINT = "schemas/"
+const SDO_ENDPOINT = "sdos/"
+const SDO_DELETE_ENDPOINT = "eraser/sdos/"
+const SCHEMA_ENDPOINT = "schemas/"
 
 class RequestHandler
 {
@@ -29,7 +30,7 @@ class RequestHandler
   getSchemaBySid(sId)
   {
      return AXIOS.get(
-      SRVURL + SCHEMAENDPOINT + sId,
+      SRVURL + SCHEMA_ENDPOINT + sId,
       {
         headers: {
           accept: 'application/schema+json',
@@ -49,7 +50,7 @@ class RequestHandler
   getSchemaBySidr(sId , r)
   {
     return AXIOS.get(
-      SRVURL + SCHEMAENDPOINT + sId + "/" + r,
+      SRVURL + SCHEMA_ENDPOINT + sId + "/" + r,
       {
         headers: {
           accept: 'application/schema+json',
@@ -68,7 +69,7 @@ class RequestHandler
   getSdos(oId, id)
   {
     return AXIOS.get(
-      SRVURL + SDOENDPOINT + oId + "/" + id
+      SRVURL + SDO_ENDPOINT + oId + "/" + id
     )
     .then(response => (response.data === undefined) ? response.status : response.data) 
     .catch(error => error.status);
@@ -81,7 +82,7 @@ class RequestHandler
   getSdo(id)
   {
     return AXIOS.get(
-      SRVURL + SDOENDPOINT + id + "/"
+      SRVURL + SDO_ENDPOINT + id + "/"
     )
     .then(response => (response.data === undefined) ? response.status : response.data) 
     .catch(error => error.status);
@@ -94,7 +95,7 @@ class RequestHandler
   postSdo(id, sdo)
   {
     return AXIOS.post(
-      SRVURL + SDOENDPOINT + id,
+      SRVURL + SDO_ENDPOINT + id,
       sdo,
       {
         headers: {
@@ -107,15 +108,34 @@ class RequestHandler
     .catch(error => error.status);
   }
 
-   /**
+  /**
    * Update sdo
    * @returns {Promise}
    */
   putSdo(id, sdo)
   {
     return AXIOS.put(
-      SRVURL + SDOENDPOINT + id,
+      SRVURL + SDO_ENDPOINT + id,
       sdo,
+      {
+        headers: {
+          "Content-Type": 'application/json',
+          responseType: 'application/json'
+        }
+      }
+    )
+    .then(response => response.status)
+    .catch(error => error.response.status)
+  }
+
+  /**
+   * Delete sdo (only for development)
+   * @returns {Promise}
+   */
+  deleteSdo(id)
+  {
+    return AXIOS.delete(
+      SRVURL + SDO_DELETE_ENDPOINT + id,
       {
         headers: {
           "Content-Type": 'application/json',
