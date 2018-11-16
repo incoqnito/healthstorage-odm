@@ -4,6 +4,23 @@ import Todo from './todo';
 
 var app = app || {};
 
+const TODOMODEL = HealthStorage.define(
+  "TodoSchema",
+  {
+      title: {
+          type: HealthStorage.STRING
+      },
+      status: {
+          type: HealthStorage.STRING
+      }
+  },
+  {
+    required: ['md'],
+    id: '82897c48-92f8-4a7f-8360-929e8b12356c',
+    oId: '82897c48-92f8-4a7f-4550-929e8b12356c'
+  }
+);
+
 const ENTER_KEY = 13;
 var todoItems = {};
 
@@ -16,34 +33,12 @@ class TodoList extends Component
   constructor() 
   {
     super();
-
-    this.model = HealthStorage.define(
-			"TodoSchema",
-			{
-					title: {
-							type: HealthStorage.STRING
-					},
-					status: {
-							type: HealthStorage.STRING
-					}
-			},
-			{
-				required: ['md'],
-				id: '82897c48-92f8-4a7f-8360-929e8b12356c',
-				oId: '82897c48-92f8-4a7f-4550-929e8b12356c'
-			}
-    );
+    this.updateHandler = this.updateHandler.bind(this)
   }
 
-  /**
-   * Set initial state of todos as empty
-   */
-  getInitialState() 
+  get TODOMODEL()
   {
-    return {
-      todoInput: '',
-      todos: {}
-    };
+    return TODOMODEL;
   }
 
   /**
@@ -63,7 +58,19 @@ class TodoList extends Component
    */
   fetchTodos() 
   {
-    return this.model.findAll();
+    return TODOMODEL.findAll();
+  }
+
+  /**
+   * Handler
+   */
+  async updateHandler()
+  {
+    var todos = await this.fetchTodos();
+    this.setState({
+      todos: todos,
+      todoInput: ''
+    })
   }
 
   /**
@@ -88,16 +95,10 @@ class TodoList extends Component
 			status: 'init'
 		}
 
-    var uuid = await this.model.create(todo, this.uuid());
+    var uuid = await TODOMODEL.create(todo, this.uuid());
     
     if(uuid !== undefined) {
-      
-      var todos = await this.model.findAll();
-      
-      this.setState({
-        todos: todos,
-        todoInput: ''
-      });
+      this.updateHandler();
     }
   }
   
@@ -126,6 +127,7 @@ class TodoList extends Component
 	render() {
 
     if(this.state !== null && this.state.todos !== undefined) {
+      
       todoItems = this.state.todos.map(function (todo) {
         return this.renderTodo(todo.md.id, todo);
       }, this);
@@ -162,7 +164,7 @@ class TodoList extends Component
    */
   renderTodo(key, todo)
   {
-    return <Todo key={key} todo={todo} model={this.model}/>;
+    return <Todo key={key} todo={todo} model={TODOMODEL} updateHandler={this.updateHandler}/>;
   }
 }
 

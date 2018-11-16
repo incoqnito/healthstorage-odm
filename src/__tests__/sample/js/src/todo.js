@@ -14,30 +14,46 @@ class Todo extends Component
 	}
 
 	/**
+	 * Perfomance update
+	 * @param {Object} nextProps 
+	 * @param {Object} nextState 
+	 */
+	shouldComponentUpdate (nextProps, nextState) {
+		return (nextProps.todo.status !== this.props.todo.status);
+	}
+
+	/**
 	 * Set todo completed
 	 */
 	async toggleState()
 	{
-		this.props.todo.status = (this.props.todo.status == 'init') ? 'completed' : 'init';
-		this.props.todo.md.r = this.props.todo.md.r + 1;
-		this.props.todo.md.tsp = new Date().toISOString();
+		var md = this.props.todo.md;
+		md.r = md.r + 1;
+		md.tsp = new Date().toISOString();
 
-		await this.props.model.update(this.props.todo.md.id, this.props.todo);
+		var todo = {
+			title: this.props.todo.title,
+			status: (this.props.todo.status == 'init') ? 'completed' : 'init',
+			md: md
+		}
 
-		this.setState({
-			todos: await this.props.model.findAll()
-		});
+		var status = await this.props.model.update(this.props.todo.md.id, todo);
+
+		if(status == 200) {
+			this.props.updateHandler();
+		}
 	}
 
-		/**
+	/**
 	 * Set todo completed
 	 */
-	async delete()
+	async deleteTodo()
 	{
-		await this.props.model.delete(this.props.todo.md.id);
-		this.setState({
-			todos: await this.props.model.findAll()
-		});
+		var status = await this.props.model.delete(this.props.todo.md.id);
+
+		if(status == 204) {
+			this.props.updateHandler();
+		}
 	}
 
 	/**
@@ -52,7 +68,7 @@ class Todo extends Component
 					<label>
 						{this.props.todo.title}
 					</label>
-					<button className="destroy" onClick={this.delete.bind(this)}/>
+					<button className="destroy" onClick={this.deleteTodo.bind(this)}/>
 				</div>
 				<input ref="editField" className="edit" value="Hiiii" />
 			</li>
