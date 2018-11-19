@@ -106,7 +106,7 @@ class RequestHandler
         }
       }
     )
-    .then(response => (response.status == 201) ? response.data : response.status)
+    .then(response => (response.status == 201) ? response.config.data : response.status)
     .catch(error => error.status);
   }
 

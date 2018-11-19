@@ -96,9 +96,9 @@ class TodoList extends Component
 			status: 'init'
 		}
 
-    var uuid = await TODOMODEL.create(todo, this.uuid());
-    
-    if(uuid !== undefined) {
+    var todo = await TODOMODEL.create(todo, this.uuid());
+    console.log(todo);
+    if(todo !== undefined) {
       this.updateHandler();
     }
   }

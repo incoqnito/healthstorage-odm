@@ -73,7 +73,7 @@ class Todo extends Component
 			<li className={classNames({completed: this.props.todo.status == 'completed'})}>
 				<div className="view">
 					<input className="toggle" type="checkbox" checked={this.props.todo.status == "completed"} onChange={this.toggleState.bind(this)}/>
-					<label onDoubleClick={this.editTodo.bind(this)}>
+					<label>
 						{this.props.todo.title}
 					</label>
 					<button className="destroy" onClick={this.showEditInput.bind(this)}/>
