@@ -63,8 +63,8 @@
       "title": {
         "type": "string"
       },
-      "status": {
-        "type": "string"
+      "isCompleted": {
+        "type": "boolean"
       }
     },
     "required": [

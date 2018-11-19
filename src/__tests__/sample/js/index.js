@@ -1,29 +1,12 @@
 
-require('babel-polyfill');
+import 'babel-polyfill'
+
 import React from 'react'
-import TodoApp from "./src/app";
+import ReactDOM from 'react-dom'
 
-(function () {
+import { Application } from './src/components/Application/Application'
 
-	'use strict';
-
-	React.createClass({
-		getInitialState: function () {
-			return {};
-		},
-		render: function () {
-			return (
-					<TodoList />
-			);
-		}
-	});
-
-	function render() {
-		React.render(
-			<TodoApp />,
-			document.getElementsByClassName('todoapp')[0]
-		);
-	}
-
-	render();
-})();
+ReactDOM.render(
+  <Application />,
+  document.getElementsByClassName('todoapp')[0]
+)

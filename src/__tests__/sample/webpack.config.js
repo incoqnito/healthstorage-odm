@@ -1,10 +1,12 @@
+const path = require('path')
+
 module.exports = {
   entry: {
     bundle: [
-      'babel-polyfill',
       './js/index.js'
     ]
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -17,12 +19,13 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
+  mode: 'development',
   output: {
-    path: __dirname + '/dist',
+    path: path.join(__dirname, '/dist'),
     publicPath: '/',
     filename: 'bundle.js'
   },
   devServer: {
     contentBase: './dist'
   }
-};
+}
