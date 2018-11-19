@@ -147,9 +147,9 @@ class Model
    * 
    * @todo Implement options
    */
-  findAll()
+  findAll(options)
   {
-    return RequestHandler.getSdos(this.schema.options.oId, this.schema.options.id);
+    return RequestHandler.getSdos(this.schema.options.oId, this.schema.options.id, options);
   }
 
   /**

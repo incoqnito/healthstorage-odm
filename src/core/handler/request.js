@@ -66,10 +66,12 @@ class RequestHandler
    * Get Sdos for given Schema 
    * @returns {Promise}
    */
-  getSdos(oId, id)
+  getSdos(oId, id, params)
   {
+    var params = (params !== undefined) ? "?" + this.urlEncodeOptions(params) : "";
+
     return AXIOS.get(
-      SRVURL + SDO_ENDPOINT + oId + "/" + id
+      SRVURL + SDO_ENDPOINT + oId + "/" + id + params
     )
     .then(response => (response.data === undefined) ? response.status : response.data) 
     .catch(error => error.status);
@@ -145,6 +147,17 @@ class RequestHandler
     )
     .then(response => response.status)
     .catch(error => error.response.status)
+  }
+
+  /**
+   * Encode get params
+   * @param {Object} options 
+   */
+  urlEncodeOptions(options)
+  {
+    return Object.keys(options).map(function(k) {
+      return encodeURIComponent(k) + "=" + encodeURIComponent(options[k]);
+    }).join('&');
   }
 }
 
