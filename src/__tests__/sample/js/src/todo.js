@@ -45,14 +45,6 @@ class Todo extends Component
 	}
 
 	/**
-	 * Edit todo
-	 */
-	showEditInput()
-	{
-		console.log("hi");
-	}
-
-	/**
 	 * Delete todo
 	 */
 	async deleteTodo()
@@ -76,7 +68,7 @@ class Todo extends Component
 					<label>
 						{this.props.todo.title}
 					</label>
-					<button className="destroy" onClick={this.showEditInput.bind(this)}/>
+					<button className="destroy" onClick={this.deleteTodo.bind(this)}/>
 				</div>
 				<input ref="editField" className="edit" value="Hiiii"/>
 			</li>
