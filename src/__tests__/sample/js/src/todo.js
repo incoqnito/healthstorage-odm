@@ -45,7 +45,15 @@ class Todo extends Component
 	}
 
 	/**
-	 * Set todo completed
+	 * Edit todo
+	 */
+	showEditInput()
+	{
+		console.log("hi");
+	}
+
+	/**
+	 * Delete todo
 	 */
 	async deleteTodo()
 	{
@@ -65,12 +73,12 @@ class Todo extends Component
 			<li className={classNames({completed: this.props.todo.status == 'completed'})}>
 				<div className="view">
 					<input className="toggle" type="checkbox" checked={this.props.todo.status == "completed"} onChange={this.toggleState.bind(this)}/>
-					<label>
+					<label onDoubleClick={this.editTodo.bind(this)}>
 						{this.props.todo.title}
 					</label>
-					<button className="destroy" onClick={this.deleteTodo.bind(this)}/>
+					<button className="destroy" onClick={this.showEditInput.bind(this)}/>
 				</div>
-				<input ref="editField" className="edit" value="Hiiii" />
+				<input ref="editField" className="edit" value="Hiiii"/>
 			</li>
 		);
 	}

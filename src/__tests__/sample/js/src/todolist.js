@@ -36,6 +36,7 @@ class TodoList extends Component
     this.updateHandler = this.updateHandler.bind(this)
   }
 
+  
   get TODOMODEL()
   {
     return TODOMODEL;
