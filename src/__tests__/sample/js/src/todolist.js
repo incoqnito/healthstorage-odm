@@ -97,7 +97,7 @@ class TodoList extends Component
 		}
 
     var todo = await TODOMODEL.create(todo, this.uuid());
-    console.log(todo);
+
     if(todo !== undefined) {
       this.updateHandler();
     }
