@@ -57,7 +57,7 @@ export class Application extends React.Component {
         todos: this.state.todos.map(todo => todo.md.id !== md.id ? todo : changedTodo)
       })
     } catch (error) {
-      this.props.toggleErrorAlert(error);
+      this.toggleErrorAlert(error);
     }
   }
 
@@ -75,7 +75,7 @@ export class Application extends React.Component {
         todos: this.state.todos.filter(t => t.md.id !== todo.md.id)
       })
     } catch (error) {
-      this.props.toggleErrorAlert(error);
+      this.toggleErrorAlert(error);
     }
   }
 
