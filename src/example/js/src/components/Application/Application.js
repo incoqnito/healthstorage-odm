@@ -7,6 +7,11 @@ import { TodoList } from '../TodoList/TodoList'
 import { ErrorAlert } from '../Alert/ErrorAlert'
 
 export class Application extends React.Component {
+
+  /**
+   * Constructor
+   * @param {Object} props 
+   */
   constructor (props) {
     super(props)
 
@@ -23,6 +28,9 @@ export class Application extends React.Component {
     this.toggleErrorAlert = this.toggleErrorAlert.bind(this)
   }
 
+  /**
+   * Async mount
+   */
   async componentDidMount () {
     const todos = await Todo.findAll()
 
@@ -31,28 +39,30 @@ export class Application extends React.Component {
     })
   }
 
-  async onAddTodo ({ id, ...attrs }) {
-    const todo = await Todo.create(attrs, id)
+  /**
+   * Async add todo
+   * @bug md.id is on create the same for all elements
+   * @param {Object}  
+   */
+  async onAddTodo ({...attrs}) {
+    var todo = await Todo.create(attrs)
 
     this.setState({
       todos: [todo, ...this.state.todos]
     })
   }
 
+  /**
+   * Async toggle state
+   * @param {Object}  
+   */
   async onToggleTodo ({ md, ...attrs }) {
     try {
-      const changedTodo = {
-        ...attrs,
-        md,
-        isCompleted: !attrs.isCompleted
-      }
-
-      await Todo.updateById(md.id, {
+      const changedTodo = await Todo.updateById(md.id, {
         ...attrs,
         md,
         isCompleted: !attrs.isCompleted
       })
-
       this.setState({
         todos: this.state.todos.map(todo => todo.md.id !== md.id ? todo : changedTodo)
       })
@@ -61,24 +71,36 @@ export class Application extends React.Component {
     }
   }
 
+  /**
+   * Async edit todo
+   * @param {Object}  
+   */
   async onEditTodo (todo) {
     this.setState({
       todos: this.state.todos
     });
   }
 
+  /**
+   * Async delete todo
+   * @param {Object}  
+   */
   async onDeleteTodo (todo) {
     try {
-      await Todo.delete(todo.md.id)
-
+      var deletedTodoId = await Todo.delete(todo.md.id)
       this.setState({
-        todos: this.state.todos.filter(t => t.md.id !== todo.md.id)
-      })
+        todos: this.state.todos.filter(t => t.md.id !== deletedTodoId)
+      });
+
     } catch (error) {
       this.toggleErrorAlert(error);
     }
   }
 
+  /**
+   * Toggle error alert
+   * @param {Object}  
+   */
   toggleErrorAlert(error) 
   {
     this.setState({

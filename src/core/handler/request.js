@@ -113,13 +113,13 @@ class RequestHandler
 
   /**
    * Create sdo
-   * @issue Api currently not returning created sdo object from backend, for now use return given object
+   * @issue Api currently not returning created sdo object from backend, for now use given data in return
    * @returns {Promise}
    */
-  postSdo(id, sdo)
+  postSdo(sdo)
   {
     return AXIOS.post(
-      SRVURL + SDO_ENDPOINT + id,
+      SRVURL + SDO_ENDPOINT + sdo.md.id,
       sdo,
       {
         headers: {
@@ -139,6 +139,7 @@ class RequestHandler
 
   /**
    * Update sdo
+   * @issue Api currently not returning created sdo object from backend, for now use given data in return
    * @returns {Promise}
    */
   putSdo(id, sdo)
@@ -153,7 +154,7 @@ class RequestHandler
         }
       }
     )
-    .then(response => console.log(response))
+    .then(response => sdo)
     .catch(error => {
       throw {
         'status': error.response.status, 
@@ -164,6 +165,7 @@ class RequestHandler
 
   /**
    * Delete sdo (only for development)
+   * @issue Api currently not returning deleted id from backend, for now use given data in return
    * @returns {Promise}
    */
   deleteSdo(id)
@@ -177,8 +179,8 @@ class RequestHandler
         }
       }
     )
-    .then(response => response.status)
-   .catch(error => {
+    .then(response => id)
+    .catch(error => {
       throw {
         'status': error.response.status, 
         'text': error.response.statusText

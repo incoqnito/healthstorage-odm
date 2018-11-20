@@ -19,7 +19,7 @@ class Model
     //if(!ValidationHandler.validateSchema(this.schema.schema)) throw new SchemaValidationError("Schema is invalid.");
 
     this.md = {
-      id: uuid(),
+      id: '',
       r: 1,
       eId: '',
       sId: this.schema.options.id,
@@ -102,18 +102,38 @@ class Model
   }
 
   /**
+   * Create a uuid 
+   * @returns {String}
+   */
+  uuid() {
+    var i, random;
+    var uuid = '';
+
+    for (i = 0; i < 32; i++) {
+      random = Math.random() * 16 | 0;
+      if (i === 8 || i === 12 || i === 16 || i === 20) {
+        uuid += '-';
+      }
+      uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+    }
+    return uuid;
+  }
+
+  /**
    * Create a new sdo for given schema 
    * @param {Object} data 
    * @returns {Promise}
    * 
    * @todo Implement meta data
    */
-  create(data, uuid)
+  create(data)
   {
-    this.md.id = (uuid !== undefined) ? uuid : this.md.id;
-    //data.md = this.md;
+    var md = this.md;
+    md.id = this.uuid();
+    data.md = md;
+
     //if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
-    return RequestHandler.postSdo(this.schema.options.id, data);
+    return RequestHandler.postSdo(data);
   }
 
   /**
@@ -123,6 +143,7 @@ class Model
    */
   updateById(id, data)
   {
+    data.md.r += 1;
     //if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
     return RequestHandler.putSdo(id, data);
   }

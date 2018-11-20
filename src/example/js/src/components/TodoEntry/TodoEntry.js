@@ -2,6 +2,11 @@ import React from 'react'
 import classNames from 'classnames'
 
 export class TodoEntry extends React.PureComponent {
+
+  /**
+   * Constructor
+   * @param {Object} props
+   */
   constructor (props) {
     super(props)
 
@@ -16,6 +21,9 @@ export class TodoEntry extends React.PureComponent {
     this.props.onDelete && this.props.onDelete(this.props.todo)
   }
 
+  /**
+   * Toggle state
+   */
   onToggle () {
     this.props.onToggle && this.props.onToggle(this.props.todo)
   }
