@@ -1,5 +1,6 @@
 import React from 'react'
 import uuid from 'uuid/v4'
+import classNames from 'classnames'
 
 import { TodoEntry } from '../TodoEntry/TodoEntry'
 
@@ -15,7 +16,10 @@ export class TodoList extends React.Component {
 
     this.state = {
       value: '',
-      checkedAll: false
+      checkedAll: false,
+      hasError: false,
+      errorCode: 0,
+      errorText: ''
     }
 
     this.renderTodo = this.renderTodo.bind(this)
@@ -53,15 +57,29 @@ export class TodoList extends React.Component {
         value: ''
       })
     }).catch(error => {
-      console.log(error);
+      this.setState({
+        hasError: true,
+        errorCode: error.status,
+        errorText: error.text
+      });
+      setTimeout(() => {
+        this.setState({
+          hasError: false,
+          errorCode: 0,
+          errorText: ''
+        });
+      }, 3500);
     })
   }
 
-  /**
+  /** 
    * Render View
    * @returns {Component}
    */
   render () {
+
+    const alertClassNames = classNames({ dnone: !this.state.hasError, 'alert-error': this.state.hasError });
+
     window.state = this.state
 
     return (
@@ -86,6 +104,10 @@ export class TodoList extends React.Component {
             }
           </ul>
         </section>
+        <div className={alertClassNames}>
+          Opps! Ein Fehler ist aufgetreten!<br></br>
+          <b>{this.state.errorCode}: {this.state.errorText}</b>
+        </div>
       </div>
     )
   }

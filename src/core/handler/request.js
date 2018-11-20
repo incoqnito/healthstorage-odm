@@ -40,9 +40,9 @@ class RequestHandler
       }
     )
     .then(response => response.data) 
-    .catch(error => {
+   .catch(error => {
       throw {
-        'status': error.respone.status, 
+        'status': error.response.status, 
         'text': error.response.statusText
       }
     });
@@ -65,9 +65,9 @@ class RequestHandler
       }
     )
     .then(response => response.data) 
-    .catch(error => {
+   .catch(error => {
       throw {
-        'status': error.respone.status, 
+        'status': error.response.status, 
         'text': error.response.statusText
       }
     });
@@ -85,9 +85,9 @@ class RequestHandler
       SRVURL + SDO_ENDPOINT + oId + "/" + id + params
     )
     .then(response => (response.data === undefined) ? response.status : response.data) 
-    .catch(error => {
+   .catch(error => {
       throw {
-        'status': error.respone.status, 
+        'status': error.response.status, 
         'text': error.response.statusText
       }
     });
@@ -126,7 +126,7 @@ class RequestHandler
     .then(response => (response.status == 201) ? sdo : response.status)
     .catch(error => {
       throw {
-        'status': error.respone.status, 
+        'status': error.response.status, 
         'text': error.response.statusText
       }
     });
@@ -149,9 +149,9 @@ class RequestHandler
       }
     )
     .then(response => console.log(response))
-    .catch(error => {
+   .catch(error => {
       throw {
-        'status': error.respone.status, 
+        'status': error.response.status, 
         'text': error.response.statusText
       }
     });
@@ -173,9 +173,9 @@ class RequestHandler
       }
     )
     .then(response => response.status)
-    .catch(error => {
+   .catch(error => {
       throw {
-        'status': error.respone.status, 
+        'status': error.response.status, 
         'text': error.response.statusText
       }
     });
