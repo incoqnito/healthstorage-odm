@@ -3,10 +3,7 @@
 
 import uuid from 'uuid/v4';
 import SchemaHandler from "./handler/schema";
-import ValidationHandler from "./handler/validation";
 import RequestHandler from "./handler/request";
-import SchemaValidationError from "./handler/excpetions";
-import PropertyValidationError from "./handler/excpetions";
 
 class Model
 {
@@ -19,7 +16,7 @@ class Model
   constructor(title, properties, options)
   {
     this.schema = new SchemaHandler(title, properties, options);
-    if(!ValidationHandler.validateSchema(this.schema.schema)) throw new SchemaValidationError("Schema is invalid.");
+    //if(!ValidationHandler.validateSchema(this.schema.schema)) throw new SchemaValidationError("Schema is invalid.");
 
     this.md = {
       id: uuid(),
@@ -105,7 +102,7 @@ class Model
   }
 
   /**
-   * Create a new sdo for given schema
+   * Create a new sdo for given schema 
    * @param {Object} data 
    * @returns {Promise}
    * 
@@ -114,8 +111,8 @@ class Model
   create(data, uuid)
   {
     this.md.id = (uuid !== undefined) ? uuid : this.md.id;
-    data.md = this.md;
-    if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
+    //data.md = this.md;
+    //if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
     return RequestHandler.postSdo(this.schema.options.id, data);
   }
 
@@ -124,9 +121,9 @@ class Model
    * @param {String} id 
    * @param {Object} data 
    */
-  update(id, data)
+  updateById(id, data)
   {
-    if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
+    //if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
     return RequestHandler.putSdo(id, data);
   }
 

@@ -42,7 +42,7 @@ export class Application extends React.Component {
         isCompleted: !attrs.isCompleted
       }
 
-      await Todo.update(md.id, {
+      await Todo.updateById(md.id, {
         ...attrs,
         md,
         isCompleted: !attrs.isCompleted

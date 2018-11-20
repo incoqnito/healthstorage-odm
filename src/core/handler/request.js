@@ -2,6 +2,7 @@
 
 const AXIOS = require("axios");
 const SRVURL = "http://localhost:8080/";
+
 const SDO_ENDPOINT = "sdos/"
 const SDO_DELETE_ENDPOINT = "eraser/sdos/"
 const SCHEMA_ENDPOINT = "schemas/"
@@ -39,7 +40,12 @@ class RequestHandler
       }
     )
     .then(response => response.data) 
-    .catch(error => error.status);
+    .catch(error => {
+      throw {
+        'status': error.respone.status, 
+        'text': error.response.statusText
+      }
+    });
   }
 
   /**
@@ -59,7 +65,12 @@ class RequestHandler
       }
     )
     .then(response => response.data) 
-    .catch(error => error.status);
+    .catch(error => {
+      throw {
+        'status': error.respone.status, 
+        'text': error.response.statusText
+      }
+    });
   }
 
   /**
@@ -74,7 +85,12 @@ class RequestHandler
       SRVURL + SDO_ENDPOINT + oId + "/" + id + params
     )
     .then(response => (response.data === undefined) ? response.status : response.data) 
-    .catch(error => error.status);
+    .catch(error => {
+      throw {
+        'status': error.respone.status, 
+        'text': error.response.statusText
+      }
+    });
   }
 
   /**
@@ -92,6 +108,7 @@ class RequestHandler
 
   /**
    * Create sdo
+   * @issue Api currently not returning created sdo object from backend, for now use return given object
    * @returns {Promise}
    */
   postSdo(id, sdo)
@@ -106,8 +123,13 @@ class RequestHandler
         }
       }
     )
-    .then(response => (response.status == 201) ? JSON.parse(response.config.data) : response.status)
-    .catch(error => error.status);
+    .then(response => (response.status == 201) ? sdo : response.status)
+    .catch(error => {
+      throw {
+        'status': error.respone.status, 
+        'text': error.response.statusText
+      }
+    });
   }
 
   /**
@@ -126,8 +148,13 @@ class RequestHandler
         }
       }
     )
-    .then(response => response.status)
-    .catch(error => error.response.status)
+    .then(response => console.log(response))
+    .catch(error => {
+      throw {
+        'status': error.respone.status, 
+        'text': error.response.statusText
+      }
+    });
   }
 
   /**
@@ -146,7 +173,12 @@ class RequestHandler
       }
     )
     .then(response => response.status)
-    .catch(error => error.response.status)
+    .catch(error => {
+      throw {
+        'status': error.respone.status, 
+        'text': error.response.statusText
+      }
+    });
   }
 
   /**

@@ -52,6 +52,8 @@ export class TodoList extends React.Component {
       this.setState({
         value: ''
       })
+    }).catch(error => {
+      console.log(error);
     })
   }
 
