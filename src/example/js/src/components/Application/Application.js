@@ -4,18 +4,23 @@ import { Todo } from '../../models'
 
 import { TodoList } from '../TodoList/TodoList'
 
+import { ErrorAlert } from '../Alert/ErrorAlert'
+
 export class Application extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      todos: []
+      todos: [],
+      error: undefined
     }
 
     this.onAddTodo = this.onAddTodo.bind(this)
     this.onToggleTodo = this.onToggleTodo.bind(this)
     this.onEditTodo = this.onEditTodo.bind(this)
     this.onDeleteTodo = this.onDeleteTodo.bind(this)
+
+    this.toggleErrorAlert = this.toggleErrorAlert.bind(this)
   }
 
   async componentDidMount () {
@@ -51,15 +56,15 @@ export class Application extends React.Component {
       this.setState({
         todos: this.state.todos.map(todo => todo.md.id !== md.id ? todo : changedTodo)
       })
-    } catch (e) {
-      console.error(e)
+    } catch (error) {
+      this.props.toggleErrorAlert(error);
     }
   }
 
   async onEditTodo (todo) {
     this.setState({
       todos: this.state.todos
-    })
+    });
   }
 
   async onDeleteTodo (todo) {
@@ -69,20 +74,41 @@ export class Application extends React.Component {
       this.setState({
         todos: this.state.todos.filter(t => t.md.id !== todo.md.id)
       })
-    } catch (e) {
-      console.error('ahhhh')
+    } catch (error) {
+      this.props.toggleErrorAlert(error);
     }
   }
 
+  toggleErrorAlert(error) 
+  {
+    this.setState({
+      error: error
+    });
+
+    setTimeout( () => {
+      this.setState({
+        error: undefined
+      });
+    }, 3000);
+  }
+
+  /**
+   * Render View
+   * @returns {Component}
+   */
   render () {
     return (
-      <TodoList
-        todos={this.state.todos}
-        onAddTodo={this.onAddTodo}
-        onEditTodo={this.onEditTodo}
-        onToggleTodo={this.onToggleTodo}
-        onDeleteTodo={this.onDeleteTodo}
-      />
+      <div>
+        <ErrorAlert error={this.state.error}/>
+        <TodoList
+          todos={this.state.todos}
+          onAddTodo={this.onAddTodo}
+          onEditTodo={this.onEditTodo}
+          onToggleTodo={this.onToggleTodo}
+          onDeleteTodo={this.onDeleteTodo}
+          toggleErrorAlert={this.toggleErrorAlert}
+        />
+      </div>
     )
   }
 }

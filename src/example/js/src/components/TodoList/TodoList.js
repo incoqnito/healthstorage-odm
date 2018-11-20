@@ -1,6 +1,5 @@
 import React from 'react'
 import uuid from 'uuid/v4'
-import classNames from 'classnames'
 
 import { TodoEntry } from '../TodoEntry/TodoEntry'
 
@@ -11,15 +10,12 @@ export class TodoList extends React.Component {
    * Constructor
    * Define HS Model
    */
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.state = {
       value: '',
-      checkedAll: false,
-      hasError: false,
-      errorCode: 0,
-      errorText: ''
+      checkedAll: false
     }
 
     this.renderTodo = this.renderTodo.bind(this)
@@ -57,18 +53,7 @@ export class TodoList extends React.Component {
         value: ''
       })
     }).catch(error => {
-      this.setState({
-        hasError: true,
-        errorCode: error.status,
-        errorText: error.text
-      });
-      setTimeout(() => {
-        this.setState({
-          hasError: false,
-          errorCode: 0,
-          errorText: ''
-        });
-      }, 3500);
+      this.props.toggleErrorAlert(error);
     })
   }
 
@@ -77,8 +62,6 @@ export class TodoList extends React.Component {
    * @returns {Component}
    */
   render () {
-
-    const alertClassNames = classNames({ dnone: !this.state.hasError, 'alert-error': this.state.hasError });
 
     window.state = this.state
 
@@ -104,10 +87,6 @@ export class TodoList extends React.Component {
             }
           </ul>
         </section>
-        <div className={alertClassNames}>
-          Opps! Ein Fehler ist aufgetreten!<br></br>
-          <b>{this.state.errorCode}: {this.state.errorText}</b>
-        </div>
       </div>
     )
   }
@@ -124,6 +103,7 @@ export class TodoList extends React.Component {
       onDelete={this.props.onDeleteTodo}
       onToggle={this.props.onToggleTodo}
       onEdit={this.props.onEditTodo}
+      toggleErrorAlert={this.props.toggleErrorAlert}
     />
   }
 }
