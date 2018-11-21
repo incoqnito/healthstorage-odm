@@ -37,7 +37,8 @@ export class Application extends React.Component {
     const todos = await Todo.findAll({
       pageNum: this.state.pageNum,
       pageSize: this.state.pageSize,
-      orderBy: 'id'
+      orderBy: Todo.META_DATE,
+      orderByDirection: Todo.ASC
     });
 
     this.setState({

@@ -6,12 +6,6 @@ const STRING = "string";
 const NUMBER = "number";
 const INTEGER = "integer";
 const BOOLEAN = "boolean";
-const ASC = "Ascending";
-const DESC = "Descending";
-const META_ID = 'id';
-const META_REVISION = 'r';
-const META_DATE = 'tsp';
-
 
 class HealthStorage
 {
@@ -59,51 +53,6 @@ class HealthStorage
   static get BOOLEAN() 
   {
     return BOOLEAN;
-  }
-
-  /**
-   * Return asc type field
-   * @returns  {String}
-   */
-  static get ASC() 
-  {
-    return ASC;
-  }
-
-  /**
-   * Return desc type field
-   * @returns  {String}
-   */
-  static get DESC() 
-  {
-    return DESC;
-  }
-
-  /**
-   * Return meta id type field
-   * @returns  {String}
-   */
-  static get META_ID() 
-  {
-    return META_ID;
-  }
-
-  /**
-   * Return meta revision type field
-   * @returns  {String}
-   */
-  static get META_REVISION() 
-  {
-    return META_REVISION;
-  }
-
-  /**
-   * Return meta revision type field
-   * @returns  {String}
-   */
-  static get META_DATE() 
-  {
-    return META_DATE;
   }
 }
 

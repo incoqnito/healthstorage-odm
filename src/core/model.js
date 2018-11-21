@@ -6,6 +6,12 @@ import SchemaHandler from "./handler/schema";
 import RequestHandler from "./handler/request";
 import ValidationHandler from "./handler/validation";
 
+const ASC = "Ascending";
+const DESC = "Descending";
+const META_ID = 'id';
+const META_REVISION = 'r';
+const META_DATE = 'tsp';
+
 class Model
 {
   /**
@@ -29,6 +35,51 @@ class Model
       oId: this.schema.options.oId,
       tsp: ''
     }
+  }
+
+    /**
+   * Return asc type field
+   * @returns  {String}
+   */
+  static get ASC() 
+  {
+    return ASC;
+  }
+
+  /**
+   * Return desc type field
+   * @returns  {String}
+   */
+  static get DESC() 
+  {
+    return DESC;
+  }
+
+  /**
+   * Return meta id type field
+   * @returns  {String}
+   */
+  static get META_ID() 
+  {
+    return META_ID;
+  }
+
+  /**
+   * Return meta revision type field
+   * @returns  {String}
+   */
+  static get META_REVISION() 
+  {
+    return META_REVISION;
+  }
+
+  /**
+   * Return meta revision type field
+   * @returns  {String}
+   */
+  static get META_DATE() 
+  {
+    return META_DATE;
   }
 
   /**
