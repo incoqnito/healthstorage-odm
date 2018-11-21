@@ -159,9 +159,15 @@ hr {
 }
 
 .filter-section {
-	margin-top: 15px;
 	padding: 15px;
 	border-top: solid 1px rgba(0,0,0,0.1);
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.filter-section > div {
+	align-self: center;
+	width: 50%;
 }
 
 .filter-section ul {
@@ -169,6 +175,14 @@ hr {
 	padding: 0;
 	margin: 0;
 	margin-top: 5px;
+}
+
+.filter-section ul + ul {
+	margin-top: 20px;
+}
+
+.filter-section > div + div{
+	text-align: right;
 }
 
 .filter-section p {
@@ -186,7 +200,13 @@ hr {
 	cursor: pointer;
 }
 
-.filter-section ul li button:hover {
+.filter-section ul li select {
+	padding: 5px 10px;
+	border: solid 1px rgba(0,0,0,0.1);
+	cursor: pointer;
+}
+
+.filter-section ul li button:hover, .filter-section ul li button.active{
 	background-color: rgba(0,0,0,0.1);
 }
 

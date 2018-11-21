@@ -37,7 +37,7 @@ class Model
     }
   }
 
-    /**
+  /**
    * Return asc type field
    * @returns  {String}
    */
@@ -80,6 +80,26 @@ class Model
   get META_DATE() 
   {
     return META_DATE;
+  }
+
+  findMetaField(key) 
+  {
+    var value = "";
+
+    switch(key) 
+    {
+      case 'id':
+        value = this.META_ID;
+      break;
+      case 'r':
+        value = this.META_REVISION;
+      break;
+      case 'tsp':
+        value = this.META_DATE;
+      break;
+    }
+
+    return value;
   }
 
   /**

@@ -6,8 +6,7 @@ import { TodoList } from '../TodoList/TodoList'
 
 import { ErrorAlert } from '../Alert/ErrorAlert'
 
-import { Sort } from '../Actions/Sort'
-import { runInThisContext } from 'vm';
+import { FilterSort } from '../FilterSort/FilterSort'
 
 export class Application extends React.Component 
 {
@@ -35,6 +34,8 @@ export class Application extends React.Component
 
     this.changeSortASC = this.changeSortASC.bind(this)
     this.changeSortDESC = this.changeSortDESC.bind(this)
+
+    this.changeSortField = this.changeSortField.bind(this)
   }
 
   /**
@@ -55,40 +56,51 @@ export class Application extends React.Component
   /**
    * Refetch
    */
-  async refecthTodos()
+  async refetchTodos()
   {
-    const todos = await Todo.findAll({
-      orderBy: this.state.orderBy,
-      orderByDirection: this.state.orderByDirection
-    });
-
-    this.setState({
-      todos: todos
-    });
+    try {
+      const todos = await Todo.findAll({
+        orderBy: this.state.orderBy,
+        orderByDirection: this.state.orderByDirection
+      });
+      this.setState({
+        todos: todos
+      });
+    } catch(error) {
+      this.toggleErrorAlert(error);
+    }
   }
 
   /**
-   * Async orting 
+   * Async sorting 
    */
   async changeSortASC()
   {
-    this.setState({
-      orderByDirection: Todo.ASC
-    });
-
-    this.refecthTodos();
+    this.state.orderByDirection = Todo.ASC;
+    this.refetchTodos();
   }
 
   /**
-   * Async orting 
+   * Async sorting 
    */
   async changeSortDESC()
   {
-    this.setState({
-      orderByDirection: Todo.DESC
-    });
+    this.state.orderByDirection = Todo.DESC;
+    this.refetchTodos();
+  }
 
-    this.refecthTodos();
+  /**
+   * Async  
+   */
+  async changeSortField(e)
+  {
+    if(e.target.value !== undefined) {
+      var sortField = Todo.findMetaField(e.target.value);
+      if(sortField !== undefined && sortField !== "") {
+        this.state.orderBy = sortField;
+        this.refetchTodos();
+      }
+    }
   }
 
   /**
@@ -187,7 +199,7 @@ export class Application extends React.Component
           onDeleteTodo={this.onDeleteTodo}
           toggleErrorAlert={this.toggleErrorAlert}
         />
-        <Sort changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC}/>
+        <FilterSort sorting={this.state.orderByDirection} changeSortField={this.changeSortField} changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC}/>
       </div>
     )
   }
