@@ -17,7 +17,8 @@ class Model
   constructor(title, properties, options)
   {
     this.schema = new SchemaHandler(title, properties, options);
-    //if(!ValidationHandler.validateSchema(this.schema.schema)) throw new SchemaValidationError("Schema is invalid.");
+
+    ValidationHandler.validateSchema(this.schema.schema);
 
     this.md = {
       id: '',
@@ -26,7 +27,7 @@ class Model
       sId: this.schema.options.id,
       sr: 1,
       oId: this.schema.options.oId,
-      tsp: new Date().toISOString()
+      tsp: ''
     }
   }
 
@@ -132,6 +133,8 @@ class Model
   {
     var md = this.md;
     md.id = this.uuid();
+    md.tsp = new Date().toISOString();
+
     data = Object.assign(data, {md: md});
 
     ValidationHandler.validateProperties(this.schema.schema, data);
