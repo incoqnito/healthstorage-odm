@@ -4,6 +4,7 @@
 import uuid from 'uuid/v4';
 import SchemaHandler from "./handler/schema";
 import RequestHandler from "./handler/request";
+import ValidationHandler from "./handler/validation";
 
 class Model
 {
@@ -105,7 +106,8 @@ class Model
    * Create a uuid 
    * @returns {String}
    */
-  uuid() {
+  uuid() 
+  {
     var i, random;
     var uuid = '';
 
@@ -132,7 +134,8 @@ class Model
     md.id = this.uuid();
     data.md = md;
 
-    //if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
+    ValidationHandler.validateProperties(this.schema.schema, data);
+
     return RequestHandler.postSdo(data);
   }
 
@@ -144,7 +147,9 @@ class Model
   updateById(id, data)
   {
     data.md.r += 1;
-    //if(!ValidationHandler.validateProperties(this.schema.schema, data)) throw new PropertyValidationError("The provided data could not be validated against schema.");
+    
+    ValidationHandler.validateProperties(this.schema.schema, data);
+    
     return RequestHandler.putSdo(id, data);
   }
 
