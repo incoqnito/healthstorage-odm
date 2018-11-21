@@ -17,6 +17,8 @@ export class Application extends React.Component {
 
     this.state = {
       todos: [],
+      pageSize: 1,
+      pageNum: 2,
       error: undefined
     }
 
@@ -32,7 +34,11 @@ export class Application extends React.Component {
    * Async mount
    */
   async componentDidMount () {
-    const todos = await Todo.findAll()
+    const todos = await Todo.findAll({
+      pageNum: this.state.pageNum,
+      pageSize: this.state.pageSize,
+      orderBy: 'id'
+    });
 
     this.setState({
       todos
