@@ -41,7 +41,7 @@ class Model
    * Return asc type field
    * @returns  {String}
    */
-  static get ASC() 
+  get ASC() 
   {
     return ASC;
   }
@@ -50,7 +50,7 @@ class Model
    * Return desc type field
    * @returns  {String}
    */
-  static get DESC() 
+  get DESC() 
   {
     return DESC;
   }
@@ -59,7 +59,7 @@ class Model
    * Return meta id type field
    * @returns  {String}
    */
-  static get META_ID() 
+  get META_ID() 
   {
     return META_ID;
   }
@@ -68,7 +68,7 @@ class Model
    * Return meta revision type field
    * @returns  {String}
    */
-  static get META_REVISION() 
+  get META_REVISION() 
   {
     return META_REVISION;
   }
@@ -77,7 +77,7 @@ class Model
    * Return meta revision type field
    * @returns  {String}
    */
-  static get META_DATE() 
+  get META_DATE() 
   {
     return META_DATE;
   }

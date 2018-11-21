@@ -1,13 +1,14 @@
 import React from 'react'
 import classNames from 'classnames'
 
-export class TodoEntry extends React.PureComponent {
-
+export class TodoEntry extends React.PureComponent 
+{
   /**
    * Constructor
    * @param {Object} props
    */
-  constructor (props) {
+  constructor (props) 
+  {
     super(props)
 
     this.onDelete = this.onDelete.bind(this)
@@ -17,14 +18,16 @@ export class TodoEntry extends React.PureComponent {
   /**
    * Delete todo
    */
-  onDelete () {
+  onDelete () 
+  {
     this.props.onDelete && this.props.onDelete(this.props.todo)
   }
 
   /**
    * Toggle state
    */
-  onToggle () {
+  onToggle () 
+  {
     this.props.onToggle && this.props.onToggle(this.props.todo)
   }
 
@@ -32,7 +35,8 @@ export class TodoEntry extends React.PureComponent {
    * Render View
    * @returns {Component}
    */
-  render () {
+  render () 
+  {
     const className = classNames({ completed: this.props.todo.isCompleted })
 
     return (

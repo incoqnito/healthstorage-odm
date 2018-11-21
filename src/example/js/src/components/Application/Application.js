@@ -6,19 +6,23 @@ import { TodoList } from '../TodoList/TodoList'
 
 import { ErrorAlert } from '../Alert/ErrorAlert'
 
-export class Application extends React.Component {
+import { Sort } from '../Actions/Sort'
+import { runInThisContext } from 'vm';
 
+export class Application extends React.Component 
+{
   /**
    * Constructor
    * @param {Object} props 
    */
-  constructor (props) {
+  constructor (props) 
+  {
     super(props)
 
     this.state = {
       todos: [],
-      pageSize: 1,
-      pageNum: 2,
+      orderBy: Todo.META_DATE,
+      orderByDirection: Todo.DESC,
       error: undefined
     }
 
@@ -28,17 +32,19 @@ export class Application extends React.Component {
     this.onDeleteTodo = this.onDeleteTodo.bind(this)
 
     this.toggleErrorAlert = this.toggleErrorAlert.bind(this)
+
+    this.changeSortASC = this.changeSortASC.bind(this)
+    this.changeSortDESC = this.changeSortDESC.bind(this)
   }
 
   /**
    * Async mount
    */
-  async componentDidMount () {
+  async componentDidMount () 
+  {
     const todos = await Todo.findAll({
-      pageNum: this.state.pageNum,
-      pageSize: this.state.pageSize,
-      orderBy: Todo.META_DATE,
-      orderByDirection: Todo.ASC
+      orderBy: this.state.orderBy,
+      orderByDirection: this.state.orderByDirection,
     });
 
     this.setState({
@@ -47,11 +53,51 @@ export class Application extends React.Component {
   }
 
   /**
+   * Refetch
+   */
+  async refecthTodos()
+  {
+    const todos = await Todo.findAll({
+      orderBy: this.state.orderBy,
+      orderByDirection: this.state.orderByDirection
+    });
+
+    this.setState({
+      todos: todos
+    });
+  }
+
+  /**
+   * Async orting 
+   */
+  async changeSortASC()
+  {
+    this.setState({
+      orderByDirection: Todo.ASC
+    });
+
+    this.refecthTodos();
+  }
+
+  /**
+   * Async orting 
+   */
+  async changeSortDESC()
+  {
+    this.setState({
+      orderByDirection: Todo.DESC
+    });
+
+    this.refecthTodos();
+  }
+
+  /**
    * Async add todo
    * @bug md.id is on create the same for all elements
    * @param {Object}  
    */
-  async onAddTodo ({...attrs}) {
+  async onAddTodo ({...attrs}) 
+  {
     var todo = await Todo.create(attrs)
 
     this.setState({
@@ -63,7 +109,8 @@ export class Application extends React.Component {
    * Async toggle state
    * @param {Object}  
    */
-  async onToggleTodo ({ md, ...attrs }) {
+  async onToggleTodo ({ md, ...attrs }) 
+  {
     try {
       const changedTodo = await Todo.updateById(md.id, {
         ...attrs,
@@ -82,7 +129,8 @@ export class Application extends React.Component {
    * Async edit todo
    * @param {Object}  
    */
-  async onEditTodo (todo) {
+  async onEditTodo (todo) 
+  {
     this.setState({
       todos: this.state.todos
     });
@@ -92,7 +140,8 @@ export class Application extends React.Component {
    * Async delete todo
    * @param {Object}  
    */
-  async onDeleteTodo (todo) {
+  async onDeleteTodo (todo) 
+  {
     try {
       var deletedTodoId = await Todo.delete(todo.md.id)
       this.setState({
@@ -125,7 +174,8 @@ export class Application extends React.Component {
    * Render View
    * @returns {Component}
    */
-  render () {
+  render () 
+  {
     return (
       <div>
         <ErrorAlert error={this.state.error}/>
@@ -137,6 +187,7 @@ export class Application extends React.Component {
           onDeleteTodo={this.onDeleteTodo}
           toggleErrorAlert={this.toggleErrorAlert}
         />
+        <Sort changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC}/>
       </div>
     )
   }

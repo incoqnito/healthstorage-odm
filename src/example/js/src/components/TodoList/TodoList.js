@@ -5,12 +5,14 @@ import { TodoEntry } from '../TodoEntry/TodoEntry'
 
 import { ENTER_KEY } from '../../constants'
 
-export class TodoList extends React.Component {
+export class TodoList extends React.Component 
+{
   /**
    * Constructor
    * Define HS Model
    */
-  constructor (props) {
+  constructor (props) 
+  {
     super(props)
 
     this.state = {
@@ -27,7 +29,8 @@ export class TodoList extends React.Component {
    * Handle input update
    * @param {Mixed} event
    */
-  onChange (event) {
+  onChange (event) 
+  {
     this.setState({
       value: event.target.value
     })
@@ -37,7 +40,8 @@ export class TodoList extends React.Component {
    * Add new todo
    * @param {Mixed} event
    */
-  onKeyDown (event) {
+  onKeyDown (event) 
+  {
     if (event.keyCode !== ENTER_KEY || event.target.value.trim() === '') {
       return false
     }
@@ -61,8 +65,8 @@ export class TodoList extends React.Component {
    * Render View
    * @returns {Component}
    */
-  render () {
-
+  render () 
+  {
     window.state = this.state
 
     return (
@@ -96,7 +100,8 @@ export class TodoList extends React.Component {
    * @param {String} key
    * @param {Object} todo
    */
-  renderTodo (todo, key) {
+  renderTodo (todo, key) 
+  {
     return <TodoEntry
       key={key}
       todo={todo}
