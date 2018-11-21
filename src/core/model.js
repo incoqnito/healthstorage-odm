@@ -132,7 +132,7 @@ class Model
   {
     var md = this.md;
     md.id = this.uuid();
-    data.md = md;
+    data = Object.assign(data, {md: md});
 
     ValidationHandler.validateProperties(this.schema.schema, data);
 
@@ -149,7 +149,7 @@ class Model
     data.md.r += 1;
     
     ValidationHandler.validateProperties(this.schema.schema, data);
-    
+
     return RequestHandler.putSdo(id, data);
   }
 

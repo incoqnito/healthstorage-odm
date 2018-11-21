@@ -128,7 +128,7 @@ class RequestHandler
         }
       }
     )
-    .then(response => (response.status == 201) ? sdo : response.status)
+    .then(response => (response.status == 201) ? JSON.parse(response.config.data) : response.status)
     .catch(error => {
       throw {
         'status': error.response.status, 

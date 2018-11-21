@@ -50,7 +50,7 @@ class ValidationHandler
     }
   }
 
-   /**
+  /**
    * Validate schema
    * @param {Object} schema
    * @returns {Boolean}
