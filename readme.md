@@ -198,7 +198,7 @@ const updatedSdos = SampleSchema.archive({
 
 ### Install npm-packages
 
-Open console healthstorage-odm package and move to ````./src/example/```. Type in ```npm install``` and install dependencies. 
+Open console in healthstorage-odm package and move to ````./src/example/```. Type in ```npm install``` and install dependencies. 
 
 ### Run app
 
