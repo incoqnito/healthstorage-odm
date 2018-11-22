@@ -10,13 +10,13 @@ List coming soon.
 
 First install [node.js](https://nodejs.org/en/).
 
-```
+```ts
 npm install healthstorage-odm
 ```
 
 ## Importing
 
-```
+```ts
 // Using ES6 imports
 import HealthStorageODM from 'healthstorage-odm';
 ```
@@ -27,7 +27,7 @@ import HealthStorageODM from 'healthstorage-odm';
 Defining a model is realized by calling the define-Function of our healtstorage. It returns a model based on given input.
 
 Example:
-```
+```ts
 const sampleSchema = HealthStorageODM.define(
   'SomeSchema',
   {
@@ -62,7 +62,7 @@ const sampleSchema = HealthStorageODM.define(
 This function will search after all sdos matching for defined schema.
 
 Example:
-```
+```ts
 const sampleSdos = SampleSchema.findAll({
     pageNum: 1,
     pageSize: 15,
@@ -77,7 +77,7 @@ const sampleSdos = SampleSchema.findAll({
 This function search after one sdo by its identifier.
 
 Example:
-```
+```ts
 const sampleSdo = SampleSchema.findById('617da75c-9530-4747-a6f3-b7ba168c65ba')
 ```
 
@@ -86,7 +86,7 @@ const sampleSdo = SampleSchema.findById('617da75c-9530-4747-a6f3-b7ba168c65ba')
 This function search after one sdo by given parameters.
 
 Example:
-```
+```ts
 const sampleSdo = SampleSchema.findOne({
   field: 'title', 
   value: 'Sample Title',
@@ -99,7 +99,7 @@ const sampleSdo = SampleSchema.findOne({
 This function creates a single sdo.
 
 Example:
-```
+```ts
 const newSdo = SampleSchema.create({
   title: 'Sample Title', 
   description: 'Sample description',
@@ -114,7 +114,7 @@ const newSdo = SampleSchema.create({
 This function updates a sdo find by its identifier.
 
 Example:
-```
+```ts
 const updatedSdo = SampleSchema.update(
   '617da75c-9530-4747-a6f3-b7ba168c65ba', 
   {
@@ -132,7 +132,7 @@ const updatedSdo = SampleSchema.update(
 This function updates sdos find by given parameters.
 
 Example:
-```
+```ts
 const updatedSdos = SampleSchema.update(
   '617da75c-9530-4747-a6f3-b7ba168c65ba', 
   {
@@ -155,7 +155,7 @@ const updatedSdos = SampleSchema.update(
 This function deletes a sdo find by its identifier.
 
 Example:
-```
+```ts
 const updatedSdos = SampleSchema.deleteById('617da75c-9530-4747-a6f3-b7ba168c65ba')
 ```
 
@@ -164,7 +164,7 @@ const updatedSdos = SampleSchema.deleteById('617da75c-9530-4747-a6f3-b7ba168c65b
 This function deletes sdos find by given parameters.
 
 Example:
-```
+```ts
 const updatedSdos = SampleSchema.delete({
     field: 'title', 
     value: 'Sample Title',
@@ -177,7 +177,7 @@ const updatedSdos = SampleSchema.delete({
 This function archives a sdo find by its identifier.
 
 Example:
-```
+```ts
 const updatedSdos = SampleSchema.archiveById('617da75c-9530-4747-a6f3-b7ba168c65ba')
 ```
 
@@ -186,7 +186,7 @@ const updatedSdos = SampleSchema.archiveById('617da75c-9530-4747-a6f3-b7ba168c65
 This function archives sdos find by given parameters.
 
 Example:
-```
+```ts
 const updatedSdos = SampleSchema.archive({
     field: 'title', 
     value: 'Sample Title',
