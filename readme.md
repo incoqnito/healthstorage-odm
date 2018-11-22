@@ -24,7 +24,7 @@ import HealthStorageODM from 'healthstorage-odm';
 
 ### Defining a Model
 
-Defining a model is realized by calling the define-Function of our healtstorage. It returns a model based on given input.
+Defining a model is realized by calling the define function. It returns a model based on given input.
 
 Example:
 ```ts
