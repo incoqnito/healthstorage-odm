@@ -8,14 +8,12 @@ import { ErrorAlert } from '../Alert/ErrorAlert'
 
 import { FilterSort } from '../FilterSort/FilterSort'
 
-export class Application extends React.Component 
-{
+export class Application extends React.Component {
   /**
    * Constructor
    * @param {Object} props 
    */
-  constructor (props) 
-  {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -41,8 +39,7 @@ export class Application extends React.Component
   /**
    * Async mount
    */
-  async componentDidMount () 
-  {
+  async componentDidMount() {
     const todos = await Todo.findAll({
       orderBy: this.state.orderBy,
       orderByDirection: this.state.orderByDirection,
@@ -56,8 +53,7 @@ export class Application extends React.Component
   /**
    * Refetch
    */
-  async refetchTodos()
-  {
+  async refetchTodos() {
     try {
       const todos = await Todo.findAll({
         orderBy: this.state.orderBy,
@@ -66,7 +62,7 @@ export class Application extends React.Component
       this.setState({
         todos: todos
       });
-    } catch(error) {
+    } catch (error) {
       this.toggleErrorAlert(error);
     }
   }
@@ -74,8 +70,7 @@ export class Application extends React.Component
   /**
    * Async sorting 
    */
-  async changeSortASC()
-  {
+  async changeSortASC() {
     this.state.orderByDirection = Todo.ASC;
     this.refetchTodos();
   }
@@ -83,8 +78,7 @@ export class Application extends React.Component
   /**
    * Async sorting 
    */
-  async changeSortDESC()
-  {
+  async changeSortDESC() {
     this.state.orderByDirection = Todo.DESC;
     this.refetchTodos();
   }
@@ -92,11 +86,10 @@ export class Application extends React.Component
   /**
    * Async  
    */
-  async changeSortField(e)
-  {
-    if(e.target.value !== undefined) {
+  async changeSortField(e) {
+    if (e.target.value !== undefined) {
       var sortField = Todo.findMetaField(e.target.value);
-      if(sortField !== undefined && sortField !== "") {
+      if (sortField !== undefined && sortField !== "") {
         this.state.orderBy = sortField;
         this.refetchTodos();
       }
@@ -108,8 +101,7 @@ export class Application extends React.Component
    * @bug md.id is on create the same for all elements
    * @param {Object}  
    */
-  async onAddTodo ({...attrs}) 
-  {
+  async onAddTodo({ ...attrs }) {
     var todo = await Todo.create(attrs)
 
     this.setState({
@@ -121,8 +113,7 @@ export class Application extends React.Component
    * Async toggle state
    * @param {Object}  
    */
-  async onToggleTodo ({ md, ...attrs }) 
-  {
+  async onToggleTodo({ md, ...attrs }) {
     try {
       const changedTodo = await Todo.updateById(md.id, {
         ...attrs,
@@ -141,8 +132,7 @@ export class Application extends React.Component
    * Async edit todo
    * @param {Object}  
    */
-  async onEditTodo (todo) 
-  {
+  async onEditTodo(todo) {
     this.setState({
       todos: this.state.todos
     });
@@ -152,8 +142,7 @@ export class Application extends React.Component
    * Async delete todo
    * @param {Object}  
    */
-  async onDeleteTodo (todo) 
-  {
+  async onDeleteTodo(todo) {
     try {
       var deletedTodoId = await Todo.delete(todo.md.id)
       this.setState({
@@ -169,13 +158,12 @@ export class Application extends React.Component
    * Toggle error alert
    * @param {Object}  
    */
-  toggleErrorAlert(error) 
-  {
+  toggleErrorAlert(error) {
     this.setState({
       error: error
     });
 
-    setTimeout( () => {
+    setTimeout(() => {
       this.setState({
         error: undefined
       });
@@ -186,11 +174,10 @@ export class Application extends React.Component
    * Render View
    * @returns {Component}
    */
-  render () 
-  {
+  render() {
     return (
       <div>
-        <ErrorAlert error={this.state.error}/>
+        <ErrorAlert error={this.state.error} />
         <TodoList
           todos={this.state.todos}
           onAddTodo={this.onAddTodo}
@@ -199,7 +186,7 @@ export class Application extends React.Component
           onDeleteTodo={this.onDeleteTodo}
           toggleErrorAlert={this.toggleErrorAlert}
         />
-        <FilterSort sorting={this.state.orderByDirection} changeSortField={this.changeSortField} changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC}/>
+        <FilterSort sorting={this.state.orderByDirection} changeSortField={this.changeSortField} changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC} />
       </div>
     )
   }

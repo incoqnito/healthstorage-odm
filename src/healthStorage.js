@@ -7,15 +7,13 @@ const NUMBER = "number";
 const INTEGER = "integer";
 const BOOLEAN = "boolean";
 
-class HealthStorage
-{
+class HealthStorage {
   /**
    * Define function 
    * @param {String} name Title of the SDO
    * @param {Object} options Options object
    */
-  static define(title, properties, options) 
-  {
+  static define(title, properties, options) {
     return new Model(title, properties, options);
   }
 
@@ -23,8 +21,7 @@ class HealthStorage
    * Return string type field
    * @returns  {String}
    */
-  static get STRING() 
-  {
+  static get STRING() {
     return STRING;
   }
 
@@ -32,8 +29,7 @@ class HealthStorage
    * Return number type field
    * @returns  {String}
    */
-  static get NUMBER() 
-  {
+  static get NUMBER() {
     return NUMBER;
   }
 
@@ -41,8 +37,7 @@ class HealthStorage
    * Return integer type field
    * @returns  {String}
    */
-  static get INTEGER() 
-  {
+  static get INTEGER() {
     return INTEGER;
   }
 
@@ -50,8 +45,7 @@ class HealthStorage
    * Return integer type field
    * @returns  {String}
    */
-  static get BOOLEAN() 
-  {
+  static get BOOLEAN() {
     return BOOLEAN;
   }
 }

@@ -7,19 +7,17 @@ const SDO_ENDPOINT = "sdos/"
 const SDO_DELETE_ENDPOINT = "eraser/sdos/"
 const SCHEMA_ENDPOINT = "schemas/"
 
-class RequestHandler
-{
+class RequestHandler {
   /**
    * Constructor
    */
-  constructor() {}
+  constructor() { }
 
   /**
    * Get class
    * @return {Object}
    */
-  getClass()
-  {
+  getClass() {
     return this;
   }
 
@@ -28,9 +26,8 @@ class RequestHandler
    * @param {String} sId 
    * @returns {Object}
    */
-  getSchemaBySid(sId)
-  {
-     return AXIOS.get(
+  getSchemaBySid(sId) {
+    return AXIOS.get(
       SRVURL + SCHEMA_ENDPOINT + sId,
       {
         headers: {
@@ -39,13 +36,13 @@ class RequestHandler
         }
       }
     )
-    .then(response => response.data) 
-    .catch(error => {
-      throw {
-        'status': error.response.status, 
-        'text': error.response.statusText
-      }
-    });
+      .then(response => response.data)
+      .catch(error => {
+        throw {
+          'status': error.response.status,
+          'text': error.response.statusText
+        }
+      });
   }
 
   /**
@@ -53,8 +50,7 @@ class RequestHandler
    * @param {String} sId 
    * @returns {Object}
    */
-  getSchemaBySidr(sId , r)
-  {
+  getSchemaBySidr(sId, r) {
     return AXIOS.get(
       SRVURL + SCHEMA_ENDPOINT + sId + "/" + r,
       {
@@ -64,51 +60,49 @@ class RequestHandler
         }
       }
     )
-    .then(response => response.data) 
-    .catch(error => {
-      throw {
-        'status': error.response.status, 
-        'text': error.response.statusText
-      }
-    });
+      .then(response => response.data)
+      .catch(error => {
+        throw {
+          'status': error.response.status,
+          'text': error.response.statusText
+        }
+      });
   }
 
   /**
    * Get Sdos for given Schema 
    * @returns {Promise}
    */
-  getSdos(oId, id, params)
-  {
+  getSdos(oId, id, params) {
     var params = (params !== undefined) ? "?" + this.urlEncodeOptions(params) : "";
 
     return AXIOS.get(
       SRVURL + SDO_ENDPOINT + oId + "/" + id + params
     )
-    .then(response => (response.data === undefined) ? response.status : response.data) 
-    .catch(error => {
-      throw {
-        'status': error.response.status, 
-        'text': error.response.statusText
-      }
-    });
+      .then(response => (response.data === undefined) ? response.status : response.data)
+      .catch(error => {
+        throw {
+          'status': error.response.status,
+          'text': error.response.statusText
+        }
+      });
   }
 
   /**
    * Get Sdos for given Schema 
    * @returns {Promise}
    */
-  getSdo(id)
-  {
+  getSdo(id) {
     return AXIOS.get(
       SRVURL + SDO_ENDPOINT + id + "/"
     )
-    .then(response => (response.data === undefined) ? response.status : response.data) 
-    .catch(error => {
-      throw {
-        'status': error.response.status, 
-        'text': error.response.statusText
-      }
-    });
+      .then(response => (response.data === undefined) ? response.status : response.data)
+      .catch(error => {
+        throw {
+          'status': error.response.status,
+          'text': error.response.statusText
+        }
+      });
   }
 
   /**
@@ -116,8 +110,7 @@ class RequestHandler
    * @issue Api currently not returning created sdo object from backend, for now use given data in return
    * @returns {Promise}
    */
-  postSdo(sdo)
-  {
+  postSdo(sdo) {
     return AXIOS.post(
       SRVURL + SDO_ENDPOINT + sdo.md.id,
       sdo,
@@ -128,13 +121,13 @@ class RequestHandler
         }
       }
     )
-    .then(response => (response.status == 201) ? JSON.parse(response.config.data) : response.status)
-    .catch(error => {
-      throw {
-        'status': error.response.status, 
-        'text': error.response.statusText
-      }
-    });
+      .then(response => (response.status == 201) ? JSON.parse(response.config.data) : response.status)
+      .catch(error => {
+        throw {
+          'status': error.response.status,
+          'text': error.response.statusText
+        }
+      });
   }
 
   /**
@@ -142,8 +135,7 @@ class RequestHandler
    * @issue Api currently not returning created sdo object from backend, for now use given data in return
    * @returns {Promise}
    */
-  putSdo(id, sdo)
-  {
+  putSdo(id, sdo) {
     return AXIOS.put(
       SRVURL + SDO_ENDPOINT + id,
       sdo,
@@ -154,13 +146,13 @@ class RequestHandler
         }
       }
     )
-    .then(response => sdo)
-    .catch(error => {
-      throw {
-        'status': error.response.status, 
-        'text': error.response.statusText
-      }
-    });
+      .then(response => sdo)
+      .catch(error => {
+        throw {
+          'status': error.response.status,
+          'text': error.response.statusText
+        }
+      });
   }
 
   /**
@@ -168,8 +160,7 @@ class RequestHandler
    * @issue Api currently not returning deleted id from backend, for now use given data in return
    * @returns {Promise}
    */
-  deleteSdo(id)
-  {
+  deleteSdo(id) {
     return AXIOS.delete(
       SRVURL + SDO_DELETE_ENDPOINT + id,
       {
@@ -179,22 +170,21 @@ class RequestHandler
         }
       }
     )
-    .then(response => id)
-    .catch(error => {
-      throw {
-        'status': error.response.status, 
-        'text': error.response.statusText
-      }
-    });
+      .then(response => id)
+      .catch(error => {
+        throw {
+          'status': error.response.status,
+          'text': error.response.statusText
+        }
+      });
   }
 
   /**
    * Encode get params
    * @param {Object} options 
    */
-  urlEncodeOptions(options)
-  {
-    return Object.keys(options).map(function(k) {
+  urlEncodeOptions(options) {
+    return Object.keys(options).map(function (k) {
       return encodeURIComponent(k) + "=" + encodeURIComponent(options[k]);
     }).join('&');
   }

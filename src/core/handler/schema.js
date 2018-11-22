@@ -1,12 +1,10 @@
 'use-strict';
 
-class SchemaHandler
-{
+class SchemaHandler {
   /**
    * Consturctor
    */
-  constructor(title, properties, options) 
-  {
+  constructor(title, properties, options) {
     this.title = title;
     this.properties = properties;
     this.options = options;
@@ -36,8 +34,8 @@ class SchemaHandler
             },
             "eId": {
               "type": [
-                  "string",
-                  "null"
+                "string",
+                "null"
               ]
             },
             "sId": {
@@ -78,16 +76,15 @@ class SchemaHandler
       },
       "required": options.required
     };
-    
-    if(this.properties !== undefined) Object.assign(this.schema.properties, properties);
+
+    if (this.properties !== undefined) Object.assign(this.schema.properties, properties);
   }
 
   /**
    * Get class
    * @returns {Object}
    */
-  getClass()
-  {
+  getClass() {
     return this;
   }
 
@@ -95,8 +92,7 @@ class SchemaHandler
    * Set schema
    * @param {Object}
    */
-  set schema(schema) 
-  {
+  set schema(schema) {
     this._schema = schema;
   }
 
@@ -104,8 +100,7 @@ class SchemaHandler
    * Get schema
    * @returns {Object}
    */
-  get schema()
-  {
+  get schema() {
     return this._schema;
   }
 
@@ -113,8 +108,7 @@ class SchemaHandler
    * Set sId
    * @param {String}
    */
-  set sId(sId) 
-  {
+  set sId(sId) {
     this._sId = sId;
   }
 
@@ -122,8 +116,7 @@ class SchemaHandler
    * Get sId
    * @returns {String}
    */
-  get sId()
-  {
+  get sId() {
     return this._sId;
   }
 
@@ -131,8 +124,7 @@ class SchemaHandler
    * Set oId
    * @param {String}
    */
-  set oId(oId) 
-  {
+  set oId(oId) {
     this._oId = oId;
   }
 
@@ -140,8 +132,7 @@ class SchemaHandler
    * Get oId
    * @return {String}
    */
-  get oId()
-  {
+  get oId() {
     return this._oId;
   }
 
@@ -149,8 +140,7 @@ class SchemaHandler
    * Set r
    * @param {Integer}
    */
-  set r(r) 
-  {
+  set r(r) {
     this._r = r;
   }
 
@@ -158,8 +148,7 @@ class SchemaHandler
    * Get r
    * @returns {Integer}
    */
-  get r()
-  {
+  get r() {
     return this._r;
   }
 
@@ -167,8 +156,7 @@ class SchemaHandler
    * Set title
    * @param {String}
    */
-  set title(title) 
-  {
+  set title(title) {
     this._title = title;
   }
 
@@ -176,8 +164,7 @@ class SchemaHandler
    * Get title
    * @returns {String}
    */
-  get title()
-  {
+  get title() {
     return this._title;
   }
 
@@ -185,8 +172,7 @@ class SchemaHandler
    * Set properties
    * @param {Object}
    */
-  set properties(properties) 
-  {
+  set properties(properties) {
     this._properties = properties;
   }
 
@@ -194,8 +180,7 @@ class SchemaHandler
    * Get properties
    * @returns {Object}
    */
-  get properties()
-  {
+  get properties() {
     return this._properties;
   }
 
@@ -203,8 +188,7 @@ class SchemaHandler
    * Set options
    * @param {Object}
    */
-  set options(options) 
-  {
+  set options(options) {
     this._options = options;
   }
 
@@ -212,8 +196,7 @@ class SchemaHandler
    * Get options
    * @returns {Object}
    */
-  get options()
-  {
+  get options() {
     return this._options;
   }
 

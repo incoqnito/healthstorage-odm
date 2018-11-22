@@ -12,16 +12,14 @@ const META_ID = 'id';
 const META_REVISION = 'r';
 const META_DATE = 'tsp';
 
-class Model
-{
+class Model {
   /**
    * Consturctor
    * @param {String} title 
    * @param {Object} properties 
    * @param {Object} options 
    */
-  constructor(title, properties, options)
-  {
+  constructor(title, properties, options) {
     this.schema = new SchemaHandler(title, properties, options);
 
     ValidationHandler.validateSchema(this.schema.schema);
@@ -41,8 +39,7 @@ class Model
    * Return asc type field
    * @returns  {String}
    */
-  get ASC() 
-  {
+  get ASC() {
     return ASC;
   }
 
@@ -50,8 +47,7 @@ class Model
    * Return desc type field
    * @returns  {String}
    */
-  get DESC() 
-  {
+  get DESC() {
     return DESC;
   }
 
@@ -59,8 +55,7 @@ class Model
    * Return meta id type field
    * @returns  {String}
    */
-  get META_ID() 
-  {
+  get META_ID() {
     return META_ID;
   }
 
@@ -68,8 +63,7 @@ class Model
    * Return meta revision type field
    * @returns  {String}
    */
-  get META_REVISION() 
-  {
+  get META_REVISION() {
     return META_REVISION;
   }
 
@@ -77,26 +71,23 @@ class Model
    * Return meta revision type field
    * @returns  {String}
    */
-  get META_DATE() 
-  {
+  get META_DATE() {
     return META_DATE;
   }
 
-  findMetaField(key) 
-  {
+  findMetaField(key) {
     var value = "";
 
-    switch(key) 
-    {
+    switch (key) {
       case 'id':
         value = this.META_ID;
-      break;
+        break;
       case 'r':
         value = this.META_REVISION;
-      break;
+        break;
       case 'tsp':
         value = this.META_DATE;
-      break;
+        break;
     }
 
     return value;
@@ -106,8 +97,7 @@ class Model
    * Set schema property
    * @returns {String}
    */
-  set schema(schema)
-  {
+  set schema(schema) {
     this._schema = schema;
   }
 
@@ -115,8 +105,7 @@ class Model
    * Get schema property
    * @returns {String}
    */
-  get schema()
-  {
+  get schema() {
     return this._schema;
   }
 
@@ -124,8 +113,7 @@ class Model
    * Get title property
    * @returns {String}
    */
-  get title()
-  {
+  get title() {
     return this._title;
   }
 
@@ -133,8 +121,7 @@ class Model
    * Set title property
    * @param {String} title
    */
-  set title(title)
-  {
+  set title(title) {
     this._title = title;
   }
 
@@ -142,8 +129,7 @@ class Model
    * Get properties property
    * @returns {String}
    */
-  get properties()
-  {
+  get properties() {
     return this._properties;
   }
 
@@ -151,8 +137,7 @@ class Model
    * Set properties property
    * @param {String} properties
    */
-  set properties(properties)
-  {
+  set properties(properties) {
     this._properties = properties;
   }
 
@@ -160,8 +145,7 @@ class Model
    * Get options property
    * @returns {String}
    */
-  get options()
-  {
+  get options() {
     return this._options;
   }
 
@@ -169,8 +153,7 @@ class Model
    * Set options property
    * @param {String} options
    */
-  set options(options)
-  {
+  set options(options) {
     this._options = options;
   }
 
@@ -178,8 +161,7 @@ class Model
    * Create a uuid 
    * @returns {String}
    */
-  uuid() 
-  {
+  uuid() {
     var i, random;
     var uuid = '';
 
@@ -200,13 +182,12 @@ class Model
    * 
    * @todo Implement meta data
    */
-  create(data)
-  {
+  create(data) {
     var md = this.md;
     md.id = this.uuid();
     md.tsp = new Date().toISOString();
 
-    data = Object.assign(data, {md: md});
+    data = Object.assign(data, { md: md });
 
     ValidationHandler.validateProperties(this.schema.schema, data);
 
@@ -218,10 +199,9 @@ class Model
    * @param {String} id 
    * @param {Object} data 
    */
-  updateById(id, data)
-  {
+  updateById(id, data) {
     data.md.r += 1;
-    
+
     ValidationHandler.validateProperties(this.schema.schema, data);
 
     return RequestHandler.putSdo(id, data);
@@ -232,8 +212,7 @@ class Model
    * @param {String} id 
    * @param {Object} data 
    */
-  delete(id)
-  {
+  deleteById(id) {
     return RequestHandler.deleteSdo(id);
   }
 
@@ -244,8 +223,7 @@ class Model
    * 
    * @todo Implement options
    */
-  findAll(options)
-  {
+  findAll(options) {
     return RequestHandler.getSdos(this.schema.options.oId, this.schema.options.id, options);
   }
 
@@ -254,8 +232,7 @@ class Model
    * @param {String} id 
    * @returns {Promise}
    */
-  findById(id)
-  {
+  findById(id) {
     return RequestHandler.getSdo(id);
   }
 }

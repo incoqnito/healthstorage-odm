@@ -2,13 +2,11 @@
 
 const AJV = require('ajv');
 
-class ValidationHandler
-{
+class ValidationHandler {
   /**
    * Consturctor
    */
-  constructor() 
-  {
+  constructor() {
     this.ajv = this.AJV;
   }
 
@@ -16,8 +14,7 @@ class ValidationHandler
    * Get class
    * @returns {Object}
    */
-  getClass()
-  {
+  getClass() {
     return this;
   }
 
@@ -25,8 +22,7 @@ class ValidationHandler
    * AJV instance
    * @returns {Object}
    */
-  get AJV()
-  {
+  get AJV() {
     var ajv = AJV;
     return new ajv();
   }
@@ -36,15 +32,14 @@ class ValidationHandler
    * @param {Object} schema
    * @returns {Boolean}
    */
-  validateSchema(schema)
-  {
+  validateSchema(schema) {
     var validated = this.ajv.compile(schema);
 
-    if((validated.errors === undefined || validated.errors === null)) {
+    if ((validated.errors === undefined || validated.errors === null)) {
       return true;
     } else {
-      throw  {
-        'status': 400, 
+      throw {
+        'status': 400,
         'text': "Schema could not be compiled."
       };
     }
@@ -55,14 +50,13 @@ class ValidationHandler
    * @param {Object} schema
    * @returns {Boolean}
    */
-  validateProperties(schema, properties)
-  {
+  validateProperties(schema, properties) {
     var validated = this.ajv.validate(schema, properties);
-    if((validated)) {
+    if ((validated)) {
       return true;
     } else {
       throw {
-        'status': 400, 
+        'status': 400,
         'text': "Properties could not validated against given schema"
       };
     }
