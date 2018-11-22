@@ -204,7 +204,7 @@ Open console in healthstorage-odm package and move to ````./src/example/```. Typ
 
 Important: First install all dependencies.
 
-Open console healthstorage-odem package and move to ````./src/example/```. Type in ```npm start``` to run webpack.
+Open console healthstorage-odem package and move to ```./src/example/```. Type in ```npm start``` to run webpack.
 After successfully created the files move to the link shown in console (eg. http://localhost:8080, http://localhost:8081, http://localhost:8082, ...)
 
 Enjoy.
