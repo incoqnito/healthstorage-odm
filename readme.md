@@ -8,7 +8,7 @@ List coming soon.
 
 ## Installing
 
-First install [node.js] (https://nodejs.org/en/).
+First install [node.js](https://nodejs.org/en/).
 
 ```
 npm install healthstorage-odm
@@ -198,7 +198,7 @@ const updatedSdos = SampleSchema.archive({
 
 ### Install npm-packages
 
-Open console healthstorage-odem package and move to ````./src/example/```. Type in ```npm install``` and install dependencies. 
+Open console healthstorage-odm package and move to ````./src/example/```. Type in ```npm install``` and install dependencies. 
 
 ### Run app
 
