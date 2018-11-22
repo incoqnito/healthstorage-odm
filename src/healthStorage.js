@@ -7,7 +7,7 @@ const NUMBER = "number";
 const INTEGER = "integer";
 const BOOLEAN = "boolean";
 
-class HealthStorage {
+class HealthStorageODM {
   /**
    * Define function 
    * @param {String} name Title of the SDO
@@ -50,4 +50,4 @@ class HealthStorage {
   }
 }
 
-export default HealthStorage;
+export default HealthStorageODM;

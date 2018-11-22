@@ -1,13 +1,13 @@
-import HealthStorage from '../../../../../src/healthStorage'
+import HealthStorageODM from '../../../../../src/healthStorage'
 
-export default HealthStorage.define(
+export default HealthStorageODM.define(
   'TodoSchema',
   {
     title: {
-      type: HealthStorage.STRING
+      type: HealthStorageODM.STRING
     },
     isCompleted: {
-      type: HealthStorage.BOOLEAN
+      type: HealthStorageODM.BOOLEAN
     }
   },
   {
