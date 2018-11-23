@@ -167,7 +167,7 @@ export class Application extends React.Component {
       this.setState({
         error: undefined
       });
-    }, 3000);
+    }, 6500);
   }
 
   /**

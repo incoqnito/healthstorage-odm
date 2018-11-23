@@ -35,7 +35,6 @@ class SchemaHandler {
     this.props.id = options.id;
     this.props.oId = options.oId;
     this.props.r = options.r;
-
     this.initSchema(title, properties, options);
   }
 
