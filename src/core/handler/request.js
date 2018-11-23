@@ -73,7 +73,7 @@ class RequestHandler {
    * Get Sdos for given Schema 
    * @returns {Promise}
    */
-  getSdos(oId, id, params) {
+  getSdoByIds(oId, id, params) {
     var params = (params !== undefined) ? "?" + this.urlEncodeOptions(params) : "";
 
     return AXIOS.get(
@@ -92,7 +92,7 @@ class RequestHandler {
    * Get Sdos for given Schema 
    * @returns {Promise}
    */
-  getSdo(id) {
+  getSdoById(id) {
     return AXIOS.get(
       SRVURL + SDO_ENDPOINT + id + "/"
     )
@@ -135,7 +135,7 @@ class RequestHandler {
    * @issue Api currently not returning created sdo object from backend, for now use given data in return
    * @returns {Promise}
    */
-  putSdo(id, sdo) {
+  putSdoById(id, sdo) {
     return AXIOS.put(
       SRVURL + SDO_ENDPOINT + id,
       sdo,
@@ -160,7 +160,7 @@ class RequestHandler {
    * @issue Api currently not returning deleted id from backend, for now use given data in return
    * @returns {Promise}
    */
-  deleteSdo(id) {
+  deleteSdoById(id) {
     return AXIOS.delete(
       SRVURL + SDO_DELETE_ENDPOINT + id,
       {
@@ -172,6 +172,7 @@ class RequestHandler {
     )
       .then(response => id)
       .catch(error => {
+        console.log(error);
         throw {
           'status': error.response.status,
           'text': error.response.statusText

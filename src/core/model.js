@@ -1,7 +1,6 @@
 
 'use-strict';
 
-import uuid from 'uuid/v4';
 import SchemaHandler from "./handler/schema";
 import RequestHandler from "./handler/request";
 import ValidationHandler from "./handler/validation";
@@ -20,19 +19,9 @@ class Model {
    * @param {Object} options 
    */
   constructor(title, properties, options) {
-    this.schema = new SchemaHandler(title, properties, options);
-
-    ValidationHandler.validateSchema(this.schema.schema);
-
-    this.md = {
-      id: '',
-      r: 1,
-      eId: '',
-      sId: this.schema.options.id,
-      sr: 1,
-      oId: this.schema.options.oId,
-      tsp: ''
-    }
+    this.schemaHandler = new SchemaHandler(title, properties, options);
+    this.schema = this.schemaHandler.schema;
+    ValidationHandler.validateSchema(this.schema);
   }
 
   /**
@@ -94,15 +83,7 @@ class Model {
   }
 
   /**
-   * Set schema property
-   * @returns {String}
-   */
-  set schema(schema) {
-    this._schema = schema;
-  }
-
-  /**
-   * Get schema property
+   * Get schema
    * @returns {String}
    */
   get schema() {
@@ -110,19 +91,11 @@ class Model {
   }
 
   /**
-   * Get title property
-   * @returns {String}
+   * Set schema property
+   * @param {String} schema
    */
-  get title() {
-    return this._title;
-  }
-
-  /**
-   * Set title property
-   * @param {String} title
-   */
-  set title(title) {
-    this._title = title;
+  set schema(schema) {
+    this._schema = schema;
   }
 
   /**
@@ -158,24 +131,6 @@ class Model {
   }
 
   /**
-   * Create a uuid 
-   * @returns {String}
-   */
-  uuid() {
-    var i, random;
-    var uuid = '';
-
-    for (i = 0; i < 32; i++) {
-      random = Math.random() * 16 | 0;
-      if (i === 8 || i === 12 || i === 16 || i === 20) {
-        uuid += '-';
-      }
-      uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
-    }
-    return uuid;
-  }
-
-  /**
    * Create a new sdo for given schema 
    * @param {Object} data 
    * @returns {Promise}
@@ -183,14 +138,8 @@ class Model {
    * @todo Implement meta data
    */
   create(data) {
-    var md = this.md;
-    md.id = this.uuid();
-    md.tsp = new Date().toISOString();
-
-    data = Object.assign(data, { md: md });
-
-    ValidationHandler.validateProperties(this.schema.schema, data);
-
+    data = Object.assign(data, {md: this.schemaHandler.generateMd()});
+    ValidationHandler.validateProperties(this.schema, data);
     return RequestHandler.postSdo(data);
   }
 
@@ -201,10 +150,8 @@ class Model {
    */
   updateById(id, data) {
     data.md.r += 1;
-
-    ValidationHandler.validateProperties(this.schema.schema, data);
-
-    return RequestHandler.putSdo(id, data);
+    ValidationHandler.validateProperties(this.schema, data);
+    return RequestHandler.putSdoById(id, data);
   }
 
   /**
@@ -213,7 +160,7 @@ class Model {
    * @param {Object} data 
    */
   deleteById(id) {
-    return RequestHandler.deleteSdo(id);
+    return RequestHandler.deleteSdoById(id);
   }
 
   /**
@@ -224,7 +171,7 @@ class Model {
    * @todo Implement options
    */
   findAll(options) {
-    return RequestHandler.getSdos(this.schema.options.oId, this.schema.options.id, options);
+    return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options);
   }
 
   /**
@@ -233,7 +180,7 @@ class Model {
    * @returns {Promise}
    */
   findById(id) {
-    return RequestHandler.getSdo(id);
+    return RequestHandler.getSdoById(id);
   }
 }
 
