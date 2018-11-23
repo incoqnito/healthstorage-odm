@@ -15,16 +15,6 @@ const DOUBLE = "double";
 const BOOLEAN = "boolean";
 const FORMAT_DATE = "date-time";
 
-const MD = {
-  id: '',
-  r: 0,
-  eId: '',
-  sId: '',
-  sr: 0,
-  oId: '',
-  tsp: ''
-}
-
 class SchemaHandler {
   /**
    * Consturctor
@@ -249,14 +239,6 @@ class SchemaHandler {
   }
 
   /**
-   * Get md meta field
-   * @returns {String}
-   */
-  get MD() {
-    return MD;
-  }
-
-  /**
    * Get deep value from object path
    * @returns {MixedResult}
    */
@@ -273,14 +255,35 @@ class SchemaHandler {
    * @returns {Object}
    */
   generateMd() {
-    var md = this.MD;
-    md.id = uuid();
-    md.r = 1;
-    md.eId = '';
-    md.sId = this.id;
-    md.sr = this.r;
-    md.oId = this.oId;
-    md.tsp = new Date().toISOString();
+
+    var metaFromSchema = this.deepValue('definitions.MetadataSdo.properties');
+    var md = {};
+
+    for(var key in metaFromSchema) {
+      switch(key) {
+        case 'id':
+          md[key] = uuid();
+        break;  
+        case 'r':
+          md[key] = 1;
+        break;   
+        case 'sId':
+          md[key] = this.id;
+        break;  
+        case 'sr':
+          md[key] = 1;
+        break;  
+        case 'oId':
+          md[key] = this.oId;
+        break;  
+        case 'tsp':
+          md[key] = new Date().toISOString();        
+        break;  
+        default:
+          md[key] = '';
+        break;
+      }
+    }
 
     return md;
   }
