@@ -115,22 +115,6 @@ class Model {
   }
 
   /**
-   * Get options property
-   * @returns {String}
-   */
-  get options() {
-    return this._options;
-  }
-
-  /**
-   * Set options property
-   * @param {String} options
-   */
-  set options(options) {
-    this._options = options;
-  }
-
-  /**
    * Create a new sdo for given schema 
    * @param {Object} data 
    * @returns {Promise}
