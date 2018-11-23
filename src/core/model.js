@@ -138,7 +138,7 @@ class Model {
    * @todo Implement meta data
    */
   create(data) {
-    data = Object.assign(data, {md: this.schemaHandler.generateMd()});
+    data = Object.assign(data, { md: this.schemaHandler.generateMd() });
     ValidationHandler.validateProperties(this.schema, data);
     return RequestHandler.postSdo(data);
   }

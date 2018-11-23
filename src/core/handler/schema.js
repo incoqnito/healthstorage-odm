@@ -259,29 +259,29 @@ class SchemaHandler {
     var metaFromSchema = this.deepValue('definitions.MetadataSdo.properties');
     var md = {};
 
-    for(var key in metaFromSchema) {
-      switch(key) {
+    for (var key in metaFromSchema) {
+      switch (key) {
         case 'id':
           md[key] = uuid();
-        break;  
+          break;
         case 'r':
           md[key] = 1;
-        break;   
+          break;
         case 'sId':
           md[key] = this.id;
-        break;  
+          break;
         case 'sr':
           md[key] = 1;
-        break;  
+          break;
         case 'oId':
           md[key] = this.oId;
-        break;  
+          break;
         case 'tsp':
-          md[key] = new Date().toISOString();        
-        break;  
+          md[key] = new Date().toISOString();
+          break;
         default:
           md[key] = '';
-        break;
+          break;
       }
     }
 
