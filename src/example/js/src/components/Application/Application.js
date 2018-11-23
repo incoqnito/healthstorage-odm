@@ -144,7 +144,7 @@ export class Application extends React.Component {
    */
   async onDeleteTodo(todo) {
     try {
-      var deletedTodoId = await Todo.delete(todo.md.id)
+      var deletedTodoId = await Todo.deleteById(todo.md.id)
       this.setState({
         todos: this.state.todos.filter(t => t.md.id !== deletedTodoId)
       });

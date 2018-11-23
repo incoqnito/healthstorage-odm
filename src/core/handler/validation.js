@@ -55,9 +55,10 @@ class ValidationHandler {
     if ((validated)) {
       return true;
     } else {
+      var errors = this.ajv.errors[0];
       throw {
-        'status': 400,
-        'text': "Properties could not validated against given schema"
+        'status': errors.dataPath + "." + errors.keyword,
+        'text': errors.message
       };
     }
   }
