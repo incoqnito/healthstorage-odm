@@ -135,7 +135,9 @@ class Model {
   updateById(id, data) {
     data.md.r += 1;
     ValidationHandler.validateProperties(this.schema, data);
-    return RequestHandler.putSdoById(id, data);
+    return RequestHandler.putSdoById(id, data).then(sdo => {
+      return new HsObject(sdo);
+    });
   }
 
   /**
@@ -162,8 +164,6 @@ class Model {
       } 
       return list;
     });
-  
-    return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options);
   }
 
   /**
@@ -172,7 +172,9 @@ class Model {
    * @returns {Promise}
    */
   findById(id) {
-    return RequestHandler.getSdoById(id);
+    return RequestHandler.getSdoById(id).then(sdo => {
+      return new HsObject(sdo);
+    });
   }
 }
 
