@@ -1,9 +1,8 @@
 
-'use-strict';
-
 import SchemaHandler from "./handler/schema";
 import RequestHandler from "./handler/request";
 import ValidationHandler from "./handler/validation";
+import HsObject from "./hsObject";
 
 const ASC = "Ascending";
 const DESC = "Descending";
@@ -119,12 +118,13 @@ class Model {
    * @param {Object} data 
    * @returns {Promise}
    * 
-   * @todo Implement meta data
    */
   create(data) {
     data = Object.assign(data, { md: this.schemaHandler.generateMd() });
     ValidationHandler.validateProperties(this.schema, data);
-    return RequestHandler.postSdo(data);
+    return RequestHandler.postSdo(data).then(sdo => {
+      return new HsObject(sdo);
+    });
   }
 
   /**
@@ -155,6 +155,14 @@ class Model {
    * @todo Implement options
    */
   findAll(options) {
+    return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options).then(response => {
+      var list = [];
+      for(var sdo in response) {
+        list.push(new HsObject(response[sdo]));
+      } 
+      return list;
+    });
+  
     return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options);
   }
 

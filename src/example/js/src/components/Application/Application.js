@@ -44,7 +44,7 @@ export class Application extends React.Component {
       orderBy: this.state.orderBy,
       orderByDirection: this.state.orderByDirection,
     });
-
+    console.log(todos)
     this.setState({
       todos
     })
@@ -103,7 +103,6 @@ export class Application extends React.Component {
    */
   async onAddTodo({ ...attrs }) {
     var todo = await Todo.create(attrs)
-
     this.setState({
       todos: [todo, ...this.state.todos]
     })

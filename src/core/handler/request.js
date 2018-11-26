@@ -1,5 +1,3 @@
-'use-strict';
-
 const AXIOS = require("axios");
 const SRVURL = "http://localhost:8080/";
 
@@ -172,7 +170,6 @@ class RequestHandler {
     )
       .then(response => id)
       .catch(error => {
-        console.log(error);
         throw {
           'status': error.response.status,
           'text': error.response.statusText

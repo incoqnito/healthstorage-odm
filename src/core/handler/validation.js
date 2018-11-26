@@ -1,5 +1,3 @@
-'use-strict';
-
 const AJV = require('ajv');
 
 class ValidationHandler {
@@ -51,8 +49,6 @@ class ValidationHandler {
    * @returns {Boolean}
    */
   validateProperties(schema, properties) {
-    console.log(schema)
-    console.log(properties)
     var validated = this.ajv.validate(schema, properties);
 
     if ((validated)) {

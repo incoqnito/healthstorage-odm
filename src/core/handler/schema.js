@@ -1,5 +1,3 @@
-'use-strict';
-
 import uuid from 'uuid/v4';
 
 const SCHEMA_DRAFT = "http://json-schema.org/draft-07/schema#";

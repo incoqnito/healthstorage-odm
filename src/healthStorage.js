@@ -1,5 +1,3 @@
-'use-strict';
-
 import Model from "./core/model";
 
 const STRING = "string";
