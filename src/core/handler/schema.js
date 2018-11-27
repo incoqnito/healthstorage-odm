@@ -1,4 +1,5 @@
 import uuid from 'uuid/v4';
+import Helper from './../lib/helper';
 
 const SCHEMA_DRAFT = "http://json-schema.org/draft-07/schema#";
 const UUID_PATTERN = "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$";
@@ -237,24 +238,12 @@ class SchemaHandler {
   }
 
   /**
-   * Get deep value from object path
-   * @returns {MixedResult}
-   */
-  deepValue(path) {
-    var object = this.schema;
-    for (var i = 0, path = path.split('.'), len = path.length; i < len; i++) {
-      object = object[path[i]];
-    };
-    return object;
-  };
-
-  /**
    * Generate MD for creation on the fly
    * @returns {Object}
    */
   generateMd() {
 
-    var metaFromSchema = this.deepValue('definitions.MetadataSdo.properties');
+    var metaFromSchema = Helper.findValueByPath(this.schema, 'definitions.MetadataSdo.properties');
     var md = {};
 
     for (var key in metaFromSchema) {

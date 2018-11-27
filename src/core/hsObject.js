@@ -1,3 +1,6 @@
+import RequestHandler from './handler/request';
+import Helper from './lib/helper';
+
 class HsObject
 {
   /**
@@ -20,12 +23,19 @@ class HsObject
     }
   }
 
+  /**
+   * Destroy sdo object
+   * @returns 
+   */
   destroy() {
-    // destroy
+    return RequestHandler.deleteSdoById(this.md.id);
   }
 
-  update() {
-    // update
+  update(updatedSdo) {
+    console.log(updatedSdo)
+    // return RequestHandler.putSdoById(id, updatedSdo).then(sdo => {
+    //   return new HsObject(sdo);
+    // });
   }
 }
 export default HsObject;

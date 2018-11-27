@@ -44,7 +44,6 @@ export class Application extends React.Component {
       orderBy: this.state.orderBy,
       orderByDirection: this.state.orderByDirection,
     });
-    console.log(todos)
     this.setState({
       todos
     })
@@ -112,16 +111,14 @@ export class Application extends React.Component {
    * Async toggle state
    * @param {Object}  
    */
-  async onToggleTodo({ md, ...attrs }) {
+  async onToggleTodo(todo) {
     try {
-      const changedTodo = await Todo.updateById(md.id, {
-        ...attrs,
-        md,
-        isCompleted: !attrs.isCompleted
-      })
-      this.setState({
-        todos: this.state.todos.map(todo => todo.md.id !== md.id ? todo : changedTodo)
-      })
+      todo.isCompleted = !todo.isCompleted;
+      const changedTodo = await todo.update();
+      
+      // this.setState({
+      //   todos: this.state.todos.map(todo => todo.md.id !== md.id ? todo : changedTodo)
+      // })
     } catch (error) {
       this.toggleErrorAlert(error);
     }
@@ -143,9 +140,9 @@ export class Application extends React.Component {
    */
   async onDeleteTodo(todo) {
     try {
-      var deletedTodoId = await Todo.deleteById(todo.md.id)
+      todo.destroy();
       this.setState({
-        todos: this.state.todos.filter(t => t.md.id !== deletedTodoId)
+        todos: this.state.todos.filter(t => t.id !== deletedTodoId)
       });
 
     } catch (error) {
