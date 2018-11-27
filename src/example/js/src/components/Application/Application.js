@@ -97,11 +97,11 @@ export class Application extends React.Component {
 
   /**
    * Async add todo
-   * @bug md.id is on create the same for all elements
    * @param {Object}  
    */
   async onAddTodo({ ...attrs }) {
     var todo = await Todo.create(attrs)
+
     this.setState({
       todos: [todo, ...this.state.todos]
     })
@@ -109,16 +109,19 @@ export class Application extends React.Component {
 
   /**
    * Async toggle state
+   * @bug its updateing every entry in array
    * @param {Object}  
    */
   async onToggleTodo(todo) {
     try {
+
       todo.isCompleted = !todo.isCompleted;
-      const changedTodo = await todo.update();
-      
-      // this.setState({
-      //   todos: this.state.todos.map(todo => todo.md.id !== md.id ? todo : changedTodo)
-      // })
+      const updatedTodo = await todo.update(todo);
+
+      this.setState({
+        todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? todo : updatedTodo)
+      });
+
     } catch (error) {
       this.toggleErrorAlert(error);
     }
@@ -142,7 +145,7 @@ export class Application extends React.Component {
     try {
       todo.destroy();
       this.setState({
-        todos: this.state.todos.filter(t => t.id !== deletedTodoId)
+        todos: this.state.todos.filter(t => t.id !== todo.id)
       });
 
     } catch (error) {
@@ -155,6 +158,12 @@ export class Application extends React.Component {
    * @param {Object}  
    */
   toggleErrorAlert(error) {
+
+    if(error.status === undefined) {
+      error.status = 500;
+      error.text = error.message;
+    }
+
     this.setState({
       error: error
     });

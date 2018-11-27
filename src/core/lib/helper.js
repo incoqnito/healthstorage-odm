@@ -6,7 +6,7 @@ class Helper {
    * @param {String} path 
    * @returns {MixedResult} 
    */
-  findValueByPath(obj, path) {
+  static findValueByPath(obj, path) {
     var object = obj;
     for (var i = 0, path = path.split('.'), len = path.length; i < len; i++) {
       object = object[path[i]];

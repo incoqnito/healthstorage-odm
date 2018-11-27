@@ -31,11 +31,14 @@ class HsObject
     return RequestHandler.deleteSdoById(this.md.id);
   }
 
-  update(updatedSdo) {
-    console.log(updatedSdo)
-    // return RequestHandler.putSdoById(id, updatedSdo).then(sdo => {
-    //   return new HsObject(sdo);
-    // });
+  /**
+   * Update sdo object
+   * @param {Object} sdo 
+   */
+  update(sdo) {
+    this.md.r += 1;
+    sdo.md.r = this.md.r;
+    return RequestHandler.putSdoById(this.md.id, sdo).then(sdo => new HsObject(sdo));
   }
 }
 export default HsObject;
