@@ -20,7 +20,8 @@ export class Application extends React.Component {
       todos: [],
       orderBy: Todo.META_DATE,
       orderByDirection: Todo.DESC,
-      error: undefined
+      error: undefined,
+      editing: false
     }
 
     this.onAddTodo = this.onAddTodo.bind(this)
@@ -34,6 +35,8 @@ export class Application extends React.Component {
     this.changeSortDESC = this.changeSortDESC.bind(this)
 
     this.changeSortField = this.changeSortField.bind(this)
+
+    this.onHandleEdit = this.onHandleEdit.bind(this)
   }
 
   /**
@@ -154,6 +157,17 @@ export class Application extends React.Component {
   }
 
   /**
+   * Handle edit
+   * @param {}  
+   */
+  onHandleEdit(todo) {
+    this.setState({
+      editing: todo.id
+    });
+    console.log(todo);
+  }
+
+  /**
    * Toggle error alert
    * @param {Object}  
    */
@@ -189,7 +203,9 @@ export class Application extends React.Component {
           onEditTodo={this.onEditTodo}
           onToggleTodo={this.onToggleTodo}
           onDeleteTodo={this.onDeleteTodo}
+          onHandleEdit={this.onHandleEdit}
           toggleErrorAlert={this.toggleErrorAlert}
+          editing={this.props.editing}
         />
         <FilterSort sorting={this.state.orderByDirection} changeSortField={this.changeSortField} changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC} />
       </div>

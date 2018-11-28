@@ -99,8 +99,10 @@ export class TodoList extends React.Component {
     return <TodoEntry
       key={todo.md.id}
       todo={todo}
+      editing={this.props.editing == todo.id}
       onDelete={this.props.onDeleteTodo}
       onToggle={this.props.onToggleTodo}
+      onHandleEdit={this.props.onHandleEdit}
       onEdit={this.props.onEditTodo}
       toggleErrorAlert={this.props.toggleErrorAlert}
     />
