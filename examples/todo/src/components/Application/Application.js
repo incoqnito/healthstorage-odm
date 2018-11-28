@@ -74,16 +74,14 @@ export class Application extends React.Component {
    * Async sorting
    */
   async changeSortASC () {
-    this.state.orderByDirection = Todo.ASC
-    this.refetchTodos()
+    this.setState({ orderByDirection: Todo.ASC }, () => this.refetchTodos())
   }
 
   /**
    * Async sorting
    */
   async changeSortDESC () {
-    this.state.orderByDirection = Todo.DESC
-    this.refetchTodos()
+    this.setState({ orderByDirection: Todo.DESC }, () => this.refetchTodos())
   }
 
   /**
@@ -93,8 +91,7 @@ export class Application extends React.Component {
     if (e.target.value !== undefined) {
       var sortField = Todo.findMetaField(e.target.value)
       if (sortField !== undefined && sortField !== '') {
-        this.state.orderBy = sortField
-        this.refetchTodos()
+        this.setState({ orderBy: sortField }, () => this.refetchTodos())
       }
     }
   }
@@ -220,10 +217,26 @@ export class Application extends React.Component {
             toggleErrorAlert={this.toggleErrorAlert}
             editing={this.state.editing}
           />
-          <FilterSort sorting={this.state.orderByDirection} changeSortField={this.changeSortField} changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC} />
+          {
+            showFilter
+              ? <FilterSort
+                sorting={this.state.orderByDirection}
+                changeSortField={this.changeSortField}
+                changeSortASC={this.changeSortASC}
+                changeSortDESC={this.changeSortDESC}
+              />
+              : null
+          }
         </div>
-        <ErrorAlert error={this.state.error} />
+        {
+          showAlert
+            ? <ErrorAlert error={this.state.error} />
+            : null
+        }
       </React.Fragment>
     )
   }
 }
+
+const showAlert = false
+const showFilter = false

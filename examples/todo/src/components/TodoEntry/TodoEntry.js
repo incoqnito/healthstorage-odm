@@ -52,11 +52,11 @@ export class TodoEntry extends React.PureComponent {
    * Handle edit
    */
   onEdit (e) {
-    if (e.which == ESC_KEY) {
+    if (e.which === ESC_KEY) {
       this.editText = this.props.todo.title
       this.props.onHandleEdit('')
     }
-    if (e.which == ENTER_KEY) {
+    if (e.which === ENTER_KEY) {
       this.props.todo.title = this.editText
       this.onEdit && this.props.onEdit(this.props.todo)
     }
@@ -87,7 +87,7 @@ export class TodoEntry extends React.PureComponent {
    * @returns {Component}
    */
   render () {
-    const className = classNames({ completed: this.props.todo.isCompleted, editing: this.props.editing})
+    const className = classNames({ completed: this.props.todo.isCompleted, editing: this.props.editing })
 
     return (
       <li className={className}>

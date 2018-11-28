@@ -21,7 +21,7 @@ class RequestHandler {
    * @returns {Object}
    */
   getSchemaBySid (sId) {
-    return axios.get(`${SRVURL}/${SDO_ENDPOINT}/${sId}`, {
+    return axios.get(`${SRVURL}/${SCHEMA_ENDPOINT}/${sId}`, {
       headers: {
         accept: 'application/schema+json',
         responseType: 'application/schema+json'
@@ -42,7 +42,7 @@ class RequestHandler {
    * @returns {Object}
    */
   getSchemaBySidr (sId, r) {
-    return axios.get(`${SRVURL}/${SDO_ENDPOINT}/${sId}/${r}`, {
+    return axios.get(`${SRVURL}/${SCHEMA_ENDPOINT}/${sId}/${r}`, {
       headers: {
         accept: 'application/schema+json',
         responseType: 'application/schema+json'
@@ -135,9 +135,9 @@ class RequestHandler {
    * @returns {Promise}
    */
   deleteSdoById (id) {
-    return axios.delete(`${SRVURL}/${SDO_ENDPOINT}/${id}`, {
+    return axios.delete(`${SRVURL}/${SDO_DELETE_ENDPOINT}/${id}`, {
       headers: {
-        'Content-Type': 'application/json'
+        responseType: 'application/json'
       }
     })
       .then(response => id)
