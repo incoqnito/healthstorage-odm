@@ -1,5 +1,4 @@
 class Helper {
-
   /**
    * Find deep value by path concat by dot 
    * @param {Object} obj 

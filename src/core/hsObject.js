@@ -7,8 +7,6 @@ class HsObject
    * @param {String} sdo 
    */
   constructor(sdo) {
-    this.destroy = this.destroy;
-    this.update = this.update;
     this.init(sdo);
   }
 
@@ -34,9 +32,23 @@ class HsObject
    * Update sdo object
    * @param {Object} sdo 
    */
-  update(sdo) {
-    sdo.md.r  += 1;
-    return RequestHandler.putSdoById(this.md.id, sdo).then(sdo => new HsObject(sdo));
+  update(updated) {
+    this.mergeFields(updated);
+    this.md.r  += 1;
+    return RequestHandler.putSdoById(this.md.id, this).then(sdo => new HsObject(sdo));
+  }
+
+  /**
+   * Merge object and field => value pairs
+   * @param {Object} merge
+   */
+  mergeFields(merge) {
+    if(merge === undefined) throw "Provide object to merge fields into.";
+    for(var field in merge) {
+      if(this[field] !== undefined) {
+        this[field] = merge[field];
+      }
+    }
   }
 }
 export default HsObject;

@@ -95,9 +95,9 @@ export class TodoList extends React.Component {
    * @param {String} key
    * @param {Object} todo
    */
-  renderTodo(todo, key) {
+  renderTodo(todo) {
     return <TodoEntry
-      key={key}
+      key={todo.md.id}
       todo={todo}
       onDelete={this.props.onDeleteTodo}
       onToggle={this.props.onToggleTodo}
