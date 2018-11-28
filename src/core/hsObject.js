@@ -1,5 +1,4 @@
 import RequestHandler from './handler/request';
-import Helper from './lib/helper';
 
 class HsObject
 {
@@ -36,8 +35,7 @@ class HsObject
    * @param {Object} sdo 
    */
   update(sdo) {
-    this.md.r += 1;
-    sdo.md.r = this.md.r;
+    sdo.md.r  += 1;
     return RequestHandler.putSdoById(this.md.id, sdo).then(sdo => new HsObject(sdo));
   }
 }
