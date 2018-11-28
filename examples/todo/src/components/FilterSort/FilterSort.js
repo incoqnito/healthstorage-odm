@@ -2,13 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 
 export class FilterSort extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const classNamesASC = classNames({ 'active': this.props.sorting == 'Ascending' });
-    const classNamesDESC = classNames({ 'active': this.props.sorting == 'Descending' });
+  render () {
+    const classNamesASC = classNames({ 'active': this.props.sorting === 'Ascending' })
+    const classNamesDESC = classNames({ 'active': this.props.sorting === 'Descending' })
 
     return (
       <div className="filter-section" >
@@ -36,8 +32,8 @@ export class FilterSort extends React.Component {
           </ul>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default FilterSort;
+export default FilterSort

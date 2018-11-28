@@ -10,7 +10,7 @@ export class TodoList extends React.Component {
    * Constructor
    * Define HS Model
    */
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -27,7 +27,7 @@ export class TodoList extends React.Component {
    * Handle input update
    * @param {Mixed} event
    */
-  onChange(event) {
+  onChange (event) {
     this.setState({
       value: event.target.value
     })
@@ -37,7 +37,7 @@ export class TodoList extends React.Component {
    * Add new todo
    * @param {Mixed} event
    */
-  onKeyDown(event) {
+  onKeyDown (event) {
     if (event.keyCode !== ENTER_KEY || event.target.value.trim() === '') {
       return false
     }
@@ -53,15 +53,15 @@ export class TodoList extends React.Component {
         value: ''
       })
     }).catch(error => {
-      this.props.toggleErrorAlert(error);
+      this.props.toggleErrorAlert(error)
     })
   }
 
-  /** 
+  /**
    * Render View
    * @returns {Component}
    */
-  render() {
+  render () {
     window.state = this.state
 
     return (
@@ -95,7 +95,7 @@ export class TodoList extends React.Component {
    * @param {String} key
    * @param {Object} todo
    */
-  renderTodo(todo) {
+  renderTodo (todo) {
     return <TodoEntry
       key={todo.md.id}
       todo={todo}

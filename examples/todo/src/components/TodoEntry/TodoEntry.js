@@ -1,15 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-import { ENTER_KEY } from '../../constants';
-import { ESC_KEY } from '../../constants';
+import { ENTER_KEY, ESC_KEY } from '../../constants'
 
 export class TodoEntry extends React.PureComponent {
   /**
    * Constructor
    * @param {Object} props
    */
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.onDelete = this.onDelete.bind(this)
@@ -18,46 +17,46 @@ export class TodoEntry extends React.PureComponent {
     this.onHandleEdit = this.onHandleEdit.bind(this)
     this.onClearEdit = this.onClearEdit.bind(this)
 
-    this.editText = this.props.todo.title;
+    this.editText = this.props.todo.title
   }
 
   /**
    * Delete todo
    */
-  onDelete() {
+  onDelete () {
     this.props.onDelete && this.props.onDelete(this.props.todo)
   }
 
   /**
    * Toggle state
    */
-  onToggle() {
+  onToggle () {
     this.props.onToggle && this.props.onToggle(this.props.todo)
   }
 
   /**
    * Handle edit
    */
-  onHandleEdit() {
+  onHandleEdit () {
     this.onHandleEdit && this.props.onHandleEdit(this.props.todo)
   }
- 
+
   /**
    * Handle edit
    */
-  onClearEdit() {
+  onClearEdit () {
     this.onClearEdit && this.props.onClearEdit(this.props.todo)
   }
 
   /**
    * Handle edit
    */
-  onEdit(e) {
-    if(e.which == ESC_KEY) {
+  onEdit (e) {
+    if (e.which == ESC_KEY) {
       this.editText = this.props.todo.title
       this.props.onHandleEdit('')
     }
-    if(e.which == ENTER_KEY) {
+    if (e.which == ENTER_KEY) {
       this.props.todo.title = this.editText
       this.onEdit && this.props.onEdit(this.props.todo)
     }
@@ -65,21 +64,21 @@ export class TodoEntry extends React.PureComponent {
 
   /**
    * Change edit text
-   * @param {Event} e 
+   * @param {Event} e
    */
-  onChangeTitle(e) {
-    this.editText = e.target.value;
+  onChangeTitle (e) {
+    this.editText = e.target.value
   }
 
   /**
    * Check if editing is on and focus node
-   * @param {Object} prevProps 
+   * @param {Object} prevProps
    */
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (!prevProps.editing && this.props.editing) {
-      var node = ReactDOM.findDOMNode(this.refs.editField);
-      node.focus();
-      node.setSelectionRange(node.value.length, node.value.length);
+      var node = ReactDOM.findDOMNode(this.refs.editField)
+      node.focus()
+      node.setSelectionRange(node.value.length, node.value.length)
     }
   }
 
@@ -87,7 +86,7 @@ export class TodoEntry extends React.PureComponent {
    * Render View
    * @returns {Component}
    */
-  render() {
+  render () {
     const className = classNames({ completed: this.props.todo.isCompleted, editing: this.props.editing})
 
     return (

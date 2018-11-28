@@ -11,9 +11,9 @@ import { FilterSort } from '../FilterSort/FilterSort'
 export class Application extends React.Component {
   /**
    * Constructor
-   * @param {Object} props 
+   * @param {Object} props
    */
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -43,11 +43,11 @@ export class Application extends React.Component {
   /**
    * Async mount
    */
-  async componentDidMount() {
+  async componentDidMount () {
     const todos = await Todo.findAll({
       orderBy: this.state.orderBy,
-      orderByDirection: this.state.orderByDirection,
-    });
+      orderByDirection: this.state.orderByDirection
+    })
     this.setState({
       todos
     })
@@ -56,54 +56,54 @@ export class Application extends React.Component {
   /**
    * Refetch
    */
-  async refetchTodos() {
+  async refetchTodos () {
     try {
       const todos = await Todo.findAll({
         orderBy: this.state.orderBy,
         orderByDirection: this.state.orderByDirection
-      });
+      })
       this.setState({
         todos: todos
-      });
+      })
     } catch (error) {
-      this.toggleErrorAlert(error);
+      this.toggleErrorAlert(error)
     }
   }
 
   /**
-   * Async sorting 
+   * Async sorting
    */
-  async changeSortASC() {
-    this.state.orderByDirection = Todo.ASC;
-    this.refetchTodos();
+  async changeSortASC () {
+    this.state.orderByDirection = Todo.ASC
+    this.refetchTodos()
   }
 
   /**
-   * Async sorting 
+   * Async sorting
    */
-  async changeSortDESC() {
-    this.state.orderByDirection = Todo.DESC;
-    this.refetchTodos();
+  async changeSortDESC () {
+    this.state.orderByDirection = Todo.DESC
+    this.refetchTodos()
   }
 
   /**
-   * Async  
+   * Async
    */
-  async changeSortField(e) {
+  async changeSortField (e) {
     if (e.target.value !== undefined) {
-      var sortField = Todo.findMetaField(e.target.value);
-      if (sortField !== undefined && sortField !== "") {
-        this.state.orderBy = sortField;
-        this.refetchTodos();
+      var sortField = Todo.findMetaField(e.target.value)
+      if (sortField !== undefined && sortField !== '') {
+        this.state.orderBy = sortField
+        this.refetchTodos()
       }
     }
   }
 
   /**
    * Async add todo
-   * @param {Object}  
+   * @param {Object}
    */
-  async onAddTodo({ ...attrs }) {
+  async onAddTodo ({ ...attrs }) {
     var todo = await Todo.create(attrs)
 
     this.setState({
@@ -114,118 +114,116 @@ export class Application extends React.Component {
   /**
    * Async toggle state
    * @bug its updateing every entry in array
-   * @param {Object}  
+   * @param {Object}
    */
-  async onToggleTodo(todo) {
+  async onToggleTodo (todo) {
     try {
-
-      todo.isCompleted = !todo.isCompleted;
-      const updatedTodo = await todo.update(todo);
+      todo.isCompleted = !todo.isCompleted
+      const updatedTodo = await todo.update(todo)
 
       this.setState({
         todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo)
-      });
-
+      })
     } catch (error) {
-      this.toggleErrorAlert(error);
+      this.toggleErrorAlert(error)
     }
   }
 
   /**
    * Async edit todo
-   * @param {Object}  
+   * @param {Object}
    */
-  async onEditTodo(todo) {
+  async onEditTodo (todo) {
     try {
-      const updatedTodo = await todo.update(todo);
+      const updatedTodo = await todo.update(todo)
       this.setState({
         todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo),
         editing: ''
-      });
+      })
     } catch (error) {
-      this.toggleErrorAlert(error);
+      this.toggleErrorAlert(error)
     }
   }
 
   /**
    * Async delete todo
-   * @param {Object}  
+   * @param {Object}
    */
-  async onDeleteTodo(todo) {
+  async onDeleteTodo (todo) {
     try {
-      todo.destroy();
+      todo.destroy()
       this.setState({
         todos: this.state.todos.filter(t => t.id !== todo.id)
-      });
-
+      })
     } catch (error) {
-      this.toggleErrorAlert(error);
+      this.toggleErrorAlert(error)
     }
   }
 
   /**
    * Handle edit
-   * @param {}  
+   * @param {}
    */
-  onHandleEdit(todo) {
+  onHandleEdit (todo) {
     this.setState({
       editing: (todo !== '') ? todo.md.id : ''
-    });
+    })
   }
 
   /**
    * Clear edit
-   * @param {}  
+   * @param {}
    */
-  onClearEdit() {
+  onClearEdit () {
     this.setState({
       editing: ''
-    });
+    })
   }
 
   /**
    * Toggle error alert
-   * @param {Object}  
+   * @param {Object}
    */
-  toggleErrorAlert(error) {
-
-    if(error.status === undefined) {
-      error.status = 500;
-      error.text = error.message;
+  toggleErrorAlert (error) {
+    if (error.status === undefined) {
+      error.status = 500
+      error.text = error.message
     }
 
     this.setState({
       error: error
-    });
+    })
 
     setTimeout(() => {
       this.setState({
         error: undefined
-      });
-    }, 6500);
+      })
+    }, 6500)
   }
 
   /**
    * Render View
    * @returns {Component}
    */
-  render() {
+  render () {
     return (
-      <div>
+      <React.Fragment>
+        <div class="todoapp">
+          <TodoList
+            todos={this.state.todos}
+            onAddTodo={this.onAddTodo}
+            onEditTodo={this.onEditTodo}
+            onToggleTodo={this.onToggleTodo}
+            onDeleteTodo={this.onDeleteTodo}
+            onHandleEdit={this.onHandleEdit}
+            onClearEdit={this.onClearEdit}
+            toggleErrorAlert={this.toggleErrorAlert}
+            editing={this.state.editing}
+          />
+          <FilterSort sorting={this.state.orderByDirection} changeSortField={this.changeSortField} changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC} />
+        </div>
         <ErrorAlert error={this.state.error} />
-        <TodoList
-          todos={this.state.todos}
-          onAddTodo={this.onAddTodo}
-          onEditTodo={this.onEditTodo}
-          onToggleTodo={this.onToggleTodo}
-          onDeleteTodo={this.onDeleteTodo}
-          onHandleEdit={this.onHandleEdit}
-          onClearEdit={this.onClearEdit}
-          toggleErrorAlert={this.toggleErrorAlert}
-          editing={this.state.editing}
-        />
-        <FilterSort sorting={this.state.orderByDirection} changeSortField={this.changeSortField} changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC} />
-      </div>
+      </React.Fragment>
     )
   }
 }

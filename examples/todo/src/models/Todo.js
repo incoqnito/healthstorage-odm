@@ -1,4 +1,4 @@
-import HealthStorageODM from '../../../../../../src/healthStorage'
+import HealthStorageODM from '../../../../src/healthStorage'
 
 export default HealthStorageODM.define(
   'TodoSchema',
