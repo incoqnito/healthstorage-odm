@@ -1,54 +1,56 @@
-import RequestHandler from './handler/request';
+import RequestHandler from './handler/request'
 
-class HsObject
-{
+class HsObject {
   /**
    * Consturctor
-   * @param {String} sdo 
+   * @param {String} sdo
    */
-  constructor(sdo) {
-    this.init(sdo);
+  constructor (sdo) {
+    this.init(sdo)
   }
 
   /**
    * Init properties
-   * @param {Promise} sdo 
+   * @param {Promise} sdo
    */
-  init(sdo) {
-    for(var field in sdo) {
-      this[field] = sdo[field];
+  init (sdo) {
+    for (var field in sdo) {
+      this[field] = sdo[field]
     }
   }
 
   /**
    * Destroy sdo object
-   * @returns 
+   * @returns
    */
-  destroy() {
-    return RequestHandler.deleteSdoById(this.md.id);
+  destroy () {
+    return RequestHandler.deleteSdoById(this.md.id)
   }
 
   /**
    * Update sdo object
-   * @param {Object} sdo 
+   * @param {Object} sdo
    */
-  update(updated) {
-    this.mergeFields(updated);
-    this.md.r  += 1;
-    return RequestHandler.putSdoById(this.md.id, this).then(sdo => new HsObject(sdo));
+  update (updated) {
+    this.mergeFields(updated)
+    this.md.r += 1
+    return RequestHandler.putSdoById(this.md.id, this).then(sdo => new HsObject(sdo))
   }
 
   /**
    * Merge object and field => value pairs
    * @param {Object} merge
    */
-  mergeFields(merge) {
-    if(merge === undefined) throw "Provide object to merge fields into.";
-    for(var field in merge) {
-      if(this[field] !== undefined) {
-        this[field] = merge[field];
+  mergeFields (merge) {
+    if (merge === undefined) {
+      throw new Error('Provide object to merge fields into')
+    }
+
+    for (var field in merge) {
+      if (this[field] !== undefined) {
+        this[field] = merge[field]
       }
     }
   }
 }
-export default HsObject;
+export default HsObject
