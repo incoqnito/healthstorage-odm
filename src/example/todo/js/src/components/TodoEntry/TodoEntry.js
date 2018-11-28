@@ -1,5 +1,8 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import classNames from 'classnames'
+import { ENTER_KEY } from '../../constants';
+import { ESC_KEY } from '../../constants';
 
 export class TodoEntry extends React.PureComponent {
   /**
@@ -11,7 +14,11 @@ export class TodoEntry extends React.PureComponent {
 
     this.onDelete = this.onDelete.bind(this)
     this.onToggle = this.onToggle.bind(this)
+    this.onEdit = this.onEdit.bind(this)
     this.onHandleEdit = this.onHandleEdit.bind(this)
+    this.onClearEdit = this.onClearEdit.bind(this)
+
+    this.editText = this.props.todo.title;
   }
 
   /**
@@ -32,14 +39,48 @@ export class TodoEntry extends React.PureComponent {
    * Handle edit
    */
   onHandleEdit() {
-    this.props.onHandleEdit(this.props.todo)
+    this.onHandleEdit && this.props.onHandleEdit(this.props.todo)
+  }
+ 
+  /**
+   * Handle edit
+   */
+  onClearEdit() {
+    this.onClearEdit && this.props.onClearEdit(this.props.todo)
   }
 
   /**
-   * Edit title
+   * Handle edit
    */
-  handleEdit() {
-    
+  onEdit(e) {
+    if(e.which == ESC_KEY) {
+      this.editText = this.props.todo.title
+      this.props.onHandleEdit('')
+    }
+    if(e.which == ENTER_KEY) {
+      this.props.todo.title = this.editText
+      this.onEdit && this.props.onEdit(this.props.todo)
+    }
+  }
+
+  /**
+   * Change edit text
+   * @param {Event} e 
+   */
+  onChangeTitle(e) {
+    this.editText = e.target.value;
+  }
+
+  /**
+   * Check if editing is on and focus node
+   * @param {Object} prevProps 
+   */
+  componentDidUpdate(prevProps) {
+    if (!prevProps.editing && this.props.editing) {
+      var node = ReactDOM.findDOMNode(this.refs.editField);
+      node.focus();
+      node.setSelectionRange(node.value.length, node.value.length);
+    }
   }
 
   /**
@@ -53,10 +94,10 @@ export class TodoEntry extends React.PureComponent {
       <li className={className}>
         <div className="view">
           <input className="toggle" type="checkbox" defaultChecked={this.props.todo.isCompleted} onChange={this.onToggle} />
-          <label onDoubleClick={this.handleEdit}>{this.props.todo.title}</label>
+          <label onDoubleClick={this.onHandleEdit}>{this.props.todo.title}</label>
           <button className="destroy" onClick={this.onDelete} />
         </div>
-        <input ref="editField" className="edit" defaultValue="Hiiii" />
+        <input ref="editField" className="edit" onBlur={this.onClearEdit} onKeyDown={this.onEdit} defaultValue={this.editText} onChange={this.onChangeTitle.bind(this)}/>
       </li>
     )
   }

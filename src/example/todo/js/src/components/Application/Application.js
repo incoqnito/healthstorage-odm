@@ -21,7 +21,7 @@ export class Application extends React.Component {
       orderBy: Todo.META_DATE,
       orderByDirection: Todo.DESC,
       error: undefined,
-      editing: false
+      editing: ''
     }
 
     this.onAddTodo = this.onAddTodo.bind(this)
@@ -37,6 +37,7 @@ export class Application extends React.Component {
     this.changeSortField = this.changeSortField.bind(this)
 
     this.onHandleEdit = this.onHandleEdit.bind(this)
+    this.onClearEdit = this.onClearEdit.bind(this)
   }
 
   /**
@@ -135,9 +136,15 @@ export class Application extends React.Component {
    * @param {Object}  
    */
   async onEditTodo(todo) {
-    this.setState({
-      todos: this.state.todos
-    });
+    try {
+      const updatedTodo = await todo.update(todo);
+      this.setState({
+        todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo),
+        editing: ''
+      });
+    } catch (error) {
+      this.toggleErrorAlert(error);
+    }
   }
 
   /**
@@ -162,9 +169,18 @@ export class Application extends React.Component {
    */
   onHandleEdit(todo) {
     this.setState({
-      editing: todo.id
+      editing: (todo !== '') ? todo.md.id : ''
     });
-    console.log(todo);
+  }
+
+  /**
+   * Clear edit
+   * @param {}  
+   */
+  onClearEdit() {
+    this.setState({
+      editing: ''
+    });
   }
 
   /**
@@ -204,8 +220,9 @@ export class Application extends React.Component {
           onToggleTodo={this.onToggleTodo}
           onDeleteTodo={this.onDeleteTodo}
           onHandleEdit={this.onHandleEdit}
+          onClearEdit={this.onClearEdit}
           toggleErrorAlert={this.toggleErrorAlert}
-          editing={this.props.editing}
+          editing={this.state.editing}
         />
         <FilterSort sorting={this.state.orderByDirection} changeSortField={this.changeSortField} changeSortASC={this.changeSortASC} changeSortDESC={this.changeSortDESC} />
       </div>
