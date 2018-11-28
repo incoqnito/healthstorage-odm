@@ -119,7 +119,7 @@ export class Application extends React.Component {
       const updatedTodo = await todo.update(todo);
 
       this.setState({
-        todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? todo : updatedTodo)
+        todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo)
       });
 
     } catch (error) {
