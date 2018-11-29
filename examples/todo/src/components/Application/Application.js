@@ -8,6 +8,7 @@ import { ErrorAlert } from '../Alert/ErrorAlert'
 
 import { FilterSort } from '../FilterSort/FilterSort'
 
+
 export class Application extends React.Component {
   /**
    * Constructor
@@ -21,7 +22,9 @@ export class Application extends React.Component {
       orderBy: Todo.META_DATE,
       orderByDirection: Todo.DESC,
       error: undefined,
-      editing: ''
+      editing: '',
+      startDate: new Date(),
+      endDate: new Date('2018-12-31')
     }
 
     this.onAddTodo = this.onAddTodo.bind(this)
@@ -38,6 +41,9 @@ export class Application extends React.Component {
 
     this.onHandleEdit = this.onHandleEdit.bind(this)
     this.onClearEdit = this.onClearEdit.bind(this)
+
+    this.onChangeStartDate = this.onChangeStartDate.bind(this)
+    this.onChangeEndDate = this.onChangeEndDate.bind(this)
   }
 
   /**
@@ -46,7 +52,9 @@ export class Application extends React.Component {
   async componentDidMount () {
     const todos = await Todo.findAll({
       orderBy: this.state.orderBy,
-      orderByDirection: this.state.orderByDirection
+      orderByDirection: this.state.orderByDirection,
+      from: this.state.startDate.toISOString().slice(0,10).replace(/-/g,"-"),
+      until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-") 
     })
     this.setState({
       todos
@@ -60,7 +68,9 @@ export class Application extends React.Component {
     try {
       const todos = await Todo.findAll({
         orderBy: this.state.orderBy,
-        orderByDirection: this.state.orderByDirection
+        orderByDirection: this.state.orderByDirection,
+        from: this.state.startDate.toISOString().slice(0,10).replace(/-/g,"-"),
+        until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-") 
       })
       this.setState({
         todos: todos
@@ -178,6 +188,22 @@ export class Application extends React.Component {
   }
 
   /**
+   * Change startDate
+   * @param {Date} date 
+   */
+  onChangeStartDate(date) {
+    this.setState({startDate: date}, () => this.refetchTodos());
+  }
+
+  /**
+   * Change startDate
+   * @param {Date} date 
+   */
+  onChangeEndDate(date) {
+    this.setState({endDate: date}, () => this.refetchTodos());
+  }
+
+  /**
    * Toggle error alert
    * @param {Object}
    */
@@ -205,7 +231,7 @@ export class Application extends React.Component {
   render () {
     return (
       <React.Fragment>
-        <div class="todoapp">
+        <div className="todoapp">
           <TodoList
             todos={this.state.todos}
             onAddTodo={this.onAddTodo}
@@ -224,6 +250,10 @@ export class Application extends React.Component {
                 changeSortField={this.changeSortField}
                 changeSortASC={this.changeSortASC}
                 changeSortDESC={this.changeSortDESC}
+                startDate={this.state.startDate}
+                endDate={this.state.endDate}
+                onChangeStartDate={this.onChangeStartDate}
+                onChangeEndDate={this.onChangeEndDate}
               />
               : null
           }
@@ -233,10 +263,11 @@ export class Application extends React.Component {
             ? <ErrorAlert error={this.state.error} />
             : null
         }
+        
       </React.Fragment>
     )
   }
 }
 
 const showAlert = false
-const showFilter = false
+const showFilter = true

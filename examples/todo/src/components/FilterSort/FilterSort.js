@@ -1,5 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export class FilterSort extends React.Component {
   render () {
@@ -27,8 +29,10 @@ export class FilterSort extends React.Component {
           </ul>
         </div>
         <div>
-          <ul>
-            <li><p>Filtern: (WIP)</p></li>
+          <ul className="filter-list">
+            <li><p>Filtern:</p></li>
+            <li>Von: <DatePicker selected={this.props.startDate} onChange={this.props.onChangeStartDate}/></li>
+            <li>Bis: <DatePicker selected={this.props.endDate} onChange={this.props.onChangeEndDate}/></li>
           </ul>
         </div>
       </div>
