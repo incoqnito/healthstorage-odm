@@ -1,56 +1,173 @@
+
+import SchemaHandler from './handler/schema'
 import RequestHandler from './handler/request'
+import ValidationHandler from './handler/validation'
+import HsModel from './hsModel'
+
+const ASC = 'Ascending'
+const DESC = 'Descending'
+const META_ID = 'id'
+const META_REVISION = 'r'
+const META_DATE = 'tsp'
 
 class HsInstance {
   /**
    * Consturctor
-   * @param {String} sdo
+   * @param {String} title
+   * @param {Object} properties
+   * @param {Object} options
    */
-  constructor (sdo) {
-    this.init(sdo)
+  constructor (title, properties, options) {
+    this.schemaHandler = new SchemaHandler(title, properties, options)
+    this.schema = this.schemaHandler.schema
+    ValidationHandler.validateSchema(this.schema)
   }
 
   /**
-   * Init properties
-   * @param {Promise} sdo
+   * Return asc type field
+   * @returns  {String}
    */
-  init (sdo) {
-    for (var field in sdo) {
-      this[field] = sdo[field]
+  get ASC () {
+    return ASC
+  }
+
+  /**
+   * Return desc type field
+   * @returns  {String}
+   */
+  get DESC () {
+    return DESC
+  }
+
+  /**
+   * Return meta id type field
+   * @returns  {String}
+   */
+  get META_ID () {
+    return META_ID
+  }
+
+  /**
+   * Return meta revision type field
+   * @returns  {String}
+   */
+  get META_REVISION () {
+    return META_REVISION
+  }
+
+  /**
+   * Return meta revision type field
+   * @returns  {String}
+   */
+  get META_DATE () {
+    return META_DATE
+  }
+
+  findMetaField (key) {
+    var value = ''
+
+    switch (key) {
+      case 'id':
+        value = this.META_ID
+        break
+      case 'r':
+        value = this.META_REVISION
+        break
+      case 'tsp':
+        value = this.META_DATE
+        break
     }
+
+    return value
   }
 
   /**
-   * Destroy sdo object
-   * @returns
+   * Get schema
+   * @returns {String}
    */
-  destroy () {
-    return RequestHandler.deleteSdoById(this.md.id)
+  get schema () {
+    return this._schema
   }
 
   /**
-   * Update sdo object
-   * @param {Object} sdo
+   * Set schema property
+   * @param {String} schema
    */
-  update (updated) {
-    this.mergeFields(updated)
-    this.md.r += 1
-    return RequestHandler.putSdoById(this.md.id, this).then(sdo => new HsInstance(sdo))
+  set schema (schema) {
+    this._schema = schema
   }
 
   /**
-   * Merge object and field => value pairs
-   * @param {Object} merge
+   * Get properties property
+   * @returns {String}
    */
-  mergeFields (merge) {
-    if (merge === undefined) {
-      throw new Error('Provide object to merge fields into')
-    }
+  get properties () {
+    return this._properties
+  }
 
-    for (var field in merge) {
-      if (this[field] !== undefined) {
-        this[field] = merge[field]
+  /**
+   * Set properties property
+   * @param {String} properties
+   */
+  set properties (properties) {
+    this._properties = properties
+  }
+
+  /**
+   * Create a new sdo for given schema
+   * @param {Object} data
+   * @returns {Promise}
+   *
+   */
+  create (data) {
+    data = Object.assign(data, { md: this.schemaHandler.generateMd() })
+    ValidationHandler.validateProperties(this.schema, data)
+    return RequestHandler.postSdo(data).then(sdo => new HsModel(sdo))
+  }
+
+  /**
+   * Update sdo
+   * @param {String} id
+   * @param {Object} data
+   */
+  updateById (id, data) {
+    data.md.r += 1
+    ValidationHandler.validateProperties(this.schema, data)
+    return RequestHandler.putSdoById(id, data).then(sdo => new HsModel(sdo))
+  }
+
+  /**
+   * Delete sdo (only for development)
+   * @param {String} id
+   * @param {Object} data
+   */
+  deleteById (id) {
+    return RequestHandler.deleteSdoById(id)
+  }
+
+  /**
+   * Get all sdos from owner and schema
+   * @param {Object} data
+   * @returns {Promise}
+   */
+  findAll (options) {
+    return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options).then(response => {
+      var list = []
+      for (var sdo in response) {
+        list.push(new HsModel(response[sdo]))
       }
-    }
+      return list
+    })
+  }
+
+  /**
+   * Get sdo by identifier
+   * @param {String} id
+   * @returns {Promise}
+   */
+  findById (id) {
+    return RequestHandler.getSdoById(id).then(sdo => new HsModel(sdo))
   }
 }
+
 export default HsInstance
