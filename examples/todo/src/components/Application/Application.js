@@ -270,4 +270,4 @@ export class Application extends React.Component {
 }
 
 const showAlert = false
-const showFilter = true
+const showFilter = false
