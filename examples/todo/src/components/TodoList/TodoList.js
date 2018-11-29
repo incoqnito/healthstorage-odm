@@ -8,7 +8,7 @@ import { ENTER_KEY } from '../../constants'
 export class TodoList extends React.Component {
   /**
    * Constructor
-   * Define HS Model
+   * Define HS HsModel
    */
   constructor (props) {
     super(props)

@@ -1,6 +1,6 @@
 import RequestHandler from './handler/request'
 
-class HsObject {
+class HsInstance {
   /**
    * Consturctor
    * @param {String} sdo
@@ -34,7 +34,7 @@ class HsObject {
   update (updated) {
     this.mergeFields(updated)
     this.md.r += 1
-    return RequestHandler.putSdoById(this.md.id, this).then(sdo => new HsObject(sdo))
+    return RequestHandler.putSdoById(this.md.id, this).then(sdo => new HsInstance(sdo))
   }
 
   /**
@@ -53,4 +53,4 @@ class HsObject {
     }
   }
 }
-export default HsObject
+export default HsInstance

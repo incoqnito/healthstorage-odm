@@ -1,4 +1,4 @@
-import Model from './core/model'
+import HsModel from './core/hsModel'
 
 const STRING = 'string'
 const NUMBER = 'number'
@@ -12,7 +12,7 @@ class HealthStorageODM {
    * @param {Object} options Options object
    */
   static define (title, properties, options) {
-    return new Model(title, properties, options)
+    return new HsModel(title, properties, options)
   }
 
   /**

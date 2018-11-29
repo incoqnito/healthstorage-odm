@@ -22,9 +22,9 @@ import HealthStorageODM from 'healthstorage-odm';
 ```
 ## Overview
 
-### Defining a Model
+### Defining a HsModel
 
-Defining a model is realized by calling the define function. It returns a model based on given input.
+Defining a HsModel is realized by calling the define function. It returns a HsModel based on given input.
 
 Example:
 ```ts
@@ -55,7 +55,7 @@ const sampleSchema = HealthStorageODM.define(
 )
 ```
 
-### Model Functions
+### HsModel Functions
 
 #### findAll
 

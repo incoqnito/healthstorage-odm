@@ -2,7 +2,7 @@
 import SchemaHandler from './handler/schema'
 import RequestHandler from './handler/request'
 import ValidationHandler from './handler/validation'
-import HsObject from './hsObject'
+import HsInstance from './hsInstance'
 
 const ASC = 'Ascending'
 const DESC = 'Descending'
@@ -10,7 +10,7 @@ const META_ID = 'id'
 const META_REVISION = 'r'
 const META_DATE = 'tsp'
 
-class Model {
+class HsModel {
   /**
    * Consturctor
    * @param {String} title
@@ -123,7 +123,7 @@ class Model {
     data = Object.assign(data, { md: this.schemaHandler.generateMd() })
     ValidationHandler.validateProperties(this.schema, data)
     return RequestHandler.postSdo(data).then(sdo => {
-      return new HsObject(sdo)
+      return new HsInstance(sdo)
     })
   }
 
@@ -136,7 +136,7 @@ class Model {
     data.md.r += 1
     ValidationHandler.validateProperties(this.schema, data)
     return RequestHandler.putSdoById(id, data).then(sdo => {
-      return new HsObject(sdo)
+      return new HsInstance(sdo)
     })
   }
 
@@ -160,7 +160,7 @@ class Model {
     return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options).then(response => {
       var list = []
       for (var sdo in response) {
-        list.push(new HsObject(response[sdo]))
+        list.push(new HsInstance(response[sdo]))
       }
       return list
     })
@@ -173,9 +173,9 @@ class Model {
    */
   findById (id) {
     return RequestHandler.getSdoById(id).then(sdo => {
-      return new HsObject(sdo)
+      return new HsInstance(sdo)
     })
   }
 }
 
-export default Model
+export default HsModel
