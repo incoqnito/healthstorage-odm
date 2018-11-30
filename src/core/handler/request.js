@@ -65,7 +65,7 @@ class RequestHandler {
     return axios.get(`${SRVURL}/${SDO_ENDPOINT}/${oId}/${id}`, {
       params
     })
-      .then(response => (response.data === undefined) ? response.status : response.data)
+      .then(response => (response.data === undefined) ? response.status : {body: response.data, headers: response.headers})
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,

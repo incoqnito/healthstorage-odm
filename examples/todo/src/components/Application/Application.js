@@ -63,7 +63,7 @@ export class Application extends React.Component {
       pageSize: this.state.pageSize
     })
     this.setState({
-      todos
+      todos: todos.list
     })
   }
 
@@ -79,8 +79,9 @@ export class Application extends React.Component {
         until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-"),
         pageSize: this.state.pageSize
       })
+      console.log(todos.headers);
       this.setState({
-        todos: todos
+        todos: todos.list
       })
     } catch (error) {
       this.toggleErrorAlert(error)

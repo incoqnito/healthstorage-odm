@@ -153,10 +153,14 @@ class HsInstance {
   findAll (options) {
     return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options).then(response => {
       var list = []
-      for (var sdo in response) {
-        list.push(new HsModel(response[sdo]))
+      for (var sdo in response.body) {
+        console.log(response.body[sdo]);
+        list.push(new HsModel(response.body[sdo]))
       }
-      return list
+      return {
+        list: list,
+        headers: response.headers
+      }
     })
   }
 
