@@ -598,3 +598,26 @@ html .clear-completed:active {
 .filter-section .filter-list li + li{
 	margin-top: 5px;
 }
+
+.pagination-section {
+	padding: 15px;
+	border-top: solid 1px rgba(0,0,0,0.1);
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.pagination-section button {
+	padding: 10px;
+	border: solid 1px rgba(0,0,0,0.1);
+	cursor: pointer;
+}
+
+.pagination-section select {
+	padding: 5px 10px;
+	border: solid 1px rgba(0,0,0,0.1);
+	cursor: pointer;
+}
+
+.pagination-section button:hover, .pagination-section button.active{
+	background-color: rgba(0,0,0,0.1);
+}

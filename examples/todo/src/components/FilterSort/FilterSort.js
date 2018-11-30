@@ -9,7 +9,7 @@ export class FilterSort extends React.Component {
     const classNamesDESC = classNames({ 'active': this.props.sorting === 'Descending' })
 
     return (
-      <div className="filter-section" >
+      <div className="filter-section">
         <div>
           <ul>
             <li><p>Sortierung:</p></li>

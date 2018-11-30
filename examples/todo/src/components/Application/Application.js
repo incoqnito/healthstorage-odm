@@ -8,6 +8,8 @@ import { ErrorAlert } from '../Alert/ErrorAlert'
 
 import { FilterSort } from '../FilterSort/FilterSort'
 
+import { Pagination } from '../Pagination/Pagination'
+
 
 export class Application extends React.Component {
   /**
@@ -24,7 +26,8 @@ export class Application extends React.Component {
       error: undefined,
       editing: '',
       startDate: new Date(),
-      endDate: new Date('2018-12-31')
+      endDate: new Date('2018-12-31'),
+      pageSize: ''
     }
 
     this.onAddTodo = this.onAddTodo.bind(this)
@@ -44,6 +47,8 @@ export class Application extends React.Component {
 
     this.onChangeStartDate = this.onChangeStartDate.bind(this)
     this.onChangeEndDate = this.onChangeEndDate.bind(this)
+
+    this.onChangePagination = this.onChangePagination.bind(this)
   }
 
   /**
@@ -54,7 +59,8 @@ export class Application extends React.Component {
       orderBy: this.state.orderBy,
       orderByDirection: this.state.orderByDirection,
       from: this.state.startDate.toISOString().slice(0,10).replace(/-/g,"-"),
-      until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-") 
+      until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-"),
+      pageSize: this.state.pageSize
     })
     this.setState({
       todos
@@ -70,7 +76,8 @@ export class Application extends React.Component {
         orderBy: this.state.orderBy,
         orderByDirection: this.state.orderByDirection,
         from: this.state.startDate.toISOString().slice(0,10).replace(/-/g,"-"),
-        until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-") 
+        until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-"),
+        pageSize: this.state.pageSize
       })
       this.setState({
         todos: todos
@@ -203,6 +210,14 @@ export class Application extends React.Component {
     this.setState({endDate: date}, () => this.refetchTodos());
   }
 
+   /**
+   * Change pagination
+   * @param {Event} event 
+   */
+  onChangePagination(e) {
+    this.setState({pageSize: e.target.value}, () => this.refetchTodos())
+  }
+
   /**
    * Toggle error alert
    * @param {Object}
@@ -257,6 +272,11 @@ export class Application extends React.Component {
               />
               : null
           }
+          {
+            showPagination 
+            ? <Pagination onChangePagination={this.onChangePagination} />
+            : null
+          }
         </div>
         {
           showAlert
@@ -271,3 +291,4 @@ export class Application extends React.Component {
 
 const showAlert = false
 const showFilter = false
+const showPagination = true
