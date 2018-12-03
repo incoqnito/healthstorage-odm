@@ -1,157 +1,48 @@
 
-import SchemaHandler from './handler/schema'
-import RequestHandler from './handler/request'
-import ValidationHandler from './handler/validation'
-import HsModel from './hsModel'
+// import SchemaHandler from './handler/schema'
+// import RequestHandler from './handler/request'
+// import ValidationHandler from './handler/validation'
+// import HsModel from './hsModel'
 
-const ASC = 'Ascending'
-const DESC = 'Descending'
-const META_ID = 'id'
-const META_REVISION = 'r'
-const META_DATE = 'tsp'
+/** Import modules */
+const HS_SCHEMA = require('./handler/hsSchema.js');
+const HS_REQUEST = require('./handler/hsRequest.js');
+const HS_VALIDATION = require('./handler/hsValidation.js');
 
-class HsInstance {
-  /**
-   * Consturctor
-   * @param {String} title
-   * @param {Object} properties
-   * @param {Object} options
-   */
-  constructor (title, properties, options) {
-    this.schemaHandler = new SchemaHandler(title, properties, options)
-    this.schema = this.schemaHandler.schema
-    ValidationHandler.validateSchema(this.schema)
-  }
+// const RequestHandler = require('./handler/request.js');
+// const ValidationHandler = require('./handler/validation.js');
+// const HsModel = require('./hsModel.js');
 
-  /**
-   * Return asc type field
-   * @returns  {String}
-   */
-  get ASC () {
-    return ASC
-  }
+/** Export module */
+module.exports = hsInstance;
 
-  /**
-   * Return desc type field
-   * @returns  {String}
-   */
-  get DESC () {
-    return DESC
-  }
+/** Get constants */
+const ASC = "Ascending";
+const DESC = "Descending";
+const MD_ID = "id";
+const MD_REVISION = "r";
+const MD_DATE = "tsp";
 
-  /**
-   * Return meta id type field
-   * @returns  {String}
-   */
-  get META_ID () {
-    return META_ID
-  }
+/** HS Instance */
+function hsInstance(opts) {
+  
+  /** Types */
+  this.ASC = ASC;
+  this.DESC = DESC;
+  this.MD_ID = MD_ID;
+  this.MD_REVISION = MD_REVISION;
+  this.MD_DATE = MD_DATE;
 
-  /**
-   * Return meta revision type field
-   * @returns  {String}
-   */
-  get META_REVISION () {
-    return META_REVISION
-  }
-
-  /**
-   * Return meta revision type field
-   * @returns  {String}
-   */
-  get META_DATE () {
-    return META_DATE
-  }
-
-  findMetaField (key) {
-    var value = ''
-
-    switch (key) {
-      case 'id':
-        value = this.META_ID
-        break
-      case 'r':
-        value = this.META_REVISION
-        break
-      case 'tsp':
-        value = this.META_DATE
-        break
-    }
-
-    return value
-  }
-
-  /**
-   * Get schema
-   * @returns {String}
-   */
-  get schema () {
-    return this._schema
-  }
-
-  /**
-   * Set schema property
-   * @param {String} schema
-   */
-  set schema (schema) {
-    this._schema = schema
-  }
-
-  /**
-   * Get properties property
-   * @returns {String}
-   */
-  get properties () {
-    return this._properties
-  }
-
-  /**
-   * Set properties property
-   * @param {String} properties
-   */
-  set properties (properties) {
-    this._properties = properties
-  }
-
-  /**
-   * Create a new sdo for given schema
-   * @param {Object} data
-   * @returns {Promise}
-   *
-   */
-  create (data) {
-    data = Object.assign(data, { md: this.schemaHandler.generateMd() })
-    ValidationHandler.validateProperties(this.schema, data)
-    return RequestHandler.postSdo(data).then(sdo => new HsModel(sdo))
-  }
-
-  /**
-   * Update sdo
-   * @param {String} id
-   * @param {Object} data
-   */
-  updateById (id, data) {
-    data.md.r += 1
-    ValidationHandler.validateProperties(this.schema, data)
-    return RequestHandler.putSdoById(id, data).then(sdo => new HsModel(sdo))
-  }
-
-  /**
-   * Delete sdo (only for development)
-   * @param {String} id
-   * @param {Object} data
-   */
-  deleteById (id) {
-    return RequestHandler.deleteSdoById(id)
-  }
+  /** Set scham by given values */
+  this.hsSchema = new HS_SCHEMA(opts);
 
   /**
    * Get all sdos from owner and schema
    * @param {Object} data
    * @returns {Promise}
    */
-  findAll (options) {
-    return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options).then(response => {
+  this.findAll = function(options) {
+    return HS_REQUEST.getSdoByIds(this.hsSchema.oId, this.hsSchema.id, options).then(response => {
       var list = []
       for (var sdo in response.body) {
         console.log(response.body[sdo]);
@@ -165,13 +56,102 @@ class HsInstance {
   }
 
   /**
-   * Get sdo by identifier
-   * @param {String} id
+   * Create a new sdo for given schema
+   * @param {Object} data
    * @returns {Promise}
+   *
    */
-  findById (id) {
-    return RequestHandler.getSdoById(id).then(sdo => new HsModel(sdo))
+  this.create = function(data) {
+    data = Object.assign(data, { md: this.hsSchema.generateMd() })
+    HS_VALIDATION.validateProperties(this.hsSchema.schema, data)
+    return HS_REQUEST.postSdo(data);
+    // .then(
+    //   sdo => new HsModel(sdo))
   }
+
+  return this;
 }
 
-export default HsInstance
+// class HsInstance {
+
+
+//   findMetaField (key) {
+//     var value = ''
+
+//     switch (key) {
+//       case 'id':
+//         value = this.META_ID
+//         break
+//       case 'r':
+//         value = this.META_REVISION
+//         break
+//       case 'tsp':
+//         value = this.META_DATE
+//         break
+//     }
+
+//     return value
+//   }
+
+//   /**
+//    * Create a new sdo for given schema
+//    * @param {Object} data
+//    * @returns {Promise}
+//    *
+//    */
+//   create (data) {
+//     data = Object.assign(data, { md: this.schemaHandler.generateMd() })
+//     ValidationHandler.validateProperties(this.schema, data)
+//     return RequestHandler.postSdo(data).then(sdo => new HsModel(sdo))
+//   }
+
+//   /**
+//    * Update sdo
+//    * @param {String} id
+//    * @param {Object} data
+//    */
+//   updateById (id, data) {
+//     data.md.r += 1
+//     ValidationHandler.validateProperties(this.schema, data)
+//     return RequestHandler.putSdoById(id, data).then(sdo => new HsModel(sdo))
+//   }
+
+//   /**
+//    * Delete sdo (only for development)
+//    * @param {String} id
+//    * @param {Object} data
+//    */
+//   deleteById (id) {
+//     return RequestHandler.deleteSdoById(id)
+//   }
+
+//   /**
+//    * Get all sdos from owner and schema
+//    * @param {Object} data
+//    * @returns {Promise}
+//    */
+//   findAll (options) {
+//     return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options).then(response => {
+//       var list = []
+//       for (var sdo in response.body) {
+//         console.log(response.body[sdo]);
+//         list.push(new HsModel(response.body[sdo]))
+//       }
+//       return {
+//         list: list,
+//         headers: response.headers
+//       }
+//     })
+//   }
+
+//   /**
+//    * Get sdo by identifier
+//    * @param {String} id
+//    * @returns {Promise}
+//    */
+//   findById (id) {
+//     return RequestHandler.getSdoById(id).then(sdo => new HsModel(sdo))
+//   }
+// }
+
+// export default HsInstance

@@ -1,4 +1,5 @@
-import RequestHandler from './handler/request'
+// import RequestHandler from './handler/request'
+const RequestHandler = require('./handler/request.js');
 
 class HsModel {
   /**

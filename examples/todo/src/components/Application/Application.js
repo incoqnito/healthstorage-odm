@@ -21,7 +21,7 @@ export class Application extends React.Component {
 
     this.state = {
       todos: [],
-      orderBy: Todo.META_DATE,
+      orderBy: Todo.MD_DATE,
       orderByDirection: Todo.DESC,
       error: undefined,
       editing: '',
@@ -119,6 +119,7 @@ export class Application extends React.Component {
    * @param {Object}
    */
   async onAddTodo ({ ...attrs }) {
+
     var todo = await Todo.create(attrs)
 
     this.setState({

@@ -22,6 +22,8 @@
     "ajv": "^6.5.4",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "chalk": "^2.4.1",
+    "clear": "^0.1.0",
     "json-query": "^2.2.2"
   },
   "devDependencies": {
@@ -41,5 +43,8 @@
     "jest": "19.0.2",
     "jest-cli": "^23.6.0",
     "standard": "10.0.2"
+  },
+  "bin": {
+    "hs-cli": "./src/cli/index.js"
   }
 }
