@@ -85,39 +85,25 @@ function hsInstance(opts) {
     return HS_REQUEST.deleteSdoById(id);
   }
 
+  /**
+   * Find meta fields 
+   * @returns {String}
+   */
+  this.findMetaField = function(key) {
+    var value = '';
+    switch (key) {
+      case 'id':
+        value = this.MD_ID
+        break
+      case 'r':
+        value = this.MD_REVISION
+        break
+      case 'tsp':
+        value = this.MD_DATE
+        break
+    }
+    return value;
+  }
+
   return this;
 }
-
-// class HsInstance {
-
-
-//   findMetaField (key) {
-//     var value = ''
-
-//     switch (key) {
-//       case 'id':
-//         value = this.META_ID
-//         break
-//       case 'r':
-//         value = this.META_REVISION
-//         break
-//       case 'tsp':
-//         value = this.META_DATE
-//         break
-//     }
-
-//     return value
-//   }
-
-
-//   /**
-//    * Get sdo by identifier
-//    * @param {String} id
-//    * @returns {Promise}
-//    */
-//   findById (id) {
-//     return RequestHandler.getSdoById(id).then(sdo => new HsModel(sdo))
-//   }
-// }
-
-// export default HsInstance

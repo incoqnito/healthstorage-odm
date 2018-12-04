@@ -28,17 +28,21 @@ function hsSchema(opts) {
   if(opts.title === undefined || opts.title.trim() === "") throw new Error("No title provided for schema.");
   if(opts.properties === undefined) throw new Error("No properties provided for schema.");
   if(opts.options === undefined) throw new Error("No options provided for schema.");
-  if(opts.options.id === undefined) throw new Error("No id provided for schema.");
-  if(opts.options.oId === undefined) throw new Error("No owner id provided for schema.");
-  if(opts.options.r === undefined) throw new Error("No revision id provided for schema.");
+  if(opts.options.id !== undefined) {
+    if(opts.options.id === undefined) throw new Error("No id provided for schema.");
+    if(opts.options.oId === undefined) throw new Error("No owner id provided for schema.");
+    if(opts.options.r === undefined) throw new Error("No revision id provided for schema.");
+  }
   
   /** properties */
   this.title = opts.title;
   this.properties = opts.properties;
-  this.id = opts.options.id;
-  this.oId = opts.options.oId;
-  this.r = opts.options.r;
   this.required = opts.options.required;
+  if(opts.options.id !== undefined) {
+    this.id = opts.options.id;
+    this.oId = opts.options.oId;
+    this.r = opts.options.r;
+  }
 
   /** Create schema */
   this.createSchema = function () {
@@ -108,6 +112,7 @@ function hsSchema(opts) {
     };
     
     Object.assign(schema.properties, this.properties)
+    if(this.id !== undefined) schema.$id = this.BTSS_PREFIX + this.id + '/' + this.r;
 
     HS_VALIDATION.validateSchema(schema);
     

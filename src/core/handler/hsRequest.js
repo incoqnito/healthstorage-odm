@@ -19,6 +19,7 @@ hsRequest.prototype.getSdoById = getSdoById;
 hsRequest.prototype.deleteSdoById = deleteSdoById;
 hsRequest.prototype.getSchemaBySid = getSchemaBySid;
 hsRequest.prototype.getSchemaBySidr = getSchemaBySidr;
+hsRequest.prototype.postSchema = postSchema;
 
 /** HealthStorageODM */
 function hsRequest() {
@@ -117,6 +118,29 @@ function deleteSdoById(id) {
       }))
     })
 }
+
+/**
+ * Post schma
+ * @param {String} sId
+ * @returns {Object}
+ */
+function postSchema(schema) {
+  return this.axios.post(`${SRVURL}/${SCHEMA_ENDPOINT}`, {
+    headers: {
+      accept: 'application/schema+json',
+      responseType: 'application/schema+json',
+      contentType: 'application/json'
+    }
+  })
+    .then(response => response.data)
+    .catch(error => {
+      throw new Error({
+        'status': error.response.status,
+        'text': error.response.statusText
+      })
+    })
+}
+
 
 /**
  * Get schma by its identifier with highest revision

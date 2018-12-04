@@ -6,7 +6,8 @@
   "scripts": {
     "development": "forever --watchDirectory=./src index.js",
     "build": "babel ./src --out-dir lib",
-    "test": "jest"
+    "test": "jest",
+    "hs-cli-schema-up": "node -e require('./src/cli/migration.js').up()"
   },
   "repository": {
     "type": "git",
@@ -29,8 +30,8 @@
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
-    "@babel/register": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "eslint": "^4.13.1",
@@ -42,9 +43,7 @@
     "forever": "^0.15.3",
     "jest": "19.0.2",
     "jest-cli": "^23.6.0",
+    "run-func": "^1.0.2",
     "standard": "10.0.2"
-  },
-  "bin": {
-    "hs-cli": "./src/cli/index.js"
   }
 }
