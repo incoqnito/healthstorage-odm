@@ -1,3 +1,4 @@
+/** Import module */
 const AJV = require('ajv');
 
 /** Export module */
@@ -16,7 +17,11 @@ function hsValidation() {
   this.ajv = new AJV();
 }
 
-/** Validate schema */
+/** 
+ * Validate schema 
+ * @param {Object} schema
+ * @returns {Boolean}
+ */
 function validateSchema (schema) {
   var validated = this.ajv.compile(schema)
   if ((validated.errors === undefined || validated.errors === null)) {
@@ -29,7 +34,12 @@ function validateSchema (schema) {
   }
 }
 
-/** Validate properties */
+/** 
+ * Validate properties 
+ * @param {Object} schema
+ * @param {Object} properties
+ * @returns {Boolean}
+ */
 function validateProperties (schema, properties) {
   var validated = this.ajv.validate(schema, properties)
   if ((validated)) {

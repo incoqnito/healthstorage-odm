@@ -167,7 +167,7 @@ export class Application extends React.Component {
    */
   async onDeleteTodo (todo) {
     try {
-      todo.destroy()
+      await todo.destroy()
       this.setState({
         todos: this.state.todos.filter(t => t.id !== todo.id)
       })
@@ -291,6 +291,6 @@ export class Application extends React.Component {
   }
 }
 
-const showAlert = false
+const showAlert = true
 const showFilter = false
 const showPagination = true

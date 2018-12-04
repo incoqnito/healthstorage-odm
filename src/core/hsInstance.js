@@ -1,17 +1,9 @@
 
-// import SchemaHandler from './handler/schema'
-// import RequestHandler from './handler/request'
-// import ValidationHandler from './handler/validation'
-// import HsModel from './hsModel'
-
 /** Import modules */
+const HS_MODEL = require('./hsModel.js');
 const HS_SCHEMA = require('./handler/hsSchema.js');
 const HS_REQUEST = require('./handler/hsRequest.js');
 const HS_VALIDATION = require('./handler/hsValidation.js');
-
-// const RequestHandler = require('./handler/request.js');
-// const ValidationHandler = require('./handler/validation.js');
-// const HsModel = require('./hsModel.js');
 
 /** Export module */
 module.exports = hsInstance;
@@ -25,7 +17,7 @@ const MD_DATE = "tsp";
 
 /** HS Instance */
 function hsInstance(opts) {
-  
+
   /** Types */
   this.ASC = ASC;
   this.DESC = DESC;
@@ -41,12 +33,11 @@ function hsInstance(opts) {
    * @param {Object} data
    * @returns {Promise}
    */
-  this.findAll = function(options) {
+  this.findAll = function (options) {
     return HS_REQUEST.getSdoByIds(this.hsSchema.oId, this.hsSchema.id, options).then(response => {
       var list = []
       for (var sdo in response.body) {
-        console.log(response.body[sdo]);
-        list.push(new HsModel(response.body[sdo]))
+        list.push(new HS_MODEL(response.body[sdo]))
       }
       return {
         list: list,
@@ -56,17 +47,42 @@ function hsInstance(opts) {
   }
 
   /**
+   * Get sdo by identifier
+   * @param {String} id
+   * @returns {Promise}
+   */
+  this.findById = function (id) {
+    return HS_REQUEST.getSdoById(id).then(sdo => new HS_MODEL(sdo))
+  }
+
+  /**
    * Create a new sdo for given schema
    * @param {Object} data
    * @returns {Promise}
-   *
    */
-  this.create = function(data) {
+  this.create = function (data) {
     data = Object.assign(data, { md: this.hsSchema.generateMd() })
     HS_VALIDATION.validateProperties(this.hsSchema.schema, data)
-    return HS_REQUEST.postSdo(data);
-    // .then(
-    //   sdo => new HsModel(sdo))
+    return HS_REQUEST.postSdo(data).then(sdo => new HS_MODEL(sdo))
+  }
+
+  /** Update sdo
+   * @param {String} id
+   * @param {Object} data
+   */
+  this.updateById = function (id, data) {
+    data.md.r += 1
+    HS_VALIDATION.validateProperties(this.hsSchema.schema, data)
+    return HS_REQUEST.putSdoById(id, data).then(sdo => new HS_MODEL(sdo))
+  }
+
+  /**
+   * Delete sdo (only for development)
+   * @param {String} id
+   * @param {Object} data
+   */
+  this.deleteById = function (id) {
+    return HS_REQUEST.deleteSdoById(id);
   }
 
   return this;
@@ -93,56 +109,6 @@ function hsInstance(opts) {
 //     return value
 //   }
 
-//   /**
-//    * Create a new sdo for given schema
-//    * @param {Object} data
-//    * @returns {Promise}
-//    *
-//    */
-//   create (data) {
-//     data = Object.assign(data, { md: this.schemaHandler.generateMd() })
-//     ValidationHandler.validateProperties(this.schema, data)
-//     return RequestHandler.postSdo(data).then(sdo => new HsModel(sdo))
-//   }
-
-//   /**
-//    * Update sdo
-//    * @param {String} id
-//    * @param {Object} data
-//    */
-//   updateById (id, data) {
-//     data.md.r += 1
-//     ValidationHandler.validateProperties(this.schema, data)
-//     return RequestHandler.putSdoById(id, data).then(sdo => new HsModel(sdo))
-//   }
-
-//   /**
-//    * Delete sdo (only for development)
-//    * @param {String} id
-//    * @param {Object} data
-//    */
-//   deleteById (id) {
-//     return RequestHandler.deleteSdoById(id)
-//   }
-
-//   /**
-//    * Get all sdos from owner and schema
-//    * @param {Object} data
-//    * @returns {Promise}
-//    */
-//   findAll (options) {
-//     return RequestHandler.getSdoByIds(this.schemaHandler.oId, this.schemaHandler.id, options).then(response => {
-//       var list = []
-//       for (var sdo in response.body) {
-//         console.log(response.body[sdo]);
-//         list.push(new HsModel(response.body[sdo]))
-//       }
-//       return {
-//         list: list,
-//         headers: response.headers
-//       }
-//     })
-//   }
 
 //   /**
 //    * Get sdo by identifier

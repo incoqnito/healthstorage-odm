@@ -117,7 +117,11 @@ function hsSchema(opts) {
   /** schema */
   this.schema = this.createSchema();
   
-  /** Create md data for schema */
+  /** 
+   * Create md data for schema 
+   * @param {Object} schema
+   * @returns {Object}
+   */
   this.generateMd = function() {
     var metaFromSchema = HS_HELPER.findValueByPath(this.schema, 'definitions.MetadataSdo.properties')
     var md = {}

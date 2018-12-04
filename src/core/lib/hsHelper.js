@@ -7,7 +7,12 @@ hsHelper.prototype.findValueByPath = findValueByPath;
 /** HS schema */
 function hsHelper() {}
 
-/** Find object value by given path */
+/** 
+ * Find object value by given path 
+ * @param {Object} obj
+ * @param {String} path
+ * @returns {Object}
+ */
 function findValueByPath (obj, path) {
   let object = obj
   const splitPath = path.split('.')
