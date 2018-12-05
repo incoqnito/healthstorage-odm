@@ -127,19 +127,11 @@ function deleteSdoById(id) {
 function postSchema(schema) {
   return this.axios.post(`${SRVURL}/${SCHEMA_ENDPOINT}`, JSON.stringify(schema), {
     headers: {
-      responseType: 'application/json'
+      'Content-Type': 'application/schema+json',
     }
   })
-    .then(response => response.data)
-    .catch(error => {
-      // console.log(error);
-      console.log(JSON.stringify(schema));
-      return;
-      throw new Error({
-        'status': error.response.status,
-        'text': error.response.statusText
-      })
-    })
+    .then(response => response.data.schema.$id)
+    .catch(error => error)
 }
 
 
