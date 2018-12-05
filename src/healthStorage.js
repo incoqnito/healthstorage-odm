@@ -43,4 +43,12 @@ function HealthStorageODM() {
     var hsSchema = new HS_SCHEMA(opts);
     return HS_REQUEST.postSchema(hsSchema.schema);
   }
+
+  /**
+   * Delete schema 
+   * @returns {Promise}
+   */
+  this.deleteSchemaById = function(id) {
+    return HS_REQUEST.deleteSchemaById(id);
+  }
 }

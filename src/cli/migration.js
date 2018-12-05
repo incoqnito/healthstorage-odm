@@ -32,6 +32,6 @@ module.exports = {
     }
   },
   down: () => {
-    return HealthStorageODM.deleteSchema('SampleTest')
+    return HealthStorageODM.deleteSchemaById('21957f53-43ac-4753-815b-e812a135cb01')
   }
 }

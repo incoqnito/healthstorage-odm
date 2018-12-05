@@ -6,6 +6,7 @@ const SRVURL = 'http://localhost:8080'
 const SDO_ENDPOINT = 'sdos'
 const SDO_DELETE_ENDPOINT = 'eraser/sdos'
 const SCHEMA_ENDPOINT = 'schemas'
+const SCHEMA_DELETE_ENDPOINT = 'eraser/schemas'
 
 
 /** Export module */
@@ -20,6 +21,7 @@ hsRequest.prototype.deleteSdoById = deleteSdoById;
 hsRequest.prototype.getSchemaBySid = getSchemaBySid;
 hsRequest.prototype.getSchemaBySidr = getSchemaBySidr;
 hsRequest.prototype.postSchema = postSchema;
+hsRequest.prototype.deleteSchemaById = deleteSchemaById;
 
 /** HealthStorageODM */
 function hsRequest() {
@@ -154,6 +156,21 @@ function getSchemaBySid(sId) {
         'text': error.response.statusText
       })
     })
+}
+
+/**
+ * Delete schema
+ * @param {String} schemaId
+ * @returns {Object}
+ */
+function deleteSchemaById(schemaId) {
+  return this.axios.delete(`${SRVURL}/${SCHEMA_DELETE_ENDPOINT}/${schemaId}?allRevisions=true`, {
+    headers: {
+      responseType: 'application/json'
+    }
+  })
+    .then(response => response)
+    .catch(error => error)
 }
 
 /**
