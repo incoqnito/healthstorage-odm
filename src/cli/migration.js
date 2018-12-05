@@ -5,22 +5,24 @@ const HealthStorageODM = require("../healthStorage.js");
 module.exports = {
   up: () => {
     console.log(HealthStorageODM);
-    return HealthStorageODM.createSchema({
-      title: 'TodoSchema', 
-      properties: {
-        title: {
-          type: HealthStorageODM.STRING
+    try {
+      return HealthStorageODM.createSchema({
+        title: 'TestSchema', 
+        properties: {
+          title: {
+            type: HealthStorageODM.STRING
+          },
+          isCompleted: {
+            type: HealthStorageODM.BOOLEAN
+          }
         },
-        isCompleted: {
-          type: HealthStorageODM.BOOLEAN
+        options: {
+          required: ['md']
         }
-      },
-      options: {
-        required: ['md']
-      }
-    }).catch(error => {
-      console.log(error)
-    });
+      })
+    } catch(e) {
+      console.log(e.message);
+    }
   },
   down: () => {
     return HealthStorageODM.deleteSchema('SampleTest')
