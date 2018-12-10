@@ -25,7 +25,12 @@ module.exports = {
       console.log("Error:" + e.mesage);
     }
   },
-  down: () => {
+
+  /**
+   * Delete schema by its identifier
+   * @todo Delete by name: api currently not supporting find by name / delete by name
+   */
+  downById: () => {
     return HealthStorageODM.deleteSchemaById('21957f53-43ac-4753-815b-e812a135cb01')
   }
 }
