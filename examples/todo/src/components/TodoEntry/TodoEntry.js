@@ -103,7 +103,7 @@ export class TodoEntry extends React.PureComponent {
           <input className="toggle" type="checkbox" defaultChecked={this.props.todo.isCompleted} onChange={this.onToggle} />
           <label onDoubleClick={this.onHandleEdit}>{this.props.todo.title}</label>
           {
-            this.props.todo.locked.value === ''
+            this.props.todo.locked === ''
             ? <button className="lock-btn" onClick={this.onLock}>Lock</button>
             : <button className="lock-btn" onClick={this.onUnlock}>Unlock</button>
           }

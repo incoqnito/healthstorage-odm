@@ -36,7 +36,7 @@ function hsInstance(opts) {
   this.findAll = function (options) {
     return HS_REQUEST.getSdoByIds(this.hsSchema.oId, this.hsSchema.id, options).then(response => {
       var list = []
-      for (var sdo in response.body) {
+      for (var sdo in response.body) {        
         list.push(new HS_MODEL(response.body[sdo]))
       }
       return {
@@ -118,8 +118,8 @@ function hsInstance(opts) {
    * @param {String} id
    * @param {String} lockValue
    */
-  this.getLockValueById = function(id, lockValue) {
-    
+  this.getLockValueById = function(id, lockValueId) {
+    return HS_REQUEST.getLockById(id, lockValueId)
   }
 
   /**
