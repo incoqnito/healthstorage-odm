@@ -65,6 +65,9 @@
       },
       "isCompleted": {
         "type": "boolean"
+      },
+      "locked": {
+        "type": "object"
       }
     },
     "required": [

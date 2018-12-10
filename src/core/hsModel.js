@@ -11,7 +11,7 @@ function hsModel(sdo) {
 
   /** Init properties */
   for (var field in sdo) {
-    this[field] = sdo[field]
+    if(typeof this[field] !== 'function') this[field] = sdo[field]
   }
 
   /**
@@ -30,6 +30,17 @@ function hsModel(sdo) {
     this.mergeFields(updated)
     this.md.r += 1
     return HS_REQUEST.putSdoById(this.md.id, this).then(sdo => new hsModel(sdo))
+  }
+
+  /**
+   * Lock sdo object
+   * @returns
+   */
+  this.lock = function() {
+    return HS_REQUEST.postLockById(this.md.id).then(lockValue => {
+      this.mergeFields({'locked': lockValue})
+      return new hsModel(this);
+    });
   }
 
   /**

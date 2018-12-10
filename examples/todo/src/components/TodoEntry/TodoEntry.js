@@ -32,7 +32,7 @@ export class TodoEntry extends React.PureComponent {
    * Delete todo
    */
   onLock () {
-    this.props.onLock && this.props.onLock(this.props.todo.md.id)
+    this.props.onLock && this.props.onLock(this.props.todo)
   }
 
   /**
@@ -102,7 +102,11 @@ export class TodoEntry extends React.PureComponent {
         <div className="view">
           <input className="toggle" type="checkbox" defaultChecked={this.props.todo.isCompleted} onChange={this.onToggle} />
           <label onDoubleClick={this.onHandleEdit}>{this.props.todo.title}</label>
-          <button className="lock-btn" onClick={this.onLock}>Lock</button>
+          {
+            this.props.todo.locked.value === ''
+            ? <button className="lock-btn" onClick={this.onLock}>Lock</button>
+            : <button className="lock-btn" onClick={this.onUnlock}>Unlock</button>
+          }
           <button className="destroy" onClick={this.onDelete} />
         </div>
         <input ref="editField" className="edit" onBlur={this.onClearEdit} onKeyDown={this.onEdit} defaultValue={this.editText} onChange={this.onChangeTitle.bind(this)}/>

@@ -80,7 +80,6 @@ export class Application extends React.Component {
         until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-"),
         pageSize: this.state.pageSize
       })
-      console.log(todos.headers);
       this.setState({
         todos: todos.list
       })
@@ -181,14 +180,15 @@ export class Application extends React.Component {
    * Async lock todo
    * @param {Object}
    */
-  async onLockTodo (id) {
+  async onLockTodo (todo) {
     try {
-      console.log(id);
-      // await todo.lock()
-      // this.setState({
-      //   todos: this.state.todos.filter(t => t.id !== todo.id)
-      // })
+      var lockedTodo = await todo.lock();
+      console.log(lockedTodo);
+      this.setState({
+        todos: this.state.todos.map(t => t.md.id !== lockedTodo.md.id ? t : lockedTodo)
+      })
     } catch (error) {
+      console.log(error);
       this.toggleErrorAlert(error)
     }
   }

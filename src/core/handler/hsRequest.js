@@ -203,15 +203,14 @@ function getSchemaBySidr(sId, r) {
  * @returns {Promise}
  */
 function postLockById(id) {
-  return this.axios.post(`${SRVURL}/${SDO_LOCKS_ENDPOINT}/${id}`, {
+  return this.axios.post(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace("{id}", id)}`, {
     headers: {
+      accept: 'application/json',
       responseType: 'application/json'
     }
   })
-    .then(response => console.log(response))
+    .then(response => (response.status === 201) ? (response.data) : response.status)
     .catch(error => {
-      console.log(error);
-      return;
       return Promise.reject(new Error({
         'status': error.response.status,
         'text': error.response.statusText

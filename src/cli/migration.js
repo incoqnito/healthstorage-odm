@@ -13,6 +13,9 @@ module.exports = {
           },
           isCompleted: {
             type: HealthStorageODM.BOOLEAN
+          },
+          locked: {
+            type: HealthStorageODM.OBJECT
           }
         },
         options: {
@@ -31,6 +34,6 @@ module.exports = {
    * @todo Delete by name: api currently not supporting find by name / delete by name
    */
   downById: () => {
-    return HealthStorageODM.deleteSchemaById('21957f53-43ac-4753-815b-e812a135cb01')
+    return HealthStorageODM.deleteSchemaById('d7e6a014-1aa3-44e1-b0f3-357e4618618c1de')
   }
 }

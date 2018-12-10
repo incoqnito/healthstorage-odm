@@ -11,6 +11,10 @@ const NUMBER = 'number'
 const INTEGER = 'integer'
 /** Boolean type */
 const BOOLEAN = 'boolean'
+/** Object type */
+const OBJECT = 'object'
+/** Array type */
+const ARRAY = 'array'
 
 /** Export module */
 module.exports = new HealthStorageODM();
@@ -26,6 +30,8 @@ function HealthStorageODM() {
   this.NUMBER = NUMBER;
   this.INTEGER = INTEGER;
   this.BOOLEAN = BOOLEAN;
+  this.OBJECT = OBJECT;
+  this.ARRAY = ARRAY;
 
   /** 
    * Define 

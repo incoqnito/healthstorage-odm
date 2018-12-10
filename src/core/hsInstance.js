@@ -110,7 +110,7 @@ function hsInstance(opts) {
    * @param {String} id
    */
   this.createLockValueById = function(id) {
-    return HS_REQUEST.postLockById(id);
+    return HS_REQUEST.postLockById(id).then(response => response);
   }
 
   /**
