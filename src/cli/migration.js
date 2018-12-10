@@ -19,16 +19,10 @@ module.exports = {
           required: ['md']
         }
       }).then(id => {
-        console.log("-------------------------------------------");
-        console.log("Created schema id:");
-        console.log(id)
-        console.log("-------------------------------------------");
+        console.log("Created schema id:" + id);
       });
     } catch(e) {
-      console.log("-------------------------------------------");
-      console.log("Error:");
-      console.log(e.message);
-      console.log("-------------------------------------------");
+      console.log("Error:" + e.mesage);
     }
   },
   down: () => {
