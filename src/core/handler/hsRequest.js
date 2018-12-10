@@ -26,6 +26,7 @@ hsRequest.prototype.postSchema = postSchema;
 hsRequest.prototype.deleteSchemaById = deleteSchemaById;
 hsRequest.prototype.postLockById = postLockById;
 hsRequest.prototype.getLockById = getLockById;
+hsRequest.prototype.deleteLockById = deleteLockById;
 
 /** HealthStorageODM */
 function hsRequest() {
@@ -201,7 +202,7 @@ function getSchemaBySidr(sId, r) {
 /**
  * Create sdo lock value
  * @param {String} id
- * @returns {Promise}
+ * @returns {Promise} 
  */
 function postLockById(id) {
   return this.axios.post(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace("{id}", id)}`, {
@@ -210,7 +211,7 @@ function postLockById(id) {
       responseType: 'application/json'
     }
   })
-    .then(response => (response.status === 201) ? (response.data) : console.log(response.status))
+    .then(response => (response.status === 201) ? response.data.value : response.status)
     .catch(error => {
       return Promise.reject(new Error({
         'status': error.response.status,
@@ -232,6 +233,27 @@ function getLockById(id, lockValueId) {
     }
   })
     .then(response => console.log(response))
+    .catch(error => {
+      return Promise.reject(new Error({
+        'status': error.response.status,
+        'text': error.response.statusText
+      }))
+    })
+}
+
+/**
+ * Delete lock value
+ * @param {String} id
+ * @returns {Promise}
+ */
+function deleteLockById(id, lockValueId) {
+  return this.axios.delete(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace("{id}", id)}/${lockValueId}`, {
+    headers: {
+      accept: 'application/json',
+      responseType: 'application/json'
+    }
+  })
+    .then(response => response.data)
     .catch(error => {
       return Promise.reject(new Error({
         'status': error.response.status,

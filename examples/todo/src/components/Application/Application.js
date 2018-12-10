@@ -35,6 +35,7 @@ export class Application extends React.Component {
     this.onEditTodo = this.onEditTodo.bind(this)
     this.onDeleteTodo = this.onDeleteTodo.bind(this)
     this.onLockTodo = this.onLockTodo.bind(this)
+    this.onUnlockTodo = this.onUnlockTodo.bind(this)
 
     this.toggleErrorAlert = this.toggleErrorAlert.bind(this)
 
@@ -131,7 +132,6 @@ export class Application extends React.Component {
 
   /**
    * Async toggle state
-   * @bug its updateing every entry in array
    * @param {Object}
    */
   async onToggleTodo (todo) {
@@ -184,20 +184,33 @@ export class Application extends React.Component {
    */
   async onLockTodo (todo) {
     try {
-      var lockedTodo = await todo.lock();
-      console.log(lockedTodo);
+      const lockedTodo = await todo.lock();
       this.setState({
         todos: this.state.todos.map(t => t.md.id !== lockedTodo.md.id ? t : lockedTodo)
       })
     } catch (error) {
-      console.log(error);
+      this.toggleErrorAlert(error)
+    }
+  }
+
+  /**
+   * Async unlock todo
+   * @param {Object}
+   */
+  async onUnlockTodo (todo) {
+    try {
+      const unlockedTodo = await todo.unlock();
+      this.setState({
+        todos: this.state.todos.map(t => t.md.id !== unlockedTodo.md.id ? t : unlockedTodo)
+      })
+    } catch (error) {
       this.toggleErrorAlert(error)
     }
   }
 
   /**
    * Handle edit
-   * @param {}
+   * @param {Object}
    */
   onHandleEdit (todo) {
     this.setState({
@@ -275,6 +288,7 @@ export class Application extends React.Component {
             onToggleTodo={this.onToggleTodo}
             onDeleteTodo={this.onDeleteTodo}
             onLockTodo={this.onLockTodo}
+            onUnlockTodo={this.onUnlockTodo}
             onHandleEdit={this.onHandleEdit}
             onClearEdit={this.onClearEdit}
             toggleErrorAlert={this.toggleErrorAlert}

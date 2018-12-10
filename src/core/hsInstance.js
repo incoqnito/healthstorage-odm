@@ -119,7 +119,7 @@ function hsInstance(opts) {
    * @param {String} lockValue
    */
   this.getLockValueById = function(id, lockValueId) {
-    return HS_REQUEST.getLockById(id, lockValueId)
+    return HS_REQUEST.getLockById(id, lockValueId);
   }
 
   /**
@@ -127,8 +127,8 @@ function hsInstance(opts) {
    * @param {String} id
    * @param {String} lockValue
    */
-  this.deleteLockValueById = function(id, lockValue) {
-    
+  this.deleteLockValueById = function(id, lockValueId) {
+    return HS_REQUEST.deleteLockById(id, lockValueId);
   }
 
   /**

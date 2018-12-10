@@ -65,9 +65,6 @@
       },
       "isCompleted": {
         "type": "boolean"
-      },
-      "lockValue": {
-        "type": "string"
       }
     },
     "required": [

@@ -34,11 +34,22 @@ function hsModel(sdo) {
 
   /**
    * Lock sdo object
-   * @returns
+   * @returns {Object}
    */
   this.lock = function() {
     return HS_REQUEST.postLockById(this.md.id).then(lockValue => {
-      this.mergeFields({'locked': lockValue})
+      this.mergeFields({'lockValue': lockValue})
+      return new hsModel(this);
+    });
+  }
+
+  /**
+   * Delock sdo object
+   * @returns {Object}
+   */
+  this.unlock = function() {
+    return HS_REQUEST.deleteLockById(this.md.id, this.lockValue).then(response => {
+      this.mergeFields({'lockValue': ''})
       return new hsModel(this);
     });
   }

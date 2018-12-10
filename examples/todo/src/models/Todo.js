@@ -8,6 +8,9 @@ export default HealthStorageODM.define({
     },
     isCompleted: {
       type: HealthStorageODM.BOOLEAN
+    },
+    lockValue: {
+      type: HealthStorageODM.STRING
     }
   }, 
   options: {

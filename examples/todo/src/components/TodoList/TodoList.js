@@ -46,7 +46,7 @@ export class TodoList extends React.Component {
       id: uuid(),
       title: event.target.value,
       isCompleted: false,
-      locked: ''
+      lockValue: ''
     })
 
     Promise.resolve(maybePromise).then(() => {
@@ -103,6 +103,7 @@ export class TodoList extends React.Component {
       editing={this.props.editing == todo.md.id}
       onDelete={this.props.onDeleteTodo}
       onLock={this.props.onLockTodo}
+      onUnlock={this.props.onUnlockTodo}
       onToggle={this.props.onToggleTodo}
       onHandleEdit={this.props.onHandleEdit}
       onClearEdit={this.props.onClearEdit}
