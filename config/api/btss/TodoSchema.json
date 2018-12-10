@@ -66,8 +66,8 @@
       "isCompleted": {
         "type": "boolean"
       },
-      "locked": {
-        "type": "object"
+      "lockValue": {
+        "type": "string"
       }
     },
     "required": [

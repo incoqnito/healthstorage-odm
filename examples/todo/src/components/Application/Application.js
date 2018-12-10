@@ -119,12 +119,14 @@ export class Application extends React.Component {
    * @param {Object}
    */
   async onAddTodo ({ ...attrs }) {
-
-    var todo = await Todo.create(attrs)
-
-    this.setState({
-      todos: [todo, ...this.state.todos]
-    })
+    try {
+      var todo = await Todo.create(attrs)
+      this.setState({
+        todos: [todo, ...this.state.todos]
+      })
+    } catch(error) { 
+      this.toggleErrorAlert(error)
+    }
   }
 
   /**
