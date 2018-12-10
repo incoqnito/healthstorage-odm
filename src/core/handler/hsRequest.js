@@ -2,11 +2,13 @@
 const AXIOS = require('axios')
 
 /** Config */
-const SRVURL = 'http://localhost:8080'
-const SDO_ENDPOINT = 'sdos'
-const SDO_DELETE_ENDPOINT = 'eraser/sdos'
-const SCHEMA_ENDPOINT = 'schemas'
-const SCHEMA_DELETE_ENDPOINT = 'eraser/schemas'
+const SRVURL = 'http://localhost:8080';
+const SDO_ENDPOINT = 'sdos';
+const SDO_DELETE_ENDPOINT = 'eraser/sdos';
+const SCHEMA_ENDPOINT = 'schemas';
+const SCHEMA_DELETE_ENDPOINT = 'eraser/schemas';
+const SDO_LOCKS_ENDPOINT = "sdos/{id}/locks";
+const SDO_ISLOCKED_ENDPOINT = "sdos/{id}/islocked";
 
 
 /** Export module */
@@ -22,6 +24,7 @@ hsRequest.prototype.getSchemaBySid = getSchemaBySid;
 hsRequest.prototype.getSchemaBySidr = getSchemaBySidr;
 hsRequest.prototype.postSchema = postSchema;
 hsRequest.prototype.deleteSchemaById = deleteSchemaById;
+hsRequest.prototype.postLockById = postLockById;
 
 /** HealthStorageODM */
 function hsRequest() {
@@ -191,5 +194,27 @@ function getSchemaBySidr(sId, r) {
         'status': error.response.status,
         'text': error.response.statusText
       })
+    })
+}
+
+/**
+ * Create sdo lock value
+ * @param {String} id
+ * @returns {Promise}
+ */
+function postLockById(id) {
+  return this.axios.post(`${SRVURL}/${SDO_LOCKS_ENDPOINT}/${id}`, {
+    headers: {
+      responseType: 'application/json'
+    }
+  })
+    .then(response => console.log(response))
+    .catch(error => {
+      console.log(error);
+      return;
+      return Promise.reject(new Error({
+        'status': error.response.status,
+        'text': error.response.statusText
+      }))
     })
 }

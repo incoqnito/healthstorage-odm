@@ -16,6 +16,7 @@ export class TodoEntry extends React.PureComponent {
     this.onEdit = this.onEdit.bind(this)
     this.onHandleEdit = this.onHandleEdit.bind(this)
     this.onClearEdit = this.onClearEdit.bind(this)
+    this.onLock = this.onLock.bind(this)
 
     this.editText = this.props.todo.title
   }
@@ -25,6 +26,13 @@ export class TodoEntry extends React.PureComponent {
    */
   onDelete () {
     this.props.onDelete && this.props.onDelete(this.props.todo)
+  }
+
+  /**
+   * Delete todo
+   */
+  onLock () {
+    this.props.onLock && this.props.onLock(this.props.todo.md.id)
   }
 
   /**
@@ -94,6 +102,7 @@ export class TodoEntry extends React.PureComponent {
         <div className="view">
           <input className="toggle" type="checkbox" defaultChecked={this.props.todo.isCompleted} onChange={this.onToggle} />
           <label onDoubleClick={this.onHandleEdit}>{this.props.todo.title}</label>
+          <button className="lock-btn" onClick={this.onLock}>Lock</button>
           <button className="destroy" onClick={this.onDelete} />
         </div>
         <input ref="editField" className="edit" onBlur={this.onClearEdit} onKeyDown={this.onEdit} defaultValue={this.editText} onChange={this.onChangeTitle.bind(this)}/>

@@ -104,6 +104,7 @@ export class TodoList extends React.Component {
       todo={todo}
       editing={this.props.editing == todo.md.id}
       onDelete={this.props.onDeleteTodo}
+      onLock={this.props.onLockTodo}
       onToggle={this.props.onToggleTodo}
       onHandleEdit={this.props.onHandleEdit}
       onClearEdit={this.props.onClearEdit}

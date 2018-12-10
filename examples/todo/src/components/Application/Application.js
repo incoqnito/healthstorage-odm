@@ -34,6 +34,7 @@ export class Application extends React.Component {
     this.onToggleTodo = this.onToggleTodo.bind(this)
     this.onEditTodo = this.onEditTodo.bind(this)
     this.onDeleteTodo = this.onDeleteTodo.bind(this)
+    this.onLockTodo = this.onLockTodo.bind(this)
 
     this.toggleErrorAlert = this.toggleErrorAlert.bind(this)
 
@@ -177,6 +178,22 @@ export class Application extends React.Component {
   }
 
   /**
+   * Async lock todo
+   * @param {Object}
+   */
+  async onLockTodo (id) {
+    try {
+      console.log(id);
+      // await todo.lock()
+      // this.setState({
+      //   todos: this.state.todos.filter(t => t.id !== todo.id)
+      // })
+    } catch (error) {
+      this.toggleErrorAlert(error)
+    }
+  }
+
+  /**
    * Handle edit
    * @param {}
    */
@@ -255,6 +272,7 @@ export class Application extends React.Component {
             onEditTodo={this.onEditTodo}
             onToggleTodo={this.onToggleTodo}
             onDeleteTodo={this.onDeleteTodo}
+            onLockTodo={this.onLockTodo}
             onHandleEdit={this.onHandleEdit}
             onClearEdit={this.onClearEdit}
             toggleErrorAlert={this.toggleErrorAlert}

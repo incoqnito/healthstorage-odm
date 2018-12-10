@@ -105,5 +105,49 @@ function hsInstance(opts) {
     return value;
   }
 
+  /**
+   * Create lock value on sdo by its identifier
+   * @param {String} id
+   */
+  this.createLockValueById = function(id) {
+    return HS_REQUEST.postLockById(id);
+  }
+
+  /**
+   * Get lock value on sdo by its identifier and lock value
+   * @param {String} id
+   * @param {String} lockValue
+   */
+  this.getLockValueById = function(id, lockValue) {
+    
+  }
+
+  /**
+   * Delete lock value on sdo by its identifier
+   * @param {String} id
+   * @param {String} lockValue
+   */
+  this.deleteLockValueById = function(id, lockValue) {
+    
+  }
+
+  /**
+   * Get lock state on sdo by its identifier
+   * @param {String} id
+   * @param {String} lockValue
+   */
+  this.isLockedById = function(id, lockValue) {
+    
+  }
+
+  /**
+   * Get lock state on sdo by its identifier (head)
+   * @param {String} id
+   * @param {String} lockValue
+   */
+  this.lockStatebyId = function(id, lockValue) {
+    
+  }
+
   return this;
 }
