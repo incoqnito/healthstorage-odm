@@ -177,7 +177,7 @@ function deleteSchemaById (schemaId) {
 }
 
 /**
- * Get schma by its identifier and revison
+ * Get schema by its identifier and revison
  * @param {String} sId
  * @returns {Object}
  */

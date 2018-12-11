@@ -8,11 +8,6 @@ function HsModel (sdo) {
   /** Check if sdo is defined */
   if (sdo === undefined) throw new Error('Object is not set in HsModel.')
 
-  /** Init properties */
-  for (var field in sdo) {
-    if (typeof this[field] !== 'function') this[field] = sdo[field]
-  }
-
   /**
    * Destroy sdo object
    * @returns
@@ -72,5 +67,31 @@ function HsModel (sdo) {
         this[field] = merge[field]
       }
     }
+  }
+
+  /** Init properties */
+  for (var field in sdo) {
+    if (typeof this[field] !== 'function') this[field] = sdo[field]
+  }
+
+  /** Meta */
+  this._dataValues = {}
+
+  this.setGetDataValues = function (fldName) {
+    Object.defineProperty(this, fldName, {
+      get: function () {
+        return this._dataValues[fldName]
+      },
+      set: function (newValue) {
+        this._dataValues[fldName] = newValue
+      }
+    })
+  }
+
+  /** Loop through properties */
+  for (var fld in this) {
+    if (fld === '_dataValues') return
+    this._dataValues[fld] = this[fld]
+    this.setGetDataValues(fld)
   }
 }

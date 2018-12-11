@@ -3,6 +3,9 @@ const HealthStorageODM = require('../../../src/healthStorage.js')
 
 /** Export functions */
 module.exports = {
+  /**
+   * Create schema
+   */
   up: () => {
     try {
       return HealthStorageODM.createSchema({
@@ -31,9 +34,8 @@ module.exports = {
 
   /**
    * Delete schema by its identifier
-   * @todo Delete by name: api currently not supporting find by name / delete by name
    */
-  downById: () => {
-    return HealthStorageODM.deleteSchemaById('d7e6a014-1aa3-44e1-b0f3-357e4618618c1de')
+  down: () => {
+    return HealthStorageODM.deleteSchemaById('902ab03f-ae56-4219-9708-420fd6e60321')
   }
 }
