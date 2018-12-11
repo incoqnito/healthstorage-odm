@@ -21,16 +21,21 @@ function HsModel (sdo) {
    * @param {Object} sdo
    */
   this.update = function (updated) {
+    this.save()
     this.mergeFields(updated)
     this.md.r += 1
-    return HS_REQUEST.putSdoById(this.md.id, this).then(sdo => new HsModel(sdo))
+    return HS_REQUEST.putSdoById(this.md.id, this._dataValues).then(sdo => new HsModel(sdo))
   }
 
   /**
    * Save sdo
    */
   this.save = function () {
-
+    if (this.revision === undefined) this.revision = {}
+    var timestamp = new Date().getTime()
+    var copyFromThis = this._dataValues
+    this.revision[timestamp] = copyFromThis
+    console.log(this)
   }
 
   /**
