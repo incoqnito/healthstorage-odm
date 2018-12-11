@@ -1,7 +1,7 @@
 import HealthStorageODM from '../../../../src/healthStorage'
 
 export default HealthStorageODM.define({
-  title: 'TodoSchema', 
+  title: 'TodoSchema',
   properties: {
     title: {
       type: HealthStorageODM.STRING
@@ -12,7 +12,7 @@ export default HealthStorageODM.define({
     lockValue: {
       type: HealthStorageODM.STRING
     }
-  }, 
+  },
   options: {
     required: ['md'],
     id: '82897c48-92f8-4a7f-8360-929e8b12356c',

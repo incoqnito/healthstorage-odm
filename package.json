@@ -7,8 +7,8 @@
     "development": "forever --watchDirectory=./src index.js",
     "build": "babel ./src --out-dir lib",
     "test": "jest",
-    "hs-schema-up": "node -e require('./src/cli/migration.js').up()",
-    "hs-schema-down-by-id": "node -e require('./src/cli/migration.js').downById()"
+    "hs-schema-up": "node -e require('./examples/cli/migration.js').up()",
+    "hs-schema-down-by-id": "node -e require('./examples/cli/migration.js').downById()"
   },
   "repository": {
     "type": "git",

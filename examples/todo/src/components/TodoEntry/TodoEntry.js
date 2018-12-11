@@ -112,8 +112,8 @@ export class TodoEntry extends React.PureComponent {
           <label onDoubleClick={this.onHandleEdit}>{this.props.todo.title}</label>
           {
             this.props.todo.lockValue === ''
-            ? <button className="lock-btn" onClick={this.onLock}>Lock</button>
-            : <button className="lock-btn" onClick={this.onUnlock}>Unlock</button>
+              ? <button className="lock-btn" onClick={this.onLock}>Lock</button>
+              : <button className="lock-btn" onClick={this.onUnlock}>Unlock</button>
           }
           <button className="destroy" onClick={this.onDelete} />
         </div>

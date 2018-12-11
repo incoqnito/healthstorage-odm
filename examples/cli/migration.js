@@ -1,5 +1,5 @@
 /** Import modules */
-const HealthStorageODM = require("../healthStorage.js");
+const HealthStorageODM = require('../healthStorage.js')
 
 /** Export functions */
 module.exports = {
@@ -22,10 +22,10 @@ module.exports = {
           required: ['md']
         }
       }).then(id => {
-        console.log("Created schema id:" + id);
-      });
-    } catch(e) {
-      console.log("Error:" + e.mesage);
+        console.log('Created schema id:' + id)
+      })
+    } catch (e) {
+      console.log('Error:' + e.mesage)
     }
   },
 

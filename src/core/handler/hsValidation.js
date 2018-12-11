@@ -1,24 +1,24 @@
 /** Import module */
-const AJV = require('ajv');
+const AJV = require('ajv')
 
 /** Export module */
-module.exports = new hsValidation();
+module.exports = new HsValidation()
 
 /** Constants */
-hsValidation.prototype.AJV = AJV;
+HsValidation.prototype.AJV = AJV
 
 /** Functions */
-hsValidation.prototype.validateSchema = validateSchema;
-hsValidation.prototype.validateProperties = validateProperties;
+HsValidation.prototype.validateSchema = validateSchema
+HsValidation.prototype.validateProperties = validateProperties
 
 /** HealthStorageODM */
-function hsValidation() {
+function HsValidation () {
   /** Set ajv */
-  this.ajv = new AJV();
+  this.ajv = new AJV()
 }
 
-/** 
- * Validate schema 
+/**
+ * Validate schema
  * @param {Object} schema
  * @returns {Boolean}
  */
@@ -34,8 +34,8 @@ function validateSchema (schema) {
   }
 }
 
-/** 
- * Validate properties 
+/**
+ * Validate properties
  * @param {Object} schema
  * @param {Object} properties
  * @returns {Boolean}

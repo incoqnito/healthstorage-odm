@@ -1,7 +1,7 @@
-/** Import hsInstance */
-const HS_INSTANCE = require('./core/hsInstance.js');
-const HS_REQUEST = require('./core/handler/hsRequest.js');
-const HS_SCHEMA = require('./core/handler/hsSchema.js');
+/** Import HsInstance */
+const HS_INSTANCE = require('./core/hsInstance.js')
+const HS_REQUEST = require('./core/handler/hsRequest.js')
+const HS_SCHEMA = require('./core/handler/hsSchema.js')
 
 /** String type */
 const STRING = 'string'
@@ -17,44 +17,43 @@ const OBJECT = 'object'
 const ARRAY = 'array'
 
 /** Export module */
-module.exports = new HealthStorageODM();
+module.exports = new HealthStorageODM()
 
 /** Get constants */
-HealthStorageODM.prototype.HS_INSTANCE = HS_INSTANCE;
+HealthStorageODM.prototype.HS_INSTANCE = HS_INSTANCE
 
 /** HealthStorageODM */
-function HealthStorageODM() {
-
+function HealthStorageODM () {
   /** Types */
-  this.STRING = STRING;
-  this.NUMBER = NUMBER;
-  this.INTEGER = INTEGER;
-  this.BOOLEAN = BOOLEAN;
-  this.OBJECT = OBJECT;
-  this.ARRAY = ARRAY;
+  this.STRING = STRING
+  this.NUMBER = NUMBER
+  this.INTEGER = INTEGER
+  this.BOOLEAN = BOOLEAN
+  this.OBJECT = OBJECT
+  this.ARRAY = ARRAY
 
-  /** 
-   * Define 
-   * @return {Object} hsInstance 
+  /**
+   * Define
+   * @return {Object} HsInstance
    */
-  this.define = function(opts) {
+  this.define = function (opts) {
     return this.HS_INSTANCE(opts)
   }
 
   /**
-   * Create schema 
+   * Create schema
    * @returns {Promise}
    */
-  this.createSchema = function(opts) {
-    var hsSchema = new HS_SCHEMA(opts);
-    return HS_REQUEST.postSchema(hsSchema.schema);
+  this.createSchema = function (opts) {
+    var HsSchema = new HS_SCHEMA(opts)
+    return HS_REQUEST.postSchema(HsSchema.schema)
   }
 
   /**
-   * Delete schema 
+   * Delete schema
    * @returns {Promise}
    */
-  this.deleteSchemaById = function(id) {
-    return HS_REQUEST.deleteSchemaById(id);
+  this.deleteSchemaById = function (id) {
+    return HS_REQUEST.deleteSchemaById(id)
   }
 }

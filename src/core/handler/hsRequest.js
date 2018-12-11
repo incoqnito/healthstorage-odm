@@ -2,43 +2,42 @@
 const AXIOS = require('axios')
 
 /** Config */
-const SRVURL = 'http://localhost:8080';
-const SDO_ENDPOINT = 'sdos';
-const SDO_DELETE_ENDPOINT = 'eraser/sdos';
-const SCHEMA_ENDPOINT = 'schemas';
-const SCHEMA_DELETE_ENDPOINT = 'eraser/schemas';
-const SDO_LOCKS_ENDPOINT = "sdos/{id}/locks";
-const SDO_ISLOCKED_ENDPOINT = "sdos/{id}/islocked";
-
+const SRVURL = 'http://localhost:8080'
+const SDO_ENDPOINT = 'sdos'
+const SDO_DELETE_ENDPOINT = 'eraser/sdos'
+const SCHEMA_ENDPOINT = 'schemas'
+const SCHEMA_DELETE_ENDPOINT = 'eraser/schemas'
+const SDO_LOCKS_ENDPOINT = 'sdos/{id}/locks'
+const SDO_ISLOCKED_ENDPOINT = 'sdos/{id}/islocked'
 
 /** Export module */
-module.exports = new hsRequest();
+module.exports = new HsRequest()
 
 /** Functions */
-hsRequest.prototype.getSdoByIds = getSdoByIds;
-hsRequest.prototype.postSdo = postSdo;
-hsRequest.prototype.putSdoById = putSdoById;
-hsRequest.prototype.getSdoById = getSdoById;
-hsRequest.prototype.deleteSdoById = deleteSdoById;
-hsRequest.prototype.getSchemaBySid = getSchemaBySid;
-hsRequest.prototype.getSchemaBySidr = getSchemaBySidr;
-hsRequest.prototype.postSchema = postSchema;
-hsRequest.prototype.deleteSchemaById = deleteSchemaById;
-hsRequest.prototype.postLockById = postLockById;
-hsRequest.prototype.getLockById = getLockById;
-hsRequest.prototype.deleteLockById = deleteLockById;
+HsRequest.prototype.getSdoByIds = getSdoByIds
+HsRequest.prototype.postSdo = postSdo
+HsRequest.prototype.putSdoById = putSdoById
+HsRequest.prototype.getSdoById = getSdoById
+HsRequest.prototype.deleteSdoById = deleteSdoById
+HsRequest.prototype.getSchemaBySid = getSchemaBySid
+HsRequest.prototype.getSchemaBySidr = getSchemaBySidr
+HsRequest.prototype.postSchema = postSchema
+HsRequest.prototype.deleteSchemaById = deleteSchemaById
+HsRequest.prototype.postLockById = postLockById
+HsRequest.prototype.getLockById = getLockById
+HsRequest.prototype.deleteLockById = deleteLockById
 
 /** HealthStorageODM */
-function hsRequest() {
+function HsRequest () {
   /** Set axios */
-  this.axios = AXIOS;
+  this.axios = AXIOS
 }
 
 /**
  * Get Sdos for given Schema
  * @returns {Promise}
  */
-function getSdoByIds(oId, id, params) {
+function getSdoByIds (oId, id, params) {
   return this.axios.get(`${SRVURL}/${SDO_ENDPOINT}/${oId}/${id}`, {
     params
   })
@@ -56,7 +55,7 @@ function getSdoByIds(oId, id, params) {
  * @issue Api currently not returning created sdo object from backend, for now use given data in return
  * @returns {Promise}
  */
-function postSdo(sdo) {
+function postSdo (sdo) {
   return this.axios.post(`${SRVURL}/${SDO_ENDPOINT}/${sdo.md.id}`, sdo, {
     headers: {
       responseType: 'application/json'
@@ -76,7 +75,7 @@ function postSdo(sdo) {
  * @issue Api currently not returning created sdo object from backend, for now use given data in return
  * @returns {Promise}
  */
-function putSdoById(id, sdo) {
+function putSdoById (id, sdo) {
   return this.axios.put(`${SRVURL}/${SDO_ENDPOINT}/${id}`, sdo, {
     headers: {
       responseType: 'application/json'
@@ -95,7 +94,7 @@ function putSdoById(id, sdo) {
  * Get Sdos for given Schema
  * @returns {Promise}
  */
-function getSdoById(id) {
+function getSdoById (id) {
   return this.axios.get(`${SRVURL}/${SDO_ENDPOINT}/${id}`)
     .then(response => (response.data === undefined) ? response.status : response.data)
     .catch(error => {
@@ -111,7 +110,7 @@ function getSdoById(id) {
  * @issue Api currently not returning deleted id from backend, for now use given data in return
  * @returns {Promise}
  */
-function deleteSdoById(id) {
+function deleteSdoById (id) {
   return this.axios.delete(`${SRVURL}/${SDO_DELETE_ENDPOINT}/${id}`, {
     headers: {
       responseType: 'application/json'
@@ -131,23 +130,22 @@ function deleteSdoById(id) {
  * @param {String} sId
  * @returns {Object}
  */
-function postSchema(schema) {
+function postSchema (schema) {
   return this.axios.post(`${SRVURL}/${SCHEMA_ENDPOINT}`, JSON.stringify(schema), {
     headers: {
-      'Content-Type': 'application/schema+json',
+      'Content-Type': 'application/schema+json'
     }
   })
     .then(response => response.data.schema.$id)
     .catch(error => error)
 }
 
-
 /**
  * Get schma by its identifier with highest revision
  * @param {String} sId
  * @returns {Object}
  */
-function getSchemaBySid(sId) {
+function getSchemaBySid (sId) {
   return this.axios.get(`${SRVURL}/${SCHEMA_ENDPOINT}/${sId}`, {
     headers: {
       accept: 'application/schema+json',
@@ -168,7 +166,7 @@ function getSchemaBySid(sId) {
  * @param {String} schemaId
  * @returns {Object}
  */
-function deleteSchemaById(schemaId) {
+function deleteSchemaById (schemaId) {
   return this.axios.delete(`${SRVURL}/${SCHEMA_DELETE_ENDPOINT}/${schemaId}?allRevisions=true`, {
     headers: {
       responseType: 'application/json'
@@ -183,8 +181,8 @@ function deleteSchemaById(schemaId) {
  * @param {String} sId
  * @returns {Object}
  */
-function getSchemaBySidr(sId, r) {
-  return axios.get(`${SRVURL}/${SCHEMA_ENDPOINT}/${sId}/${r}`, {
+function getSchemaBySidr (sId, r) {
+  return this.axios.get(`${SRVURL}/${SCHEMA_ENDPOINT}/${sId}/${r}`, {
     headers: {
       accept: 'application/schema+json',
       responseType: 'application/schema+json'
@@ -202,10 +200,10 @@ function getSchemaBySidr(sId, r) {
 /**
  * Create sdo lock value
  * @param {String} id
- * @returns {Promise} 
+ * @returns {Promise}
  */
-function postLockById(id) {
-  return this.axios.post(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace("{id}", id)}`, {
+function postLockById (id) {
+  return this.axios.post(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}`, {
     headers: {
       accept: 'application/json',
       responseType: 'application/json'
@@ -225,8 +223,8 @@ function postLockById(id) {
  * @param {String} id
  * @returns {Promise}
  */
-function getLockById(id, lockValueId) {
-  return this.axios.post(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace("{id}", id)}/${lockValueId}`, {
+function getLockById (id, lockValueId) {
+  return this.axios.post(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}/${lockValueId}`, {
     headers: {
       accept: 'application/json',
       responseType: 'application/json'
@@ -246,8 +244,8 @@ function getLockById(id, lockValueId) {
  * @param {String} id
  * @returns {Promise}
  */
-function deleteLockById(id, lockValueId) {
-  return this.axios.delete(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace("{id}", id)}/${lockValueId}`, {
+function deleteLockById (id, lockValueId) {
+  return this.axios.delete(`${SRVURL}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}/${lockValueId}`, {
     headers: {
       accept: 'application/json',
       responseType: 'application/json'
@@ -261,6 +259,3 @@ function deleteLockById(id, lockValueId) {
       }))
     })
 }
-
-
-

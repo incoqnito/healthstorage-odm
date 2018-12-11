@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 export class FilterSort extends React.Component {
   render () {

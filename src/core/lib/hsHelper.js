@@ -1,14 +1,14 @@
 /** Export module */
-module.exports = new hsHelper();
+module.exports = new HsHelper()
 
 /** Functions */
-hsHelper.prototype.findValueByPath = findValueByPath;
+HsHelper.prototype.findValueByPath = findValueByPath
 
 /** HS schema */
-function hsHelper() {}
+function HsHelper () { }
 
-/** 
- * Find object value by given path 
+/**
+ * Find object value by given path
  * @param {Object} obj
  * @param {String} path
  * @returns {Object}

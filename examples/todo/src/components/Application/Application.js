@@ -10,7 +10,6 @@ import { FilterSort } from '../FilterSort/FilterSort'
 
 import { Pagination } from '../Pagination/Pagination'
 
-
 export class Application extends React.Component {
   /**
    * Constructor
@@ -60,8 +59,8 @@ export class Application extends React.Component {
     const todos = await Todo.findAll({
       orderBy: this.state.orderBy,
       orderByDirection: this.state.orderByDirection,
-      from: this.state.startDate.toISOString().slice(0,10).replace(/-/g,"-"),
-      until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-"),
+      from: this.state.startDate.toISOString().slice(0, 10).replace(/-/g, '-'),
+      until: this.state.endDate.toISOString().slice(0, 10).replace(/-/g, '-'),
       pageSize: this.state.pageSize
     })
     this.setState({
@@ -77,8 +76,8 @@ export class Application extends React.Component {
       const todos = await Todo.findAll({
         orderBy: this.state.orderBy,
         orderByDirection: this.state.orderByDirection,
-        from: this.state.startDate.toISOString().slice(0,10).replace(/-/g,"-"),
-        until: this.state.endDate.toISOString().slice(0,10).replace(/-/g,"-"),
+        from: this.state.startDate.toISOString().slice(0, 10).replace(/-/g, '-'),
+        until: this.state.endDate.toISOString().slice(0, 10).replace(/-/g, '-'),
         pageSize: this.state.pageSize
       })
       this.setState({
@@ -125,7 +124,7 @@ export class Application extends React.Component {
       this.setState({
         todos: [todo, ...this.state.todos]
       })
-    } catch(error) { 
+    } catch (error) {
       this.toggleErrorAlert(error)
     }
   }
@@ -184,7 +183,7 @@ export class Application extends React.Component {
    */
   async onLockTodo (todo) {
     try {
-      const lockedTodo = await todo.lock();
+      const lockedTodo = await todo.lock()
       this.setState({
         todos: this.state.todos.map(t => t.md.id !== lockedTodo.md.id ? t : lockedTodo)
       })
@@ -199,7 +198,7 @@ export class Application extends React.Component {
    */
   async onUnlockTodo (todo) {
     try {
-      const unlockedTodo = await todo.unlock();
+      const unlockedTodo = await todo.unlock()
       this.setState({
         todos: this.state.todos.map(t => t.md.id !== unlockedTodo.md.id ? t : unlockedTodo)
       })
@@ -230,25 +229,25 @@ export class Application extends React.Component {
 
   /**
    * Change startDate
-   * @param {Date} date 
+   * @param {Date} date
    */
-  onChangeStartDate(date) {
-    this.setState({startDate: date}, () => this.refetchTodos());
+  onChangeStartDate (date) {
+    this.setState({startDate: date}, () => this.refetchTodos())
   }
 
   /**
    * Change startDate
-   * @param {Date} date 
+   * @param {Date} date
    */
-  onChangeEndDate(date) {
-    this.setState({endDate: date}, () => this.refetchTodos());
+  onChangeEndDate (date) {
+    this.setState({endDate: date}, () => this.refetchTodos())
   }
 
-   /**
+  /**
    * Change pagination
-   * @param {Event} event 
+   * @param {Event} event
    */
-  onChangePagination(e) {
+  onChangePagination (e) {
     this.setState({pageSize: e.target.value}, () => this.refetchTodos())
   }
 
@@ -309,9 +308,9 @@ export class Application extends React.Component {
               : null
           }
           {
-            showPagination 
-            ? <Pagination onChangePagination={this.onChangePagination} />
-            : null
+            showPagination
+              ? <Pagination onChangePagination={this.onChangePagination} />
+              : null
           }
         </div>
         {
@@ -319,7 +318,7 @@ export class Application extends React.Component {
             ? <ErrorAlert error={this.state.error} />
             : null
         }
-        
+
       </React.Fragment>
     )
   }

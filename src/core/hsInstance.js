@@ -1,32 +1,31 @@
 
 /** Import modules */
-const HS_MODEL = require('./hsModel.js');
-const HS_SCHEMA = require('./handler/hsSchema.js');
-const HS_REQUEST = require('./handler/hsRequest.js');
-const HS_VALIDATION = require('./handler/hsValidation.js');
+const HS_MODEL = require('./HsModel.js')
+const HS_SCHEMA = require('./handler/hsSchema.js')
+const HS_REQUEST = require('./handler/hsRequest.js')
+const HS_VALIDATION = require('./handler/hsValidation.js')
 
 /** Export module */
-module.exports = hsInstance;
+module.exports = HsInstance
 
 /** Get constants */
-const ASC = "Ascending";
-const DESC = "Descending";
-const MD_ID = "id";
-const MD_REVISION = "r";
-const MD_DATE = "tsp";
+const ASC = 'Ascending'
+const DESC = 'Descending'
+const MD_ID = 'id'
+const MD_REVISION = 'r'
+const MD_DATE = 'tsp'
 
 /** HS Instance */
-function hsInstance(opts) {
-
+function HsInstance (opts) {
   /** Types */
-  this.ASC = ASC;
-  this.DESC = DESC;
-  this.MD_ID = MD_ID;
-  this.MD_REVISION = MD_REVISION;
-  this.MD_DATE = MD_DATE;
+  this.ASC = ASC
+  this.DESC = DESC
+  this.MD_ID = MD_ID
+  this.MD_REVISION = MD_REVISION
+  this.MD_DATE = MD_DATE
 
   /** Set scham by given values */
-  this.hsSchema = new HS_SCHEMA(opts);
+  this.HsSchema = new HS_SCHEMA(opts)
 
   /**
    * Get all sdos from owner and schema
@@ -34,9 +33,9 @@ function hsInstance(opts) {
    * @returns {Promise}
    */
   this.findAll = function (options) {
-    return HS_REQUEST.getSdoByIds(this.hsSchema.oId, this.hsSchema.id, options).then(response => {
+    return HS_REQUEST.getSdoByIds(this.HsSchema.oId, this.HsSchema.id, options).then(response => {
       var list = []
-      for (var sdo in response.body) {        
+      for (var sdo in response.body) {
         list.push(new HS_MODEL(response.body[sdo]))
       }
       return {
@@ -61,8 +60,8 @@ function hsInstance(opts) {
    * @returns {Promise}
    */
   this.create = function (data) {
-    data = Object.assign(data, { md: this.hsSchema.generateMd() })
-    HS_VALIDATION.validateProperties(this.hsSchema.schema, data)
+    data = Object.assign(data, { md: this.HsSchema.generateMd() })
+    HS_VALIDATION.validateProperties(this.HsSchema.schema, data)
     return HS_REQUEST.postSdo(data).then(sdo => new HS_MODEL(sdo))
   }
 
@@ -72,7 +71,7 @@ function hsInstance(opts) {
    */
   this.updateById = function (id, data) {
     data.md.r += 1
-    HS_VALIDATION.validateProperties(this.hsSchema.schema, data)
+    HS_VALIDATION.validateProperties(this.HsSchema.schema, data)
     return HS_REQUEST.putSdoById(id, data).then(sdo => new HS_MODEL(sdo))
   }
 
@@ -82,15 +81,15 @@ function hsInstance(opts) {
    * @param {Object} data
    */
   this.deleteById = function (id) {
-    return HS_REQUEST.deleteSdoById(id);
+    return HS_REQUEST.deleteSdoById(id)
   }
 
   /**
-   * Find meta fields 
+   * Find meta fields
    * @returns {String}
    */
-  this.findMetaField = function(key) {
-    var value = '';
+  this.findMetaField = function (key) {
+    var value = ''
     switch (key) {
       case 'id':
         value = this.MD_ID
@@ -102,15 +101,15 @@ function hsInstance(opts) {
         value = this.MD_DATE
         break
     }
-    return value;
+    return value
   }
 
   /**
    * Create lock value on sdo by its identifier
    * @param {String} id
    */
-  this.createLockValueById = function(id) {
-    return HS_REQUEST.postLockById(id).then(response => response);
+  this.createLockValueById = function (id) {
+    return HS_REQUEST.postLockById(id).then(response => response)
   }
 
   /**
@@ -118,8 +117,8 @@ function hsInstance(opts) {
    * @param {String} id
    * @param {String} lockValue
    */
-  this.getLockValueById = function(id, lockValueId) {
-    return HS_REQUEST.getLockById(id, lockValueId);
+  this.getLockValueById = function (id, lockValueId) {
+    return HS_REQUEST.getLockById(id, lockValueId)
   }
 
   /**
@@ -127,8 +126,8 @@ function hsInstance(opts) {
    * @param {String} id
    * @param {String} lockValue
    */
-  this.deleteLockValueById = function(id, lockValueId) {
-    return HS_REQUEST.deleteLockById(id, lockValueId);
+  this.deleteLockValueById = function (id, lockValueId) {
+    return HS_REQUEST.deleteLockById(id, lockValueId)
   }
 
   /**
@@ -136,8 +135,8 @@ function hsInstance(opts) {
    * @param {String} id
    * @param {String} lockValue
    */
-  this.isLockedById = function(id, lockValue) {
-    
+  this.isLockedById = function (id, lockValue) {
+
   }
 
   /**
@@ -145,9 +144,9 @@ function hsInstance(opts) {
    * @param {String} id
    * @param {String} lockValue
    */
-  this.lockStatebyId = function(id, lockValue) {
-    
+  this.lockStatebyId = function (id, lockValue) {
+
   }
 
-  return this;
+  return this
 }

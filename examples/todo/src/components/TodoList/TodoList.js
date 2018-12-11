@@ -100,7 +100,7 @@ export class TodoList extends React.Component {
     return <TodoEntry
       key={todo.md.id}
       todo={todo}
-      editing={this.props.editing == todo.md.id}
+      editing={this.props.editing === todo.md.id}
       onDelete={this.props.onDeleteTodo}
       onLock={this.props.onLockTodo}
       onUnlock={this.props.onUnlockTodo}
