@@ -77,6 +77,10 @@ function HsModel (sdo) {
   /** Meta */
   this._dataValues = {}
 
+  /**
+   * Set dynamic get/set for properties
+   * @param {String} fldName
+   */
   this.setGetDataValues = function (fldName) {
     Object.defineProperty(this, fldName, {
       get: function () {
@@ -89,8 +93,8 @@ function HsModel (sdo) {
   }
 
   /** Loop through properties */
-  for (var fld in this) {
-    if (fld === '_dataValues') return
+  for (var fld in sdo) {
+    if (fld === '_dataValues' || typeof fld === 'function') return
     this._dataValues[fld] = this[fld]
     this.setGetDataValues(fld)
   }
