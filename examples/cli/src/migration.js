@@ -1,5 +1,5 @@
 /** Import modules */
-const HealthStorageODM = require('../healthStorage.js')
+const HealthStorageODM = require('../../../src/healthStorage.js')
 
 /** Export functions */
 module.exports = {

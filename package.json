@@ -28,6 +28,9 @@
     "clear": "^0.1.0",
     "json-query": "^2.2.2"
   },
+  "bin": {
+    "hs-cli": "./examples/cli/cli.js"
+  },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
