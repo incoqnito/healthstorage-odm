@@ -152,7 +152,7 @@ export class Application extends React.Component {
    */
   async onEditTodo (todo) {
     try {
-      const updatedTodo = await todo.update(todo)
+      const updatedTodo = await todo.save()
       this.setState({
         todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo),
         editing: ''

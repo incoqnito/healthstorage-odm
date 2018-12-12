@@ -20,11 +20,9 @@ function HsModel (sdo) {
    * Update sdo object
    * @param {Object} sdo
    */
-  this.update = function (updated) {
-    this.save()
-    this.mergeFields(updated)
+  this.update = function () {
     this.md.r += 1
-    return HS_REQUEST.putSdoById(this.md.id, this._dataValues).then(sdo => new HsModel(sdo))
+    return HS_REQUEST.putSdoById(this.md.id, this._dataValues).then(sdo => this)
   }
 
   /**
@@ -32,10 +30,13 @@ function HsModel (sdo) {
    */
   this.save = function () {
     if (this.revision === undefined) this.revision = {}
+
     var timestamp = new Date().getTime()
-    var copyFromThis = this._dataValues
+    var copyFromThis = Object.assign({}, this._dataValues)
+
     this.revision[timestamp] = copyFromThis
-    console.log(this)
+
+    return this.update()
   }
 
   /**
