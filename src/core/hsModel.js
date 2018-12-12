@@ -29,6 +29,13 @@ function HsModel (sdo) {
    * Save sdo
    */
   this.save = function () {
+    return this.update()
+  }
+
+  /**
+   * Revision todo
+   */
+  this.setRevision = function () {
     if (this.revision === undefined) this.revision = {}
 
     var timestamp = new Date().getTime()
@@ -36,7 +43,7 @@ function HsModel (sdo) {
 
     this.revision[timestamp] = copyFromThis
 
-    return this.update()
+    console.log(this.revision)
   }
 
   /**
@@ -93,6 +100,7 @@ function HsModel (sdo) {
         return this._dataValues[fldName]
       },
       set: function (newValue) {
+        this.setRevision()
         this._dataValues[fldName] = newValue
       }
     })
