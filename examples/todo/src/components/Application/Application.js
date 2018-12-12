@@ -29,6 +29,13 @@ export class Application extends React.Component {
       pageSize: ''
     }
 
+    Todo.createClient({
+      clientUrl: 'test',
+      serverUrl: 'testapi'
+    })
+
+    console.log(Todo)
+
     this.onAddTodo = this.onAddTodo.bind(this)
     this.onToggleTodo = this.onToggleTodo.bind(this)
     this.onEditTodo = this.onEditTodo.bind(this)

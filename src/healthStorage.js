@@ -1,5 +1,6 @@
 /** Import HsInstance */
 const HS_INSTANCE = require('./core/hsInstance.js')
+const HS_CLIENT = require('./core/hsClient.js')
 const HS_REQUEST = require('./core/handler/hsRequest.js')
 const HS_SCHEMA = require('./core/handler/hsSchema.js')
 
@@ -21,6 +22,7 @@ module.exports = new HealthStorageODM()
 
 /** Get constants */
 HealthStorageODM.prototype.HS_INSTANCE = HS_INSTANCE
+HealthStorageODM.prototype.HS_CLIENT = HS_CLIENT
 
 /** HealthStorageODM */
 function HealthStorageODM () {
@@ -38,6 +40,13 @@ function HealthStorageODM () {
    */
   this.define = function (opts) {
     return this.HS_INSTANCE(opts)
+  }
+
+  /**
+   * Create Client
+   */
+  this.createClient = function (opts) {
+    return this.HS_CLIENT(opts)
   }
 
   /**
