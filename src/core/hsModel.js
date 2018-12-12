@@ -42,8 +42,6 @@ function HsModel (sdo) {
     var copyFromThis = Object.assign({}, this._dataValues)
 
     this.revision[timestamp] = copyFromThis
-
-    console.log(this.revision)
   }
 
   /**
