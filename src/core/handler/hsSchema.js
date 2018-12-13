@@ -111,7 +111,7 @@ function HsSchema (opts) {
     return schema
   }
 
-  /** schema */
+  /** Schema */
   this.schema = createSchema(this)
 
   /**
@@ -131,13 +131,13 @@ function HsSchema (opts) {
           md[key] = 1
           break
         case 'sId':
-          md[key] = this.id
+          md[key] = this.props.id
           break
         case 'sr':
           md[key] = 1
           break
         case 'oId':
-          md[key] = this.oId
+          md[key] = this.props.oId
           break
         case 'tsp':
           md[key] = new Date().toISOString()

@@ -4,12 +4,12 @@ const HS_REQUEST = require('./handler/hsRequest.js')
 module.exports = HsModel
 
 /** HS Model */
-function HsModel (sdo) {
+function HsModel (sdo, client) {
   /** Check if sdo is defined */
   if (sdo === undefined) throw new Error('Object is not set in HsModel.')
 
   /** Request */
-  this.HsRequest = new HS_REQUEST({})
+  this.HsRequest = new HS_REQUEST(client)
 
   /**
    * Destroy sdo object

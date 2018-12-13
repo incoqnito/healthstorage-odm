@@ -16,7 +16,7 @@ const MD_REVISION = 'r'
 const MD_DATE = 'tsp'
 
 /** HS Instance */
-function HsInstance (opts) {
+function HsInstance (opts, client) {
   /** Types */
   this.ASC = ASC
   this.DESC = DESC
@@ -28,7 +28,7 @@ function HsInstance (opts) {
   this.HsSchema = new HS_SCHEMA(opts)
 
   /** Request */
-  this.HsRequest = new HS_REQUEST({})
+  this.HsRequest = new HS_REQUEST(client)
 
   /**
    * Get all sdos from owner and schema
@@ -39,7 +39,7 @@ function HsInstance (opts) {
     return this.HsRequest.getSdoByIds(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
       var list = []
       for (var sdo in response.body) {
-        list.push(new HS_MODEL(response.body[sdo]))
+        list.push(new HS_MODEL(response.body[sdo], client))
       }
       return {
         list: list,
@@ -65,7 +65,7 @@ function HsInstance (opts) {
   this.create = function (data) {
     data = Object.assign(data, { md: this.HsSchema.generateMd() })
     HS_VALIDATION.validateProperties(this.HsSchema.schema, data)
-    return this.HsRequest.postSdo(data).then(sdo => new HS_MODEL(sdo))
+    return this.HsRequest.postSdo(data).then(sdo => new HS_MODEL(sdo, client))
   }
 
   /** Update sdo
@@ -75,7 +75,7 @@ function HsInstance (opts) {
   this.updateById = function (id, data) {
     data.md.r += 1
     HS_VALIDATION.validateProperties(this.HsSchema.schema, data)
-    return this.HsRequest.putSdoById(id, data).then(sdo => new HS_MODEL(sdo))
+    return this.HsRequest.putSdoById(id, data).then(sdo => new HS_MODEL(sdo, client))
   }
 
   /**

@@ -46,7 +46,7 @@ function HealthStorageODM () {
    * @return {Object} HsInstance
    */
   this.define = function (opts) {
-    return this.HS_INSTANCE(opts)
+    return this.HS_INSTANCE(opts, this.HsClient)
   }
 
   /**
