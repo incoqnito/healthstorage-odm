@@ -9,14 +9,14 @@ function HsModel (sdo, client) {
   if (sdo === undefined) throw new Error('Object is not set in HsModel.')
 
   /** Request */
-  this.HsRequest = new HS_REQUEST(client)
+  var HsRequest = new HS_REQUEST(client)
 
   /**
    * Destroy sdo object
    * @returns
    */
   this.destroy = function () {
-    return this.HsRequest.deleteSdoById(this.md.id)
+    return HsRequest.deleteSdoById(this.md.id)
   }
 
   /**
@@ -25,7 +25,7 @@ function HsModel (sdo, client) {
    */
   this.update = function () {
     this.md.r += 1
-    return this.HsRequest.putSdoById(this.md.id, this._dataValues).then(sdo => this)
+    return HsRequest.putSdoById(this.md.id, this._dataValues).then(s => new HsModel(this, client))
   }
 
   /**
@@ -52,9 +52,9 @@ function HsModel (sdo, client) {
    * @returns {Object}
    */
   this.lock = function () {
-    return this.HsRequest.postLockById(this.md.id).then(lockValue => {
-      this.mergeFields({ 'lockValue': lockValue })
-      return new HsModel(this)
+    return HsRequest.postLockById(this.md.id).then(lockValue => {
+      mergeFields({ 'lockValue': lockValue }, this)
+      return new HsModel(this, client)
     })
   }
 
@@ -63,9 +63,9 @@ function HsModel (sdo, client) {
    * @returns {Object}
    */
   this.unlock = function () {
-    return this.HsRequest.deleteLockById(this.md.id, this.lockValue).then(response => {
-      this.mergeFields({ 'lockValue': '' })
-      return new HsModel(this)
+    return HsRequest.deleteLockById(this.md.id, this.lockValue).then(response => {
+      mergeFields({ 'lockValue': '' }, this)
+      return new HsModel(this, client)
     })
   }
 
@@ -73,12 +73,12 @@ function HsModel (sdo, client) {
    * Merge object and field => value pairs
    * @param {Object} merge
    */
-  this.mergeFields = function (merge) {
+  function mergeFields (merge, self) {
     if (merge === undefined) throw new Error('Provide object to merge fields into')
 
     for (var field in merge) {
-      if (this[field] !== undefined) {
-        this[field] = merge[field]
+      if (self[field] !== undefined) {
+        self[field] = merge[field]
       }
     }
   }
@@ -95,14 +95,14 @@ function HsModel (sdo, client) {
    * Set dynamic get/set for properties
    * @param {String} fldName
    */
-  this.setGetDataValues = function (fldName) {
-    Object.defineProperty(this, fldName, {
+  function setGetDataValues (fldName, self) {
+    Object.defineProperty(self, fldName, {
       get: function () {
-        return this._dataValues[fldName]
+        return self._dataValues[fldName]
       },
       set: function (newValue) {
-        this.setRevision()
-        this._dataValues[fldName] = newValue
+        self.setRevision()
+        self._dataValues[fldName] = newValue
       }
     })
   }
@@ -111,6 +111,6 @@ function HsModel (sdo, client) {
   for (var fld in sdo) {
     if (fld === '_dataValues' || typeof fld === 'function') return
     this._dataValues[fld] = this[fld]
-    this.setGetDataValues(fld)
+    setGetDataValues(fld, this)
   }
 }

@@ -18,8 +18,6 @@ export class Application extends React.Component {
   constructor (props) {
     super(props)
 
-    console.log(Todo)
-
     this.state = {
       todos: [],
       orderBy: Todo.MD_DATE,
