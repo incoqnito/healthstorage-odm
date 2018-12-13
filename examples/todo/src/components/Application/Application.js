@@ -29,6 +29,8 @@ export class Application extends React.Component {
       pageSize: ''
     }
 
+    console.log(Todo)
+
     this.onAddTodo = this.onAddTodo.bind(this)
     this.onToggleTodo = this.onToggleTodo.bind(this)
     this.onEditTodo = this.onEditTodo.bind(this)

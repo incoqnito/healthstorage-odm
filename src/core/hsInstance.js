@@ -15,20 +15,22 @@ const MD_ID = 'id'
 const MD_REVISION = 'r'
 const MD_DATE = 'tsp'
 
+/** Constants */
+HsInstance.prototype.ASC = ASC
+HsInstance.prototype.DESC = DESC
+HsInstance.prototype.MD_ID = MD_ID
+HsInstance.prototype.MD_REVISION = MD_REVISION
+HsInstance.prototype.MD_DATE = MD_DATE
+
 /** HS Instance */
 function HsInstance (opts, client) {
   /** Types */
-  this.ASC = ASC
-  this.DESC = DESC
-  this.MD_ID = MD_ID
-  this.MD_REVISION = MD_REVISION
-  this.MD_DATE = MD_DATE
 
   /** Set schema by given values */
-  this.HsSchema = new HS_SCHEMA(opts)
+  var HsSchema = new HS_SCHEMA(opts)
 
   /** Request */
-  this.HsRequest = new HS_REQUEST(client)
+  var HsRequest = new HS_REQUEST(client)
 
   /**
    * Get all sdos from owner and schema
@@ -36,7 +38,7 @@ function HsInstance (opts, client) {
    * @returns {Promise}
    */
   this.findAll = function (options) {
-    return this.HsRequest.getSdoByIds(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
+    return HsRequest.getSdoByIds(HsSchema.props.oId, HsSchema.props.id, options).then(response => {
       var list = []
       for (var sdo in response.body) {
         list.push(new HS_MODEL(response.body[sdo], client))
@@ -54,7 +56,7 @@ function HsInstance (opts, client) {
    * @returns {Promise}
    */
   this.findById = function (id) {
-    return this.HsRequest.getSdoById(id).then(sdo => new HS_MODEL(sdo))
+    return HsRequest.getSdoById(id).then(sdo => new HS_MODEL(sdo))
   }
 
   /**
@@ -63,9 +65,9 @@ function HsInstance (opts, client) {
    * @returns {Promise}
    */
   this.create = function (data) {
-    data = Object.assign(data, { md: this.HsSchema.generateMd() })
-    HS_VALIDATION.validateProperties(this.HsSchema.schema, data)
-    return this.HsRequest.postSdo(data).then(sdo => new HS_MODEL(sdo, client))
+    data = Object.assign(data, { md: HsSchema.generateMd() })
+    HS_VALIDATION.validateProperties(HsSchema.schema, data)
+    return HsRequest.postSdo(data).then(sdo => new HS_MODEL(sdo, client))
   }
 
   /** Update sdo
@@ -74,8 +76,8 @@ function HsInstance (opts, client) {
    */
   this.updateById = function (id, data) {
     data.md.r += 1
-    HS_VALIDATION.validateProperties(this.HsSchema.schema, data)
-    return this.HsRequest.putSdoById(id, data).then(sdo => new HS_MODEL(sdo, client))
+    HS_VALIDATION.validateProperties(HsSchema.schema, data)
+    return HsRequest.putSdoById(id, data).then(sdo => new HS_MODEL(sdo, client))
   }
 
   /**
@@ -84,7 +86,7 @@ function HsInstance (opts, client) {
    * @param {Object} data
    */
   this.deleteById = function (id) {
-    return this.HsRequest.deleteSdoById(id)
+    return HsRequest.deleteSdoById(id)
   }
 
   /**
@@ -112,7 +114,7 @@ function HsInstance (opts, client) {
    * @param {String} id
    */
   this.createLockValueById = function (id) {
-    return this.HsRequest.postLockById(id).then(response => response)
+    return HsRequest.postLockById(id).then(response => response)
   }
 
   /**
@@ -121,7 +123,7 @@ function HsInstance (opts, client) {
    * @param {String} lockValue
    */
   this.getLockValueById = function (id, lockValueId) {
-    return this.HsRequest.getLockById(id, lockValueId)
+    return HsRequest.getLockById(id, lockValueId)
   }
 
   /**
@@ -130,7 +132,7 @@ function HsInstance (opts, client) {
    * @param {String} lockValue
    */
   this.deleteLockValueById = function (id, lockValueId) {
-    return this.HsRequest.deleteLockById(id, lockValueId)
+    return HsRequest.deleteLockById(id, lockValueId)
   }
 
   /**

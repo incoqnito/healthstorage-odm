@@ -18,8 +18,8 @@ function HsClient (opts) {
   if (opts.serverUrl === undefined) throw new Error('No server url provided.')
 
   /** Props */
-  this.HsClient = {}
+  this.client = {}
 
   /** Set axios */
-  this.HsClient.serverUrl = opts.serverUrl
+  this.client.serverUrl = opts.serverUrl
 }

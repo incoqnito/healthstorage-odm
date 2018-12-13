@@ -24,16 +24,16 @@ module.exports = new HealthStorageODM()
 HealthStorageODM.prototype.HS_INSTANCE = HS_INSTANCE
 HealthStorageODM.prototype.HS_CLIENT = HS_CLIENT
 
+/** Constants */
+HealthStorageODM.prototype.STRING = STRING
+HealthStorageODM.prototype.NUMBER = NUMBER
+HealthStorageODM.prototype.INTEGER = INTEGER
+HealthStorageODM.prototype.BOOLEAN = BOOLEAN
+HealthStorageODM.prototype.OBJECT = OBJECT
+HealthStorageODM.prototype.ARRAY = ARRAY
+
 /** HealthStorageODM */
 function HealthStorageODM () {
-  /** Types */
-  this.STRING = STRING
-  this.NUMBER = NUMBER
-  this.INTEGER = INTEGER
-  this.BOOLEAN = BOOLEAN
-  this.OBJECT = OBJECT
-  this.ARRAY = ARRAY
-
   /**
    * Create Client
    */
@@ -46,7 +46,7 @@ function HealthStorageODM () {
    * @return {Object} HsInstance
    */
   this.define = function (opts) {
-    return this.HS_INSTANCE(opts, this.HsClient)
+    return this.HS_INSTANCE(opts, this.client)
   }
 
   /**
