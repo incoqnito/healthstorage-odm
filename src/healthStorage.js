@@ -35,18 +35,18 @@ function HealthStorageODM () {
   this.ARRAY = ARRAY
 
   /**
+   * Create Client
+   */
+  this.createClient = function (opts) {
+    return this.HS_CLIENT(opts)
+  }
+
+  /**
    * Define
    * @return {Object} HsInstance
    */
   this.define = function (opts) {
     return this.HS_INSTANCE(opts)
-  }
-
-  /**
-   * Create Client
-   */
-  this.createClient = function (opts) {
-    return this.HS_CLIENT(opts)
   }
 
   /**

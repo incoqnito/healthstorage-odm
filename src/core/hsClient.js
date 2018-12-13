@@ -1,16 +1,25 @@
 /** Export module */
 module.exports = HsClient
 
+/** Client data for development */
+const DEVELOP = {
+  serverUrl: 'http://localhost:8080'
+}
+
 /** HealthStorageODM */
 function HsClient (opts) {
-  /** Check if options are set */
-  if (opts === undefined) throw new Error('No options provided for client')
-  if (opts.clientUrl === undefined) throw new Error('No client url provided')
-  if (opts.serverUrl === undefined) throw new Error('No api url provided')
+  /** Check for options, if not set use development data */
+  if (opts === undefined) {
+    console.log('No options provided for client. Automatically taken development environment.')
+    opts = DEVELOP
+  }
 
+  /** Check for server url */
+  if (opts.serverUrl === undefined) throw new Error('No server url provided.')
+
+  /** Props */
   this.HsClient = {}
 
   /** Set axios */
-  this.HsClient.clientUrl = opts.clientUrl
   this.HsClient.serverUrl = opts.serverUrl
 }

@@ -1,5 +1,7 @@
 import HealthStorageODM from '../../../../src/healthStorage'
 
+HealthStorageODM.createClient()
+
 export default HealthStorageODM.define({
   title: 'TodoSchema',
   properties: {

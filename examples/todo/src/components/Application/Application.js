@@ -18,6 +18,8 @@ export class Application extends React.Component {
   constructor (props) {
     super(props)
 
+    console.log(Todo)
+
     this.state = {
       todos: [],
       orderBy: Todo.MD_DATE,
@@ -28,13 +30,6 @@ export class Application extends React.Component {
       endDate: new Date('2018-12-31'),
       pageSize: ''
     }
-
-    Todo.createClient({
-      clientUrl: 'test',
-      serverUrl: 'testapi'
-    })
-
-    console.log(Todo)
 
     this.onAddTodo = this.onAddTodo.bind(this)
     this.onToggleTodo = this.onToggleTodo.bind(this)

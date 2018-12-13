@@ -29,57 +29,58 @@ function HsSchema (opts) {
   if (opts.options === undefined) throw new Error('No options provided for schema.')
 
   /** properties */
-  this.title = opts.title
-  this.properties = opts.properties
-  this.required = opts.options.required
-  this.id = (opts.options.id !== undefined) ? opts.options.id : uuid()
-  this.oId = (opts.options.oId !== undefined) ? opts.options.oId : ''
-  this.r = (opts.options.r !== undefined) ? opts.options.r : 1
+  this.props = {}
+  this.props.title = opts.title
+  this.props.properties = opts.properties
+  this.props.required = opts.options.required
+  this.props.id = (opts.options.id !== undefined) ? opts.options.id : uuid()
+  this.props.oId = (opts.options.oId !== undefined) ? opts.options.oId : ''
+  this.props.r = (opts.options.r !== undefined) ? opts.options.r : 1
 
   /** Create schema */
-  this.createSchema = function () {
+  function createSchema (self) {
     var schema = {
-      '$schema': this.SCHEMA_DRAFT,
-      'title': this.title,
+      '$schema': self.SCHEMA_DRAFT,
+      'title': self.props.title,
       'definitions': {
         'MetadataSdo': {
           'type': [
-            this.OBJECT,
-            this.NULL
+            self.OBJECT,
+            self.NULL
           ],
           'additionalProperties': true,
           'properties': {
             'id': {
-              'type': this.STRING,
-              'pattern': this.UUID_PATTERN
+              'type': self.STRING,
+              'pattern': self.UUID_PATTERN
             },
             'r': {
-              'type': this.INTEGER,
-              'minimum': this.INT_MIN,
-              'maximum': this.INT_MAX
+              'type': self.INTEGER,
+              'minimum': self.INT_MIN,
+              'maximum': self.INT_MAX
             },
             'eId': {
               'type': [
-                this.STRING,
-                this.NULL
+                self.STRING,
+                self.NULL
               ]
             },
             'sId': {
-              'type': this.STRING,
-              'pattern': this.UUID_PATTERN
+              'type': self.STRING,
+              'pattern': self.UUID_PATTERN
             },
             'sr': {
               'type': 'integer',
-              'minimum': this.INT_MIN,
-              'maximum': this.INT_MAX
+              'minimum': self.INT_MIN,
+              'maximum': self.INT_MAX
             },
             'oId': {
-              'type': this.STRING,
-              'pattern': this.UUID_PATTERN
+              'type': self.STRING,
+              'pattern': self.UUID_PATTERN
             },
             'tsp': {
-              'type': this.STRING,
-              'format': this.FORMAT_DATE
+              'type': self.STRING,
+              'format': self.FORMAT_DATE
             }
           },
           'required': [
@@ -93,14 +94,14 @@ function HsSchema (opts) {
           ]
         }
       },
-      '$id': this.BTSS_PREFIX + this.id + '/' + this.r,
+      '$id': self.BTSS_PREFIX + self.props.id + '/' + self.props.r,
       'type': 'object',
       'properties': {
         'md': {
           '$ref': '#/definitions/MetadataSdo'
         }
       },
-      'required': this.required
+      'required': self.props.required
     }
 
     Object.assign(schema.properties, this.properties)
@@ -111,7 +112,7 @@ function HsSchema (opts) {
   }
 
   /** schema */
-  this.schema = this.createSchema()
+  this.schema = createSchema(this)
 
   /**
    * Create md data for schema
@@ -148,7 +149,4 @@ function HsSchema (opts) {
     }
     return md
   }
-
-  /** Return schema */
-  return this
 }

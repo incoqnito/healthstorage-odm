@@ -8,12 +8,15 @@ function HsModel (sdo) {
   /** Check if sdo is defined */
   if (sdo === undefined) throw new Error('Object is not set in HsModel.')
 
+  /** Request */
+  this.HsRequest = new HS_REQUEST({})
+
   /**
    * Destroy sdo object
    * @returns
    */
   this.destroy = function () {
-    return HS_REQUEST.deleteSdoById(this.md.id)
+    return this.HsRequest.deleteSdoById(this.md.id)
   }
 
   /**
@@ -22,7 +25,7 @@ function HsModel (sdo) {
    */
   this.update = function () {
     this.md.r += 1
-    return HS_REQUEST.putSdoById(this.md.id, this._dataValues).then(sdo => this)
+    return this.HsRequest.putSdoById(this.md.id, this._dataValues).then(sdo => this)
   }
 
   /**
@@ -49,7 +52,7 @@ function HsModel (sdo) {
    * @returns {Object}
    */
   this.lock = function () {
-    return HS_REQUEST.postLockById(this.md.id).then(lockValue => {
+    return this.HsRequest.postLockById(this.md.id).then(lockValue => {
       this.mergeFields({ 'lockValue': lockValue })
       return new HsModel(this)
     })
@@ -60,7 +63,7 @@ function HsModel (sdo) {
    * @returns {Object}
    */
   this.unlock = function () {
-    return HS_REQUEST.deleteLockById(this.md.id, this.lockValue).then(response => {
+    return this.HsRequest.deleteLockById(this.md.id, this.lockValue).then(response => {
       this.mergeFields({ 'lockValue': '' })
       return new HsModel(this)
     })
