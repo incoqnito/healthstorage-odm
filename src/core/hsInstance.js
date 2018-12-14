@@ -141,7 +141,7 @@ function HsInstance (opts, client) {
    * @param {String} lockValue
    */
   this.isLockedById = function (id, lockValue) {
-
+    // could not be done currently, lock is strange
   }
 
   /**
@@ -150,7 +150,7 @@ function HsInstance (opts, client) {
    * @param {String} lockValue
    */
   this.lockStatebyId = function (id, lockValue) {
-
+    // could not be done currently, lock is strange
   }
 
   return this

@@ -55,7 +55,8 @@ function HealthStorageODM () {
    */
   this.createSchema = function (opts) {
     var HsSchema = new HS_SCHEMA(opts)
-    return HS_REQUEST.postSchema(HsSchema.schema)
+    var HsRequest = new HS_REQUEST(this.client)
+    return HsRequest.postSchema(HsSchema.schema)
   }
 
   /**
@@ -63,6 +64,15 @@ function HealthStorageODM () {
    * @returns {Promise}
    */
   this.deleteSchemaById = function (id) {
-    return HS_REQUEST.deleteSchemaById(id)
+    var HsRequest = new HS_REQUEST(this.client)
+    return HsRequest.deleteSchemaById(id)
+  }
+
+  /**
+   * Create Sdo
+   */
+  this.createSdo = function (opts) {
+    var HsRequest = new HS_REQUEST()
+    return HsRequest.postSdo(opts)
   }
 }

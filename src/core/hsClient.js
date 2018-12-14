@@ -20,6 +20,6 @@ function HsClient (opts) {
   /** Props */
   this.client = {}
 
-  /** Set axios */
+  /** Set server url */
   this.client.serverUrl = opts.serverUrl
 }

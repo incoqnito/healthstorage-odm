@@ -1,6 +1,8 @@
 /** Import modules */
 const HealthStorageODM = require('../../../src/healthStorage.js')
 
+HealthStorageODM.createClient()
+
 /** Export functions */
 module.exports = {
   /**
@@ -9,23 +11,35 @@ module.exports = {
   up: () => {
     try {
       return HealthStorageODM.createSchema({
-        title: 'TestSchema2',
+        title: 'EventSchema',
         properties: {
+          id: {
+            type: HealthStorageODM.STRING
+          },
           title: {
             type: HealthStorageODM.STRING
           },
-          isCompleted: {
+          start: {
+            type: HealthStorageODM.DATE
+          },
+          end: {
+            type: HealthStorageODM.DATE
+          },
+          allDay: {
             type: HealthStorageODM.BOOLEAN
           },
-          locked: {
-            type: HealthStorageODM.OBJECT
+          color: {
+            type: HealthStorageODM.STRING
+          },
+          resourceId: {
+            type: HealthStorageODM.STRING
           }
         },
         options: {
           required: ['md']
         }
-      }).then(id => {
-        console.log('Created schema id:' + id)
+      }).then(schema => {
+        console.log('Created schema id:' + schema.$id)
       })
     } catch (e) {
       console.log('Error:' + e.mesage)
@@ -36,6 +50,17 @@ module.exports = {
    * Delete schema by its identifier
    */
   down: () => {
-    return HealthStorageODM.deleteSchemaById('902ab03f-ae56-4219-9708-420fd6e60321')
+    return HealthStorageODM.deleteSchemaById('42479354-e9be-4a99-8477-5eb98404fbd8').then(response => {
+      console.log('Schema successfully deleted.')
+    })
+  },
+
+  /** Create sdo */
+  create: () => {
+    return HealthStorageODM.createSdo(
+      {
+
+      }
+    )
   }
 }

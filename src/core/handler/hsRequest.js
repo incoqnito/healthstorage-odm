@@ -120,7 +120,7 @@ function HsRequest (client) {
         'Content-Type': 'application/schema+json'
       }
     })
-      .then(response => response.data.schema.$id)
+      .then(response => response.data.schema)
       .catch(error => error)
   }
 
