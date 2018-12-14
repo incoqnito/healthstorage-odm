@@ -72,7 +72,7 @@ module.exports = {
         color: '#660066',
         resourceId: uuid(),
         md: {
-          'id': this.id,
+          'id': this.id, // bug
           'r': 1,
           'eId': '',
           'sId': 'cbd2b7b1-46f9-46d5-8658-2398de990b35',
@@ -90,7 +90,7 @@ module.exports = {
         color: '#FF007F',
         resourceId: uuid(),
         md: {
-          'id': this.id,
+          'id': this.id, // bug
           'r': 1,
           'eId': '',
           'sId': 'cbd2b7b1-46f9-46d5-8658-2398de990b35',
