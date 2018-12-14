@@ -4,6 +4,8 @@ import { Chroniq } from '../../components/Chroniq/Chroniq'
 import { withModal } from '../../components/Modal/Modal'
 import { NormalLayout } from '../../components/NormalLayout/NormalLayout'
 
+import { Event } from './../../models'
+
 @withModal
 export default class Overview extends React.Component {
   state = {

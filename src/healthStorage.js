@@ -69,10 +69,14 @@ function HealthStorageODM () {
   }
 
   /**
-   * Create Sdo
+   * Create sdos
    */
-  this.createSdo = function (opts) {
-    var HsRequest = new HS_REQUEST()
-    return HsRequest.postSdo(opts)
+  this.createSdos = function (opts) {
+    var HsRequest = new HS_REQUEST(this.client)
+    for (var sdo in opts) {
+      HsRequest.postSdo(opts[sdo]).then(sdo => {
+        console.log(sdo)
+      })
+    }
   }
 }

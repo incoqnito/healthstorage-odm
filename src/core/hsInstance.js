@@ -33,6 +33,14 @@ function HsInstance (opts, client) {
   var HsRequest = new HS_REQUEST(client)
 
   /**
+   * Create schema
+   * @returns {Promise}
+   */
+  this.createSchema = function () {
+    return HsRequest.postSchema(HsSchema.schema)
+  }
+
+  /**
    * Get all sdos from owner and schema
    * @param {Object} data
    * @returns {Promise}
