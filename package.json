@@ -1,8 +1,8 @@
 {
-  "name": "healthstorage-odm",
-  "version": "1.0.0",
+  "name": "@incoqnito.io/healthstorage-odm",
+  "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "development": "forever --watchDirectory=./src index.js",
     "build": "babel ./src --out-dir lib",
