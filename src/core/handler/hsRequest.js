@@ -1,28 +1,78 @@
 /** Import modules */
 const AXIOS = require('axios')
 
-/** Config */
+/** Constants */
 const SDO_ENDPOINT = 'sdos'
-const SDO_DELETE_ENDPOINT = 'eraser/sdos'
+const SDO_EREASE_ENDPOINT = 'eraser/sdos'
 const SCHEMA_ENDPOINT = 'schemas'
-const SCHEMA_DELETE_ENDPOINT = 'eraser/schemas'
+const SCHEMA_EREASE_ENDPOINT = 'eraser/schemas'
 const SDO_LOCKS_ENDPOINT = 'sdos/{id}/locks'
 const SDO_ISLOCKED_ENDPOINT = 'sdos/{id}/islocked'
 
-/** Export module */
-module.exports = HsRequest
+module.exports = class HsRequest {
+  /**
+   * Construct
+   * @param {Object} client client object
+   */
+  constructor (client) {
+    if (client === undefined) throw new Error('No instance options provided for HsRequest')
+    this.client = client
+  }
 
-/** HealthStorageODM */
-function HsRequest (client) {
-  /** Check for client */
-  if (client === undefined) throw new Error('Client for requests is not defined')
+  /**
+   * Get sdo endpoint
+   * @return {String} SDO_ENDPOINT
+   */
+  get SDO_ENDPOINT () {
+    return SDO_ENDPOINT
+  }
+
+  /**
+   * Get sdo erease endpoint
+   * @return {String} SDO_EREASE_ENDPOINT
+   */
+  get SDO_EREASE_ENDPOINT () {
+    return SDO_EREASE_ENDPOINT
+  }
+
+  /**
+   * Get schema endpoint
+   * @return {String} SCHEMA_ENDPOINT
+   */
+  get SCHEMA_ENDPOINT () {
+    return SCHEMA_ENDPOINT
+  }
+
+  /**
+   * Get schema erease endpoint
+   * @return {String} SCHEMA_EREASE_ENDPOINT
+   */
+  get SCHEMA_EREASE_ENDPOINT () {
+    return SCHEMA_EREASE_ENDPOINT
+  }
+
+  /**
+   * Get sdo lock endpoint
+   * @return {String} SDO_LOCKS_ENDPOINT
+   */
+  get SDO_LOCKS_ENDPOINT () {
+    return SDO_LOCKS_ENDPOINT
+  }
+
+  /**
+   * Get sdo is locked endpoint
+   * @return {String} SDO_ISLOCKED_ENDPOINT
+   */
+  get SDO_ISLOCKED_ENDPOINT () {
+    return SDO_ISLOCKED_ENDPOINT
+  }
 
   /**
    * Get Sdos for given Schema
    * @returns {Promise}
    */
-  this.getSdoByIds = function (oId, id, params) {
-    return AXIOS.get(`${client.serverUrl}/${SDO_ENDPOINT}/${oId}/${id}`, {
+  getSdoByIds (oId, id, params) {
+    return AXIOS.get(`${this.client.serverUrl}/${SDO_ENDPOINT}/${oId}/${id}`, {
       params
     })
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
@@ -39,8 +89,8 @@ function HsRequest (client) {
    * @issue Api currently not returning created sdo object from backend, for now use given data in return
    * @returns {Promise}
    */
-  this.postSdo = function (sdo) {
-    return AXIOS.post(`${client.serverUrl}/${SDO_ENDPOINT}/${sdo.md.id}`, sdo, {
+  postSdo (sdo) {
+    return AXIOS.post(`${this.client.serverUrl}/${SDO_ENDPOINT}/${sdo.md.id}`, sdo, {
       headers: {
         responseType: 'application/json'
       }
@@ -59,8 +109,8 @@ function HsRequest (client) {
    * @issue Api currently not returning created sdo object from backend, for now use given data in return
    * @returns {Promise}
    */
-  this.putSdoById = function (id, sdo) {
-    return AXIOS.put(`${client.serverUrl}/${SDO_ENDPOINT}/${id}`, sdo, {
+  putSdoById (id, sdo) {
+    return AXIOS.put(`${this.client.serverUrl}/${SDO_ENDPOINT}/${id}`, sdo, {
       headers: {
         responseType: 'application/json'
       }
@@ -78,8 +128,8 @@ function HsRequest (client) {
    * Get Sdos for given Schema
    * @returns {Promise}
    */
-  this.getSdoById = function (id) {
-    return AXIOS.get(`${client.serverUrl}/${SDO_ENDPOINT}/${id}`)
+  getSdoById (id) {
+    return AXIOS.get(`${this.client.serverUrl}/${SDO_ENDPOINT}/${id}`)
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         return Promise.reject(new Error({
@@ -94,8 +144,8 @@ function HsRequest (client) {
    * @issue Api currently not returning deleted id from backend, for now use given data in return
    * @returns {Promise}
    */
-  this.deleteSdoById = function (id) {
-    return AXIOS.delete(`${client.serverUrl}/${SDO_DELETE_ENDPOINT}/${id}`, {
+  deleteSdoById (id) {
+    return AXIOS.delete(`${this.client.serverUrl}/${SDO_EREASE_ENDPOINT}/${id}`, {
       headers: {
         responseType: 'application/json'
       }
@@ -114,8 +164,8 @@ function HsRequest (client) {
    * @param {String} sId
    * @returns {Object}
    */
-  this.postSchema = function (schema) {
-    return AXIOS.post(`${client.serverUrl}/${SCHEMA_ENDPOINT}`, JSON.stringify(schema), {
+  postSchema (schema) {
+    return AXIOS.post(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}`, JSON.stringify(schema), {
       headers: {
         'Content-Type': 'application/schema+json'
       }
@@ -129,8 +179,8 @@ function HsRequest (client) {
    * @param {String} sId
    * @returns {Object}
    */
-  this.getSchemaBySid = function (sId) {
-    return AXIOS.get(`${client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}`, {
+  getSchemaBySid (sId) {
+    return AXIOS.get(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}`, {
       headers: {
         accept: 'application/schema+json',
         responseType: 'application/schema+json'
@@ -150,8 +200,8 @@ function HsRequest (client) {
    * @param {String} schemaId
    * @returns {Object}
    */
-  this.deleteSchemaById = function (schemaId) {
-    return AXIOS.delete(`${client.serverUrl}/${SCHEMA_DELETE_ENDPOINT}/${schemaId}?allRevisions=true`, {
+  deleteSchemaById (schemaId) {
+    return AXIOS.delete(`${this.client.serverUrl}/${SCHEMA_EREASE_ENDPOINT}/${schemaId}?allRevisions=true`, {
       headers: {
         responseType: 'application/json'
       }
@@ -165,8 +215,8 @@ function HsRequest (client) {
    * @param {String} sId
    * @returns {Object}
    */
-  this.getSchemaBySidr = function (sId, r) {
-    return AXIOS.get(`${client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}/${r}`, {
+  etSchemaBySidr (sId, r) {
+    return AXIOS.get(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}/${r}`, {
       headers: {
         accept: 'application/schema+json',
         responseType: 'application/schema+json'
@@ -186,8 +236,8 @@ function HsRequest (client) {
    * @param {String} id
    * @returns {Promise}
    */
-  this.postLockById = function (id) {
-    return AXIOS.post(`${client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}`, {
+  postLockById (id) {
+    return AXIOS.post(`${this.client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}`, {
       headers: {
         accept: 'application/json',
         responseType: 'application/json'
@@ -207,8 +257,8 @@ function HsRequest (client) {
    * @param {String} id
    * @returns {Promise}
    */
-  this.getLockById = function (id, lockValueId) {
-    return AXIOS.post(`${client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}/${lockValueId}`, {
+  getLockById (id, lockValueId) {
+    return AXIOS.post(`${this.client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}/${lockValueId}`, {
       headers: {
         accept: 'application/json',
         responseType: 'application/json'
@@ -228,8 +278,8 @@ function HsRequest (client) {
    * @param {String} id
    * @returns {Promise}
    */
-  this.deleteLockById = function (id, lockValueId) {
-    return AXIOS.delete(`${client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}/${lockValueId}`, {
+  deleteLockById (id, lockValueId) {
+    return AXIOS.delete(`${this.client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}/${lockValueId}`, {
       headers: {
         accept: 'application/json',
         responseType: 'application/json'

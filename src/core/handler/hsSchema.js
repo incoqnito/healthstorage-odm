@@ -1,7 +1,6 @@
 /** Import modules */
 const uuid = require('uuid/v4')
 const HS_HELPER = require('../lib/HsHelper.js')
-const HS_VALIDATION = require('./HsValidation.js')
 
 /** Constants */
 const SCHEMA_DRAFT = 'http://json-schema.org/draft-07/schema#'
@@ -25,7 +24,6 @@ module.exports = class HsSchema {
    * @param {Object} opts instance object
    */
   constructor (schemaProps) {
-    console.log('HsSchema constructor fired.')
     if (schemaProps === undefined) throw new Error('No schema properties provided for HsSchema')
     if (schemaProps.title === undefined || schemaProps.title.trim() === '') throw new Error('No title provided for HsSchema.')
     if (schemaProps.properties === undefined) throw new Error('No properties provided for HsSchema.')
@@ -40,7 +38,6 @@ module.exports = class HsSchema {
     this.props.r = (schemaProps.options.r !== undefined) ? schemaProps.options.r : 1
 
     this.schema = this.createSchema()
-    console.log(this.schema)
   }
 
   /**
@@ -224,9 +221,8 @@ module.exports = class HsSchema {
       },
       'required': this.props.required
     }
-    Object.assign(schema.properties, this.properties)
 
-    // HS_VALIDATION.validateSchema(schema)
+    Object.assign(schema.properties, this.properties)
 
     return schema
   }
@@ -267,44 +263,3 @@ module.exports = class HsSchema {
     return md
   }
 }
-
-// /** HS schema */
-// function HsSchema (opts) {
-//   /** Undefined proof */
-
-//   /**
-//    * Create md data for schema
-//    * @param {Object} schema
-//    * @returns {Object}
-//    */
-//   this.generateMd = function () {
-//     var metaFromSchema = HS_HELPER.findValueByPath(this.schema, 'definitions.MetadataSdo.properties')
-//     var md = {}
-//     for (var key in metaFromSchema) {
-//       switch (key) {
-//         case 'id':
-//           md[key] = uuid()
-//           break
-//         case 'r':
-//           md[key] = 1
-//           break
-//         case 'sId':
-//           md[key] = this.props.id
-//           break
-//         case 'sr':
-//           md[key] = 1
-//           break
-//         case 'oId':
-//           md[key] = this.props.oId
-//           break
-//         case 'tsp':
-//           md[key] = new Date().toISOString()
-//           break
-//         default:
-//           md[key] = ''
-//           break
-//       }
-//     }
-//     return md
-//   }
-// }

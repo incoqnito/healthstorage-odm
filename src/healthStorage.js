@@ -25,7 +25,6 @@ module.exports = class HealthStorageODM {
    * @param {Object} opts client object
    */
   constructor (opts) {
-    console.log('HealthStorageODM constructor fired.')
     if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
     return this.createClient(opts)
   }
@@ -84,7 +83,6 @@ module.exports = class HealthStorageODM {
    * @returns {HS_INSTANCE} HealthStorgaeODM instace
    */
   createClient (opts) {
-    console.log('HealthStorageODM create client fired.')
     if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
     if (opts.serverUrl === undefined) throw new Error('Client options set but no server url provided for HealthStorageODM')
     return new HS_CLIENT(opts)

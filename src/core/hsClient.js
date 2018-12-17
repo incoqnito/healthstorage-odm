@@ -8,16 +8,16 @@ module.exports = class HsClient {
    * @param {Object} client client object
    */
   constructor (client) {
-    this.serverUrl = client.serverUrl
+    this.client = client
   }
 
   /**
    * Static define
    * @param {Object} opts define object
-   * @returns {Instance} HealthStorgaeODM instace
+   * @returns {Instance} HS_INSTANCE
    */
   define (opts) {
-    console.log('HsClient define fired.')
+    opts.client = this.client
     return new HS_INSTANCE(opts)
   }
 }

@@ -1,23 +1,17 @@
 /** Export module */
-module.exports = new HsHelper()
-
-/** Functions */
-HsHelper.prototype.findValueByPath = findValueByPath
-
-/** HS schema */
-function HsHelper () { }
-
-/**
- * Find object value by given path
- * @param {Object} obj
- * @param {String} path
- * @returns {Object}
- */
-function findValueByPath (obj, path) {
-  let object = obj
-  const splitPath = path.split('.')
-  for (var i = 0, len = splitPath.length; i < len; i++) {
-    object = object[splitPath[i]]
-  };
-  return object
+module.exports = class HsHelper {
+  /**
+   * Find object value by given path
+   * @param {Object} obj
+   * @param {String} path
+   * @returns {Object}
+   */
+  static findValueByPath (obj, path) {
+    let object = obj
+    const splitPath = path.split('.')
+    for (var i = 0, len = splitPath.length; i < len; i++) {
+      object = object[splitPath[i]]
+    };
+    return object
+  }
 }
