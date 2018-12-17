@@ -1,9 +1,11 @@
 /** Import HsInstance */
-const HS_INSTANCE = require('./core/hsInstance.js')
+
 const HS_CLIENT = require('./core/hsClient.js')
 const HS_REQUEST = require('./core/handler/hsRequest.js')
 const HS_SCHEMA = require('./core/handler/hsSchema.js')
 
+/** Debug flag */
+const DEBUG = true
 /** String type */
 const STRING = 'string'
 /** Number type */
@@ -17,66 +19,109 @@ const OBJECT = 'object'
 /** Array type */
 const ARRAY = 'array'
 
-/** Export module */
-module.exports = new HealthStorageODM()
-
-/** Get constants */
-HealthStorageODM.prototype.HS_INSTANCE = HS_INSTANCE
-HealthStorageODM.prototype.HS_CLIENT = HS_CLIENT
-
-/** Constants */
-HealthStorageODM.prototype.STRING = STRING
-HealthStorageODM.prototype.NUMBER = NUMBER
-HealthStorageODM.prototype.INTEGER = INTEGER
-HealthStorageODM.prototype.BOOLEAN = BOOLEAN
-HealthStorageODM.prototype.OBJECT = OBJECT
-HealthStorageODM.prototype.ARRAY = ARRAY
-
-/** HealthStorageODM */
-function HealthStorageODM () {
+module.exports = class HealthStorageODM {
   /**
-   * Create Client
+   * Construct
+   * @param {Object} opts client object
    */
-  this.createClient = function (opts) {
-    return this.HS_CLIENT(opts)
+  constructor (opts) {
+    console.log('HealthStorageODM constructor fired.')
+    if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
+    return this.createClient(opts)
   }
 
   /**
-   * Define
-   * @return {Object} HsInstance
+   * Get string type
+   * @return {String} STRING
    */
-  this.define = function (opts) {
-    return this.HS_INSTANCE(opts, this.client)
+  static get STRING () {
+    return STRING
   }
 
   /**
-   * Create schema
-   * @returns {Promise}
+   * Get number type
+   * @return {String} NUMBER
    */
-  this.createSchema = function (opts) {
-    var HsSchema = new HS_SCHEMA(opts)
-    var HsRequest = new HS_REQUEST(this.client)
-    return HsRequest.postSchema(HsSchema.schema)
+  get NUMBER () {
+    return NUMBER
   }
 
   /**
-   * Delete schema
-   * @returns {Promise}
+   * Get integer type
+   * @return {String} INTEGER
    */
-  this.deleteSchemaById = function (id) {
-    var HsRequest = new HS_REQUEST(this.client)
-    return HsRequest.deleteSchemaById(id)
+  get INTEGER () {
+    return INTEGER
   }
 
   /**
-   * Create sdos
+   * Get boolean type
+   * @return {String} BOOLEAN
    */
-  this.createSdos = function (opts) {
-    var HsRequest = new HS_REQUEST(this.client)
-    for (var sdo in opts) {
-      HsRequest.postSdo(opts[sdo]).then(sdo => {
-        console.log(sdo)
-      })
-    }
+  get BOOLEAN () {
+    return BOOLEAN
+  }
+
+  /**
+   * Get object type
+   * @return {String} OBJECT
+   */
+  get OBJECT () {
+    return OBJECT
+  }
+
+  /**
+   * Get array type
+   * @return {String} ARRAY
+   */
+  get ARRAY () {
+    return ARRAY
+  }
+
+  /**
+   * Static create client
+   * @param {Object} opts client object
+   * @returns {HS_INSTANCE} HealthStorgaeODM instace
+   */
+  createClient (opts) {
+    console.log('HealthStorageODM create client fired.')
+    if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
+    if (opts.serverUrl === undefined) throw new Error('Client options set but no server url provided for HealthStorageODM')
+    return new HS_CLIENT(opts)
   }
 }
+
+// /** HealthStorageODM */
+// function HealthStorageODM () {
+
+//   /**
+//    * Create schema
+//    * @returns {Promise}
+//    */
+//   this.createSchema = function (opts) {
+//     var HsSchema = new HS_SCHEMA(opts)
+//     var HsRequest = new HS_REQUEST(this.client)
+//     return HsRequest.postSchema(HsSchema.schema)
+//   }
+
+//   /**
+//    * Delete schema
+//    * @returns {Promise}
+//    */
+//   this.deleteSchemaById = function (id) {
+//     var HsRequest = new HS_REQUEST(this.client)
+//     return HsRequest.deleteSchemaById(id)
+//   }
+
+//   /**
+//    * Create sdos
+//    */
+//   this.createSdos = function (opts) {
+//     var HsRequest = new HS_REQUEST(this.client)
+//     for (var sdo in opts) {
+//       HsRequest.postSdo(opts[sdo]).then(sdo => {
+//         console.log(sdo)
+//       })
+//     }
+//   }
+// }

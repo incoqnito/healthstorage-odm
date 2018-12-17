@@ -3,84 +3,205 @@ const uuid = require('uuid/v4')
 const HS_HELPER = require('../lib/HsHelper.js')
 const HS_VALIDATION = require('./HsValidation.js')
 
-/** Export module */
-module.exports = HsSchema
+/** Constants */
+const SCHEMA_DRAFT = 'http://json-schema.org/draft-07/schema#'
+const UUID_PATTERN = '^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$'
+const BTSS_PREFIX = 'urn:btssid:'
+const INT_MIN = 1.0
+const INT_MAX = 2147483647.0
+const NULL = 'null'
+const OBJECT = 'object'
+const ARRAY = 'array'
+const STRING = 'string'
+const NUMBER = 'number'
+const INTEGER = 'integer'
+const DOUBLE = 'double'
+const BOOLEAN = 'boolean'
+const FORMAT_DATE = 'date-time'
 
-/** Get constants */
-HsSchema.prototype.SCHEMA_DRAFT = 'http://json-schema.org/draft-07/schema#'
-HsSchema.prototype.UUID_PATTERN = '^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$'
-HsSchema.prototype.BTSS_PREFIX = 'urn:btssid:'
-HsSchema.prototype.INT_MIN = 1.0
-HsSchema.prototype.INT_MAX = 2147483647.0
-HsSchema.prototype.NULL = 'null'
-HsSchema.prototype.OBJECT = 'object'
-HsSchema.prototype.STRING = 'string'
-HsSchema.prototype.INTEGER = 'integer'
-HsSchema.prototype.DOUBLE = 'double'
-HsSchema.prototype.BOOLEAN = 'boolean'
-HsSchema.prototype.FORMAT_DATE = 'date-time'
+module.exports = class HsSchema {
+  /**
+   * Construct
+   * @param {Object} opts instance object
+   */
+  constructor (schemaProps) {
+    console.log('HsSchema constructor fired.')
+    if (schemaProps === undefined) throw new Error('No schema properties provided for HsSchema')
+    if (schemaProps.title === undefined || schemaProps.title.trim() === '') throw new Error('No title provided for HsSchema.')
+    if (schemaProps.properties === undefined) throw new Error('No properties provided for HsSchema.')
+    if (schemaProps.options === undefined) throw new Error('No options provided for HsSchema.')
 
-/** HS schema */
-function HsSchema (opts) {
-  /** Undefined proof */
-  if (opts === undefined) throw new Error('No options provided for schema init.')
-  if (opts.title === undefined || opts.title.trim() === '') throw new Error('No title provided for schema.')
-  if (opts.properties === undefined) throw new Error('No properties provided for schema.')
-  if (opts.options === undefined) throw new Error('No options provided for schema.')
+    this.props = {}
+    this.props.title = schemaProps.title
+    this.props.properties = schemaProps.properties
+    this.props.required = schemaProps.options.required
+    this.props.id = (schemaProps.options.id !== undefined) ? schemaProps.options.id : uuid()
+    this.props.oId = (schemaProps.options.oId !== undefined) ? schemaProps.options.oId : ''
+    this.props.r = (schemaProps.options.r !== undefined) ? schemaProps.options.r : 1
 
-  /** properties */
-  this.props = {}
-  this.props.title = opts.title
-  this.props.properties = opts.properties
-  this.props.required = opts.options.required
-  this.props.id = (opts.options.id !== undefined) ? opts.options.id : uuid()
-  this.props.oId = (opts.options.oId !== undefined) ? opts.options.oId : ''
-  this.props.r = (opts.options.r !== undefined) ? opts.options.r : 1
+    this.schema = this.createSchema()
+    console.log(this.schema)
+  }
 
-  /** Create schema */
-  function createSchema (self) {
+  /**
+   * Get schema draft version
+   * @return {String} SCHEMA_DRAFT
+   */
+  get SCHEMA_DRAFT () {
+    return SCHEMA_DRAFT
+  }
+
+  /**
+   * Get uuid pattern regex
+   * @return {String} UUID_PATTERN
+   */
+  get UUID_PATTERN () {
+    return UUID_PATTERN
+  }
+
+  /**
+   * Get btss pattern prefix
+   * @return {String} BTSS_PREFIX
+   */
+  get BTSS_PREFIX () {
+    return BTSS_PREFIX
+  }
+
+  /**
+   * Get int min value
+   * @return {String} INT_MIN
+   */
+  get INT_MIN () {
+    return INT_MIN
+  }
+
+  /**
+   * Get int max value
+   * @return {String} INT_MAX
+   */
+  get INT_MAX () {
+    return INT_MAX
+  }
+
+  /**
+   * Get null type
+   * @return {String} NULL
+   */
+  get NULL () {
+    return NULL
+  }
+
+  /**
+   * Get object type
+   * @return {String} OBJECT
+   */
+  get OBJECT () {
+    return OBJECT
+  }
+
+  /**
+   * Get array type
+   * @return {String} ARRAY
+   */
+  get ARRAY () {
+    return ARRAY
+  }
+
+  /**
+   * Get string type
+   * @return {String} STRING
+   */
+  get STRING () {
+    return STRING
+  }
+
+  /**
+   * Get number type
+   * @return {String} NUMBER
+   */
+  get NUMBER () {
+    return NUMBER
+  }
+
+  /**
+   * Get integer type
+   * @return {String} INTEGER
+   */
+  get INTEGER () {
+    return INTEGER
+  }
+
+  /**
+   * Get double type
+   * @return {String} DOUBLE
+   */
+  get DOUBLE () {
+    return DOUBLE
+  }
+
+  /**
+   * Get boolean type
+   * @return {String} BOOLEAN
+   */
+  get BOOLEAN () {
+    return BOOLEAN
+  }
+
+  /**
+   * Get format date type
+   * @return {String} FORMAT_DATE
+   */
+  get FORMAT_DATE () {
+    return FORMAT_DATE
+  }
+
+  /**
+   * Create schema
+   * @return {Object} schema
+   */
+  createSchema () {
     var schema = {
-      '$schema': self.SCHEMA_DRAFT,
-      'title': self.props.title,
+      '$schema': this.SCHEMA_DRAFT,
+      'title': this.props.title,
       'definitions': {
         'MetadataSdo': {
           'type': [
-            self.OBJECT,
-            self.NULL
+            this.OBJECT,
+            this.NULL
           ],
           'additionalProperties': true,
           'properties': {
             'id': {
-              'type': self.STRING,
-              'pattern': self.UUID_PATTERN
+              'type': this.STRING,
+              'pattern': this.UUID_PATTERN
             },
             'r': {
-              'type': self.INTEGER,
-              'minimum': self.INT_MIN,
-              'maximum': self.INT_MAX
+              'type': this.INTEGER,
+              'minimum': this.INT_MIN,
+              'maximum': this.INT_MAX
             },
             'eId': {
               'type': [
-                self.STRING,
-                self.NULL
+                this.STRING,
+                this.NULL
               ]
             },
             'sId': {
-              'type': self.STRING,
-              'pattern': self.UUID_PATTERN
+              'type': this.STRING,
+              'pattern': this.UUID_PATTERN
             },
             'sr': {
               'type': 'integer',
-              'minimum': self.INT_MIN,
-              'maximum': self.INT_MAX
+              'minimum': this.INT_MIN,
+              'maximum': this.INT_MAX
             },
             'oId': {
-              'type': self.STRING,
-              'pattern': self.UUID_PATTERN
+              'type': this.STRING,
+              'pattern': this.UUID_PATTERN
             },
             'tsp': {
-              'type': self.STRING,
-              'format': self.FORMAT_DATE
+              'type': this.STRING,
+              'format': this.FORMAT_DATE
             }
           },
           'required': [
@@ -94,32 +215,28 @@ function HsSchema (opts) {
           ]
         }
       },
-      '$id': self.BTSS_PREFIX + self.props.id + '/' + self.props.r,
+      '$id': this.BTSS_PREFIX + this.props.id + '/' + this.props.r,
       'type': 'object',
       'properties': {
         'md': {
           '$ref': '#/definitions/MetadataSdo'
         }
       },
-      'required': self.props.required
+      'required': this.props.required
     }
-
     Object.assign(schema.properties, this.properties)
 
-    HS_VALIDATION.validateSchema(schema)
+    // HS_VALIDATION.validateSchema(schema)
 
     return schema
   }
-
-  /** Schema */
-  this.schema = createSchema(this)
 
   /**
    * Create md data for schema
    * @param {Object} schema
    * @returns {Object}
    */
-  this.generateMd = function () {
+  generateMd () {
     var metaFromSchema = HS_HELPER.findValueByPath(this.schema, 'definitions.MetadataSdo.properties')
     var md = {}
     for (var key in metaFromSchema) {
@@ -150,3 +267,44 @@ function HsSchema (opts) {
     return md
   }
 }
+
+// /** HS schema */
+// function HsSchema (opts) {
+//   /** Undefined proof */
+
+//   /**
+//    * Create md data for schema
+//    * @param {Object} schema
+//    * @returns {Object}
+//    */
+//   this.generateMd = function () {
+//     var metaFromSchema = HS_HELPER.findValueByPath(this.schema, 'definitions.MetadataSdo.properties')
+//     var md = {}
+//     for (var key in metaFromSchema) {
+//       switch (key) {
+//         case 'id':
+//           md[key] = uuid()
+//           break
+//         case 'r':
+//           md[key] = 1
+//           break
+//         case 'sId':
+//           md[key] = this.props.id
+//           break
+//         case 'sr':
+//           md[key] = 1
+//           break
+//         case 'oId':
+//           md[key] = this.props.oId
+//           break
+//         case 'tsp':
+//           md[key] = new Date().toISOString()
+//           break
+//         default:
+//           md[key] = ''
+//           break
+//       }
+//     }
+//     return md
+//   }
+// }
