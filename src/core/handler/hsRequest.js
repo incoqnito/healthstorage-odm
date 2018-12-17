@@ -215,7 +215,7 @@ module.exports = class HsRequest {
    * @param {String} sId
    * @returns {Object}
    */
-  etSchemaBySidr (sId, r) {
+  getSchemaBySidr (sId, r) {
     return AXIOS.get(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}/${r}`, {
       headers: {
         accept: 'application/schema+json',

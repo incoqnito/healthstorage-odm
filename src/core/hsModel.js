@@ -16,25 +16,10 @@ module.exports = class HsModel {
    */
   initProperties (properties) {
     for (var field in properties) {
-      if (typeof this[field] !== 'function') this[field] = properties[field]
-    }
-  }
-
-  /**
-   * Dynamic get/set for properties
-   * @param {String} fldName
-   * @param {Object} self
-   */
-  setGetDataValues (fldName) {
-    Object.defineProperty(this, fldName, {
-      get: function () {
-        return this._dataValues[fldName]
-      },
-      set: function (newValue) {
-        // this.setRevision()
-        this._dataValues[fldName] = newValue
+      if (typeof this[field] !== 'function') {
+        this[field] = properties[field]
       }
-    })
+    }
   }
 
   /**
@@ -43,7 +28,7 @@ module.exports = class HsModel {
    * @returns {Instance} HS_REQUEST
    */
   save () {
-    this.update()
+    return this.update()
   }
 
   /**
@@ -52,7 +37,29 @@ module.exports = class HsModel {
    */
   update () {
     this.md.r += 1
-    return this.HsRequest.putSdoById(this.md.id, this._dataValues).then(s => new HsModel(this, this.client))
+    return this.HsRequest.putSdoById(this.md.id, this).then(sdo => new HsModel(sdo))
+  }
+
+  /**
+   * Lock sdo object
+   * @returns {Object}
+   */
+  lock () {
+    return this.HsRequest.postLockById(this.md.id).then(lockValue => {
+      console.log(lockValue)
+      return new HsModel(this)
+    })
+  }
+
+  /**
+   * Delock sdo object
+   * @returns {Object}
+   */
+  unlock () {
+    return this.HsRequest.deleteLockById(this.md.id, this.lockValue).then(response => {
+      console.log(response)
+      return new HsModel(this)
+    })
   }
 
   /**
@@ -75,44 +82,16 @@ module.exports = class HsModel {
       }
     }
   }
+
+  /**
+   * Create local revision for object
+   */
+  setRevision () {
+    if (this.revision === undefined) this.revision = {}
+
+    var timestamp = new Date().getTime()
+    var copyFromThis = Object.assign({}, this._dataValues)
+
+    this.revision[timestamp] = copyFromThis
+  }
 }
-
-// module.exports = HsModel
-
-// /** HS Model */
-// function HsModel (sdo, client) {
-//   /**
-//    * Revision todo
-//    */
-//   this.setRevision = function () {
-//     if (this.revision === undefined) this.revision = {}
-
-//     var timestamp = new Date().getTime()
-//     var copyFromThis = Object.assign({}, this._dataValues)
-
-//     this.revision[timestamp] = copyFromThis
-//   }
-
-//   /**
-//    * Lock sdo object
-//    * @returns {Object}
-//    */
-//   this.lock = function () {
-//     return HsRequest.postLockById(this.md.id).then(lockValue => {
-//       mergeFields({ 'lockValue': lockValue }, this)
-//       return new HsModel(this, client)
-//     })
-//   }
-
-//   /**
-//    * Delock sdo object
-//    * @returns {Object}
-//    */
-//   this.unlock = function () {
-//     return HsRequest.deleteLockById(this.md.id, this.lockValue).then(response => {
-//       mergeFields({ 'lockValue': '' }, this)
-//       return new HsModel(this, client)
-//     })
-//   }
-
-// }
