@@ -62,6 +62,19 @@ module.exports = class HsModel {
   destroy () {
     return this.HsRequest.deleteSdoById(this.md.id)
   }
+
+  /**
+   * Merge object and field => value pairs
+   * @param {Object} merge
+   */
+  mergeFields (merge) {
+    if (merge === undefined) throw new Error('Provide object to merge fields into')
+    for (var field in merge) {
+      if (this[field] !== undefined) {
+        this[field] = merge[field]
+      }
+    }
+  }
 }
 
 // module.exports = HsModel
@@ -102,24 +115,4 @@ module.exports = class HsModel {
 //     })
 //   }
 
-//   /**
-//    * Merge object and field => value pairs
-//    * @param {Object} merge
-//    */
-//   function mergeFields (merge, self) {
-//     if (merge === undefined) throw new Error('Provide object to merge fields into')
-
-//     for (var field in merge) {
-//       if (self[field] !== undefined) {
-//         self[field] = merge[field]
-//       }
-//     }
-//   }
-
-//   /** Loop through properties */
-//   for (var fld in sdo) {
-//     if (fld === '_dataValues' || typeof fld === 'function') return
-//     this._dataValues[fld] = this[fld]
-//     setGetDataValues(fld, this)
-//   }
 // }
