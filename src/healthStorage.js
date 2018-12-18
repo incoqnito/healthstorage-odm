@@ -4,8 +4,6 @@ const HS_CLIENT = require('./core/hsClient.js')
 const HS_REQUEST = require('./core/handler/hsRequest.js')
 const HS_SCHEMA = require('./core/handler/hsSchema.js')
 
-/** Debug flag */
-const DEBUG = true
 /** String type */
 const STRING = 'string'
 /** Number type */
@@ -18,6 +16,11 @@ const BOOLEAN = 'boolean'
 const OBJECT = 'object'
 /** Array type */
 const ARRAY = 'array'
+
+/** Local server url fallback */
+const LOCAL_CLIENT = {
+  serverUrl: 'http://localhost:8080'
+}
 
 module.exports = class HealthStorageODM {
   /**
@@ -78,48 +81,43 @@ module.exports = class HealthStorageODM {
   }
 
   /**
+   * Get local client
+   * @return {String} LOCAL_CLIENT
+   */
+  get LOCAL_CLIENT () {
+    return LOCAL_CLIENT
+  }
+
+  /**
    * Static create client
    * @param {Object} opts client object
    * @returns {HS_INSTANCE} HealthStorgaeODM instace
    */
   createClient (opts) {
     if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
-    if (opts.serverUrl === undefined) throw new Error('Client options set but no server url provided for HealthStorageODM')
+    if (opts.serverUrl === undefined) opts = LOCAL_CLIENT
     return new HS_CLIENT(opts)
   }
+
+  /**
+   * Create schema
+   * @returns {Promise}
+   */
+  createSchema (opts) {
+    if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
+
+    var HsSchema = new HS_SCHEMA(opts)
+    var HsRequest = new HS_REQUEST(LOCAL_CLIENT)
+
+    return HsRequest.postSchema(HsSchema.schema)
+  }
+
+  /**
+   * Delete schema
+   * @returns {Promise}
+   */
+  deleteSchemaById (id) {
+    var HsRequest = new HS_REQUEST(LOCAL_CLIENT)
+    return HsRequest.deleteSchemaById(id)
+  }
 }
-
-// /** HealthStorageODM */
-// function HealthStorageODM () {
-
-//   /**
-//    * Create schema
-//    * @returns {Promise}
-//    */
-//   this.createSchema = function (opts) {
-//     var HsSchema = new HS_SCHEMA(opts)
-//     var HsRequest = new HS_REQUEST(this.client)
-//     return HsRequest.postSchema(HsSchema.schema)
-//   }
-
-//   /**
-//    * Delete schema
-//    * @returns {Promise}
-//    */
-//   this.deleteSchemaById = function (id) {
-//     var HsRequest = new HS_REQUEST(this.client)
-//     return HsRequest.deleteSchemaById(id)
-//   }
-
-//   /**
-//    * Create sdos
-//    */
-//   this.createSdos = function (opts) {
-//     var HsRequest = new HS_REQUEST(this.client)
-//     for (var sdo in opts) {
-//       HsRequest.postSdo(opts[sdo]).then(sdo => {
-//         console.log(sdo)
-//       })
-//     }
-//   }
-// }

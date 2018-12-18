@@ -135,6 +135,13 @@ module.exports = class HsInstance {
     return this.HsRequest.postSdo(data).then(sdo => this.returnModel(sdo))
   }
 
+  /**
+   * Bulk create sdos
+   */
+  bulkCreate () {
+    console.log('Bulk create sdos')
+  }
+
   /** Update sdo by its identifier
    * @param {String} id
    * @param {Object} data
@@ -149,6 +156,13 @@ module.exports = class HsInstance {
    */
   update () {
     console.log('Update sdo by where')
+  }
+
+  /**
+   * Bulk update sdos
+   */
+  bulkUpdate () {
+    console.log('Bulk update sdos')
   }
 
   /**

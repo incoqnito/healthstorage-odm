@@ -1,3 +1,6 @@
+/** Constants */
+const ASSIGN_TO_CLASS = ['HsRequest']
+
 /** Export module */
 module.exports = class HsModel {
   /**
@@ -6,19 +9,13 @@ module.exports = class HsModel {
    */
   constructor (object) {
     if (object === undefined) throw new Error('No options provided for HsModel')
+    this._dataValues = {}
     this.initProperties(object)
-    return new Proxy(this, this)
+    console.log(this)
   }
 
-  get (target, prop) {
-    if (!(target instanceof HsModel)) return
-    return this[prop]
-  }
-
-  set (target, prop, value) {
-    if (prop === 'function') return
-    this[prop] = value
-    return true
+  get ASSIGN_TO_CLASS () {
+    return ASSIGN_TO_CLASS
   }
 
   /**
@@ -26,10 +23,36 @@ module.exports = class HsModel {
    * @param {Object} properties instance properties
    */
   initProperties (properties) {
-    for (var field in properties) {
-      if (typeof this[field] === 'function') return
-      this[field] = properties[field]
+    for (let field in properties) {
+      if (ASSIGN_TO_CLASS.indexOf(field) <= -1) {
+        this._dataValues[field] = properties[field]
+      } else {
+        this[field] = properties[field]
+      }
     }
+
+    for (let key in this._dataValues) {
+      Object.defineProperty(this, key, {
+        get: function () { return this._dataValues[key] },
+        set: function (value) {
+          if (this._dataValues[key] !== value) {
+            this.setRevision()
+            this._dataValues[key] = value
+          }
+        }
+      })
+    }
+  }
+
+  /**
+   * Return extended model
+   * @param {Object} sdo
+   * @returns {Mixed}
+   */
+  returnModel (sdo) {
+    var model = new HsModel(sdo)
+    model.HsRequest = this.HsRequest
+    return model
   }
 
   /**
@@ -47,7 +70,7 @@ module.exports = class HsModel {
    */
   update () {
     this.md.r += 1
-    return this.HsRequest.putSdoById(this.md.id, this).then(sdo => new HsModel(sdo))
+    return this.HsRequest.putSdoById(this.md.id, this._dataValues).then(sdo => this.returnModel(sdo))
   }
 
   /**
@@ -78,19 +101,6 @@ module.exports = class HsModel {
    */
   destroy () {
     return this.HsRequest.deleteSdoById(this.md.id)
-  }
-
-  /**
-   * Merge object and field => value pairs
-   * @param {Object} merge
-   */
-  mergeFields (merge) {
-    if (merge === undefined) throw new Error('Provide object to merge fields into')
-    for (var field in merge) {
-      if (this[field] !== undefined) {
-        this[field] = merge[field]
-      }
-    }
   }
 
   /**

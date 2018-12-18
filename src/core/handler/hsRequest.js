@@ -117,6 +117,7 @@ module.exports = class HsRequest {
     })
       .then(response => sdo)
       .catch(error => {
+        console.log(error)
         return Promise.reject(new Error({
           'status': error.response.status,
           'text': error.response.statusText
