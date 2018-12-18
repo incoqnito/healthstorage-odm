@@ -65,6 +65,14 @@ module.exports = class HsModel {
   }
 
   /**
+   * Check if sdo changed since
+   * @returns {Promise}
+   */
+  changedSinced () {
+    return this.HsRequest.headSdoChangedSinced(this.md.id, this.md.r).then(changedSince => console.log(changedSince))
+  }
+
+  /**
    * Update instance data
    * @returns {Instance} HsModel
    */

@@ -275,6 +275,24 @@ module.exports = class HsRequest {
   }
 
   /**
+   * Get all archived revisions by id
+   * @param {String} id sdo identifier
+   * @returns {Promise}
+   */
+  getAllArchivedRevisionNumbersBySdoId (id) {
+    console.log('Returns all sdo archived revisions by its identifier')
+  }
+
+  /**
+   * Get all archived sdos by id
+   * @param {String} id sdo identifier
+   * @returns {Promise}
+   */
+  getAllArchivedSdosById (id) {
+    console.log('Returns all archived sdos by its identifier')
+  }
+
+  /**
    * Delete sdo (only for development)
    * @issue Api currently not returning deleted id from backend, for now use given data in return
    * @returns {Promise}
