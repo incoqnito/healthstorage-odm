@@ -2,11 +2,11 @@
 const AXIOS = require('axios')
 
 /** Constants */
-const SDO_ENDPOINT = 'sdos'
-const SDO_EREASE_ENDPOINT = 'eraser/sdos'
 const SCHEMA_ENDPOINT = 'schemas'
 const SCHEMA_VALIDATE_SDO_ENDPOINT = 'schemas/validateSdo'
 const SCHEMA_EREASE_ENDPOINT = 'eraser/schemas'
+const SDO_ENDPOINT = 'sdos'
+const SDO_EREASE_ENDPOINT = 'eraser/sdos'
 const SDO_LOCKS_ENDPOINT = 'sdos/{id}/locks'
 const SDO_ISLOCKED_ENDPOINT = 'sdos/{id}/islocked'
 
@@ -188,6 +188,29 @@ module.exports = class HsRequest {
     })
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
+   * Check changed since sdo specified
+   * @param {String} id sdo identifier
+   * @param {Integer} r sdo revision
+   * @returns {Promise}
+   * @issue API response with 304
+   */
+  headSdoChangedSinced (id, r) {
+    return AXIOS.head(`${this.client.serverUrl}/${SDO_ENDPOINT}/${id}/${r}`, {
+      headers: {
+        responseType: 'application/json'
+      }
+    })
+      .then(response => console.log(response))
+      .catch(error => {
+        console.log(error)
         return Promise.reject(new Error({
           'status': error.response.status,
           'text': error.response.statusText

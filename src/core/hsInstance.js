@@ -140,6 +140,16 @@ module.exports = class HsInstance {
   }
 
   /**
+   * Check if sdo changed since specified item
+   * @param {String} id sdo identifier
+   * @param {String} r sdo revision
+   * @returns {Promise}
+   */
+  changedSince (id, r) {
+    return this.HsRequest.headSdoChangedSinced(id, r).then(response => console.log(response))
+  }
+
+  /**
    * Bulk create sdos
    */
   bulkCreate (bulkList) {
