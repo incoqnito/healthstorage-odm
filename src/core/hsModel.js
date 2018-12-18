@@ -80,7 +80,7 @@ module.exports = class HsModel {
   lock () {
     return this.HsRequest.postLockById(this.md.id).then(lockValue => {
       console.log(lockValue)
-      return new HsModel(this)
+      return this
     })
   }
 
@@ -91,8 +91,16 @@ module.exports = class HsModel {
   unlock () {
     return this.HsRequest.deleteLockById(this.md.id, this.lockValue).then(response => {
       console.log(response)
-      return new HsModel(this)
+      return this
     })
+  }
+
+  /**
+   * Check is locked sdo object
+   * @returns {Object}
+   */
+  isLocked () {
+    console.log('Check if sdo is locked')
   }
 
   /**

@@ -132,13 +132,17 @@ module.exports = class HsInstance {
    */
   create (data) {
     data = Object.assign(data, {md: this.HsSchema.generateMd()})
-    return this.HsRequest.postSdo(data).then(sdo => this.returnModel(sdo))
+    return this.HsRequest.validateSdo(data).then(validated => {
+      if (validated) {
+        return this.HsRequest.postSdo(data).then(sdo => this.returnModel(sdo))
+      }
+    })
   }
 
   /**
    * Bulk create sdos
    */
-  bulkCreate () {
+  bulkCreate (bulkList) {
     console.log('Bulk create sdos')
   }
 
@@ -148,34 +152,38 @@ module.exports = class HsInstance {
    */
   updateById (id, data) {
     data.md.r += 1
-    return this.HsRequest.putSdoById(id, data).then(sdo => this.returnModel(sdo))
+    return this.HsRequest.validateSdo(data).then(validated => {
+      if (validated) {
+        return this.HsRequest.putSdoById(id, data).then(sdo => this.returnModel(sdo))
+      }
+    })
   }
 
   /**
    * Update sdos by given where
    */
-  update () {
+  update (where, data) {
     console.log('Update sdo by where')
   }
 
   /**
    * Bulk update sdos
    */
-  bulkUpdate () {
+  bulkUpdate (bulkList) {
     console.log('Bulk update sdos')
   }
 
   /**
    * Archive sdo by its identifier
    */
-  archiveById () {
+  archiveById (id) {
     console.log('Archive sdo by its identifier')
   }
 
   /**
    * Archive sdos by given where
    */
-  archive () {
+  archive (where) {
     console.log('Archive sdos by where')
   }
 

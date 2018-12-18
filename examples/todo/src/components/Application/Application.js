@@ -184,6 +184,7 @@ export class Application extends React.Component {
   async onLockTodo (todo) {
     try {
       const lockedTodo = await todo.lock()
+      console.log(lockedTodo)
       this.setState({
         todos: this.state.todos.map(t => t.md.id !== lockedTodo.md.id ? t : lockedTodo)
       })

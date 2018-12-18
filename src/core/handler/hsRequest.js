@@ -5,6 +5,7 @@ const AXIOS = require('axios')
 const SDO_ENDPOINT = 'sdos'
 const SDO_EREASE_ENDPOINT = 'eraser/sdos'
 const SCHEMA_ENDPOINT = 'schemas'
+const SCHEMA_VALIDATE_SDO_ENDPOINT = 'schemas/validateSdo'
 const SCHEMA_EREASE_ENDPOINT = 'eraser/schemas'
 const SDO_LOCKS_ENDPOINT = 'sdos/{id}/locks'
 const SDO_ISLOCKED_ENDPOINT = 'sdos/{id}/islocked'
@@ -44,6 +45,14 @@ module.exports = class HsRequest {
   }
 
   /**
+   * Get schema validateSdo endpoint
+   * @return {String} SCHEMA_VALIDATE_SDO_ENDPOINT
+   */
+  get SCHEMA_VALIDATE_SDO_ENDPOINT () {
+    return SCHEMA_VALIDATE_SDO_ENDPOINT
+  }
+
+  /**
    * Get schema erease endpoint
    * @return {String} SCHEMA_EREASE_ENDPOINT
    */
@@ -68,7 +77,109 @@ module.exports = class HsRequest {
   }
 
   /**
+   * Get schma by its identifier with highest revision
+   * @param {String} sId
+   * @returns {Object}
+   */
+  getSchemaBySid (sId) {
+    return AXIOS.get(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}`, {
+      headers: {
+        accept: 'application/schema+json',
+        responseType: 'application/schema+json'
+      }
+    })
+      .then(response => response.data)
+      .catch(error => {
+        throw new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        })
+      })
+  }
+
+  /**
+   * Delete schema
+   * @param {String} schemaId
+   * @returns {Object}
+   */
+  deleteSchemaById (schemaId) {
+    return AXIOS.delete(`${this.client.serverUrl}/${SCHEMA_EREASE_ENDPOINT}/${schemaId}?allRevisions=true`, {
+      headers: {
+        responseType: 'application/json'
+      }
+    })
+      .then(response => response)
+      .catch(error => error)
+  }
+
+  /**
+   * Get schema by its identifier and revison
+   * @param {String} sId
+   * @returns {Object}
+   */
+  getSchemaBySidr (sId, r) {
+    return AXIOS.get(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}/${r}`, {
+      headers: {
+        accept: 'application/schema+json',
+        responseType: 'application/schema+json'
+      }
+    })
+      .then(response => response.data)
+      .catch(error => {
+        throw new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        })
+      })
+  }
+
+  /**
+   * Get schemas by identifiers with highest revision
+   * @param {String} sId
+   * @returns {Object}
+   */
+  getSchemasBySids (sIds) {
+    return AXIOS.get(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}/${encodeURI(sIds)}`, {
+      headers: {
+        accept: 'application/schema+json',
+        responseType: 'application/schema+json'
+      }
+    })
+      .then(response => response.data)
+      .catch(error => {
+        throw new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        })
+      })
+  }
+
+  /**
+   * Validate against schema
+   * @param {Object} sdos
+   * @returns {Promise}
+   */
+  validateSdo (sdo) {
+    return AXIOS.post(`${this.client.serverUrl}/${SCHEMA_VALIDATE_SDO_ENDPOINT}`, sdo, {
+      headers: {
+        responseType: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => (response.status === 200))
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
    * Get Sdos for given Schema
+   * @param {String} oId schema owner Id
+   * @param {String} id schema identifier
+   * @param {Object} params options
    * @returns {Promise}
    */
   getSdoByIds (oId, id, params) {
@@ -173,63 +284,6 @@ module.exports = class HsRequest {
     })
       .then(response => response.data.schema)
       .catch(error => error)
-  }
-
-  /**
-   * Get schma by its identifier with highest revision
-   * @param {String} sId
-   * @returns {Object}
-   */
-  getSchemaBySid (sId) {
-    return AXIOS.get(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}`, {
-      headers: {
-        accept: 'application/schema+json',
-        responseType: 'application/schema+json'
-      }
-    })
-      .then(response => response.data)
-      .catch(error => {
-        throw new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        })
-      })
-  }
-
-  /**
-   * Delete schema
-   * @param {String} schemaId
-   * @returns {Object}
-   */
-  deleteSchemaById (schemaId) {
-    return AXIOS.delete(`${this.client.serverUrl}/${SCHEMA_EREASE_ENDPOINT}/${schemaId}?allRevisions=true`, {
-      headers: {
-        responseType: 'application/json'
-      }
-    })
-      .then(response => response)
-      .catch(error => error)
-  }
-
-  /**
-   * Get schema by its identifier and revison
-   * @param {String} sId
-   * @returns {Object}
-   */
-  getSchemaBySidr (sId, r) {
-    return AXIOS.get(`${this.client.serverUrl}/${SCHEMA_ENDPOINT}/${sId}/${r}`, {
-      headers: {
-        accept: 'application/schema+json',
-        responseType: 'application/schema+json'
-      }
-    })
-      .then(response => response.data)
-      .catch(error => {
-        throw new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        })
-      })
   }
 
   /**
