@@ -6,8 +6,19 @@ module.exports = class HsModel {
    */
   constructor (object) {
     if (object === undefined) throw new Error('No options provided for HsModel')
-    this._dataValues = {}
     this.initProperties(object)
+    return new Proxy(this, this)
+  }
+
+  get (target, prop) {
+    if (!(target instanceof HsModel)) return
+    return this[prop]
+  }
+
+  set (target, prop, value) {
+    if (prop === 'function') return
+    this[prop] = value
+    return true
   }
 
   /**
@@ -16,9 +27,8 @@ module.exports = class HsModel {
    */
   initProperties (properties) {
     for (var field in properties) {
-      if (typeof this[field] !== 'function') {
-        this[field] = properties[field]
-      }
+      if (typeof this[field] === 'function') return
+      this[field] = properties[field]
     }
   }
 
