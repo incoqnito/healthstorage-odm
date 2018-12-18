@@ -215,6 +215,24 @@ module.exports = class HsInstance {
   }
 
   /**
+   * Check if sdo is locked
+   * @param {String} id
+   * @param {String} lockValue
+   */
+  isLocked (id, lockValue) {
+    console.log('Check if the sdo is locked or not')
+  }
+
+  /**
+   * Check if sdo exists with lock State
+   * @param {String} id
+   * @param {Boolean} lockState
+   */
+  isLockState (id, lockValue) {
+    console.log('Check if the sdo exists with lock state')
+  }
+
+  /**
    * Delete sdo by its identifier
    * @param {String} id
    * @param {Object} data
