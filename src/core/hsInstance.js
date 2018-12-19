@@ -110,11 +110,11 @@ module.exports = class HsInstance {
   }
 
   /**
-   * Get sdos by where
+   * Get sdo by where
    * @param {String} id
    * @returns {Promise}
    */
-  find (where) {
+  findOne (where) {
     console.log('Will search sdos for given where')
   }
 

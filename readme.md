@@ -158,11 +158,27 @@ HealthStorageODM.createSchema({
 
 ##### findAll(options)
 
+Finds all entries matched for given options and filters.
 
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling findAll
+  await CLIENT.findAll({
+      orderBy: CLIENT.MD_DATE, // Ordering by provieded meta field tsp
+      orderByDirection: CLIENT.ASC, // Sortorder ASC or DESC
+      from: "", // ISO-Date string from date
+      until: "", // ISO-Date string to date
+      pageSize: 5 // Integer value for page sizing
+    })
+```
 
 ##### findById(id)
 
-##### find(where)
+
+
+##### findOne(where)
 
 ##### create(data)
 
@@ -210,128 +226,6 @@ const sampleSdos = SampleSchema.findAll({
     orderByDirection: SampleSchema.ASC,
   }
 )
-```
-
-#### findById
-
-This function search after one sdo by its identifier.
-
-Example:
-```ts
-const sampleSdo = SampleSchema.findById('617da75c-9530-4747-a6f3-b7ba168c65ba')
-```
-
-#### findOne
-
-This function search after one sdo by given parameters.
-
-Example:
-```ts
-const sampleSdo = SampleSchema.findOne({
-  field: 'title', 
-  value: 'Sample Title',
-  operation: '='
-})
-```
-
-#### create
-
-This function creates a single sdo.
-
-Example:
-```ts
-const newSdo = SampleSchema.create({
-  title: 'Sample Title', 
-  description: 'Sample description',
-  price: 45.99,
-  online: true,
-  hits: 0
-})
-```
-
-#### updateById
-
-This function updates a sdo find by its identifier.
-
-Example:
-```ts
-const updatedSdo = SampleSchema.update(
-  '617da75c-9530-4747-a6f3-b7ba168c65ba', 
-  {
-    title: 'Sample Title', 
-    description: 'Sample description',
-    price: 45.99,
-    online: true,
-    hits: 0
-  }
-)
-```
-
-#### update
-
-This function updates sdos find by given parameters.
-
-Example:
-```ts
-const updatedSdos = SampleSchema.update(
-  '617da75c-9530-4747-a6f3-b7ba168c65ba', 
-  {
-    title: 'Sample Title', 
-    description: 'Sample description',
-    price: 45.99,
-    online: true,
-    hits: 0
-  },
-  {
-    field: 'title', 
-    value: 'Sample Title',
-    operation: '='
-  }
-)
-```
-
-#### deleteById
-
-This function deletes a sdo find by its identifier.
-
-Example:
-```ts
-const updatedSdos = SampleSchema.deleteById('617da75c-9530-4747-a6f3-b7ba168c65ba')
-```
-
-#### delete
-
-This function deletes sdos find by given parameters.
-
-Example:
-```ts
-const updatedSdos = SampleSchema.delete({
-    field: 'title', 
-    value: 'Sample Title',
-    operation: '='
-})
-```
-
-#### archiveById
-
-This function archives a sdo find by its identifier.
-
-Example:
-```ts
-const updatedSdos = SampleSchema.archiveById('617da75c-9530-4747-a6f3-b7ba168c65ba')
-```
-
-#### archive
-
-This function archives sdos find by given parameters.
-
-Example:
-```ts
-const updatedSdos = SampleSchema.archive({
-    field: 'title', 
-    value: 'Sample Title',
-    operation: '='
-})
 ```
 
 ## Installing Sample App
