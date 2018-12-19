@@ -108,7 +108,7 @@ export class TodoEntry extends React.PureComponent {
     return (
       <li className={className}>
         <div className="view">
-          <input className="toggle" type="checkbox" defaultChecked={this.props.todo.isCompleted} onChange={this.onToggle} />
+          <input className="toggle" type="checkbox" checked={this.props.todo.isCompleted} onChange={this.onToggle} />
           <label onDoubleClick={this.onHandleEdit}>{this.props.todo.title}</label>
           {
             this.props.todo.lockValue === ''
