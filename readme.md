@@ -187,7 +187,6 @@ Finds an entry by its identifier.
   CLIENT.findById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
 ```
 
-
 ##### findOne(where)
 
 ```ts
@@ -279,6 +278,10 @@ Updates an item by its identifier.
 #### Sdo Collections
 
 ##### bulkCreate(bulkList)
+
+```ts
+  var published = COOMING_SOON;
+```
 
 ##### bulkUpdate(bulkList)
 
