@@ -190,19 +190,8 @@ Finds an entry by its identifier.
 
 ##### findOne(where)
 
-Finds first entry by given where clause.
-
 ```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Calling findOne
-  CLIENT.findOne({
-    title: {
-      operator: 'LIKE',
-      value: 'title'
-    }
-  })
+  var published = COOMING_SOON;
 ```
 
 ##### create(data)
