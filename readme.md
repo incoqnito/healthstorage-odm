@@ -361,6 +361,12 @@ Updates a given sdo list (bulk operation)
   CLIENT.bulkUpdate(bulkUpdate)
 ```
 
+## HS-CLI
+
+```ts
+  var published = COOMING_SOON;
+```
+
 ## Installing Sample App
 
 ### Install npm-packages
