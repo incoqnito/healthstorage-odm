@@ -102,7 +102,7 @@ A HsModel is always used for a single item returned in list, create, update etc.
   }
 ```
 
-### HsInstace / HealthStorageODM Functions
+### HsInstance / HealthStorageODM Functions
 
 #### Ereaser (during development)
 
