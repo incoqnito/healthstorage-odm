@@ -216,8 +216,7 @@ Creates new sdo in database.
   // Calling create
   CLIENT.create({
     title: 'Title',
-    isCompleted: false,
-    md: {...}
+    isCompleted: false
   })
 ```
 
@@ -256,28 +255,21 @@ Updates an item by its identifier.
 
 ##### update(where, data)
 
-Update items by given where.
-
 ```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Calling from HsInstance
-  CLIENT.update({
-    title: {
-      operator: '=',
-      value: 'Test'
-    }
-  }, 
-  {
-    title: 'New title',
-    isCompleted: true 
-  }) // id, new data
+  var published = COOMING_SOON;
 ```
 
 ##### archiveById(id)
 
+```ts
+  var published = COOMING_SOON;
+```
+
 ##### archive(where)
+
+```ts
+  var published = COOMING_SOON;
+```
 
 ##### lock(id)
 
@@ -291,7 +283,9 @@ Update items by given where.
 
 #### Sdo Blobs
 
-##### Coming soon
+```ts
+  var published = COOMING_SOON;
+```
 
 #### Sdo Collections
 
