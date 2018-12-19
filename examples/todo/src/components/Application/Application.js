@@ -35,6 +35,7 @@ export class Application extends React.Component {
     this.onDeleteTodo = this.onDeleteTodo.bind(this)
     this.onLockTodo = this.onLockTodo.bind(this)
     this.onUnlockTodo = this.onUnlockTodo.bind(this)
+    this.bulkCompleteTodos = this.bulkCompleteTodos.bind(this)
 
     this.toggleErrorAlert = this.toggleErrorAlert.bind(this)
 
@@ -80,6 +81,7 @@ export class Application extends React.Component {
         until: this.state.endDate.toISOString().slice(0, 10).replace(/-/g, '-'),
         pageSize: this.state.pageSize
       })
+
       this.setState({
         todos: todos.list
       })
@@ -178,13 +180,35 @@ export class Application extends React.Component {
   }
 
   /**
+   * Async delete todo
+   * @param {Object}
+   */
+  async bulkCompleteTodos () {
+    try {
+      var todosToChange = []
+      for (let todo in this.state.todos) {
+        if (!this.state.todos[todo].isCompleted) {
+          this.state.todos[todo].isCompleted = true
+          todosToChange.push(this.state.todos[todo])
+        }
+      }
+
+      if (todosToChange.length > 0) {
+        await Todo.bulkUpdate(todosToChange)
+        this.refetchTodos()
+      }
+    } catch (error) {
+      this.toggleErrorAlert(error)
+    }
+  }
+
+  /**
    * Async lock todo
    * @param {Object}
    */
   async onLockTodo (todo) {
     try {
       const lockedTodo = await todo.lock()
-      console.log(lockedTodo)
       this.setState({
         todos: this.state.todos.map(t => t.md.id !== lockedTodo.md.id ? t : lockedTodo)
       })
@@ -289,6 +313,7 @@ export class Application extends React.Component {
             onDeleteTodo={this.onDeleteTodo}
             onLockTodo={this.onLockTodo}
             onUnlockTodo={this.onUnlockTodo}
+            bulkCompleteTodos={this.bulkCompleteTodos}
             onHandleEdit={this.onHandleEdit}
             onClearEdit={this.onClearEdit}
             toggleErrorAlert={this.toggleErrorAlert}

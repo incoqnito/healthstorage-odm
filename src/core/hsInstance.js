@@ -180,7 +180,12 @@ module.exports = class HsInstance {
    * Bulk update sdos
    */
   bulkUpdate (bulkList) {
-    console.log('Bulk update sdos')
+    var collectedSods = []
+    for (let sdo in bulkList) {
+      bulkList[sdo].md.r += 1
+      collectedSods.push(bulkList[sdo]._dataValues)
+    }
+    return this.HsRequest.putSdosBulk(this.HsSchema.props.oId, this.HsSchema.props.id, collectedSods).then(response => console.log(response))
   }
 
   /**

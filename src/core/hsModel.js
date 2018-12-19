@@ -11,9 +11,12 @@ module.exports = class HsModel {
     if (object === undefined) throw new Error('No options provided for HsModel')
     this._dataValues = {}
     this.initProperties(object)
-    console.log(this)
   }
 
+  /**
+   * Get assign to class properties
+   * @returns {Array}
+   */
   get ASSIGN_TO_CLASS () {
     return ASSIGN_TO_CLASS
   }

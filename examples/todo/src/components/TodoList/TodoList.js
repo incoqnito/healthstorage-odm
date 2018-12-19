@@ -67,6 +67,9 @@ export class TodoList extends React.Component {
 
     return (
       <div>
+        <section className="bulk-section">
+          <button onClick={this.props.bulkCompleteTodos} className="default-btn">Complete All</button>
+        </section>
         <header className="header">
           <h1>todos</h1>
           <input

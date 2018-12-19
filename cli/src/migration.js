@@ -1,8 +1,8 @@
+#!/usr/bin/env node
+
 /** Import modules */
 const HealthStorageODM = require('../../../src/healthStorage.js')
 const uuid = require('uuid/v4')
-
-HealthStorageODM.createClient()
 
 /** Export functions */
 module.exports = {
