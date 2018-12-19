@@ -101,11 +101,21 @@ module.exports = class HsInstance {
       for (var sdo in response.body) {
         list.push(this.returnModel(response.body[sdo]))
       }
+      console.log(list)
       return {
         list: list,
         headers: response.headers
       }
     })
+  }
+
+  /**
+   * Get sdos by where
+   * @param {String} id
+   * @returns {Promise}
+   */
+  find (where) {
+    console.log('Will search sdos for given where')
   }
 
   /**
@@ -115,14 +125,6 @@ module.exports = class HsInstance {
    */
   findById (id) {
     return this.HsRequest.getSdoById(id).then(sdo => this.returnModel(sdo))
-  }
-
-  /**
-   * Create schema
-   * @returns {Promise}
-   */
-  createSchema () {
-    return this.HsRequest.postSchema(this.HsSchema.schema)
   }
 
   /**
@@ -178,6 +180,8 @@ module.exports = class HsInstance {
 
   /**
    * Bulk update sdos
+   * @param {Array} bulkList holds sdos for change
+   * @returns {Promise}
    */
   bulkUpdate (bulkList) {
     var collectedSods = []
@@ -243,7 +247,7 @@ module.exports = class HsInstance {
    * @param {String} id
    * @param {Boolean} lockState
    */
-  isLockState (id, lockValue) {
+  isLockState (id, lockState) {
     console.log('Check if the sdo exists with lock state')
   }
 
@@ -254,13 +258,6 @@ module.exports = class HsInstance {
    */
   deleteById (id) {
     return this.HsRequest.deleteSdoById(id)
-  }
-
-  /**
-   * Delete sdos by filter
-   */
-  delete () {
-    console.log('Delete sdos by where')
   }
 
   /**
