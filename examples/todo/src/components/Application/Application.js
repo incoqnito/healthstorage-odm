@@ -36,6 +36,7 @@ export class Application extends React.Component {
     this.onLockTodo = this.onLockTodo.bind(this)
     this.onUnlockTodo = this.onUnlockTodo.bind(this)
     this.bulkCompleteTodos = this.bulkCompleteTodos.bind(this)
+    this.bulkOpenTodos = this.bulkOpenTodos.bind(this)
 
     this.toggleErrorAlert = this.toggleErrorAlert.bind(this)
 
@@ -180,7 +181,7 @@ export class Application extends React.Component {
   }
 
   /**
-   * Async delete todo
+   * Async complete bulk todo
    * @param {Object}
    */
   async bulkCompleteTodos () {
@@ -189,6 +190,29 @@ export class Application extends React.Component {
       for (let todo in this.state.todos) {
         if (!this.state.todos[todo].isCompleted) {
           this.state.todos[todo].isCompleted = true
+          todosToChange.push(this.state.todos[todo])
+        }
+      }
+
+      if (todosToChange.length > 0) {
+        await Todo.bulkUpdate(todosToChange)
+        this.refetchTodos()
+      }
+    } catch (error) {
+      this.toggleErrorAlert(error)
+    }
+  }
+
+  /**
+   * Async open bulk todo
+   * @param {Object}
+   */
+  async bulkOpenTodos () {
+    try {
+      var todosToChange = []
+      for (let todo in this.state.todos) {
+        if (this.state.todos[todo].isCompleted) {
+          this.state.todos[todo].isCompleted = false
           todosToChange.push(this.state.todos[todo])
         }
       }
@@ -314,6 +338,7 @@ export class Application extends React.Component {
             onLockTodo={this.onLockTodo}
             onUnlockTodo={this.onUnlockTodo}
             bulkCompleteTodos={this.bulkCompleteTodos}
+            bulkOpenTodos={this.bulkOpenTodos}
             onHandleEdit={this.onHandleEdit}
             onClearEdit={this.onClearEdit}
             toggleErrorAlert={this.toggleErrorAlert}

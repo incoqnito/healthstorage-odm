@@ -649,6 +649,10 @@ html .clear-completed:active {
     cursor: pointer;
 }
 
+.default-btn + button {
+	margin-left: 10px;
+}
+
 .default-btn:hover {
 	background-color: rgba(0,0,0,0.1);
 }

@@ -185,7 +185,7 @@ module.exports = class HsInstance {
       bulkList[sdo].md.r += 1
       collectedSods.push(bulkList[sdo]._dataValues)
     }
-    return this.HsRequest.putSdosBulk(this.HsSchema.props.oId, this.HsSchema.props.id, collectedSods).then(response => console.log(response))
+    return this.HsRequest.putSdosBulk(this.HsSchema.props.oId, this.HsSchema.props.id, collectedSods).then(response => response)
   }
 
   /**

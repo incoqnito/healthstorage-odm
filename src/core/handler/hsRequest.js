@@ -269,9 +269,8 @@ module.exports = class HsRequest {
         responseType: 'application/json'
       }
     })
-      .then(response => console.log(response))
+      .then(response => response)
       .catch(error => {
-        console.log(error)
         return Promise.reject(new Error({
           'status': error.response.status,
           'text': error.response.statusText
