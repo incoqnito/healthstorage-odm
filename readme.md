@@ -289,7 +289,7 @@ Updates an item by its identifier.
 
 ### Install npm-packages
 
-Open console in healthstorage-odm package and move to ````./src/example/```. Type in ```npm install``` and install dependencies. 
+Open console in healthstorage-odm package and move to ```ts ./src/example/```. Type in ```ts npm install``` and install dependencies. 
 
 ### Run app
 
