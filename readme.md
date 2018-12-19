@@ -259,15 +259,80 @@ Updates an item by its identifier.
   var published = COOMING_SOON;
 ```
 
-##### lock(id)
+##### lockById(id)
 
-##### unlock(id, lockValue)
+Create lock value for item.
 
-##### getLock(id, lockValue)
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-##### isLocked(id, lockValue)
+  // Calling from HsInstance
+  CLIENT.lockById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
+
+  // Calling from HsModel
+  model.lock()
+```
+
+##### unlockById(id, lockValue)
+
+Removes a lock value for item.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.unlockById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
+
+  // Calling from HsModel
+  model.unlock()
+```
+
+##### getLockById(id, lockValue)
+
+Get lock from item by identifier.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.getLockById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
+
+  // Calling from HsModel
+  model.getLock()
+```
+
+##### isLockedById(id, lockValue)
+
+Check if item is locked by identifier.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.isLockedById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
+
+  // Calling from HsModel
+  model.isLocked()
+```
 
 ##### isLockState(id, lockState)
+
+Check if item exists in lock state by identifier.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.isLockStateById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
+
+  // Calling from HsModel
+  model.isLockState()
+```
 
 #### Sdo Blobs
 
@@ -284,6 +349,17 @@ Updates an item by its identifier.
 ```
 
 ##### bulkUpdate(bulkList)
+
+
+Updates a given sdo list (bulk operation)
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.bulkUpdate(bulkUpdate)
+```
 
 ## Installing Sample App
 

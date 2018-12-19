@@ -211,7 +211,7 @@ module.exports = class HsInstance {
    * @param {String} id
    * @returns {Object} lockValue
    */
-  lock (id) {
+  lockById (id) {
     return this.HsRequest.postLockById(id).then(lockValue => lockValue)
   }
 
@@ -220,7 +220,7 @@ module.exports = class HsInstance {
    * @param {String} id
    * @returns {Object} lockValue
    */
-  unlock (id, lockValueId) {
+  unlockById (id, lockValueId) {
     return this.HsRequest.deleteLockById(id, lockValueId)
   }
 
@@ -229,7 +229,7 @@ module.exports = class HsInstance {
    * @param {String} id
    * @param {String} lockValue
    */
-  getLock (id, lockValueId) {
+  getLockById (id, lockValueId) {
     return this.HsRequest.getLockById(id, lockValueId)
   }
 
@@ -238,7 +238,7 @@ module.exports = class HsInstance {
    * @param {String} id
    * @param {String} lockValue
    */
-  isLocked (id, lockValue) {
+  isLockedById (id, lockValue) {
     console.log('Check if the sdo is locked or not')
   }
 
@@ -247,7 +247,7 @@ module.exports = class HsInstance {
    * @param {String} id
    * @param {Boolean} lockState
    */
-  isLockState (id, lockState) {
+  isLockStateById (id, lockState) {
     console.log('Check if the sdo exists with lock state')
   }
 

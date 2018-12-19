@@ -107,11 +107,27 @@ module.exports = class HsModel {
   }
 
   /**
+   * Get locked
+   * @returns {Object}
+   */
+  getLock () {
+    console.log('Get lock from sdo')
+  }
+
+  /**
    * Check is locked sdo object
    * @returns {Object}
    */
   isLocked () {
     console.log('Check if sdo is locked')
+  }
+
+  /**
+   * Check sdo exists with lock state
+   * @returns {Object}
+   */
+  isLockState () {
+    console.log('Check if sdo exists with lock state')
   }
 
   /**
