@@ -117,7 +117,7 @@ Deletes during development a schema by its identifier.
 
 ##### deleteById(id)
 
-Deletes during development a schema by its identifier.
+Deletes during development a sdo by its identifier.
 
 ```ts
   // Define client...
@@ -170,23 +170,110 @@ Finds all entries matched for given options and filters.
       orderByDirection: CLIENT.ASC, // Sortorder ASC or DESC
       from: "", // ISO-Date string from date
       until: "", // ISO-Date string to date
-      pageSize: 5 // Integer value for page sizing
+      pageSize: 5 // Integer value for page sizing,
+      pageNum: 1 // define page to show
     })
 ```
 
 ##### findById(id)
 
+Finds an entry by its identifier.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling findById
+  CLIENT.findById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
+```
 
 
 ##### findOne(where)
 
+Finds first entry by given where clause.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling findOne
+  CLIENT.findOne({
+    title: {
+      operator: 'LIKE',
+      value: 'title'
+    }
+  })
+```
+
 ##### create(data)
+
+Creates new sdo in database.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling create
+  CLIENT.create({
+    title: 'Title',
+    isCompleted: false,
+    md: {...}
+  })
+```
 
 ##### changedSince(id, r)
 
+Checks if an item was changed since specified.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.changedSince('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', 1) // id, revision
+
+  // Calling from HsModel
+  model.changedSince()
+```
+
 ##### updateById(id)
 
+Updates an item by its identifier.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling update from HsInstance
+  CLIENT.update('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', {
+    title: 'New title',
+    isCompleted: true 
+  }) // id, new data
+
+  // Calling from HsModel
+  model.update()
+```
+
 ##### update(where, data)
+
+Update items by given where.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.update({
+    title: {
+      operator: '=',
+      value: 'Test'
+    }
+  }, 
+  {
+    title: 'New title',
+    isCompleted: true 
+  }) // id, new data
+```
 
 ##### archiveById(id)
 
@@ -211,22 +298,6 @@ Finds all entries matched for given options and filters.
 ##### bulkCreate(bulkList)
 
 ##### bulkUpdate(bulkList)
-
-
-#### findAll
-
-This function will search after all sdos matching for defined schema.
-
-Example:
-```ts
-const sampleSdos = SampleSchema.findAll({
-    pageNum: 1,
-    pageSize: 15,
-    orderBy: 'id',
-    orderByDirection: SampleSchema.ASC,
-  }
-)
-```
 
 ## Installing Sample App
 
