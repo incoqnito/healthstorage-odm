@@ -358,7 +358,7 @@ Updates a given sdo list (bulk operation)
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
   // Calling from HsInstance
-  CLIENT.bulkUpdate(bulkUpdate)
+  CLIENT.bulkUpdate(bulkList)
 ```
 
 ## HS-CLI
