@@ -1,7 +1,8 @@
 import HealthStorageODM from '../../../../src/healthStorage'
 
 var client = new HealthStorageODM({
-  serverUrl: 'http://localhost:8080'
+  serverUrl: 'http://localhost:8080',
+  adapter: HealthStorageODM.HS_STORAGE_ADAPTER
 })
 
 export default client.define({

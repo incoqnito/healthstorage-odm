@@ -2,7 +2,7 @@
 /** Import modules */
 const HS_MODEL = require('./HsModel.js')
 const HS_SCHEMA = require('./handler/hsSchema.js')
-const HS_REQUEST = require('./handler/hsRequest.js')
+const HS_ADAPTER = require('./handler/hsAdapter.js')
 
 /** Get constants */
 const ASC = 'Ascending'
@@ -19,14 +19,14 @@ module.exports = class HsInstance {
   constructor (opts) {
     if (opts === undefined) throw new Error('No instance options provided for HsInstance')
     this.HsSchema = this.buildSchema(opts)
-    this.HsRequest = this.initHsRequest(opts.client)
+    this.HsAdapter = this.initHsAdapter(opts.client)
   }
 
   /**
    * Get sort asc type
    * @return {String} ASC
    */
-  get ASC () {
+  static get ASC () {
     return ASC
   }
 
@@ -34,7 +34,7 @@ module.exports = class HsInstance {
    * Get sort desc type
    * @return {String} DESC
    */
-  get DESC () {
+  static get DESC () {
     return DESC
   }
 
@@ -42,7 +42,7 @@ module.exports = class HsInstance {
    * Get meta id type
    * @return {String} MD_ID
    */
-  get MD_ID () {
+  static get MD_ID () {
     return MD_ID
   }
 
@@ -50,7 +50,7 @@ module.exports = class HsInstance {
    * Get meta revision type
    * @return {String} MD_REVISION
    */
-  get MD_REVISION () {
+  static get MD_REVISION () {
     return MD_REVISION
   }
 
@@ -58,7 +58,7 @@ module.exports = class HsInstance {
    * Get meta date type
    * @return {String} MD_DATE
    */
-  get MD_DATE () {
+  static get MD_DATE () {
     return MD_DATE
   }
 
@@ -74,10 +74,10 @@ module.exports = class HsInstance {
   /**
    * Create request instance for client
    * @param {Object} client client object
-   * @returns {Instance} HS_REQUEST
+   * @returns {Instance} HS_ADAPTER
    */
-  initHsRequest (client) {
-    return new HS_REQUEST(client)
+  initHsAdapter (client) {
+    return new HS_ADAPTER(client)
   }
 
   /**
@@ -86,7 +86,7 @@ module.exports = class HsInstance {
    */
   returnModel (object) {
     var model = new HS_MODEL(object)
-    model.HsRequest = this.HsRequest
+    model.HsAdapter = this.HsAdapter
     return model
   }
 
@@ -96,12 +96,11 @@ module.exports = class HsInstance {
    * @returns {Promise}
    */
   findAll (options) {
-    return this.HsRequest.getSdoByIds(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
+    return this.HsAdapter.getSdoByIds(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
       var list = []
       for (var sdo in response.body) {
         list.push(this.returnModel(response.body[sdo]))
       }
-      console.log(list)
       return {
         list: list,
         headers: response.headers
@@ -124,7 +123,7 @@ module.exports = class HsInstance {
    * @returns {Promise}
    */
   findById (id) {
-    return this.HsRequest.getSdoById(id).then(sdo => this.returnModel(sdo))
+    return this.HsAdapter.getSdoById(id).then(sdo => this.returnModel(sdo))
   }
 
   /**
@@ -134,9 +133,9 @@ module.exports = class HsInstance {
    */
   create (data) {
     data = Object.assign(data, {md: this.HsSchema.generateMd()})
-    return this.HsRequest.validateSdo(data).then(validated => {
+    return this.HsAdapter.validateSdo(data).then(validated => {
       if (validated) {
-        return this.HsRequest.postSdo(data).then(sdo => this.returnModel(sdo))
+        return this.HsAdapter.postSdo(data).then(sdo => this.returnModel(sdo))
       }
     })
   }
@@ -148,7 +147,7 @@ module.exports = class HsInstance {
    * @returns {Promise}
    */
   changedSince (id, r) {
-    return this.HsRequest.headSdoChangedSinced(id, r).then(response => console.log(response))
+    return this.HsAdapter.headSdoChangedSinced(id, r).then(response => console.log(response))
   }
 
   /**
@@ -164,9 +163,9 @@ module.exports = class HsInstance {
    */
   updateById (id, data) {
     data.md.r += 1
-    return this.HsRequest.validateSdo(data).then(validated => {
+    return this.HsAdapter.validateSdo(data).then(validated => {
       if (validated) {
-        return this.HsRequest.putSdoById(id, data).then(sdo => this.returnModel(sdo))
+        return this.HsAdapter.putSdoById(id, data).then(sdo => this.returnModel(sdo))
       }
     })
   }
@@ -189,7 +188,7 @@ module.exports = class HsInstance {
       bulkList[sdo].md.r += 1
       collectedSods.push(bulkList[sdo]._dataValues)
     }
-    return this.HsRequest.putSdosBulk(this.HsSchema.props.oId, this.HsSchema.props.id, collectedSods).then(response => response)
+    return this.HsAdapter.putSdosBulk(this.HsSchema.props.oId, this.HsSchema.props.id, collectedSods).then(response => response)
   }
 
   /**
@@ -212,7 +211,7 @@ module.exports = class HsInstance {
    * @returns {Object} lockValue
    */
   lockById (id) {
-    return this.HsRequest.postLockById(id).then(lockValue => lockValue)
+    return this.HsAdapter.postLockById(id).then(lockValue => lockValue)
   }
 
   /**
@@ -221,7 +220,7 @@ module.exports = class HsInstance {
    * @returns {Object} lockValue
    */
   unlockById (id, lockValueId) {
-    return this.HsRequest.deleteLockById(id, lockValueId)
+    return this.HsAdapter.deleteLockById(id, lockValueId)
   }
 
   /**
@@ -230,7 +229,7 @@ module.exports = class HsInstance {
    * @param {String} lockValue
    */
   getLockById (id, lockValueId) {
-    return this.HsRequest.getLockById(id, lockValueId)
+    return this.HsAdapter.getLockById(id, lockValueId)
   }
 
   /**
@@ -257,7 +256,7 @@ module.exports = class HsInstance {
    * @param {Object} data
    */
   deleteById (id) {
-    return this.HsRequest.deleteSdoById(id)
+    return this.HsAdapter.deleteSdoById(id)
   }
 
   /**

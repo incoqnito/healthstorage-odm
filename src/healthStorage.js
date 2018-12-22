@@ -1,7 +1,7 @@
 /** Import HsInstance */
 
 const HS_CLIENT = require('./core/hsClient.js')
-const HS_REQUEST = require('./core/handler/hsRequest.js')
+const HS_ADAPTER = require('./core/handler/hsAdapter.js')
 const HS_SCHEMA = require('./core/handler/hsSchema.js')
 
 /** String type */
@@ -16,6 +16,10 @@ const BOOLEAN = 'boolean'
 const OBJECT = 'object'
 /** Array type */
 const ARRAY = 'array'
+
+/** Adapter */
+const HS_STORAGE_ADAPTER = 'hsStorageAdapter'
+const HS_SQL_ADAPTER = 'hsSqlAdapter'
 
 /** Local server url fallback */
 const LOCAL_CLIENT = {
@@ -44,7 +48,7 @@ module.exports = class HealthStorageODM {
    * Get number type
    * @return {String} NUMBER
    */
-  get NUMBER () {
+  static get NUMBER () {
     return NUMBER
   }
 
@@ -52,7 +56,7 @@ module.exports = class HealthStorageODM {
    * Get integer type
    * @return {String} INTEGER
    */
-  get INTEGER () {
+  static get INTEGER () {
     return INTEGER
   }
 
@@ -60,7 +64,7 @@ module.exports = class HealthStorageODM {
    * Get boolean type
    * @return {String} BOOLEAN
    */
-  get BOOLEAN () {
+  static get BOOLEAN () {
     return BOOLEAN
   }
 
@@ -68,7 +72,7 @@ module.exports = class HealthStorageODM {
    * Get object type
    * @return {String} OBJECT
    */
-  get OBJECT () {
+  static get OBJECT () {
     return OBJECT
   }
 
@@ -76,7 +80,7 @@ module.exports = class HealthStorageODM {
    * Get array type
    * @return {String} ARRAY
    */
-  get ARRAY () {
+  static get ARRAY () {
     return ARRAY
   }
 
@@ -84,8 +88,24 @@ module.exports = class HealthStorageODM {
    * Get local client
    * @return {String} LOCAL_CLIENT
    */
-  get LOCAL_CLIENT () {
+  static get LOCAL_CLIENT () {
     return LOCAL_CLIENT
+  }
+
+  /**
+   * Get hs storage adapter
+   * @return {String} HS_STORAGE_ADAPTER
+   */
+  static get HS_STORAGE_ADAPTER () {
+    return HS_STORAGE_ADAPTER
+  }
+
+  /**
+   * Get hs sql adapter
+   * @return {String} HS_SQL_ADAPTER
+   */
+  static get HS_SQL_ADAPTER () {
+    return HS_SQL_ADAPTER
   }
 
   /**
@@ -107,9 +127,9 @@ module.exports = class HealthStorageODM {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
     var HsSchema = new HS_SCHEMA(opts)
-    var HsRequest = new HS_REQUEST(LOCAL_CLIENT)
+    var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
 
-    return HsRequest.postSchema(HsSchema.schema)
+    return HsAdapter.postSchema(HsSchema.schema)
   }
 
   /**
@@ -117,7 +137,7 @@ module.exports = class HealthStorageODM {
    * @returns {Promise}
    */
   deleteSchemaById (id) {
-    var HsRequest = new HS_REQUEST(LOCAL_CLIENT)
-    return HsRequest.deleteSchemaById(id)
+    var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
+    return HsAdapter.deleteSchemaById(id)
   }
 }

@@ -79,7 +79,7 @@ A HsModel is always used for a single item returned in list, create, update etc.
 ```ts
   // Simple example of HsModel
   HsModel = {
-    HsRequest: HsRequest {client: {…}},
+    HsAdapter: HsAdapter {client: {…}},
     _dataValues: {
       id: "", //uuid
       title: "SampleTitle", 

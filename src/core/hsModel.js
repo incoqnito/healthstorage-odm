@@ -1,5 +1,5 @@
 /** Constants */
-const ASSIGN_TO_CLASS = ['HsRequest']
+const ASSIGN_TO_CLASS = ['HsAdapter']
 
 /** Export module */
 module.exports = class HsModel {
@@ -54,14 +54,14 @@ module.exports = class HsModel {
    */
   returnModel (sdo) {
     var model = new HsModel(sdo)
-    model.HsRequest = this.HsRequest
+    model.HsAdapter = this.HsAdapter
     return model
   }
 
   /**
    * Save data of instance manually
    * @param {Object} client client object
-   * @returns {Instance} HS_REQUEST
+   * @returns {Instance} HS_ADAPTER
    */
   save () {
     return this.update()
@@ -72,7 +72,7 @@ module.exports = class HsModel {
    * @returns {Promise}
    */
   changedSinced () {
-    return this.HsRequest.headSdoChangedSinced(this.md.id, this.md.r).then(changedSince => console.log(changedSince))
+    return this.HsAdapter.headSdoChangedSinced(this.md.id, this.md.r).then(changedSince => console.log(changedSince))
   }
 
   /**
@@ -81,7 +81,7 @@ module.exports = class HsModel {
    */
   update () {
     this.md.r += 1
-    return this.HsRequest.putSdoById(this.md.id, this._dataValues).then(sdo => this.returnModel(sdo))
+    return this.HsAdapter.putSdoById(this.md.id, this._dataValues).then(sdo => this.returnModel(sdo))
   }
 
   /**
@@ -89,7 +89,7 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   lock () {
-    return this.HsRequest.postLockById(this.md.id).then(lockValue => {
+    return this.HsAdapter.postLockById(this.md.id).then(lockValue => {
       console.log(lockValue)
       return this
     })
@@ -100,7 +100,7 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   unlock () {
-    return this.HsRequest.deleteLockById(this.md.id, this.lockValue).then(response => {
+    return this.HsAdapter.deleteLockById(this.md.id, this.lockValue).then(response => {
       console.log(response)
       return this
     })
@@ -135,7 +135,7 @@ module.exports = class HsModel {
    * @returns {Object} object
    */
   destroy () {
-    return this.HsRequest.deleteSdoById(this.md.id)
+    return this.HsAdapter.deleteSdoById(this.md.id)
   }
 
   /**

@@ -10,13 +10,13 @@ const SDO_EREASE_ENDPOINT = 'eraser/sdos'
 const SDO_LOCKS_ENDPOINT = 'sdos/{id}/locks'
 const SDO_ISLOCKED_ENDPOINT = 'sdos/{id}/islocked'
 
-module.exports = class HsRequest {
+module.exports = class HsStorage {
   /**
    * Construct
    * @param {Object} client client object
    */
   constructor (client) {
-    if (client === undefined) throw new Error('No instance options provided for HsRequest')
+    if (client === undefined) throw new Error('No instance options provided for HsAdapter')
     this.client = client
   }
 
