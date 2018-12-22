@@ -96,7 +96,7 @@ module.exports = class HsInstance {
    * @returns {Promise}
    */
   findAll (options) {
-    return this.HsAdapter.getSdoByIds(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
+    return this.HsAdapter.getSdos(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
       var list = []
       for (var sdo in response.body) {
         list.push(this.returnModel(response.body[sdo]))
@@ -135,7 +135,7 @@ module.exports = class HsInstance {
     data = Object.assign(data, {md: this.HsSchema.generateMd()})
     return this.HsAdapter.validateSdo(data).then(validated => {
       if (validated) {
-        return this.HsAdapter.postSdo(data).then(sdo => this.returnModel(sdo))
+        return this.HsAdapter.createSdo(data).then(sdo => this.returnModel(sdo))
       }
     })
   }
