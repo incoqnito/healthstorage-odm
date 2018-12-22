@@ -105,4 +105,15 @@ module.exports = class HsStorage {
         }))
       })
   }
+
+  editSdo (opts) {
+    return AXIOS.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+      .then(response => opts.params)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
 }

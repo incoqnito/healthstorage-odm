@@ -81,7 +81,7 @@ module.exports = class HsModel {
    */
   update () {
     this.md.r += 1
-    return this.HsAdapter.putSdoById(this.md.id, this._dataValues).then(sdo => this.returnModel(sdo))
+    return this.HsAdapter.editSdo(this._dataValues).then(sdo => this.returnModel(sdo))
   }
 
   /**

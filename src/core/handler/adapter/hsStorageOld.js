@@ -155,47 +155,6 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Validate against schema
-   * @param {Object} sdos
-   * @returns {Promise}
-   */
-  validateSdo (sdo) {
-    return AXIOS.post(`${this.client.serverUrl}/${SCHEMA_VALIDATE_SDO_ENDPOINT}`, sdo, {
-      headers: {
-        responseType: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => (response.status === 200))
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
-   * Get Sdos for given Schema
-   * @param {String} oId schema owner Id
-   * @param {String} id schema identifier
-   * @param {Object} params options
-   * @returns {Promise}
-   */
-  getSdos (oId, id, params) {
-    return AXIOS.get(`${this.client.serverUrl}/${SDO_ENDPOINT}/${oId}/${id}`, {
-      params
-    })
-      .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
    * Check changed since sdo specified
    * @param {String} id sdo identifier
    * @param {Integer} r sdo revision
@@ -211,26 +170,6 @@ module.exports = class HsStorage {
       .then(response => console.log(response))
       .catch(error => {
         console.log(error)
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
-   * Create sdo
-   * @issue Api currently not returning created sdo object from backend, for now use given data in return
-   * @returns {Promise}
-   */
-  postSdo (sdo) {
-    return AXIOS.post(`${this.client.serverUrl}/${SDO_ENDPOINT}/${sdo.md.id}`, sdo, {
-      headers: {
-        responseType: 'application/json'
-      }
-    })
-      .then(response => (response.status === 201) ? JSON.parse(response.config.data) : response.status)
-      .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,
           'text': error.response.statusText

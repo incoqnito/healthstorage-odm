@@ -161,11 +161,11 @@ module.exports = class HsInstance {
    * @param {String} id
    * @param {Object} data
    */
-  updateById (id, data) {
+  updateById (data) {
     data.md.r += 1
     return this.HsAdapter.validateSdo(data).then(validated => {
       if (validated) {
-        return this.HsAdapter.putSdoById(id, data).then(sdo => this.returnModel(sdo))
+        return this.HsAdapter.editSdo(data).then(sdo => this.returnModel(sdo))
       }
     })
   }

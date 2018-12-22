@@ -58,10 +58,16 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get PUT type string
+   * @return {String} PUT
+   */
+  get PUT () {
+    return PUT
+  }
+
+  /**
    * Validate sdo against schema adapter mapping
-   * @param {String} oId
-   * @param {String} sId
-   * @param {Object} params+
+   * @param {Object} sdo
    * @returns {Promise}
    */
   validateSdo (sdo) {
@@ -109,9 +115,7 @@ module.exports = class HsAdapter {
 
   /**
    * Add sdo adapter mapping
-   * @param {String} oId
-   * @param {String} sId
-   * @param {Object} params
+   * @param {Object} sdo
    * @returns {Promise}
    */
   createSdo (sdo) {
@@ -125,6 +129,30 @@ module.exports = class HsAdapter {
         'method': this.POST,
         'type': 'sdo',
         'action': 'add',
+        'routeParams': {
+          id: sdo.md.id
+        }
+      },
+      'params': sdo
+    })
+  }
+
+  /**
+   * Add sdo adapter mapping
+   * @param {Object} sdo
+   * @returns {Promise}
+   */
+  editSdo (sdo) {
+    return this.adapter.editSdo({
+      'requestOptions': {
+        'headers': {
+          'responseType': 'application/json'
+        }
+      },
+      'endpoint': {
+        'method': this.PUT,
+        'type': 'sdo',
+        'action': 'edit',
         'routeParams': {
           id: sdo.md.id
         }
