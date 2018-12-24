@@ -188,7 +188,7 @@ module.exports = class HsInstance {
       bulkList[sdo].md.r += 1
       collectedSods.push(bulkList[sdo]._dataValues)
     }
-    return this.HsAdapter.putSdosBulk(this.HsSchema.props.oId, this.HsSchema.props.id, collectedSods).then(response => response)
+    return this.HsAdapter.editSdosBulk(collectedSods).then(response => response)
   }
 
   /**

@@ -13,7 +13,8 @@ const ENDPOINTS = {
       'add': '/sdos/{id}'
     },
     'put': {
-      'edit': '/sdos/{id}'
+      'edit': '/sdos/{id}',
+      'bulkEdit': '/sdos/c/{oId}/{sId}'
     },
     'head': {
       'changed': '/sdos/{id}/{revision}'
@@ -94,6 +95,7 @@ module.exports = class HsStorage {
    * Create sdo
    * @param {Object} opts
    * @returns {Promis}
+   * @issue API needs to return created sdo (defaults)
    */
   createSdo (opts) {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
@@ -106,9 +108,46 @@ module.exports = class HsStorage {
       })
   }
 
+  /**
+   * Edit sdo
+   * @param {Object} opts
+   * @returns {Promis}
+   * @issue API needs to return edited sdo
+   */
   editSdo (opts) {
     return AXIOS.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => opts.params)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
+   * Edit sdos in bulk action
+   * @returns {Promise}
+   */
+  editSdosBulk (opts) {
+    return AXIOS.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+      .then(response => response)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
+   * Changed sdo
+   * @param {Object} opts
+   * @returns {Promis}
+   */
+  changedSdo (opts) {
+    return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => response.staus)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,

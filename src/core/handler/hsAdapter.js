@@ -66,6 +66,14 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get HEAD type string
+   * @return {String} HEAD
+   */
+  get HEAD () {
+    return HEAD
+  }
+
+  /**
    * Validate sdo against schema adapter mapping
    * @param {Object} sdo
    * @returns {Promise}
@@ -158,6 +166,51 @@ module.exports = class HsAdapter {
         }
       },
       'params': sdo
+    })
+  }
+
+  editSdosBulk (sdos) {
+    return this.adapter.editSdo({
+      'requestOptions': {
+        'headers': {
+          'responseType': 'application/json'
+        }
+      },
+      'endpoint': {
+        'method': this.PUT,
+        'type': 'sdo',
+        'action': 'bulkEdit',
+        'routeParams': {
+          oId: sdos[0].md.oId,
+          sId: sdos[0].md.sId
+        }
+      },
+      'params': sdos
+    })
+  }
+
+  /**
+   * Changed sdo adapter mapping
+   * @param {Object} sdo
+   * @returns {Promise}
+   */
+  changedSdo (sdo) {
+    return this.adapter.changedSdo({
+      'requestOptions': {
+        'headers': {
+          'responseType': 'application/json'
+        }
+      },
+      'endpoint': {
+        'method': this.HEAD,
+        'type': 'sdo',
+        'action': 'changed',
+        'routeParams': {
+          id: sdo.md.id,
+          r: sdo.md.r
+        }
+      },
+      'params': false
     })
   }
 }

@@ -21,62 +21,6 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Get sdo endpoint
-   * @return {String} SDO_ENDPOINT
-   */
-  get SDO_ENDPOINT () {
-    return SDO_ENDPOINT
-  }
-
-  /**
-   * Get sdo erease endpoint
-   * @return {String} SDO_EREASE_ENDPOINT
-   */
-  get SDO_EREASE_ENDPOINT () {
-    return SDO_EREASE_ENDPOINT
-  }
-
-  /**
-   * Get schema endpoint
-   * @return {String} SCHEMA_ENDPOINT
-   */
-  get SCHEMA_ENDPOINT () {
-    return SCHEMA_ENDPOINT
-  }
-
-  /**
-   * Get schema validateSdo endpoint
-   * @return {String} SCHEMA_VALIDATE_SDO_ENDPOINT
-   */
-  get SCHEMA_VALIDATE_SDO_ENDPOINT () {
-    return SCHEMA_VALIDATE_SDO_ENDPOINT
-  }
-
-  /**
-   * Get schema erease endpoint
-   * @return {String} SCHEMA_EREASE_ENDPOINT
-   */
-  get SCHEMA_EREASE_ENDPOINT () {
-    return SCHEMA_EREASE_ENDPOINT
-  }
-
-  /**
-   * Get sdo lock endpoint
-   * @return {String} SDO_LOCKS_ENDPOINT
-   */
-  get SDO_LOCKS_ENDPOINT () {
-    return SDO_LOCKS_ENDPOINT
-  }
-
-  /**
-   * Get sdo is locked endpoint
-   * @return {String} SDO_ISLOCKED_ENDPOINT
-   */
-  get SDO_ISLOCKED_ENDPOINT () {
-    return SDO_ISLOCKED_ENDPOINT
-  }
-
-  /**
    * Get schma by its identifier with highest revision
    * @param {String} sId
    * @returns {Object}
@@ -155,54 +99,10 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Check changed since sdo specified
-   * @param {String} id sdo identifier
-   * @param {Integer} r sdo revision
-   * @returns {Promise}
-   * @issue API response with 304
-   */
-  headSdoChangedSinced (id, r) {
-    return AXIOS.head(`${this.client.serverUrl}/${SDO_ENDPOINT}/${id}/${r}`, {
-      headers: {
-        responseType: 'application/json'
-      }
-    })
-      .then(response => console.log(response))
-      .catch(error => {
-        console.log(error)
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
-   * Update sdo
-   * @issue Api currently not returning created sdo object from backend, for now use given data in return
-   * @returns {Promise}
-   */
-  putSdoById (id, sdo) {
-    return AXIOS.put(`${this.client.serverUrl}/${SDO_ENDPOINT}/${id}`, sdo, {
-      headers: {
-        responseType: 'application/json'
-      }
-    })
-      .then(response => sdo)
-      .catch(error => {
-        console.log(error)
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
    * Update sdos bulk operation
    * @returns {Promise}
    */
-  putSdosBulk (oId, sId, sdos) {
+  editSdosBulk (oId, sId, sdos) {
     return AXIOS.put(`${this.client.serverUrl}/${SDO_ENDPOINT}/c/${oId}/${sId}`, sdos, {
       headers: {
         responseType: 'application/json'
