@@ -99,21 +99,6 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Get Sdos for given Schema
-   * @returns {Promise}
-   */
-  getSdoById (id) {
-    return AXIOS.get(`${this.client.serverUrl}/${SDO_ENDPOINT}/${id}`)
-      .then(response => (response.data === undefined) ? response.status : response.data)
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
    * Get all archived revisions by id
    * @param {String} id sdo identifier
    * @returns {Promise}

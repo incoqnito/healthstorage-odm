@@ -155,7 +155,7 @@ module.exports = class HsAdapter {
           'endpoint': {
             'method': this.GET,
             'type': 'sdo',
-            'action': 'list',
+            'action': 'single',
             'routeParams': {
               id: opts.id
             }

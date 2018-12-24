@@ -92,6 +92,22 @@ module.exports = class HsStorage {
   }
 
   /**
+   * Get sdos
+   * @param {Object} opts
+   * @returns {Promis}
+   */
+  getSdo (opts) {
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.params)
+      .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
    * Create sdo
    * @param {Object} opts
    * @returns {Promis}
@@ -154,5 +170,12 @@ module.exports = class HsStorage {
           'text': error.response.statusText
         }))
       })
+  }
+
+  /**
+   * Delete sdo
+   */
+  deleteSdo (opts) {
+
   }
 }
