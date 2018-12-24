@@ -13,6 +13,17 @@ const PUT = 'put'
 const HEAD = 'head'
 /** DELETE type string */
 const DELETE = 'delete'
+/** Request data */
+const REQUEST_DATA = {
+  'requestOptions': {},
+  'endpoint': {
+    'method': '',
+    'type': '',
+    'action': '',
+    'routeParams': {}
+  },
+  'params': {}
+}
 
 module.exports = class HsAdapter {
   /**
@@ -39,6 +50,14 @@ module.exports = class HsAdapter {
     //     break
     // }
     // return hsAdapter
+  }
+
+  /**
+   * Get REQUEST_DATA type string
+   * @return {String} REQUEST_DATA
+   */
+  get REQUEST_DATA () {
+    return REQUEST_DATA
   }
 
   /**
@@ -80,21 +99,24 @@ module.exports = class HsAdapter {
    */
   validateSdo (sdo) {
     return this.adapter.validateSdo({
-      'requestOptions': {
-        'headers': {
-          'responseType': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      },
-      'endpoint': {
-        'method': this.POST,
-        'type': 'schema',
-        'action': 'validateSdo',
-        'routeParams': {
-          id: sdo.md.id
-        }
-      },
-      'params': sdo
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'responseType': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.POST,
+          'type': 'schema',
+          'action': 'validateSdo',
+          'routeParams': {
+            id: sdo.md.id
+          }
+        },
+        'params': sdo
+      }
     })
   }
 
@@ -102,23 +124,47 @@ module.exports = class HsAdapter {
    * Get sdos adapter mapping
    * @param {String} oId
    * @param {String} sId
-   * @param {Object} params
    * @returns {Promise}
    */
-  getSdos (oId, sId, params) {
+  getSdos (oId, sId) {
     return this.adapter.getSdos({
-      'requestOptions': false,
-      'endpoint': {
-        'method': this.GET,
-        'type': 'sdo',
-        'action': 'list',
-        'routeParams': {
-          oId: oId,
-          sId: sId
+      ...this.REQUEST_DATA,
+      ...{
+        'endpoint': {
+          'method': this.GET,
+          'type': 'sdo',
+          'action': 'list',
+          'routeParams': {
+            oId: oId,
+            sId: sId
+          }
         }
-      },
-      'params': params
+      }
     })
+  }
+
+  /**
+   * Get sdo by id oder where
+   * @param {Object} opts
+   */
+  getSdo (opts) {
+    if (opts.id !== undefined) {
+      return this.adapter.getSdos({
+        ...this.REQUEST_DATA,
+        ...{
+          'endpoint': {
+            'method': this.GET,
+            'type': 'sdo',
+            'action': 'list',
+            'routeParams': {
+              id: opts.id
+            }
+          }
+        }
+      })
+    } else {
+      // Todo implement filter
+    }
   }
 
   /**
@@ -128,64 +174,78 @@ module.exports = class HsAdapter {
    */
   createSdo (sdo) {
     return this.adapter.createSdo({
-      'requestOptions': {
-        'headers': {
-          'responseType': 'application/json'
-        }
-      },
-      'endpoint': {
-        'method': this.POST,
-        'type': 'sdo',
-        'action': 'add',
-        'routeParams': {
-          id: sdo.md.id
-        }
-      },
-      'params': sdo
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.POST,
+          'type': 'sdo',
+          'action': 'add',
+          'routeParams': {
+            id: sdo.md.id
+          }
+        },
+        'params': sdo
+      }
     })
   }
 
   /**
-   * Add sdo adapter mapping
+   * Edit sdo adapter mapping
    * @param {Object} sdo
    * @returns {Promise}
    */
   editSdo (sdo) {
     return this.adapter.editSdo({
-      'requestOptions': {
-        'headers': {
-          'responseType': 'application/json'
-        }
-      },
-      'endpoint': {
-        'method': this.PUT,
-        'type': 'sdo',
-        'action': 'edit',
-        'routeParams': {
-          id: sdo.md.id
-        }
-      },
-      'params': sdo
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.PUT,
+          'type': 'sdo',
+          'action': 'edit',
+          'routeParams': {
+            id: sdo.md.id
+          }
+        },
+        'params': sdo
+      }
     })
   }
 
+  /**
+   * Edit sdo bulk adapter mapping
+   * @param {Object} sdos
+   * @returns {Promise}
+   */
   editSdosBulk (sdos) {
     return this.adapter.editSdo({
-      'requestOptions': {
-        'headers': {
-          'responseType': 'application/json'
-        }
-      },
-      'endpoint': {
-        'method': this.PUT,
-        'type': 'sdo',
-        'action': 'bulkEdit',
-        'routeParams': {
-          oId: sdos[0].md.oId,
-          sId: sdos[0].md.sId
-        }
-      },
-      'params': sdos
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.PUT,
+          'type': 'sdo',
+          'action': 'bulkEdit',
+          'routeParams': {
+            oId: sdos[0].md.oId,
+            sId: sdos[0].md.sId
+          }
+        },
+        'params': sdos
+      }
     })
   }
 
@@ -196,21 +256,23 @@ module.exports = class HsAdapter {
    */
   changedSdo (sdo) {
     return this.adapter.changedSdo({
-      'requestOptions': {
-        'headers': {
-          'responseType': 'application/json'
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.HEAD,
+          'type': 'sdo',
+          'action': 'changed',
+          'routeParams': {
+            id: sdo.md.id,
+            r: sdo.md.r
+          }
         }
-      },
-      'endpoint': {
-        'method': this.HEAD,
-        'type': 'sdo',
-        'action': 'changed',
-        'routeParams': {
-          id: sdo.md.id,
-          r: sdo.md.r
-        }
-      },
-      'params': false
+      }
     })
   }
 }

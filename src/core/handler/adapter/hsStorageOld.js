@@ -99,25 +99,6 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Update sdos bulk operation
-   * @returns {Promise}
-   */
-  editSdosBulk (oId, sId, sdos) {
-    return AXIOS.put(`${this.client.serverUrl}/${SDO_ENDPOINT}/c/${oId}/${sId}`, sdos, {
-      headers: {
-        responseType: 'application/json'
-      }
-    })
-      .then(response => response)
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
    * Get Sdos for given Schema
    * @returns {Promise}
    */
