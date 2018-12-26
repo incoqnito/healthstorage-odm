@@ -101,7 +101,7 @@ module.exports = class HsInstance {
       for (var sdo in response.body) {
         let model = this.returnModel(response.body[sdo])
         let lockValue = model.getLockFromLocalStorage()
-        model.lockValue = lockValue !== null ? lockValue : ''
+        model.lockValue = lockValue !== null ? JSON.parse(lockValue) : null
         list.push(model)
       }
       return {
@@ -214,7 +214,7 @@ module.exports = class HsInstance {
    * @returns {Object} lockValue
    */
   lockById (id) {
-    return this.HsAdapter.postLockById(id).then(lockValue => lockValue)
+    return this.HsAdapter.lockItem(id).then(lockValue => lockValue)
   }
 
   /**
@@ -223,7 +223,7 @@ module.exports = class HsInstance {
    * @returns {Object} lockValue
    */
   unlockById (id, lockValueId) {
-    return this.HsAdapter.deleteLockById(id, lockValueId)
+    return this.HsAdapter.unlockItem(id, lockValueId)
   }
 
   /**

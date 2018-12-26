@@ -96,19 +96,19 @@ module.exports = class HsModel {
   }
 
   /**
-   * Delock sdo object
+   * Unlock sdo object
    * @returns {Object}
    */
   unlock () {
     return this.HsAdapter.unlockItem(this._dataValues).then(response => {
-      if (response) this.lockValue = ''
+      if (response) this.lockValue = null
       return this.returnModel(this._dataValues)
     })
   }
 
   /**
    * Get locked from local storage
-   * @returns {Object}
+   * @returns {Object} localStroage item
    */
   getLockFromLocalStorage () {
     return window.localStorage.getItem('LOCKED_' + this.md.id)

@@ -179,7 +179,7 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Lock sdo
+   * Lock item
    * @param {Object} opts
    * @returns {Promise}
    * @issue API throws 500 error when sod is locked, unlocked and locked again
@@ -187,8 +187,8 @@ module.exports = class HsStorage {
   lockItem (opts) {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => {
-        if (response.status === 201) window.localStorage.setItem('LOCKED_' + opts.params.md.id, response.data.value)
-        return (response.status === 201) ? response.data.value : response.status
+        if (response.status === 201) window.localStorage.setItem('LOCKED_' + opts.params.md.id, JSON.stringify(response.data))
+        return (response.status === 201) ? response.data : response.status
       })
       .catch(error => {
         return Promise.reject(new Error({
@@ -199,7 +199,7 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Unlock sdo
+   * Unlock item
    * @param {Object} opts
    * @returns {Promise}
    * @issue API throws 500 error when sod is locked, unlocked and locked again
@@ -218,6 +218,10 @@ module.exports = class HsStorage {
       })
   }
 
+  /**
+   * Return item lock
+   * @param {Object} opts
+   */
   isLockedItem (opts) {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => console.log(response))

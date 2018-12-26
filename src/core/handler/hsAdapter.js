@@ -335,7 +335,7 @@ module.exports = class HsAdapter {
           'action': 'unlock',
           'routeParams': {
             id: sdo.md.id,
-            lockValue: sdo.lockValue
+            lockValue: sdo.lockValue.value
           }
         },
         'params': sdo

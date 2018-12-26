@@ -104,14 +104,21 @@ export class TodoEntry extends React.PureComponent {
    */
   render () {
     const className = classNames({ completed: this.props.todo.isCompleted, editing: this.props.editing })
-
+    var lockValueDate = this.props.todo.lockValue !== null && this.props.todo.lockValue.requestTimestamp !== undefined ? this.props.todo.lockValue.requestTimestamp.split('T')[0] : null
     return (
       <li className={className}>
         <div className="view">
           <input className="toggle" type="checkbox" checked={this.props.todo.isCompleted} onChange={this.onToggle} />
-          <label onDoubleClick={this.onHandleEdit}>{this.props.todo.title}</label>
+          <label onDoubleClick={this.onHandleEdit}>
+            {this.props.todo.title}
+            {
+              this.props.todo.lockValue !== null && lockValueDate !== null
+                ? <small >Gesperrt am: {lockValueDate}</small>
+                : ''
+            }
+          </label>
           {
-            this.props.todo.lockValue === ''
+            this.props.todo.lockValue === null || this.props.todo.lockValue === undefined
               ? <button className="lock-btn" onClick={this.onLock}>Lock</button>
               : <button className="lock-btn" onClick={this.onUnlock}>Unlock</button>
           }
