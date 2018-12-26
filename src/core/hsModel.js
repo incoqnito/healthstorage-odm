@@ -72,7 +72,7 @@ module.exports = class HsModel {
    * @returns {Promise}
    */
   changedSinced () {
-    return this.HsAdapter.headSdoChangedSinced(this.md.id, this.md.r).then(changedSince => console.log(changedSince))
+    return this.HsAdapter.sdoHasChanged(this._dataValues).then(changedSince => console.log(changedSince))
   }
 
   /**

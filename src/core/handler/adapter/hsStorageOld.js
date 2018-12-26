@@ -3,12 +3,7 @@ const AXIOS = require('axios')
 
 /** Constants */
 const SCHEMA_ENDPOINT = 'schemas'
-const SCHEMA_VALIDATE_SDO_ENDPOINT = 'schemas/validateSdo'
 const SCHEMA_EREASE_ENDPOINT = 'eraser/schemas'
-const SDO_ENDPOINT = 'sdos'
-const SDO_EREASE_ENDPOINT = 'eraser/sdos'
-const SDO_LOCKS_ENDPOINT = 'sdos/{id}/locks'
-const SDO_ISLOCKED_ENDPOINT = 'sdos/{id}/islocked'
 
 module.exports = class HsStorage {
   /**

@@ -19,7 +19,7 @@ const ENDPOINTS = {
       'bulkEdit': '/sdos/c/{oId}/{sId}'
     },
     'head': {
-      'changed': '/sdos/{id}/{revision}',
+      'changed': '/sdos/{id}/{r}',
       'existInLockState': '/sdos/{id}/islocked/{isLocked}'
     },
     'delete': {
@@ -170,12 +170,16 @@ module.exports = class HsStorage {
    */
   sdoHasChanged (opts) {
     return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
-      .then(response => response.staus)
+      .then(response => response)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if (error.response.status === 304) {
+          return false
+        } else {
+          return Promise.reject(new Error({
+            'status': error.response.status,
+            'text': error.response.statusText
+          }))
+        }
       })
   }
 
@@ -184,6 +188,7 @@ module.exports = class HsStorage {
    * @param {Object} opts
    * @returns {Promise}
    * @issue API throws 500 error when sod is locked, unlocked and locked again
+   * @issue No way to keep lockValue on item. For now stored in local storage, and restored on list load to item
    */
   lockItem (opts) {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
@@ -204,6 +209,7 @@ module.exports = class HsStorage {
    * @param {Object} opts
    * @returns {Promise}
    * @issue API throws 500 error when sod is locked, unlocked and locked again
+   * @issue No way to keep lockValue on item. For now removed from local storage
    */
   unlockItem (opts) {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
@@ -222,6 +228,7 @@ module.exports = class HsStorage {
   /**
    * Check item is locked
    * @param {Object} opts
+   * @returns {Promise}
    */
   isLockedItem (opts) {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
@@ -237,15 +244,21 @@ module.exports = class HsStorage {
   /**
    * Check if item exists in lock state
    * @param {Object} opts
+   * @returns {Promise}
+   * @issue API should return true or false, would be better than 204 or 404
    */
   existInLockState (opts) {
     return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if (error.response.status === 404) {
+          return false
+        } else {
+          return Promise.reject(new Error({
+            'status': error.response.status,
+            'text': error.response.statusText
+          }))
+        }
       })
   }
 
