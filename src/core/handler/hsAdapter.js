@@ -70,6 +70,14 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get PATCH type string
+   * @return {String} PATCH
+   */
+  get PATCH () {
+    return PATCH
+  }
+
+  /**
    * Get HEAD type string
    * @return {String} HEAD
    */
