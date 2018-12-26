@@ -28,8 +28,17 @@ const ENDPOINTS = {
     }
   },
   'schema': {
-    'post': {
+    'get': {
+      'schema': '/schema/{id}',
+      'schemaByRevision': '/schema/{id}/{r}',
       'validateSdo': '/schemas/validateSdo'
+    },
+    'post': {
+      'create': '/schemas',
+      'validateSdo': '/schemas/validateSdo'
+    },
+    'delete': {
+      'allRevisions': '/eraser/schemas/{id}/?allRevisions=true'
     }
   }
 }
@@ -66,8 +75,50 @@ module.exports = class HsStorage {
   }
 
   /**
+   * Get schema
+   * @param {Object} schema
+   * @returns {Promise}
+   */
+  getSchema (opts) {
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => response.data)
+      .catch(error => {
+        throw new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        })
+      })
+  }
+
+  /**
+   * Create schema
+   * @param {Object} schema
+   * @returns {Promise}
+   */
+  createSchema (opts) {
+    return AXIOS.post(this.buildRequestUrl(opts.endpoint), JSON.stringify(opts.params), this.requestOptions)
+      .then(response => response.data.schema)
+      .catch(error => error)
+  }
+
+  /**
+   * Delete schema
+   * @param {String} schemaId
+   * @returns {Object}
+   */
+  deleteSchemaById (opts) {
+    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), {
+      headers: {
+        responseType: 'application/json'
+      }
+    })
+      .then(response => response)
+      .catch(error => error)
+  }
+
+  /**
    * Validate against schema
-   * @param {Object} sdos
+   * @param {Object} opts
    * @returns {Promise}
    */
   validateSdo (opts) {
@@ -139,6 +190,23 @@ module.exports = class HsStorage {
   editSdo (opts) {
     return AXIOS.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => opts.params)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
+   * Delete sdo
+   * @param {Object} opts
+   * @returns {Promise}
+   * @issue API should return the deleted uuid after success
+   */
+  deleteSdo (opts) {
+    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => (response.status === 204) ? opts.params.md.id : false)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,
@@ -263,19 +331,16 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Delete sdo
-   * @param {Object} opts
-   * @returns {Promise}
-   * @issue API should return the deleted uuid after success
+   * Get archive for sdo identifier
    */
-  deleteSdo (opts) {
-    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
-      .then(response => (response.status === 204) ? opts.params.md.id : false)
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
+  getArchivedSdos () {
+    console.log('Get list of archived sdos by identifier')
+  }
+
+  /**
+   * Get archive for sdo identifier
+   */
+  getArchivedRevisions () {
+    console.log('Get list of archived revision numbers by identifier')
   }
 }

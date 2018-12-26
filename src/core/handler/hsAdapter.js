@@ -35,21 +35,6 @@ module.exports = class HsAdapter {
     if (client.adapter === undefined) throw new Error('No adapter provided for HsAdapter')
     this.client = client
     this.adapter = new HS_STORAGE(client)
-    console.log(client)
-
-    // var hsAdapter = null
-    // switch (client.adapter) {
-    //   case 'hsStorageAdapter':
-    //     hsAdapter = new HS_STORAGE(client)
-    //     break
-    //   case 'hsSqlAdapter':
-    //     console.log('HS SqlAdapter needs to be implementent')
-    //     break
-    //   default:
-    //     hsAdapter = new HS_STORAGE(client)
-    //     break
-    // }
-    // return hsAdapter
   }
 
   /**
@@ -98,6 +83,82 @@ module.exports = class HsAdapter {
    */
   get DELETE () {
     return DELETE
+  }
+
+  /**
+   * Get schema by params adapter mapping
+   * @param {Object} routeParams using sId and/nand revision
+   * @param {String} action schema or schemaByRevision
+   * @returns {Promise}
+   */
+  getSchema (routeParams, action) {
+    return this.adapter.createSchema({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/schema+json',
+            'responseType': 'application/schema+json'
+          }
+        },
+        'endpoint': {
+          'method': this.GET,
+          'type': 'schema',
+          'action': action,
+          'routeParams': routeParams
+        }
+      }
+    })
+  }
+
+  /**
+   * Create schema adapter mapping
+   * @param {Object} sdo
+   * @returns {Promise}
+   */
+  createSchema (schema) {
+    return this.adapter.createSchema({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'Content-Type': 'application/schema+json'
+          }
+        },
+        'endpoint': {
+          'method': this.POST,
+          'type': 'schema',
+          'action': 'create'
+        },
+        'params': schema
+      }
+    })
+  }
+
+  /**
+   * Delete schema by id adapter mapping
+   * @param {Object} sdo
+   * @returns {Promise}
+   */
+  deleteSchema (sId) {
+    return this.adapter.deleteSchema({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'Content-Type': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.DELETE,
+          'type': 'schema',
+          'action': 'allRevisions',
+          'routeParams': {
+            'id': sId
+          }
+        }
+      }
+    })
   }
 
   /**
