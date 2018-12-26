@@ -117,26 +117,6 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Delete sdo (only for development)
-   * @issue Api currently not returning deleted id from backend, for now use given data in return
-   * @returns {Promise}
-   */
-  deleteSdo (id) {
-    return AXIOS.delete(`${this.client.serverUrl}/${SDO_EREASE_ENDPOINT}/${id}`, {
-      headers: {
-        responseType: 'application/json'
-      }
-    })
-      .then(response => id)
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
    * Post schma
    * @param {String} sId
    * @returns {Object}

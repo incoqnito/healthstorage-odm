@@ -10,7 +10,8 @@ const ENDPOINTS = {
     },
     'post': {
       'list': '/sdos/{oId}/{sId}',
-      'add': '/sdos/{id}'
+      'add': '/sdos/{id}',
+      'lock': '/sdos/{id}/locks'
     },
     'put': {
       'edit': '/sdos/{id}',
@@ -20,7 +21,8 @@ const ENDPOINTS = {
       'changed': '/sdos/{id}/{revision}'
     },
     'delete': {
-      'single': '/eraser/sdos/{id}'
+      'single': '/eraser/sdos/{id}',
+      'unlock': '/sdos/{id}/locks/{lockValue}'
     }
   },
   'schema': {
@@ -146,6 +148,7 @@ module.exports = class HsStorage {
 
   /**
    * Edit sdos in bulk action
+   * @param {Object} opts
    * @returns {Promise}
    */
   editSdosBulk (opts) {
@@ -164,7 +167,7 @@ module.exports = class HsStorage {
    * @param {Object} opts
    * @returns {Promis}
    */
-  changedSdo (opts) {
+  sdoHasChanged (opts) {
     return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response.staus)
       .catch(error => {
@@ -176,7 +179,42 @@ module.exports = class HsStorage {
   }
 
   /**
+   * Lock sdo
+   * @param {Object} opts
+   * @returns {Promise}
+   */
+  lockSdo (opts) {
+    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => (response.status === 201) ? response.data.value : response.status)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
+   * Unlock sdo
+   * @param {Object} opts
+   * @returns {Promise}
+   */
+  unlockSdo (opts) {
+    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => response.status === 204)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
    * Delete sdo
+   * @param {Object} opts
+   * @returns {Promise}
+   * @issue API should return the deleted uuid after success
    */
   deleteSdo (opts) {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)

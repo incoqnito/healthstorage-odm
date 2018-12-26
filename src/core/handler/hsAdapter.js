@@ -262,8 +262,8 @@ module.exports = class HsAdapter {
    * @param {Object} sdo
    * @returns {Promise}
    */
-  changedSdo (sdo) {
-    return this.adapter.changedSdo({
+  sdoHasChanged (sdo) {
+    return this.adapter.sdoHasChanged({
       ...this.REQUEST_DATA,
       ...{
         'requestOptions': {
@@ -278,6 +278,59 @@ module.exports = class HsAdapter {
           'routeParams': {
             id: sdo.md.id,
             r: sdo.md.r
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * Lock sdo mapping
+   * @param {Object} sdo
+   */
+  lockSdo (sdo) {
+    return this.adapter.lockSdo({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/json',
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.POST,
+          'type': 'sdo',
+          'action': 'lock',
+          'routeParams': {
+            id: sdo.md.id
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * Unlock sdo mapping
+   * @param {Object} sdo
+   */
+  unlockSdo (sdo) {
+    return this.adapter.unlockSdo({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/json',
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.DELETE,
+          'type': 'sdo',
+          'action': 'unlock',
+          'routeParams': {
+            id: sdo.md.id,
+            lockValue: sdo.lockValue
           }
         }
       }

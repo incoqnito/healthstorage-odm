@@ -89,9 +89,9 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   lock () {
-    return this.HsAdapter.postLockById(this.md.id).then(lockValue => {
-      console.log(lockValue)
-      return this
+    return this.HsAdapter.lockSdo(this._dataValues).then(lockValue => {
+      this.lockValue = lockValue
+      return this.returnModel(this._dataValues)
     })
   }
 
@@ -100,9 +100,9 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   unlock () {
-    return this.HsAdapter.deleteLockById(this.md.id, this.lockValue).then(response => {
-      console.log(response)
-      return this
+    return this.HsAdapter.unlockSdo(this._dataValues).then(response => {
+      if (response) this.lockValue = ''
+      return this.returnModel(this._dataValues)
     })
   }
 
