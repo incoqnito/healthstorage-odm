@@ -256,7 +256,7 @@ module.exports = class HsInstance {
    * @param {Object} data
    */
   deleteById (id) {
-    return this.HsAdapter.deleteSdoById(id)
+    return this.HsAdapter.deleteSdo(id)
   }
 
   /**

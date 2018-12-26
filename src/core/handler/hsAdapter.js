@@ -93,6 +93,14 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get DELETE type string
+   * @return {String} DELETE
+   */
+  get DELETE () {
+    return DELETE
+  }
+
+  /**
    * Validate sdo against schema adapter mapping
    * @param {Object} sdo
    * @returns {Promise}
@@ -149,7 +157,7 @@ module.exports = class HsAdapter {
    */
   getSdo (opts) {
     if (opts.id !== undefined) {
-      return this.adapter.getSdos({
+      return this.adapter.getSdo({
         ...this.REQUEST_DATA,
         ...{
           'endpoint': {
@@ -270,6 +278,31 @@ module.exports = class HsAdapter {
           'routeParams': {
             id: sdo.md.id,
             r: sdo.md.r
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * Delete sdo mapping
+   * @param {Object} sdo
+   */
+  deleteSdo (sdo) {
+    return this.adapter.changedSdo({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.DELETE,
+          'type': 'sdo',
+          'action': 'delete',
+          'routeParams': {
+            id: sdo.md.id
           }
         }
       }

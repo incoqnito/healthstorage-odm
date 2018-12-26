@@ -135,7 +135,7 @@ module.exports = class HsModel {
    * @returns {Object} object
    */
   destroy () {
-    return this.HsAdapter.deleteSdoById(this.md.id)
+    return this.HsAdapter.deleteSdo(this)
   }
 
   /**
