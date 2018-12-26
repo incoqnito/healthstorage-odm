@@ -344,7 +344,7 @@ module.exports = class HsAdapter {
   }
 
   /**
-   * Unlock sdo mapping
+   * Is locked sdo mapping
    * @param {Object} sdo
    */
   isLockedItem (sdo) {
@@ -363,7 +363,34 @@ module.exports = class HsAdapter {
           'action': 'isLocked',
           'routeParams': {
             id: sdo.md.id,
-            lockValue: sdo.lockValue
+            lockValue: sdo.lockValue.value
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * Exists in lock state sdo mapping
+   * @param {Object} sdo
+   */
+  existInLockState (sdo, lockState) {
+    return this.adapter.existInLockState({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/json',
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.HEAD,
+          'type': 'sdo',
+          'action': 'existInLockState',
+          'routeParams': {
+            id: sdo.md.id,
+            isLocked: lockState
           }
         }
       }

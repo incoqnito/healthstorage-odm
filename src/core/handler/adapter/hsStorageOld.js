@@ -130,25 +130,4 @@ module.exports = class HsStorage {
       .then(response => response.data.schema)
       .catch(error => error)
   }
-
-  /**
-   * Get lock value
-   * @param {String} id
-   * @returns {Promise}
-   */
-  getLockById (id, lockValueId) {
-    return AXIOS.post(`${this.client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}/${lockValueId}`, {
-      headers: {
-        accept: 'application/json',
-        responseType: 'application/json'
-      }
-    })
-      .then(response => console.log(response))
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
 }

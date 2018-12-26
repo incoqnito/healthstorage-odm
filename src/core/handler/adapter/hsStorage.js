@@ -19,7 +19,8 @@ const ENDPOINTS = {
       'bulkEdit': '/sdos/c/{oId}/{sId}'
     },
     'head': {
-      'changed': '/sdos/{id}/{revision}'
+      'changed': '/sdos/{id}/{revision}',
+      'existInLockState': '/sdos/{id}/islocked/{isLocked}'
     },
     'delete': {
       'single': '/eraser/sdos/{id}',
@@ -219,11 +220,26 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Return item lock
+   * Check item is locked
    * @param {Object} opts
    */
   isLockedItem (opts) {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => console.log(response))
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
+   * Check if item exists in lock state
+   * @param {Object} opts
+   */
+  existInLockState (opts) {
+    return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => console.log(response))
       .catch(error => {
         return Promise.reject(new Error({
