@@ -289,7 +289,7 @@ module.exports = class HsAdapter {
    * @param {Object} sdo
    */
   deleteSdo (sdo) {
-    return this.adapter.changedSdo({
+    return this.adapter.deleteSdo({
       ...this.REQUEST_DATA,
       ...{
         'requestOptions': {
@@ -300,11 +300,12 @@ module.exports = class HsAdapter {
         'endpoint': {
           'method': this.DELETE,
           'type': 'sdo',
-          'action': 'delete',
+          'action': 'single',
           'routeParams': {
             id: sdo.md.id
           }
-        }
+        },
+        'params': sdo
       }
     })
   }

@@ -20,7 +20,7 @@ const ENDPOINTS = {
       'changed': '/sdos/{id}/{revision}'
     },
     'delete': {
-      'single': '/erease/sdos/{id}'
+      'single': '/eraser/sdos/{id}'
     }
   },
   'schema': {
@@ -180,7 +180,7 @@ module.exports = class HsStorage {
    */
   deleteSdo (opts) {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
-      .then(response => console.log(response))
+      .then(response => (response.status === 204) ? opts.params.md.id : false)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,
