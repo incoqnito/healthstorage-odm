@@ -89,7 +89,7 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   lock () {
-    return this.HsAdapter.lockSdo(this._dataValues).then(lockValue => {
+    return this.HsAdapter.lockItem(this._dataValues).then(lockValue => {
       this.lockValue = lockValue
       return this.returnModel(this._dataValues)
     })
@@ -100,10 +100,18 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   unlock () {
-    return this.HsAdapter.unlockSdo(this._dataValues).then(response => {
+    return this.HsAdapter.unlockItem(this._dataValues).then(response => {
       if (response) this.lockValue = ''
       return this.returnModel(this._dataValues)
     })
+  }
+
+  /**
+   * Get locked from local storage
+   * @returns {Object}
+   */
+  getLockFromLocalStorage () {
+    return window.localStorage.getItem('LOCKED_' + this.md.id)
   }
 
   /**

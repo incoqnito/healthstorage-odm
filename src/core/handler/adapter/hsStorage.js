@@ -6,7 +6,8 @@ const ENDPOINTS = {
   'sdo': {
     'get': {
       'list': '/sdos/{oId}/{sId}',
-      'single': '/sdos/{id}'
+      'single': '/sdos/{id}',
+      'isLocked': '/sdos/{id}/islocked/{lockValue}'
     },
     'post': {
       'list': '/sdos/{oId}/{sId}',
@@ -69,7 +70,6 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   validateSdo (opts) {
-    console.log(this.buildRequestUrl(opts.endpoint))
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.status === 200))
       .catch(error => {
@@ -182,10 +182,14 @@ module.exports = class HsStorage {
    * Lock sdo
    * @param {Object} opts
    * @returns {Promise}
+   * @issue API throws 500 error when sod is locked, unlocked and locked again
    */
-  lockSdo (opts) {
+  lockItem (opts) {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
-      .then(response => (response.status === 201) ? response.data.value : response.status)
+      .then(response => {
+        if (response.status === 201) window.localStorage.setItem('LOCKED_' + opts.params.md.id, response.data.value)
+        return (response.status === 201) ? response.data.value : response.status
+      })
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,
@@ -198,10 +202,25 @@ module.exports = class HsStorage {
    * Unlock sdo
    * @param {Object} opts
    * @returns {Promise}
+   * @issue API throws 500 error when sod is locked, unlocked and locked again
    */
-  unlockSdo (opts) {
+  unlockItem (opts) {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
-      .then(response => response.status === 204)
+      .then(response => {
+        if (response.status === 204) window.localStorage.removeItem('LOCKED_' + opts.params.md.id)
+        return response.status === 204
+      })
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  isLockedItem (opts) {
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => console.log(response))
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,

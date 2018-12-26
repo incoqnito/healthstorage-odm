@@ -288,34 +288,39 @@ module.exports = class HsAdapter {
    * Lock sdo mapping
    * @param {Object} sdo
    */
-  lockSdo (sdo) {
-    return this.adapter.lockSdo({
-      ...this.REQUEST_DATA,
-      ...{
-        'requestOptions': {
-          'headers': {
-            'accept': 'application/json',
-            'responseType': 'application/json'
-          }
-        },
-        'endpoint': {
-          'method': this.POST,
-          'type': 'sdo',
-          'action': 'lock',
-          'routeParams': {
-            id: sdo.md.id
-          }
+  lockItem (sdo) {
+    if (window.localStorage.getItem('LOCKED_' + sdo.md.id) === null) {
+      return this.adapter.lockItem({
+        ...this.REQUEST_DATA,
+        ...{
+          'requestOptions': {
+            'headers': {
+              'accept': 'application/json',
+              'responseType': 'application/json'
+            }
+          },
+          'endpoint': {
+            'method': this.POST,
+            'type': 'sdo',
+            'action': 'lock',
+            'routeParams': {
+              id: sdo.md.id
+            }
+          },
+          'params': sdo
         }
-      }
-    })
+      })
+    } else {
+      throw new Error('Item already locked.')
+    }
   }
 
   /**
    * Unlock sdo mapping
    * @param {Object} sdo
    */
-  unlockSdo (sdo) {
-    return this.adapter.unlockSdo({
+  unlockItem (sdo) {
+    return this.adapter.unlockItem({
       ...this.REQUEST_DATA,
       ...{
         'requestOptions': {
@@ -328,6 +333,34 @@ module.exports = class HsAdapter {
           'method': this.DELETE,
           'type': 'sdo',
           'action': 'unlock',
+          'routeParams': {
+            id: sdo.md.id,
+            lockValue: sdo.lockValue
+          }
+        },
+        'params': sdo
+      }
+    })
+  }
+
+  /**
+   * Unlock sdo mapping
+   * @param {Object} sdo
+   */
+  isLockedItem (sdo) {
+    return this.adapter.unlockItem({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/json',
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.GET,
+          'type': 'sdo',
+          'action': 'isLocked',
           'routeParams': {
             id: sdo.md.id,
             lockValue: sdo.lockValue

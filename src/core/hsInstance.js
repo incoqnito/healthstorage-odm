@@ -99,7 +99,10 @@ module.exports = class HsInstance {
     return this.HsAdapter.getSdos(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
       var list = []
       for (var sdo in response.body) {
-        list.push(this.returnModel(response.body[sdo]))
+        let model = this.returnModel(response.body[sdo])
+        let lockValue = model.getLockFromLocalStorage()
+        model.lockValue = lockValue !== null ? lockValue : ''
+        list.push(model)
       }
       return {
         list: list,

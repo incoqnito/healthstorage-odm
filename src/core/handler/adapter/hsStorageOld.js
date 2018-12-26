@@ -132,27 +132,6 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Create sdo lock value
-   * @param {String} id
-   * @returns {Promise}
-   */
-  postLockById (id) {
-    return AXIOS.post(`${this.client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}`, {
-      headers: {
-        accept: 'application/json',
-        responseType: 'application/json'
-      }
-    })
-      .then(response => (response.status === 201) ? response.data.value : response.status)
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
    * Get lock value
    * @param {String} id
    * @returns {Promise}
@@ -165,27 +144,6 @@ module.exports = class HsStorage {
       }
     })
       .then(response => console.log(response))
-      .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
-      })
-  }
-
-  /**
-   * Delete lock value
-   * @param {String} id
-   * @returns {Promise}
-   */
-  deleteLockById (id, lockValueId) {
-    return AXIOS.delete(`${this.client.serverUrl}/${SDO_LOCKS_ENDPOINT.replace('{id}', id)}/${lockValueId}`, {
-      headers: {
-        accept: 'application/json',
-        responseType: 'application/json'
-      }
-    })
-      .then(response => response.data)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,
