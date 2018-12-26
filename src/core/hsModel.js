@@ -134,8 +134,8 @@ module.exports = class HsModel {
    * Check sdo exists with lock state
    * @returns {Object}
    */
-  isLockState () {
-    console.log('Check if sdo exists with lock state')
+  existInLockState (lockState = true) {
+    return this.HsAdapter.existInLockState(this, lockState)
   }
 
   /**

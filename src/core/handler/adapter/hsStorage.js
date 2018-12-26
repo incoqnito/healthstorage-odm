@@ -240,7 +240,7 @@ module.exports = class HsStorage {
    */
   existInLockState (opts) {
     return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
-      .then(response => console.log(response))
+      .then(response => response)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,
