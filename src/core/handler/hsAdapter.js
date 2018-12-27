@@ -221,6 +221,30 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get sdos filtered adapter mapping
+   * @param {String} oId
+   * @param {String} sId
+   * @returns {Promise}
+   */
+  getSdosFiltered (oId, sId, filter) {
+    return this.adapter.getSdos({
+      ...this.REQUEST_DATA,
+      ...{
+        'endpoint': {
+          'method': this.POST,
+          'type': 'sdo',
+          'action': 'filtered',
+          'routeParams': {
+            oId: oId,
+            sId: sId
+          },
+          'params': filter
+        }
+      }
+    })
+  }
+
+  /**
    * Get sdo by id oder where
    * @param {Object} opts
    */
