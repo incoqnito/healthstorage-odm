@@ -204,7 +204,7 @@ module.exports = class HsAdapter {
    * @param {Object} filter
    * @returns {Promise}
    */
-  getSdos (oId, sId, filter) {
+  getSdos (oId, sId, options, filter) {
     if (filter === undefined) {
       return this.adapter.getSdos({
         ...this.REQUEST_DATA,
@@ -217,7 +217,8 @@ module.exports = class HsAdapter {
               oId: oId,
               sId: sId
             }
-          }
+          },
+          'params': options
         }
       })
     } else {
@@ -231,9 +232,9 @@ module.exports = class HsAdapter {
             'routeParams': {
               oId: oId,
               sId: sId
-            },
-            'params': filter
-          }
+            }
+          },
+          'param': filter
         }
       })
     }

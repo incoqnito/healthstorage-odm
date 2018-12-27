@@ -25,7 +25,8 @@
     "chalk": "^2.4.1",
     "clear": "^0.1.0",
     "commander": "^2.19.0",
-    "json-query": "^2.2.2"
+    "json-query": "^2.2.2",
+    "query-string": "^6.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
