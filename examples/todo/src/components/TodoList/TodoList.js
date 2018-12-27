@@ -45,7 +45,7 @@ export class TodoList extends React.Component {
     const maybePromise = this.props.onAddTodo && this.props.onAddTodo({
       id: uuid(),
       title: event.target.value,
-      isCompleted: false,
+      isCompleted: 0,
       lockValue: ''
     })
 

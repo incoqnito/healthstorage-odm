@@ -12,7 +12,7 @@ export default client.define({
       type: HealthStorageODM.STRING
     },
     isCompleted: {
-      type: HealthStorageODM.BOOLEAN
+      type: HealthStorageODM.INTEGER
     },
     lockValue: {
       type: HealthStorageODM.STRING

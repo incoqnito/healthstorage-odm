@@ -138,7 +138,7 @@ export class Application extends React.Component {
    */
   async onToggleTodo (todo) {
     try {
-      todo.isCompleted = !todo.isCompleted
+      todo.isCompleted = todo.isCompleted === 0 ? 1 : 0
       const updatedTodo = await todo.update(todo)
 
       this.setState({
@@ -189,7 +189,7 @@ export class Application extends React.Component {
       var todosToChange = []
       for (let todo in this.state.todos) {
         if (!this.state.todos[todo].isCompleted) {
-          this.state.todos[todo].isCompleted = true
+          this.state.todos[todo].isCompleted = 1
           todosToChange.push(this.state.todos[todo])
         }
       }
@@ -212,7 +212,7 @@ export class Application extends React.Component {
       var todosToChange = []
       for (let todo in this.state.todos) {
         if (this.state.todos[todo].isCompleted) {
-          this.state.todos[todo].isCompleted = false
+          this.state.todos[todo].isCompleted = 0
           todosToChange.push(this.state.todos[todo])
         }
       }
