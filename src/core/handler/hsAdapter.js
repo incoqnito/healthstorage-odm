@@ -201,47 +201,42 @@ module.exports = class HsAdapter {
    * Get sdos adapter mapping
    * @param {String} oId
    * @param {String} sId
+   * @param {Object} filter
    * @returns {Promise}
    */
-  getSdos (oId, sId) {
-    return this.adapter.getSdos({
-      ...this.REQUEST_DATA,
-      ...{
-        'endpoint': {
-          'method': this.GET,
-          'type': 'sdo',
-          'action': 'list',
-          'routeParams': {
-            oId: oId,
-            sId: sId
+  getSdos (oId, sId, filter) {
+    if (filter === undefined) {
+      return this.adapter.getSdos({
+        ...this.REQUEST_DATA,
+        ...{
+          'endpoint': {
+            'method': this.GET,
+            'type': 'sdo',
+            'action': 'list',
+            'routeParams': {
+              oId: oId,
+              sId: sId
+            }
           }
         }
-      }
-    })
-  }
-
-  /**
-   * Get sdos filtered adapter mapping
-   * @param {String} oId
-   * @param {String} sId
-   * @returns {Promise}
-   */
-  getSdosFiltered (oId, sId, filter) {
-    return this.adapter.getSdos({
-      ...this.REQUEST_DATA,
-      ...{
-        'endpoint': {
-          'method': this.POST,
-          'type': 'sdo',
-          'action': 'filtered',
-          'routeParams': {
-            oId: oId,
-            sId: sId
-          },
-          'params': filter
+      })
+    } else {
+      return this.adapter.getSdos({
+        ...this.REQUEST_DATA,
+        ...{
+          'endpoint': {
+            'method': this.POST,
+            'type': 'sdo',
+            'action': 'filtered',
+            'routeParams': {
+              oId: oId,
+              sId: sId
+            },
+            'params': filter
+          }
         }
-      }
-    })
+      })
+    }
   }
 
   /**
