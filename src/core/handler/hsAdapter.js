@@ -189,7 +189,7 @@ module.exports = class HsAdapter {
           'type': 'schema',
           'action': 'validateSdo',
           'routeParams': {
-            id: sdo.md.id
+            'id': sdo.md.id
           }
         },
         'params': sdo
@@ -214,8 +214,8 @@ module.exports = class HsAdapter {
             'type': 'sdo',
             'action': 'list',
             'routeParams': {
-              oId: oId,
-              sId: sId
+              'oId': oId,
+              'sId': sId
             }
           },
           'params': options
@@ -230,8 +230,8 @@ module.exports = class HsAdapter {
             'type': 'sdo',
             'action': 'filtered',
             'routeParams': {
-              oId: oId,
-              sId: sId
+              'oId': oId,
+              'sId': sId
             }
           },
           'param': filter
@@ -254,7 +254,7 @@ module.exports = class HsAdapter {
             'type': 'sdo',
             'action': 'single',
             'routeParams': {
-              id: opts.id
+              'id': opts.id
             }
           }
         }
@@ -283,7 +283,7 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'add',
           'routeParams': {
-            id: sdo.md.id
+            'id': sdo.md.id
           }
         },
         'params': sdo
@@ -310,7 +310,33 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'edit',
           'routeParams': {
-            id: sdo.md.id
+            'id': sdo.md.id
+          }
+        },
+        'params': sdo
+      }
+    })
+  }
+
+  /**
+   * Delete sdo mapping
+   * @param {Object} sdo
+   */
+  deleteSdo (sdo) {
+    return this.adapter.deleteSdo({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.DELETE,
+          'type': 'sdo',
+          'action': 'single',
+          'routeParams': {
+            'id': sdo.md.id
           }
         },
         'params': sdo
@@ -337,8 +363,8 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'bulkEdit',
           'routeParams': {
-            oId: sdos[0].md.oId,
-            sId: sdos[0].md.sId
+            'oId': sdos[0].md.oId,
+            'sId': sdos[0].md.sId
           }
         },
         'params': sdos
@@ -365,8 +391,8 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'changed',
           'routeParams': {
-            id: sdo.md.id,
-            r: sdo.md.r
+            'id': sdo.md.id,
+            'r': sdo.md.r
           }
         }
       }
@@ -393,7 +419,7 @@ module.exports = class HsAdapter {
             'type': 'sdo',
             'action': 'lock',
             'routeParams': {
-              id: sdo.md.id
+              'id': sdo.md.id
             }
           },
           'params': sdo
@@ -423,8 +449,8 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'unlock',
           'routeParams': {
-            id: sdo.md.id,
-            lockValue: sdo.lockValue.value
+            'id': sdo.md.id,
+            'lockValue': sdo.lockValue.value
           }
         },
         'params': sdo
@@ -451,8 +477,8 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'isLocked',
           'routeParams': {
-            id: sdo.md.id,
-            lockValue: sdo.lockValue.value
+            'id': sdo.md.id,
+            'lockValue': sdo.lockValue.value
           }
         }
       }
@@ -478,8 +504,8 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'existInLockState',
           'routeParams': {
-            id: sdo.md.id,
-            isLocked: lockState
+            'id': sdo.md.id,
+            'isLocked': lockState
           }
         }
       }
@@ -487,27 +513,25 @@ module.exports = class HsAdapter {
   }
 
   /**
-   * Delete sdo mapping
-   * @param {Object} sdo
+   * Get archive by sdo mapping
+   * @param {String} id
+   * @param {Integer} pageNum
+   * @param {Integer} pageSize
    */
-  deleteSdo (sdo) {
-    return this.adapter.deleteSdo({
+  getSdoArchive (id, pageNo, pageSize) {
+    return this.adapter.getSdoArchive({
       ...this.REQUEST_DATA,
       ...{
-        'requestOptions': {
-          'headers': {
-            'responseType': 'application/json'
-          }
-        },
         'endpoint': {
-          'method': this.DELETE,
+          'method': this.GET,
           'type': 'sdo',
-          'action': 'single',
+          'action': 'filtered',
           'routeParams': {
-            id: sdo.md.id
+            'id': id,
+            'pageNo': pageNo,
+            'pageSize': pageSize
           }
-        },
-        'params': sdo
+        }
       }
     })
   }

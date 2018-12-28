@@ -8,7 +8,8 @@ const ENDPOINTS = {
     'get': {
       'list': '/sdos/{oId}/{sId}',
       'single': '/sdos/{id}',
-      'isLocked': '/sdos/{id}/islocked/{lockValue}'
+      'isLocked': '/sdos/{id}/islocked/{lockValue}',
+      'archivedSdos': '/archive/sdos/{id}/{pageNo}/{pageSize}'
     },
     'post': {
       'list': '/sdos/{oId}/{sId}',
@@ -357,7 +358,7 @@ module.exports = class HsStorage {
   /**
    * Get archive for sdo identifier
    */
-  getArchivedSdos () {
+  getSdoArchive () {
     console.log('Get list of archived sdos by identifier')
   }
 
