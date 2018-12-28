@@ -10,6 +10,7 @@ module.exports = class HsModel {
   constructor (object) {
     if (object === undefined) throw new Error('No options provided for HsModel')
     this._dataValues = {}
+    this._unstored = {}
     this.initProperties(object)
   }
 
@@ -49,11 +50,11 @@ module.exports = class HsModel {
 
   /**
    * Return extended model
-   * @param {Object} sdo
+   * @param {Object} item
    * @returns {Mixed}
    */
-  returnModel (sdo) {
-    var model = new HsModel(sdo)
+  returnModel (item) {
+    var model = new HsModel(item)
     model.HsAdapter = this.HsAdapter
     return model
   }
@@ -156,5 +157,19 @@ module.exports = class HsModel {
     var copyFromThis = Object.assign({}, this._dataValues)
 
     this.revision[timestamp] = copyFromThis
+  }
+
+  /**
+   * Get archive for sdo
+   */
+  getArchive (pageNo = 1, pageSize = 10) {
+    return this.HsAdapter.getSdoArchive(this.md.id, pageNo, pageSize)
+  }
+
+  /**
+   * Get archived revision numbers for sdo
+   */
+  getArchiveRevisionNumbers () {
+
   }
 }

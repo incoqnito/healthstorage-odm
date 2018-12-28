@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import { ENTER_KEY, ESC_KEY } from '../../constants'
+import { INTEGER } from '../../../../../src/healthStorage'
 
 export class TodoEntry extends React.PureComponent {
   /**

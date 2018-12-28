@@ -357,9 +357,18 @@ module.exports = class HsStorage {
 
   /**
    * Get archive for sdo identifier
+   * @param {Object} opts
+   * @returns {Promise}
    */
-  getSdoArchive () {
-    console.log('Get list of archived sdos by identifier')
+  getSdoArchive (opts) {
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
+      .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
   }
 
   /**

@@ -525,7 +525,7 @@ module.exports = class HsAdapter {
         'endpoint': {
           'method': this.GET,
           'type': 'sdo',
-          'action': 'filtered',
+          'action': 'archivedSdos',
           'routeParams': {
             'id': id,
             'pageNo': pageNo,
