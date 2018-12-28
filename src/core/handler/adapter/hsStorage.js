@@ -9,7 +9,8 @@ const ENDPOINTS = {
       'list': '/sdos/{oId}/{sId}',
       'single': '/sdos/{id}',
       'isLocked': '/sdos/{id}/islocked/{lockValue}',
-      'archivedSdos': '/archive/sdos/{id}/{pageNo}/{pageSize}'
+      'archivedSdos': '/archive/sdos/{id}/{pageNo}/{pageSize}',
+      'archivedRevisions': '/archive/sdos/{id}/revisions'
     },
     'post': {
       'list': '/sdos/{oId}/{sId}',
@@ -372,9 +373,16 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Get archive for sdo identifier
+   * Get archived revision numbers for sdo identifier
    */
-  getArchivedRevisions () {
-    console.log('Get list of archived revision numbers by identifier')
+  getSdoRevisionsArchive (opts) {
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
+      .then(response => (response.data === undefined) ? response.status : response.data)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
   }
 }

@@ -170,6 +170,6 @@ module.exports = class HsModel {
    * Get archived revision numbers for sdo
    */
   getArchiveRevisionNumbers () {
-
+    return this.HsAdapter.getSdoRevisionsArchive(this.md.id)
   }
 }

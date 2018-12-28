@@ -535,4 +535,26 @@ module.exports = class HsAdapter {
       }
     })
   }
+
+  /**
+   * Get archive by sdo mapping
+   * @param {String} id
+   * @param {Integer} pageNum
+   * @param {Integer} pageSize
+   */
+  getSdoRevisionsArchive (id) {
+    return this.adapter.getSdoRevisionsArchive({
+      ...this.REQUEST_DATA,
+      ...{
+        'endpoint': {
+          'method': this.GET,
+          'type': 'sdo',
+          'action': 'archivedRevisions',
+          'routeParams': {
+            'id': id
+          }
+        }
+      }
+    })
+  }
 }
