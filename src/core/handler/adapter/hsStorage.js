@@ -374,6 +374,8 @@ module.exports = class HsStorage {
 
   /**
    * Get archived revision numbers for sdo identifier
+   * @param {Object} opts
+   * @returns {Promise}
    */
   getSdoRevisionsArchive (opts) {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))

@@ -264,6 +264,26 @@ module.exports = class HsInstance {
   }
 
   /**
+   * Get archive for sdo
+   * @param {String} id
+   * @param {Integer} pageNo
+   * @param {Integer} pageSize
+   * @returns {Promise}
+   */
+  getArchiveBySdoId (id, pageNo = 1, pageSize = 10) {
+    return this.HsAdapter.getSdoArchive(id, pageNo, pageSize)
+  }
+
+  /**
+   * Get archive for sdo
+   * @param {String} id
+   * @returns {Promise}
+   */
+  getRevisionsArchiveBySdoId (id) {
+    return this.HsAdapter.getSdoRevisionsArchive(id)
+  }
+
+  /**
    * Find meta fields
    * @param {String} key meta field key
    * @returns {String}
