@@ -33,7 +33,7 @@ module.exports = class HealthStorageODM {
    */
   constructor (opts) {
     if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
-    return this.createClient(opts)
+    return this.constructor.createClient(opts)
   }
 
   /**
@@ -113,7 +113,7 @@ module.exports = class HealthStorageODM {
    * @param {Object} opts client object
    * @returns {HS_INSTANCE} HealthStorgaeODM instace
    */
-  createClient (opts) {
+  static createClient (opts) {
     if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
     if (opts.serverUrl === undefined) opts = LOCAL_CLIENT
     return new HS_CLIENT(opts)
@@ -123,7 +123,7 @@ module.exports = class HealthStorageODM {
    * Create schema
    * @returns {Promise}
    */
-  createSchema (opts) {
+  static createSchema (opts) {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
     var HsSchema = new HS_SCHEMA(opts)
@@ -136,7 +136,7 @@ module.exports = class HealthStorageODM {
    * Delete schema
    * @returns {Promise}
    */
-  deleteSchemaById (id) {
+  static deleteSchemaById (id) {
     var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
     return HsAdapter.deleteSchemaById(id)
   }

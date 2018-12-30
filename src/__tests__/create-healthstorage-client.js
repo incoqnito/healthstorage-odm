@@ -1,17 +1,17 @@
-import HealthStorage from 'healthstorage-odm'
+const HSODM = require('./../healthStorage') // import currently not working with jest config, need to be implemented later
 
-xtest('create client via constructor', () => {
-  const client = new HealthStorage({
-    serverUrl: 'http://localhost:8080'
+test('Create client via constructor', () => {
+  const HS = new HSODM({
+    serverUrl: 'http://localhost.de:8080',
+    adapter: 'healthStorageApi'
   })
-
-  expect(client).toBeDefined()
+  expect(HS.constructor.name).toBe('HsClient')
 })
 
-xtest('create client via constructor', () => {
-  const client = HealthStorage.create({
-    serverUrl: 'http://localhost:8080'
+test('Create client via function', () => {
+  const HS = HSODM.createClient({
+    serverUrl: 'http://localhost.de:8080',
+    adapter: 'healthStorageApi'
   })
-
-  expect(client).toBeDefined()
+  expect(HS.constructor.name).toBe('HsClient')
 })

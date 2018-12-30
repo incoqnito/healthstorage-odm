@@ -1,12 +1,9 @@
 module.exports = {
   'modulePathIgnorePatterns': [
-    '/public',
-    '/node_modules/'
+    '/public'
   ],
-  'persistModuleRegistryBetweenSpecs': true,
   'transformIgnorePatterns': [
-    '/public',
-    '/node_modules/'
+    '/public'
   ],
   'rootDir': '',
   'transform': {
@@ -16,7 +13,6 @@ module.exports = {
     '<rootDir>/src'
   ],
   'unmockedModulePathPatterns': [
-    '<rootDir>/node_modules/',
     '<rootDir>/src/'
   ]
 }
