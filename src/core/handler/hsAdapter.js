@@ -376,7 +376,7 @@ module.exports = class HsAdapter {
    * @param {Object} sdo
    * @returns {Promise}
    */
-  sdoHasChanged (sdo) {
+  sdoHasChanged (sdoId, r) {
     return this.adapter.sdoHasChanged({
       ...this.REQUEST_DATA,
       ...{
@@ -390,8 +390,8 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'changed',
           'routeParams': {
-            'id': sdo.md.id,
-            'r': sdo.md.r
+            'id': sdoId,
+            'r': r
           }
         }
       }

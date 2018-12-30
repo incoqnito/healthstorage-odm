@@ -155,7 +155,7 @@ module.exports = class HsInstance {
    * @returns {Promise}
    */
   changedSince (id, r) {
-    return this.HsAdapter.headSdoChangedSinced(id, r).then(response => console.log(response))
+    return this.HsAdapter.sdoHasChanged(id, r).then(response => response)
   }
 
   /**

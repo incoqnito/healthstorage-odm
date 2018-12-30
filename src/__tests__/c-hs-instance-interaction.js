@@ -61,3 +61,12 @@ test('Find todo by id via instance', async () => {
   var foundTodo = await HS_INSTANCE.findById(todo3.md.id)
   expect(foundTodo.md.id).toBe(todo3.md.id)
 })
+
+test('Check sdo changed sinced specified', async () => {
+  var todo4 = await HS_INSTANCE.create({
+    'title': 'Todo4',
+    'isCompleted': 0
+  })
+  var changedSinced = await HS_INSTANCE.changedSince(todo4.md.id, todo4.md.r)
+  expect(changedSinced).toBeDefined()
+})
