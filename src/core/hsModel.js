@@ -90,7 +90,7 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   lock () {
-    return this.HsAdapter.lockItem(this._dataValues).then(lockValue => {
+    return this.HsAdapter.lockItem(this._dataValues.md.id).then(lockValue => {
       this.lockValue = lockValue
       return this.returnModel(this._dataValues)
     })
@@ -101,7 +101,7 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   unlock () {
-    return this.HsAdapter.unlockItem(this._dataValues).then(response => {
+    return this.HsAdapter.unlockItem(this._dataValues.md.id, this.lockValue.value).then(response => {
       if (response) this.lockValue = null
       return this.returnModel(this._dataValues)
     })

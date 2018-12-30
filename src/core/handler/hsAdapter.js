@@ -402,8 +402,8 @@ module.exports = class HsAdapter {
    * Lock sdo mapping
    * @param {Object} sdo
    */
-  lockItem (sdo) {
-    if (window.localStorage.getItem('LOCKED_' + sdo.md.id) === null) {
+  lockItem (sdoId) {
+    if (window.localStorage.getItem('LOCKED_' + sdoId) === null) {
       return this.adapter.lockItem({
         ...this.REQUEST_DATA,
         ...{
@@ -418,10 +418,9 @@ module.exports = class HsAdapter {
             'type': 'sdo',
             'action': 'lock',
             'routeParams': {
-              'id': sdo.md.id
+              'id': sdoId
             }
-          },
-          'params': sdo
+          }
         }
       })
     } else {
@@ -433,7 +432,7 @@ module.exports = class HsAdapter {
    * Unlock sdo mapping
    * @param {Object} sdo
    */
-  unlockItem (sdo) {
+  unlockItem (sdoId, lockValueId) {
     return this.adapter.unlockItem({
       ...this.REQUEST_DATA,
       ...{
@@ -448,11 +447,10 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'unlock',
           'routeParams': {
-            'id': sdo.md.id,
-            'lockValue': sdo.lockValue.value
+            'id': sdoId,
+            'lockValue': lockValueId
           }
-        },
-        'params': sdo
+        }
       }
     })
   }

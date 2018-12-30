@@ -23,7 +23,7 @@ const HS_INSTANCE = CLIENT.define({
 
 test('Create todo via instance', async () => {
   var todo1 = await HS_INSTANCE.create({
-    'title': 'Todo1',
+    'title': 'Todo1 - Create Test',
     'isCompleted': 0
   })
 
@@ -37,14 +37,14 @@ test('Edit todo by id via instance', async () => {
   })
 
   var editData = {
-    'title': 'Todo2 Edited',
+    'title': 'Todo2 - Edit Test',
     'isCompleted': 0,
     'md': todo2.md
   }
 
   var todo2Edited = await HS_INSTANCE.updateById(editData)
 
-  expect(todo2Edited.title).toBe('Todo2 Edited')
+  expect(todo2Edited.title).toBe('Todo2 - Edit Test')
 })
 
 test('Find all todos via instance', async () => {
@@ -54,7 +54,7 @@ test('Find all todos via instance', async () => {
 
 test('Find todo by id via instance', async () => {
   var todo3 = await HS_INSTANCE.create({
-    'title': 'Todo3',
+    'title': 'Todo3 - Find this one by Id',
     'isCompleted': 0
   })
 
@@ -69,4 +69,25 @@ test('Check sdo changed sinced specified via instance', async () => {
   })
   var changedSinced = await HS_INSTANCE.changedSince(todo4.md.id, todo4.md.r)
   expect(changedSinced).toBeDefined()
+})
+
+test('Lock item via instance', async () => {
+  var todo5 = await HS_INSTANCE.create({
+    'title': 'Todo5 - Lock item',
+    'isCompleted': 0
+  })
+  var lockValue = await HS_INSTANCE.lockById(todo5.md.id)
+
+  expect(lockValue).toBeDefined()
+})
+
+test('Unlock item via instance', async () => {
+  var todo6 = await HS_INSTANCE.create({
+    'title': 'Todo6 - Unlock Item',
+    'isCompleted': 0
+  })
+  var lockValue = await HS_INSTANCE.lockById(todo6.md.id)
+  var unlockedTodo = await HS_INSTANCE.unlockById(todo6.md.id, lockValue.value)
+  console.log(unlockedTodo)
+  expect(unlockedTodo).toBeDefined()
 })

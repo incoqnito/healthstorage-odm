@@ -287,7 +287,7 @@ module.exports = class HsStorage {
   lockItem (opts) {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => {
-        if (response.status === 201) window.localStorage.setItem('LOCKED_' + opts.params.md.id, JSON.stringify(response.data))
+        if (response.status === 201) window.localStorage.setItem('LOCKED_' + opts.endpoint.routeParams.id, JSON.stringify(response.data))
         return (response.status === 201) ? response.data : response.status
       })
       .catch(error => {
@@ -308,7 +308,7 @@ module.exports = class HsStorage {
   unlockItem (opts) {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => {
-        if (response.status === 204) window.localStorage.removeItem('LOCKED_' + opts.params.md.id)
+        if (response.status === 204) window.localStorage.removeItem('LOCKED_' + opts.endpoint.routeParams.id)
         return response.status === 204
       })
       .catch(error => {
