@@ -101,8 +101,7 @@ module.exports = class HsInstance {
       for (var sdo in response.body) {
         let model = this.returnModel(response.body[sdo])
         let lockValue = model.getLockFromLocalStorage()
-        model.lockValue = lockValue !== null ? JSON.parse(lockValue) : null
-        console.log(model.getArchiveRevisionNumbers())
+        // model.lockValue = lockValue !== null ? JSON.parse(lockValue) : null
         list.push(model)
       }
       return {

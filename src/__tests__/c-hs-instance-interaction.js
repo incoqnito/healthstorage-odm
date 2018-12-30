@@ -49,5 +49,4 @@ test('Edit todo by id via instance', async () => {
 test('Find all todos via instance', async () => {
   var todos = await HS_INSTANCE.findAll()
   console.log(todos)
-  expect(todo2Edited.title).toBe('Todo2 Edited')
 })
