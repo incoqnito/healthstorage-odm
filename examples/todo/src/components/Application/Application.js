@@ -173,7 +173,7 @@ export class Application extends React.Component {
     try {
       await todo.destroy()
       this.setState({
-        todos: this.state.todos.filter(t => t.id !== todo.id)
+        todos: this.state.todos.filter(t => t.md.id !== todo.md.id)
       })
     } catch (error) {
       this.toggleErrorAlert(error)

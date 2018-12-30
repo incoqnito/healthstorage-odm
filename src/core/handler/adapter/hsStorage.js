@@ -78,7 +78,7 @@ module.exports = class HsStorage {
       url = url.replace('{' + idx + '}', endpoint.routeParams[idx])
     }
 
-    if (params !== {}) queryString = '?' + QSTRING.stringify(params)
+    if (params !== undefined && params !== '' && params !== {}) queryString = '?' + QSTRING.stringify(params)
 
     return this.client.serverUrl + url + queryString
   }
@@ -175,13 +175,13 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Get sdos
+   * Get sdo
    * @param {Object} opts
    * @returns {Promis}
    */
   getSdo (opts) {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))
-      .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
+      .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,
@@ -232,7 +232,7 @@ module.exports = class HsStorage {
    */
   deleteSdo (opts) {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
-      .then(response => (response.status === 204) ? opts.params.md.id : false)
+      .then(response => (response.status === 204) ? opts.endpoint.routeParams.id : false)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,

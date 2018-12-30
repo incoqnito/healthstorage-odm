@@ -112,7 +112,7 @@ module.exports = class HsModel {
    * @returns {Object} localStroage item
    */
   getLockFromLocalStorage () {
-    return window.localStorage.getItem('LOCKED_' + this.md.id)
+    return window.localStorage.getItem('LOCKED_' + this.md.id) || null
   }
 
   /**
@@ -144,7 +144,7 @@ module.exports = class HsModel {
    * @returns {Object} object
    */
   destroy () {
-    return this.HsAdapter.deleteSdo(this)
+    return this.HsAdapter.deleteSdo(this.md.id)
   }
 
   /**

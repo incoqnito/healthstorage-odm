@@ -26,6 +26,7 @@ test('Create todo via instance', async () => {
     'title': 'Todo1',
     'isCompleted': 0
   })
+
   expect(todo1.constructor.name).toBe('HsModel')
 })
 
@@ -48,5 +49,15 @@ test('Edit todo by id via instance', async () => {
 
 test('Find all todos via instance', async () => {
   var todos = await HS_INSTANCE.findAll()
-  console.log(todos)
+  expect(typeof todos.list).toBe('object')
+})
+
+test('Find todo by id via instance', async () => {
+  var todo3 = await HS_INSTANCE.create({
+    'title': 'Todo3',
+    'isCompleted': 0
+  })
+
+  var foundTodo = await HS_INSTANCE.findById(todo3.md.id)
+  expect(foundTodo.md.id).toBe(todo3.md.id)
 })
