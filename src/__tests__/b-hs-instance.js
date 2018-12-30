@@ -1,6 +1,6 @@
 const HSODM = require('../healthStorage') // import currently not working with jest config, need to be implemented later
 const CLIENT = new HSODM({
-  serverUrl: 'http://localhost.de:8080',
+  serverUrl: 'http://localhost:8080',
   adapter: 'healthStorageApi'
 })
 
