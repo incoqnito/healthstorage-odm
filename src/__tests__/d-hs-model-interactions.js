@@ -23,7 +23,7 @@ const HS_INSTANCE = CLIENT.define({
   }
 })
 
-test('Edit todo via model', async () => {
+test('Edit sdo via model', async () => {
   var todo1 = await HS_INSTANCE.create({
     'title': 'Todo1 - Created',
     'isCompleted': 0
@@ -38,7 +38,7 @@ test('Edit todo via model', async () => {
 
 test('Check sdo changed sinced sepcified via model', async () => {
   var todo2 = await HS_INSTANCE.create({
-    'title': 'Todo2 - Created',
+    'title': 'Todo2 - Sdo changed',
     'isCompleted': 0
   })
 
@@ -47,7 +47,41 @@ test('Check sdo changed sinced sepcified via model', async () => {
   expect(changedSince).toBe(false)
 })
 
-test('Delete sdo by id via instance', async () => {
+test('Lock item via model', async () => {
+  var todo3 = await HS_INSTANCE.create({
+    'title': 'Todo3 - Lock sdo',
+    'isCompleted': 0
+  })
+
+  await todo3.lock()
+
+  expect(todo3.lockValue).toBeDefined()
+})
+
+test('Unlock item via model', async () => {
+  var todo4 = await HS_INSTANCE.create({
+    'title': 'Todo4 - Unlock sdo',
+    'isCompleted': 0
+  })
+
+  await todo4.lock()
+  await todo4.unlock()
+
+  expect(todo4.lockValue).toBe(null)
+})
+
+test('Check is locked item via model', async () => {
+  var todo6 = await HS_INSTANCE.create({
+    'title': 'Todo6 - Is locked',
+    'isCompleted': 0
+  })
+
+  let isLocked = await todo6.isLocked()
+
+  expect(isLocked).toBe(false)
+})
+
+test('Delete sdo by id via model', async () => {
   var todos = await HS_INSTANCE.findAll()
 
   for (let todo in todos.list) {

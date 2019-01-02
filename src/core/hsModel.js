@@ -120,7 +120,7 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   getLock () {
-    console.log('Get lock from sdo')
+    return this.HsAdapter.getLockData(this.md.id, this.lockValue.value)
   }
 
   /**
@@ -128,7 +128,11 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   isLocked () {
-    return this.HsAdapter.isLockedItem(this.md.id, this.lockValue.value)
+    if (this.lockValue !== undefined && this.lockValue !== null) {
+      return this.HsAdapter.isLockedItem(this.md.id, this.lockValue.value)
+    } else {
+      return false
+    }
   }
 
   /**
