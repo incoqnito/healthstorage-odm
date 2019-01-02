@@ -81,6 +81,45 @@ test('Check is locked item via model', async () => {
   expect(isLocked).toBe(false)
 })
 
+test('Exists not in lock state via model', async () => {
+  var todo7 = await HS_INSTANCE.create({
+    'title': 'Todo6 - Exists in lock state',
+    'isCompleted': 0
+  })
+
+  let lockState = await todo7.existInLockState()
+
+  expect(lockState).toBe(false)
+})
+
+test('Get archive via model', async () => {
+  var todo8 = await HS_INSTANCE.create({
+    'title': 'Todo8 - Get Archive',
+    'isCompleted': 0
+  })
+
+  todo8.title = 'Todo8 - Edited for revision'
+
+  await todo8.update()
+  let archive = todo8.getArchive()
+
+  expect(archive).toBeDefined()
+})
+
+test('Get archive revision numbers via model', async () => {
+  var todo9 = await HS_INSTANCE.create({
+    'title': 'Todo9 - Get Archive',
+    'isCompleted': 0
+  })
+
+  todo9.title = 'Todo9 - Edited for revision'
+
+  let editedTodo9 = await todo9.update()
+  let archiveRevNumbers = await editedTodo9.getArchiveRevisionNumbers()
+
+  expect(archiveRevNumbers.length).toBe(1)
+})
+
 test('Delete sdo by id via model', async () => {
   var todos = await HS_INSTANCE.findAll()
 
