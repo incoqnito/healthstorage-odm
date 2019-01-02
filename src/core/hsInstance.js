@@ -269,13 +269,13 @@ module.exports = class HsInstance {
 
   /**
    * Get archive for sdo
-   * @param {String} id
+   * @param {String} sdoId
    * @param {Integer} pageNo
    * @param {Integer} pageSize
    * @returns {Promise}
    */
-  getArchiveBySdoId (id, pageNo = 1, pageSize = 10) {
-    return this.HsAdapter.getSdoArchive(id, pageNo, pageSize)
+  getArchiveBySdoId (sdoId, pageNo = 1, pageSize = 10) {
+    return this.HsAdapter.getSdoArchive(sdoId, pageNo, pageSize)
   }
 
   /**

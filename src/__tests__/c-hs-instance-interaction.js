@@ -128,3 +128,21 @@ test('Check item not exists in lock state via instance', async () => {
 
   expect(existsNotInLockState).toBe(false)
 })
+
+test('Get full sdo revisions via instance', async () => {
+  var todo10 = await HS_INSTANCE.create({
+    'title': 'Todo10 - Test edit',
+    'isCompleted': 0
+  })
+
+  var editData = {
+    'title': 'Todo10 - Test edited',
+    'isCompleted': 0,
+    'md': todo10.md
+  }
+
+  await HS_INSTANCE.updateById(editData)
+  var sdoRevisons = await HS_INSTANCE.getArchiveBySdoId(todo10.md.id)
+
+  expect(sdoRevisons).toBeDefined()
+})

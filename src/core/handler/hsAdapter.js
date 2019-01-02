@@ -539,11 +539,11 @@ module.exports = class HsAdapter {
 
   /**
    * Get archive by sdo mapping
-   * @param {String} id
+   * @param {String} sdoId
    * @param {Integer} pageNum
    * @param {Integer} pageSize
    */
-  getSdoArchive (id, pageNo, pageSize) {
+  getSdoArchive (sdoId, pageNo, pageSize) {
     return this.adapter.getSdoArchive({
       ...this.REQUEST_DATA,
       ...{
@@ -552,7 +552,7 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'archivedSdos',
           'routeParams': {
-            'id': id,
+            'id': sdoId,
             'pageNo': pageNo,
             'pageSize': pageSize
           }
