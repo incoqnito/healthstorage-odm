@@ -1,8 +1,10 @@
 const HSODM = require('../healthStorage') // import currently not working with jest config, need to be implemented later
+
 const CLIENT = new HSODM({
   serverUrl: 'http://localhost:8080',
   adapter: 'healthStorageApi'
 })
+
 const HS_INSTANCE = CLIENT.define({
   'title': 'TodoSchema',
   'properties': {
@@ -101,6 +103,6 @@ test('Get lock data from item via instance', async () => {
   var lockValue = await HS_INSTANCE.lockById(todo6.md.id)
 
   var lockData = await HS_INSTANCE.getLockDataById(todo6.md.id, lockValue.value)
-  console.log(lockData)
+
   expect(lockData).toBeDefined()
 })

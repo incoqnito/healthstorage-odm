@@ -25,7 +25,7 @@ export class Application extends React.Component {
       error: undefined,
       editing: '',
       startDate: new Date(),
-      endDate: new Date('2018-12-31'),
+      endDate: new Date('2019-12-31'),
       pageSize: ''
     }
 
