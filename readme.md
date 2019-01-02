@@ -25,16 +25,18 @@ It is possible to create multiple HsClient instances for diffrent servers. Creat
 ```ts
 // By calling constructor
 const CLIENT = new HealthStorageODM({
-  serverUrl: 'https://your.server.url'
+  serverUrl: 'https://your.server.url',
+  adapter: 'adapter'
 });
 
 // By calling static createClient
 const CLIENT = HealthStorageODM.createClient({
-  serverUrl: 'https://your.server.url'
+  serverUrl: 'https://your.server.url',
+  adapter: 'adpater'
 });
 ```
 
-If there are no parameters set, it will take http://localhost:8080 as a default client server url.
+If there are no parameters set, it will take http://localhost:8080 as a default client server url and hsStorage as default adapter.
 
 The created client returns an instance for further use.
 
@@ -381,3 +383,7 @@ Open console healthstorage-odem package and move to ```./src/example/```. Type i
 After successfully created the files move to the link shown in console (eg. http://localhost:8080, http://localhost:8081, http://localhost:8082, ...)
 
 Enjoy.
+
+## Test cases
+
+Under the folder ```./src/__tests__/``` are several tests stored. Run ```npm test``` in root directory of the project an see the tests running.
