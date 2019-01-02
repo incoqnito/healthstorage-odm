@@ -512,9 +512,9 @@ module.exports = class HsAdapter {
 
   /**
    * Exists in lock state sdo mapping
-   * @param {Object} sdo
+   * @param {Object} sdoId
    */
-  existInLockState (sdo, lockState) {
+  existInLockState (sdoId, lockState) {
     return this.adapter.existInLockState({
       ...this.REQUEST_DATA,
       ...{
@@ -529,7 +529,7 @@ module.exports = class HsAdapter {
           'type': 'sdo',
           'action': 'existInLockState',
           'routeParams': {
-            'id': sdo.md.id,
+            'id': sdoId,
             'isLocked': lockState
           }
         }

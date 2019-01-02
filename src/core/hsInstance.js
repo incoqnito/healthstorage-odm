@@ -251,11 +251,11 @@ module.exports = class HsInstance {
 
   /**
    * Check if sdo exists with lock State
-   * @param {String} id
+   * @param {String} sdoId
    * @param {Boolean} lockState
    */
-  isLockStateById (id, lockState) {
-    console.log('Check if the sdo exists with lock state')
+  existsInLockStateById (sdoId, lockState) {
+    return this.HsAdapter.existInLockState(sdoId, lockState)
   }
 
   /**

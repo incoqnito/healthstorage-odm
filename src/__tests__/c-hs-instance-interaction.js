@@ -113,16 +113,18 @@ test('Check is locked item via instance', async () => {
     'isCompleted': 0
   })
 
-  var todo9 = await HS_INSTANCE.create({
-    'title': 'Todo9 - Is locked false',
-    'isCompleted': 0
-  })
-
   var lockValueTodo8 = await HS_INSTANCE.lockById(todo8.md.id)
   var isLockedTodo8 = await HS_INSTANCE.isLockedById(todo8.md.id, lockValueTodo8.value)
 
-  var isLockedTodo9 = await HS_INSTANCE.isLockedById(todo9.md.id, '')
-
   expect(isLockedTodo8).toBe(true)
-  expect(isLockedTodo9).toBe(false)
+})
+
+test('Check item not exists in lock state via instance', async () => {
+  var todo9 = await HS_INSTANCE.create({
+    'title': 'Todo9 - Exists in lock state',
+    'isCompleted': 0
+  })
+  var existsNotInLockState = await HS_INSTANCE.isLockedById(todo9.md.id, '')
+
+  expect(existsNotInLockState).toBe(false)
 })

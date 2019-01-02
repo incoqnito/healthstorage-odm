@@ -79,7 +79,8 @@ module.exports = class HsStorage {
       url = url.replace('{' + idx + '}', endpoint.routeParams[idx])
     }
 
-    if (params !== undefined && params !== '' && params !== {}) queryString = '?' + QSTRING.stringify(params)
+    if (params !== undefined && params !== '' && params !== {}) queryString = QSTRING.stringify(params)
+    if (queryString !== '') queryString = `?${queryString}`
 
     return this.client.serverUrl + url + queryString
   }

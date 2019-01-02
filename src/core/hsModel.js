@@ -136,7 +136,7 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   existInLockState (lockState = true) {
-    return this.HsAdapter.existInLockState(this, lockState)
+    return this.HsAdapter.existInLockState(this.md.id, lockState)
   }
 
   /**
