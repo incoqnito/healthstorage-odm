@@ -280,11 +280,11 @@ module.exports = class HsInstance {
 
   /**
    * Get archive for sdo
-   * @param {String} id
+   * @param {String} sdoId
    * @returns {Promise}
    */
-  getRevisionsArchiveBySdoId (id) {
-    return this.HsAdapter.getSdoRevisionsArchive(id)
+  getRevisionsArchiveBySdoId (sdoId) {
+    return this.HsAdapter.getSdoRevisionsArchive(sdoId)
   }
 
   /**

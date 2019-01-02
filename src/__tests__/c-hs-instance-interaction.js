@@ -146,3 +146,21 @@ test('Get full sdo revisions via instance', async () => {
 
   expect(sdoRevisons).toBeDefined()
 })
+
+test('Get sdo revision numbers via instance', async () => {
+  var todo11 = await HS_INSTANCE.create({
+    'title': 'Todo10 - Test edit',
+    'isCompleted': 0
+  })
+
+  var editData = {
+    'title': 'Todo11 - Test edited',
+    'isCompleted': 0,
+    'md': todo11.md
+  }
+
+  await HS_INSTANCE.updateById(editData)
+  var sdoRevisonNumbers = await HS_INSTANCE.getRevisionsArchiveBySdoId(todo11.md.id)
+
+  expect(sdoRevisonNumbers.length).toBe(1)
+})
