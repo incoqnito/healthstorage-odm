@@ -69,8 +69,8 @@ test('Check sdo changed sinced specified via instance', async () => {
     'title': 'Todo4',
     'isCompleted': 0
   })
-  var changedSinced = await HS_INSTANCE.changedSince(todo4.md.id, todo4.md.r)
-  expect(changedSinced).toBeDefined()
+  var changedSince = await HS_INSTANCE.changedSince(todo4.md.id, todo4.md.r)
+  expect(changedSince).toBeDefined()
 })
 
 test('Lock item via instance', async () => {
