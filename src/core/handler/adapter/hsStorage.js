@@ -9,6 +9,7 @@ const ENDPOINTS = {
       'list': '/sdos/{oId}/{sId}',
       'single': '/sdos/{id}',
       'isLocked': '/sdos/{id}/islocked/{lockValue}',
+      'lockData': '/sdos/{id}/islocked/{lockValue}',
       'archivedSdos': '/archive/sdos/{id}/{pageNo}/{pageSize}',
       'archivedRevisions': '/archive/sdos/{id}/revisions'
     },
@@ -311,6 +312,22 @@ module.exports = class HsStorage {
         if (response.status === 204) window.localStorage.removeItem('LOCKED_' + opts.endpoint.routeParams.id)
         return response.status === 204
       })
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
+   * Get lock data from item
+   * @param {Object} opts
+   * @returns {Promise}
+   */
+  getLockData (opts) {
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => response.data)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,

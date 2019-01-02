@@ -88,6 +88,19 @@ test('Unlock item via instance', async () => {
   })
   var lockValue = await HS_INSTANCE.lockById(todo6.md.id)
   var unlockedTodo = await HS_INSTANCE.unlockById(todo6.md.id, lockValue.value)
-  console.log(unlockedTodo)
+
   expect(unlockedTodo).toBeDefined()
+})
+
+test('Get lock data from item via instance', async () => {
+  var todo6 = await HS_INSTANCE.create({
+    'title': 'Todo6 - Get lock data',
+    'isCompleted': 0
+  })
+
+  var lockValue = await HS_INSTANCE.lockById(todo6.md.id)
+
+  var lockData = await HS_INSTANCE.getLockDataById(todo6.md.id, lockValue.value)
+  console.log(lockData)
+  expect(lockData).toBeDefined()
 })

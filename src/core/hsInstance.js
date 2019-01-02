@@ -236,8 +236,8 @@ module.exports = class HsInstance {
    * @param {String} id
    * @param {String} lockValue
    */
-  getLockById (id, lockValueId) {
-    return this.HsAdapter.getLockById(id, lockValueId)
+  getLockDataById (id, lockValueId) {
+    return this.HsAdapter.getLockData(id, lockValueId)
   }
 
   /**

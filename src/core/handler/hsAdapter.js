@@ -456,6 +456,33 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get lock data mapping
+   * @param {Object} sdo
+   */
+  getLockData (sdoId, lockValueId) {
+    return this.adapter.getLockData({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/json',
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.GET,
+          'type': 'sdo',
+          'action': 'lockData',
+          'routeParams': {
+            'id': sdoId,
+            'lockValueId': lockValueId
+          }
+        }
+      }
+    })
+  }
+
+  /**
    * Is locked sdo mapping
    * @param {Object} sdo
    */
