@@ -164,3 +164,12 @@ test('Get sdo revision numbers via instance', async () => {
 
   expect(sdoRevisonNumbers.length).toBe(1)
 })
+
+test('Delete sdo by id via instance', async () => {
+  var todos = await HS_INSTANCE.findAll()
+
+  for (let todo in todos.list) {
+    let deletedId = await HS_INSTANCE.deleteById(todos.list[todo].md.id)
+    expect(deletedId).toBe(todos.list[todo].md.id)
+  }
+})
