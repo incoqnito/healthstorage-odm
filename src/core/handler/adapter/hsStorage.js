@@ -343,7 +343,7 @@ module.exports = class HsStorage {
    */
   isLockedItem (opts) {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
-      .then(response => console.log(response))
+      .then(response => response.data.isLocked)
       .catch(error => {
         return Promise.reject(new Error({
           'status': error.response.status,

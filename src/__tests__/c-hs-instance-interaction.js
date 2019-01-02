@@ -95,14 +95,34 @@ test('Unlock item via instance', async () => {
 })
 
 test('Get lock data from item via instance', async () => {
-  var todo6 = await HS_INSTANCE.create({
-    'title': 'Todo6 - Get lock data',
+  var todo7 = await HS_INSTANCE.create({
+    'title': 'Todo7 - Get lock data',
     'isCompleted': 0
   })
 
-  var lockValue = await HS_INSTANCE.lockById(todo6.md.id)
+  var lockValue = await HS_INSTANCE.lockById(todo7.md.id)
 
-  var lockData = await HS_INSTANCE.getLockDataById(todo6.md.id, lockValue.value)
+  var lockData = await HS_INSTANCE.getLockDataById(todo7.md.id, lockValue.value)
 
   expect(lockData).toBeDefined()
+})
+
+test('Check is locked item via instance', async () => {
+  var todo8 = await HS_INSTANCE.create({
+    'title': 'Todo7 - Is locked true',
+    'isCompleted': 0
+  })
+
+  var todo9 = await HS_INSTANCE.create({
+    'title': 'Todo9 - Is locked false',
+    'isCompleted': 0
+  })
+
+  var lockValueTodo8 = await HS_INSTANCE.lockById(todo8.md.id)
+  var isLockedTodo8 = await HS_INSTANCE.isLockedById(todo8.md.id, lockValueTodo8.value)
+
+  var isLockedTodo9 = await HS_INSTANCE.isLockedById(todo9.md.id, '')
+
+  expect(isLockedTodo8).toBe(true)
+  expect(isLockedTodo9).toBe(false)
 })

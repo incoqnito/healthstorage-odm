@@ -128,7 +128,7 @@ module.exports = class HsModel {
    * @returns {Object}
    */
   isLocked () {
-    console.log('Check if sdo is locked')
+    return this.HsAdapter.isLockedItem(this.md.id, this.lockValue.value)
   }
 
   /**

@@ -233,20 +233,20 @@ module.exports = class HsInstance {
 
   /**
    * Get lock value on sdo by its identifier and lock value
-   * @param {String} id
+   * @param {String} sdoId
    * @param {String} lockValue
    */
-  getLockDataById (id, lockValueId) {
-    return this.HsAdapter.getLockData(id, lockValueId)
+  getLockDataById (sdoId, lockValueId) {
+    return this.HsAdapter.getLockData(sdoId, lockValueId)
   }
 
   /**
    * Check if sdo is locked
-   * @param {String} id
+   * @param {String} sdoId
    * @param {String} lockValue
    */
-  isLockedById (id, lockValue) {
-    console.log('Check if the sdo is locked or not')
+  isLockedById (sdoId, lockValueId) {
+    return this.HsAdapter.isLockedItem(sdoId, lockValueId)
   }
 
   /**
