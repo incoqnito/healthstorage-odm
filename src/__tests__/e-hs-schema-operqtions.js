@@ -23,8 +23,13 @@ test('Create a schema', async () => {
   expect(schema).toBeDefined()
 })
 
-xtest('Delete a schema ', () => {
+test('Get a schema of current revision', () => {
   expect('test').toBe('test')
+})
+
+test('Delete a schema ', async () => {
+  var deletedSchema = await HSODM.deleteSchema('82897c48-92f8-4a7f-8360-929e8b88765c')
+  expect(deletedSchema).toBe(true)
 })
 
 xtest('Get a schema of current revision', () => {

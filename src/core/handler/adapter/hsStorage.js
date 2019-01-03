@@ -11,7 +11,9 @@ const ENDPOINTS = {
       'isLocked': '/sdos/{id}/islocked/{lockValue}',
       'lockData': '/sdos/{id}/islocked/{lockValue}',
       'archivedSdos': '/archive/sdos/{id}/{pageNo}/{pageSize}',
-      'archivedRevisions': '/archive/sdos/{id}/revisions'
+      'archivedRevisions': '/archive/sdos/{id}/revisions',
+      'latestSchema': '/schemas/{id}',
+      'schemaByRevision': '/schemas/{id}/{r}'
     },
     'post': {
       'list': '/sdos/{oId}/{sId}',
@@ -122,13 +124,9 @@ module.exports = class HsStorage {
    * @param {String} schemaId
    * @returns {Object}
    */
-  deleteSchemaById (opts) {
-    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), {
-      headers: {
-        responseType: 'application/json'
-      }
-    })
-      .then(response => response)
+  deleteSchema (opts) {
+    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+      .then(response => response.status === 204)
       .catch(error => error)
   }
 

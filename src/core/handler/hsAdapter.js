@@ -99,7 +99,8 @@ module.exports = class HsAdapter {
    * @param {String} action schema or schemaByRevision
    * @returns {Promise}
    */
-  getSchema (routeParams, action) {
+  getSchema (sId, r = '') {
+    let action = r === '' ? 'latestSchema' : 'schemaByRevison'
     return this.adapter.createSchema({
       ...this.REQUEST_DATA,
       ...{
@@ -113,7 +114,10 @@ module.exports = class HsAdapter {
           'method': this.GET,
           'type': 'schema',
           'action': action,
-          'routeParams': routeParams
+          'routeParams': {
+            'id': sId,
+            'r': r
+          }
         }
       }
     })

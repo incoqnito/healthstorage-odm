@@ -137,8 +137,20 @@ module.exports = class HealthStorageODM {
    * Delete schema
    * @returns {Promise}
    */
-  static deleteSchemaById (id) {
+  static deleteSchema (id) {
     var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
-    return HsAdapter.deleteSchemaById(id)
+    return HsAdapter.deleteSchema(id)
+  }
+
+  /**
+   * Create schema
+   * @returns {Promise}
+   */
+  static getSchema (opts) {
+    if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
+
+    var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
+
+    return HsAdapter.getSchema(opts.sId, opts.r)
   }
 }
