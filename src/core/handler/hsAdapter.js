@@ -100,24 +100,29 @@ module.exports = class HsAdapter {
    * @returns {Promise}
    */
   getSchema (sId, r = '') {
-    let action = r === '' ? 'latestSchema' : 'schemaByRevison'
-    return this.adapter.createSchema({
+    var routeParams = {
+      'id': sId
+    }
+    var action = 'schema'
+
+    if (r !== '') {
+      routeParams.r = r
+      action = 'schemaByRevison'
+    }
+
+    return this.adapter.getSchema({
       ...this.REQUEST_DATA,
       ...{
         'requestOptions': {
           'headers': {
-            'accept': 'application/schema+json',
-            'responseType': 'application/schema+json'
+            'accept': 'application/schema+json'
           }
         },
         'endpoint': {
           'method': this.GET,
           'type': 'schema',
           'action': action,
-          'routeParams': {
-            'id': sId,
-            'r': r
-          }
+          'routeParams': routeParams
         }
       }
     })

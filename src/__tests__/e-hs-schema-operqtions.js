@@ -23,19 +23,20 @@ test('Create a schema', async () => {
   expect(schema).toBeDefined()
 })
 
-test('Get a schema of current revision', () => {
-  expect('test').toBe('test')
+test('Get a schema of current revision', async () => {
+  var schema = await HSODM.getSchema({'id': '82897c48-92f8-4a7f-8360-929e8b88765c'})
+  expect(schema).toBeDefined()
+})
+
+test('Get a schema revision', async () => {
+  var schema = await HSODM.getSchema({
+    'id': '82897c48-92f8-4a7f-8360-929e8b88765c',
+    'r': 1
+  })
+  expect(schema).toBeDefined()
 })
 
 test('Delete a schema ', async () => {
   var deletedSchema = await HSODM.deleteSchema('82897c48-92f8-4a7f-8360-929e8b88765c')
   expect(deletedSchema).toBe(true)
-})
-
-xtest('Get a schema of current revision', () => {
-  expect('test').toBe('test')
-})
-
-xtest('Get a schema revision', () => {
-  expect('test').toBe('test')
 })

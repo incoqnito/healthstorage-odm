@@ -151,6 +151,6 @@ module.exports = class HealthStorageODM {
 
     var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
 
-    return HsAdapter.getSchema(opts.sId, opts.r)
+    return HsAdapter.getSchema(opts.id)
   }
 }

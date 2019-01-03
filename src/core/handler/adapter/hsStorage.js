@@ -11,9 +11,7 @@ const ENDPOINTS = {
       'isLocked': '/sdos/{id}/islocked/{lockValue}',
       'lockData': '/sdos/{id}/islocked/{lockValue}',
       'archivedSdos': '/archive/sdos/{id}/{pageNo}/{pageSize}',
-      'archivedRevisions': '/archive/sdos/{id}/revisions',
-      'latestSchema': '/schemas/{id}',
-      'schemaByRevision': '/schemas/{id}/{r}'
+      'archivedRevisions': '/archive/sdos/{id}/revisions'
     },
     'post': {
       'list': '/sdos/{oId}/{sId}',
@@ -37,7 +35,7 @@ const ENDPOINTS = {
   'schema': {
     'get': {
       'schema': '/schema/{id}',
-      'schemaByRevision': '/schema/{id}/{r}',
+      'schemaByRevision': '/schemas/{id}/{r}',
       'validateSdo': '/schemas/validateSdo'
     },
     'post': {
@@ -96,10 +94,10 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response.data)
       .catch(error => {
-        throw new Error({
+        return Promise.reject(new Error({
           'status': error.response.status,
           'text': error.response.statusText
-        })
+        }))
       })
   }
 
