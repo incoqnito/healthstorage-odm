@@ -107,9 +107,14 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   createSchema (opts) {
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), JSON.stringify(opts.params), this.requestOptions)
+    return AXIOS.post(this.buildRequestUrl(opts.endpoint), JSON.stringify(opts.params), opts.requestOptions)
       .then(response => response.data.schema)
-      .catch(error => error)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
   }
 
   /**

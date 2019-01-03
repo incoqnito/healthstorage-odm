@@ -23,7 +23,8 @@ const HS_SQL_ADAPTER = 'hsSqlAdapter'
 
 /** Local server url fallback */
 const LOCAL_CLIENT = {
-  serverUrl: 'http://localhost:8080'
+  serverUrl: 'http://localhost:8080',
+  adapter: 'hsStorage'
 }
 
 module.exports = class HealthStorageODM {
@@ -129,7 +130,7 @@ module.exports = class HealthStorageODM {
     var HsSchema = new HS_SCHEMA(opts)
     var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
 
-    return HsAdapter.postSchema(HsSchema.schema)
+    return HsAdapter.createSchema(HsSchema.schema)
   }
 
   /**

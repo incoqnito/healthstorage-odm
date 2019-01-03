@@ -130,6 +130,7 @@ module.exports = class HsAdapter {
       ...{
         'requestOptions': {
           'headers': {
+            'accept': 'application/vnd.bt.btss+json',
             'Content-Type': 'application/schema+json'
           }
         },
