@@ -45,6 +45,20 @@ const ENDPOINTS = {
     'delete': {
       'allRevisions': '/eraser/schemas/{id}/?allRevisions=true'
     }
+  },
+  'sdoblobs': {
+    'get': {
+      'single': '/sdoblobs/{id}'
+    },
+    'post': {
+      'sdoblob': '/sdoblobs/{id}'
+    },
+    'put': {
+      'sdoblob': '/sdoblobs/{id}'
+    },
+    'delete': {
+      'sdoblob': '/eraser/sdoblobs/{id}'
+    }
   }
 }
 

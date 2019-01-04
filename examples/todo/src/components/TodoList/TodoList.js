@@ -68,8 +68,20 @@ export class TodoList extends React.Component {
     return (
       <div>
         <section className="bulk-section">
-          <button onClick={this.props.bulkCompleteTodos} className="default-btn">Complete All</button>
-          <button onClick={this.props.bulkOpenTodos} className="default-btn">Open All</button>
+          <div className="inner-list">
+            <button onClick={this.props.bulkCompleteTodos} className="default-btn">Complete All</button>
+            <button onClick={this.props.bulkOpenTodos} className="default-btn">Open All</button>
+          </div>
+        </section>
+        <section className="upload-file">
+          <div className="inner-list">
+            <div>
+              <input type="file" name="" id="" onChange={this.props.handleSelectedFile} />
+            </div>
+            <div>
+              <button onClick={this.props.handleUpload}>Hochladen</button>
+            </div>
+          </div>
         </section>
         <header className="header">
           <h1>todos</h1>

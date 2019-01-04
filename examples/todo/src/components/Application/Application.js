@@ -26,7 +26,8 @@ export class Application extends React.Component {
       editing: '',
       startDate: new Date(),
       endDate: new Date('2019-12-31'),
-      pageSize: ''
+      pageSize: '',
+      selectedFile: ''
     }
 
     this.onAddTodo = this.onAddTodo.bind(this)
@@ -52,6 +53,9 @@ export class Application extends React.Component {
     this.onChangeEndDate = this.onChangeEndDate.bind(this)
 
     this.onChangePagination = this.onChangePagination.bind(this)
+
+    this.handleSelectedFile = this.handleSelectedFile.bind(this)
+    this.handleUpload = this.handleUpload.bind(this)
   }
 
   /**
@@ -321,6 +325,16 @@ export class Application extends React.Component {
     }, 6500)
   }
 
+  handleSelectedFile (event) {
+    this.setState({
+      selectedFile: event.target.files[0]
+    })
+  }
+
+  handleUpload () {
+    console.log(this.state.selectedFile)
+  }
+
   /**
    * Render View
    * @returns {Component}
@@ -343,6 +357,8 @@ export class Application extends React.Component {
             onClearEdit={this.onClearEdit}
             toggleErrorAlert={this.toggleErrorAlert}
             editing={this.state.editing}
+            handleSelectedFile={this.handleSelectedFile}
+            handleUpload={this.handleUpload}
           />
           {
             showFilter

@@ -664,10 +664,34 @@ html .clear-completed:active {
 }
 
 .bulk-section {
-	padding-left: 15px;
-	padding-right: 15px;
 	margin-bottom: 5px;
 	margin-top: 5px;
 	padding-top: 17px;
 	padding-bottom: 11px;
+	width: 50%;
+	float: left;
+}
+
+.bulk-section .inner-list {
+	padding-left: 15px;
+}
+
+.upload-file {
+	margin-bottom: 5px;
+	margin-top: 5px;
+	padding-top: 17px;
+	padding-bottom: 11px;
+	width: 50%;
+	float: left;
+}
+
+.upload-file button {
+	margin-top: 10px;
+	border: solid 1px rgba(0,0,0,0.3);
+	padding: 3px 10px;
+}
+
+.upload-file button:hover {
+	cursor: pointer;
+	background-color: rgba(0,0,0,0.01)
 }
