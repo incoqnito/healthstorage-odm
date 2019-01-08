@@ -34,7 +34,7 @@ const ENDPOINTS = {
   },
   'schema': {
     'get': {
-      'schema': '/schema/{id}',
+      'schema': '/schemas/{id}',
       'schemaByRevision': '/schemas/{id}/{r}',
       'validateSdo': '/schemas/validateSdo',
       'list': '/schemas/'
