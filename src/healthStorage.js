@@ -143,7 +143,7 @@ module.exports = class HealthStorageODM {
   }
 
   /**
-   * Create schema
+   * Get schema
    * @returns {Promise}
    */
   static getSchema (opts) {
@@ -152,5 +152,19 @@ module.exports = class HealthStorageODM {
     var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
 
     return HsAdapter.getSchema(opts.id)
+  }
+
+  /**
+   * Get schemas
+   * @returns {Promise}
+   */
+  static getSchemas (opts) {
+    if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
+
+    var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
+
+    var ids = opts.ids.join(',')
+
+    return HsAdapter.getSchemas(ids)
   }
 }

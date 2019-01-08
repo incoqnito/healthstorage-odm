@@ -129,6 +129,30 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get schemas by params adapter mapping
+   * @param {Object} sIds joined sIds
+   * @returns {Promise}
+   */
+  getSchemas (sIds) {
+    return this.adapter.getSchemas({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/schema+json'
+          }
+        },
+        'endpoint': {
+          'method': this.GET,
+          'type': 'schema',
+          'action': 'list'
+        },
+        'params': sIds
+      }
+    })
+  }
+
+  /**
    * Create schema adapter mapping
    * @param {Object} sdo
    * @returns {Promise}
