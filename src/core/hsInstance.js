@@ -1,6 +1,6 @@
 
 /** Import modules */
-const HS_MODEL = require('./HsModel.js')
+const HS_MODEL = require('./hsModel.js')
 const HS_SCHEMA = require('./handler/hsSchema.js')
 const HS_ADAPTER = require('./handler/hsAdapter.js')
 

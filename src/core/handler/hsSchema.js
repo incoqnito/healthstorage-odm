@@ -1,6 +1,6 @@
 /** Import modules */
 const uuid = require('uuid/v4')
-const HS_HELPER = require('../lib/HsHelper.js')
+const HS_HELPER = require('../lib/hsHelper.js')
 
 /** Constants */
 const SCHEMA_DRAFT = 'http://json-schema.org/draft-07/schema#'
