@@ -132,6 +132,7 @@ module.exports = class HsAdapter {
    * Get schemas by params adapter mapping
    * @param {Object} sIds joined sIds
    * @returns {Promise}
+   * @issue api not working at this call
    */
   getSchemas (sIds) {
     return this.adapter.getSchemas({
@@ -147,7 +148,7 @@ module.exports = class HsAdapter {
           'type': 'schema',
           'action': 'list'
         },
-        'params': sIds
+        'params': {'ids': sIds}
       }
     })
   }

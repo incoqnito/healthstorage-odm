@@ -117,6 +117,22 @@ module.exports = class HsStorage {
   }
 
   /**
+   * Get schemas
+   * @param {Object} opts
+   * @returns {Promise}
+   */
+  getSchemas (opts) {
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint, opts.params), opts.requestOptions)
+      .then(response => response.data)
+      .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
    * Create schema
    * @param {Object} schema
    * @returns {Promise}
