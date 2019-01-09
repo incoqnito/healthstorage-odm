@@ -64,18 +64,19 @@
           "$ref": "#/definitions/MetadataSdo"
         },
         "title": {
-          "type": "string"
+            "description": "Titel",
+            "type": "string"
         },
         "doctorName": {
+          "description": "Arztname",
           "type": "string"
         },
         "patientName": {
-          "type": "string"
-        },
-        "location": {
+          "description": "Patientenname",
           "type": "string"
         },
         "media": {
+          "description": "Medien",
           "type": "string"
         }
       },
