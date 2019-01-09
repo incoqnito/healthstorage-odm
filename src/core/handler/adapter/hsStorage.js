@@ -106,7 +106,8 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSchema (opts) {
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    AXIOS.defaults.headers.common = opts.requestOptions.headers
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
       .then(response => response.data)
       .catch(error => {
         return Promise.reject(new Error({
@@ -122,7 +123,8 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSchemas (opts) {
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint, opts.params), opts.requestOptions)
+    AXIOS.defaults.headers.common = opts.requestOptions.headers
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint, opts.params))
       .then(response => response.data)
       .catch(error => {
         return Promise.reject(new Error({
