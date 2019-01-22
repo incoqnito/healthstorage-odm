@@ -52,13 +52,13 @@ const ENDPOINTS = {
       'single': '/sdoblobs/{id}'
     },
     'post': {
-      'sdoblob': '/sdoblobs/{id}'
+      'add': '/sdoblobs/{id}'
     },
     'put': {
-      'sdoblob': '/sdoblobs/{id}'
+      'edit': '/sdoblobs/{id}'
     },
     'delete': {
-      'sdoblob': '/eraser/sdoblobs/{id}'
+      'single': '/eraser/sdoblobs/{id}'
     }
   }
 }
@@ -433,6 +433,25 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
+        return Promise.reject(new Error({
+          'status': error.response.status,
+          'text': error.response.statusText
+        }))
+      })
+  }
+
+  /**
+   * Create sdoblob
+   * @param {Object} opts
+   * @returns {Promis}
+   * @issue API needs to return created sdo (defaults)
+   */
+  createSdoBlob (opts) {
+    AXIOS.defaults.headers.common = opts.requestOptions.headers
+    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+      .then(response => (response.status === 201) ? JSON.parse(response.config.data) : response.status)
+      .catch(error => {
+        console.log(AXIOS.defaults.headers.common)
         return Promise.reject(new Error({
           'status': error.response.status,
           'text': error.response.statusText

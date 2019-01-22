@@ -63,21 +63,25 @@
         "md": {
           "$ref": "#/definitions/MetadataSdo"
         },
-        "title": {
-            "description": "Titel",
-            "type": "string"
-        },
         "doctorName": {
           "description": "Arztname",
+          "type": "string"
+        },
+        "location": {
+          "description": "Standort",
           "type": "string"
         },
         "patientName": {
           "description": "Patientenname",
           "type": "string"
         },
-        "media": {
+        "blobRefs": {
           "description": "Medien",
-          "type": "string"
+          "type": "object",
+          "items": {
+            "type": "string",
+            "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+          }
         }
       },
       "required": [

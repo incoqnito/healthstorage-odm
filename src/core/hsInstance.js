@@ -288,6 +288,18 @@ module.exports = class HsInstance {
   }
 
   /**
+   * Create a new sdo for given schema
+   * @param {Object} data
+   * @returns {Promise}
+   */
+  createBlob (data) {
+    let sdo = JSON.parse(data.getAll('sdo'))
+    sdo['md'] = this.HsSchema.generateMd()
+    data.set('sdo', JSON.stringify(sdo))
+    return this.HsAdapter.createSdoBlob(data).then(response => response)
+  }
+
+  /**
    * Find meta fields
    * @param {String} key meta field key
    * @returns {String}

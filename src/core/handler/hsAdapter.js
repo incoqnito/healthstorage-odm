@@ -617,4 +617,31 @@ module.exports = class HsAdapter {
       }
     })
   }
+
+  /**
+   * Create sdo blob
+   * @param {*} sdoBlob
+   */
+  createSdoBlob (sdoBlob) {
+    let sdo = JSON.parse(sdoBlob.get('sdo'))
+    return this.adapter.createSdoBlob({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'Content-Type': undefined
+          }
+        },
+        'endpoint': {
+          'method': this.POST,
+          'type': 'sdoblobs',
+          'action': 'add',
+          'routeParams': {
+            'id': sdo.md.id
+          }
+        },
+        'params': sdoBlob
+      }
+    })
+  }
 }
