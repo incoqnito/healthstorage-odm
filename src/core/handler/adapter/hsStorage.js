@@ -443,15 +443,14 @@ module.exports = class HsStorage {
   /**
    * Create sdoblob
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    * @issue API needs to return created sdo (defaults)
    */
   createSdoBlob (opts) {
     AXIOS.defaults.headers.common = opts.requestOptions.headers
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
-      .then(response => (response.status === 201) ? JSON.parse(response.config.data) : response.status)
+      .then(response => response.status === 201)
       .catch(error => {
-        console.log(AXIOS.defaults.headers.common)
         return Promise.reject(new Error({
           'status': error.response.status,
           'text': error.response.statusText

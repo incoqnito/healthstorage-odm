@@ -292,11 +292,15 @@ module.exports = class HsInstance {
    * @param {Object} data
    * @returns {Promise}
    */
-  createBlob (data) {
-    let sdo = JSON.parse(data.getAll('sdo'))
+  createBlob (sdoBlob) {
+    let sdo = JSON.parse(sdoBlob.getAll('sdo'))
     sdo['md'] = this.HsSchema.generateMd()
-    data.set('sdo', JSON.stringify(sdo))
-    return this.HsAdapter.createSdoBlob(data).then(response => response)
+    return this.HsAdapter.validateSdo(sdo).then(validated => {
+      if (validated) {
+        sdoBlob.set('sdo', JSON.stringify(sdo))
+        return this.HsAdapter.createSdoBlob(sdoBlob).then(response => response)
+      }
+    })
   }
 
   /**
