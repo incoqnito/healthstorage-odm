@@ -170,10 +170,8 @@ module.exports = class HsStorage {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.status === 200))
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        console.log(error)
+        return false
       })
   }
 
@@ -451,10 +449,8 @@ module.exports = class HsStorage {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => response.status === 201)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        console.log(error)
+        return false
       })
   }
 }
