@@ -619,7 +619,7 @@ module.exports = class HsAdapter {
   }
 
   /**
-   * Create sdo blob
+   * Create sdoBlob
    * @param {*} sdoBlob
    */
   createSdoBlob (sdoBlob) {
