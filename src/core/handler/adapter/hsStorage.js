@@ -110,10 +110,17 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))
       .then(response => response.data)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error !== undefined && error.response !== undefined) {
+          return Promise.reject(new Error({
+            'status': error.response.status,
+            'text': error.response.statusText
+          }))
+        } else {
+          return Promise.reject(new Error({
+            'status': 500,
+            'text': 'Internal API Error'
+          }))
+        }
       })
   }
 
