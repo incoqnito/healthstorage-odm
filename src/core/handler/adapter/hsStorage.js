@@ -454,7 +454,7 @@ module.exports = class HsStorage {
   createSdoBlob (opts) {
     AXIOS.defaults.headers.common = opts.requestOptions.headers
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
-      .then(response => response.status === 201 ? response : false)
+      .then(response => response !== undefined && response.status === 201 ? response : false)
       .catch(error => {
         console.log(error)
         return false
