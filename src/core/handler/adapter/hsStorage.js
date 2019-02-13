@@ -177,8 +177,17 @@ module.exports = class HsStorage {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.status === 200))
       .catch(error => {
-        console.log(error)
-        return false
+        if(error.response !== undefined && error.response.status !== undefined) {
+          return {
+            'status': error.response.status,
+            'text': error.response.statusText
+          }
+        } else {
+          return {
+            'status': 500,
+            'text': 'Internal API Service Error'
+          }
+        }
       })
   }
 
@@ -201,7 +210,7 @@ module.exports = class HsStorage {
   /**
    * Get sdos filtered
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    * @issue Throws API errors. Error 500, sometimes NullReferenceException, if boolean used as type, field not working
    */
   getSdosFiltered (opts) {
@@ -456,8 +465,17 @@ module.exports = class HsStorage {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => response !== undefined && response.status === 201 ? response : false)
       .catch(error => {
-        console.log(error)
-        return false
+        if(error.response !== undefined && error.response.status !== undefined) {
+          return {
+            'status': error.response.status,
+            'text': error.response.statusText
+          }
+        } else {
+          return {
+            'status': 500,
+            'text': 'Internal API Service Error'
+          }
+        }
       })
   }
 }
