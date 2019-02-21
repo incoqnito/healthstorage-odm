@@ -466,16 +466,21 @@ module.exports = class HsStorage {
       .then(response => response !== undefined && response.status === 201 ? response : false)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          return {
-            'status': error.response.status,
-            'text': error.response.statusText
-          }
+          throw this.createError(error.response.statusText, error.response.status)
         } else {
-          return {
-            'status': 500,
-            'text': 'Internal API Service Error'
-          }
+          throw this.createError(500, 'Internal API Service Error')
         }
       })
+  }
+
+  /**
+   * 
+   * @param {*} message 
+   * @param {*} status 
+   */
+  createError (message, status) {
+    let error = new Error(message) 
+    error.status = status
+    return error
   }
 }
