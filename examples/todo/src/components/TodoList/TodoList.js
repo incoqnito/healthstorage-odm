@@ -95,8 +95,6 @@ export class TodoList extends React.Component {
           />
         </header>
         <section className="main">
-          <input id="toggle-all" className="toggle-all" type="checkbox" onChange={console.log} checked={this.state.checkedAll} />
-          <label htmlFor="toggle-all" />
           <ul className="todo-list">
             {
               this.props.todos.map(this.renderTodo)
