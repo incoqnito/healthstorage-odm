@@ -111,9 +111,9 @@ module.exports = class HsStorage {
       .then(response => response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "getSchema()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "getSchema()")
         }
       })
   }
@@ -129,9 +129,9 @@ module.exports = class HsStorage {
       .then(response => response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "getSchemas()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "getSchemas()")
         }
       })
   }
@@ -146,9 +146,9 @@ module.exports = class HsStorage {
       .then(response => response.data.schema)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "createSchema()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "createSchema()")
         }
       })
   }
@@ -163,9 +163,9 @@ module.exports = class HsStorage {
       .then(response => response.status === 204)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "deleteSchema()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "deleteSchema()")
         }
       })
   }
@@ -180,9 +180,9 @@ module.exports = class HsStorage {
       .then(response => (response.status === 200))
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "validateSdo()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "validateSdo()")
         }
       })
   }
@@ -197,9 +197,9 @@ module.exports = class HsStorage {
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "getSdos()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "getSdos()")
         }
       })
   }
@@ -215,9 +215,9 @@ module.exports = class HsStorage {
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "getSdosFiltered()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "getSdosFiltered()")
         }
       })
   }
@@ -232,9 +232,9 @@ module.exports = class HsStorage {
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "getSdo()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "getSdo()")
         }
       })
   }
@@ -250,9 +250,9 @@ module.exports = class HsStorage {
       .then(response => (response.status === 201) ? JSON.parse(response.config.data) : response.status)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "createSdo()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "createSdo()")
         }
       })
   }
@@ -268,9 +268,9 @@ module.exports = class HsStorage {
       .then(response => opts.params)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "editSdo()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "editSdo()")
         }
       })
   }
@@ -286,9 +286,9 @@ module.exports = class HsStorage {
       .then(response => (response.status === 204) ? opts.endpoint.routeParams.id : false)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "deleteSdo()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "deleteSdo()")
         }
       })
   }
@@ -303,9 +303,9 @@ module.exports = class HsStorage {
       .then(response => response)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "editSdosBulk()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "editSdosBulk()")
         }
       })
   }
@@ -323,9 +323,9 @@ module.exports = class HsStorage {
           return false
         } else {
           if(error.response !== undefined && error.response.status !== undefined) {
-            throw this.createError(error.response.statusText, error.response.status)
+            throw this.createError(error.response.statusText, error.response.status, "sdoHasChanged()")
           } else {
-            throw this.createError(500, 'Internal API Service Error')
+            throw this.createError(500, 'Internal API Service Error', "sdoHasChanged()")
           }
         }
       })
@@ -346,9 +346,9 @@ module.exports = class HsStorage {
       })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "lockItem()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "lockItem()")
         }
       })
   }
@@ -368,9 +368,9 @@ module.exports = class HsStorage {
       })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "unlockItem()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "unlockItem()")
         }
       })
   }
@@ -385,9 +385,9 @@ module.exports = class HsStorage {
       .then(response => response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "getLockData()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "getLockData()")
         }
       })
   }
@@ -402,9 +402,9 @@ module.exports = class HsStorage {
       .then(response => response.data.isLocked)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "isLockedItem()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "isLockedItem()")
         }
       })
   }
@@ -423,9 +423,9 @@ module.exports = class HsStorage {
           return false
         } else {
           if(error.response !== undefined && error.response.status !== undefined) {
-            throw this.createError(error.response.statusText, error.response.status)
+            throw this.createError(error.response.statusText, error.response.status, "existInLockState()")
           } else {
-            throw this.createError(500, 'Internal API Service Error')
+            throw this.createError(500, 'Internal API Service Error', "existInLockState()")
           }
         }
       })
@@ -441,9 +441,9 @@ module.exports = class HsStorage {
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "getSdoArchive()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "getSdoArchive()")
         }
       })
   }
@@ -458,9 +458,9 @@ module.exports = class HsStorage {
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "getSdoRevisionsArchive()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "getSodsRevisionsArchive()")
         }
       })
   }
@@ -477,9 +477,9 @@ module.exports = class HsStorage {
       .then(response => response !== undefined && response.status === 201 ? response : false)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status)
+          throw this.createError(error.response.statusText, error.response.status, "createSdoBlob()")
         } else {
-          throw this.createError(500, 'Internal API Service Error')
+          throw this.createError(500, 'Internal API Service Error', "createSdoBlob()")
         }
       })
   }
@@ -489,9 +489,10 @@ module.exports = class HsStorage {
    * @param {*} message 
    * @param {*} status 
    */
-  createError (message, status) {
+  createError (message, status, callee = 'No information passed') {
     let error = new Error(message) 
     error.status = status
+    error.callee = callee
     return error
   }
 }
