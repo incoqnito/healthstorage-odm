@@ -15,7 +15,7 @@ export class Application extends React.Component {
    * Constructor
    * @param {Object} props
    */
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -61,58 +61,59 @@ export class Application extends React.Component {
   /**
    * Async mount
    */
-  async componentDidMount () {
-    const todos = await Todo.findAll({
+  componentDidMount() {
+    Todo.findAll({
       orderBy: this.state.orderBy,
       orderByDirection: this.state.orderByDirection,
       from: this.state.startDate.toISOString().slice(0, 10).replace(/-/g, '-'),
       until: this.state.endDate.toISOString().slice(0, 10).replace(/-/g, '-'),
       pageSize: this.state.pageSize
     })
-    this.setState({
-      todos: todos.list
-    })
+      .then(todos => {
+        this.setState({
+          todos: todos.list
+        })
+      })
+      .catch(error => this.toggleErrorAlert(error))
   }
 
   /**
    * Refetch
    */
-  async refetchTodos () {
-    try {
-      const todos = await Todo.findAll({
-        orderBy: this.state.orderBy,
-        orderByDirection: this.state.orderByDirection,
-        from: this.state.startDate.toISOString().slice(0, 10).replace(/-/g, '-'),
-        until: this.state.endDate.toISOString().slice(0, 10).replace(/-/g, '-'),
-        pageSize: this.state.pageSize
+  refetchTodos() {
+    Todo.findAll({
+      orderBy: this.state.orderBy,
+      orderByDirection: this.state.orderByDirection,
+      from: this.state.startDate.toISOString().slice(0, 10).replace(/-/g, '-'),
+      until: this.state.endDate.toISOString().slice(0, 10).replace(/-/g, '-'),
+      pageSize: this.state.pageSize
+    })
+      .then(todos => {
+        this.setState({
+          todos: todos.list
+        })
       })
-
-      this.setState({
-        todos: todos.list
-      })
-    } catch (error) {
-      this.toggleErrorAlert(error)
-    }
+      .catch(error => this.toggleErrorAlert(error))
   }
 
   /**
    * Async sorting
    */
-  async changeSortASC () {
+  changeSortASC() {
     this.setState({ orderByDirection: Todo.ASC }, () => this.refetchTodos())
   }
 
   /**
    * Async sorting
    */
-  async changeSortDESC () {
+  changeSortDESC() {
     this.setState({ orderByDirection: Todo.DESC }, () => this.refetchTodos())
   }
 
   /**
    * Async
    */
-  async changeSortField (e) {
+  changeSortField(e) {
     if (e.target.value !== undefined) {
       var sortField = Todo.findMetaField(e.target.value)
       if (sortField !== undefined && sortField !== '') {
@@ -125,85 +126,77 @@ export class Application extends React.Component {
    * Async add todo
    * @param {Object}
    */
-  async onAddTodo ({ ...attrs }) {
-    try {
-      var todo = await Todo.create(attrs)
-      this.setState({
-        todos: [todo, ...this.state.todos]
+  onAddTodo({ ...attrs }) {
+    Todo.create(attrs)
+      .then(todo => {
+        this.setState({
+          todos: [todo, ...this.state.todos]
+        })
       })
-    } catch (error) {
-      this.toggleErrorAlert(error)
-    }
+      .catch(error => this.toggleErrorAlert(error))
   }
 
   /**
    * Async toggle state
    * @param {Object}
    */
-  async onToggleTodo (todo) {
-    try {
-      todo.isCompleted = todo.isCompleted === 0 ? 1 : 0
-      const updatedTodo = await todo.update(todo)
-
-      this.setState({
-        todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo)
+  onToggleTodo(todo) {
+    todo.isCompleted = todo.isCompleted === 0 ? 1 : 0
+    todo.update(todo)
+      .then(updatedTodo => {
+        this.setState({
+          todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo)
+        })
       })
-    } catch (error) {
-      this.toggleErrorAlert(error)
-    }
+      .catch(error => this.toggleErrorAlert(error))
   }
 
   /**
    * Async edit todo
    * @param {Object}
    */
-  async onEditTodo (todo) {
-    try {
-      const updatedTodo = await todo.save()
-      this.setState({
-        todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo),
-        editing: ''
+  onEditTodo(todo) {
+    todo.save()
+      .then(updatedTodo => {
+        this.setState({
+          todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo),
+          editing: ''
+        })
       })
-    } catch (error) {
-      this.toggleErrorAlert(error)
-    }
+      .catch(error => this.toggleErrorAlert(error))
   }
 
   /**
    * Async delete todo
    * @param {Object}
    */
-  async onDeleteTodo (todo) {
-    try {
-      await todo.destroy()
-      this.setState({
-        todos: this.state.todos.filter(t => t.md.id !== todo.md.id)
+  onDeleteTodo(todo) {
+    todo.destroy()
+      .then(() => {
+        this.setState({
+          todos: this.state.todos.filter(t => t.md.id !== todo.md.id)
+        })
       })
-    } catch (error) {
-      this.toggleErrorAlert(error)
-    }
+      .catch(error => this.toggleErrorAlert(error))
   }
 
   /**
    * Async complete bulk todo
    * @param {Object}
    */
-  async bulkCompleteTodos () {
-    try {
-      var todosToChange = []
-      for (let todo in this.state.todos) {
-        if (!this.state.todos[todo].isCompleted) {
-          this.state.todos[todo].isCompleted = 1
-          todosToChange.push(this.state.todos[todo])
-        }
+  async bulkCompleteTodos() {
+    var todosToChange = []
+    for (let todo in this.state.todos) {
+      if (!this.state.todos[todo].isCompleted) {
+        this.state.todos[todo].isCompleted = 1
+        todosToChange.push(this.state.todos[todo])
       }
+    }
 
-      if (todosToChange.length > 0) {
-        await Todo.bulkUpdate(todosToChange)
-        this.refetchTodos()
-      }
-    } catch (error) {
-      this.toggleErrorAlert(error)
+    if (todosToChange.length > 0) {
+      await Todo.bulkUpdate(todosToChange)
+        .then(() => this.refetchTodos())
+        .catch(error => this.toggleErrorAlert(error))
     }
   }
 
@@ -211,22 +204,19 @@ export class Application extends React.Component {
    * Async open bulk todo
    * @param {Object}
    */
-  async bulkOpenTodos () {
-    try {
-      var todosToChange = []
-      for (let todo in this.state.todos) {
-        if (this.state.todos[todo].isCompleted) {
-          this.state.todos[todo].isCompleted = 0
-          todosToChange.push(this.state.todos[todo])
-        }
+  async bulkOpenTodos() {
+    var todosToChange = []
+    for (let todo in this.state.todos) {
+      if (this.state.todos[todo].isCompleted) {
+        this.state.todos[todo].isCompleted = 0
+        todosToChange.push(this.state.todos[todo])
       }
+    }
 
-      if (todosToChange.length > 0) {
-        await Todo.bulkUpdate(todosToChange)
-        this.refetchTodos()
-      }
-    } catch (error) {
-      this.toggleErrorAlert(error)
+    if (todosToChange.length > 0) {
+      await Todo.bulkUpdate(todosToChange)
+        .then(() => this.refetchTodos())
+        .catch(error => this.toggleErrorAlert(error))
     }
   }
 
@@ -234,37 +224,37 @@ export class Application extends React.Component {
    * Async lock todo
    * @param {Object}
    */
-  async onLockTodo (todo) {
-    try {
-      const lockedTodo = await todo.lock()
-      this.setState({
-        todos: this.state.todos.map(t => t.md.id !== lockedTodo.md.id ? t : lockedTodo)
+  onLockTodo(todo) {
+    todo.lock()
+      .then(lockedTodo => {
+        this.setState({
+          todos: this.state.todos.map(t => t.md.id !== lockedTodo.md.id ? t : lockedTodo)
+        })
       })
-    } catch (error) {
-      this.toggleErrorAlert(error)
-    }
+      .catch(error => this.toggleErrorAlert(error))
   }
 
   /**
    * Async unlock todo
    * @param {Object}
    */
-  async onUnlockTodo (todo) {
-    try {
-      const unlockedTodo = await todo.unlock()
-      this.setState({
-        todos: this.state.todos.map(t => t.md.id !== unlockedTodo.md.id ? t : unlockedTodo)
+  onUnlockTodo(todo) {
+    todo.unlock()
+      .then(unlockedTodo => {
+        this.setState({
+          todos: this.state.todos.map(t => t.md.id !== unlockedTodo.md.id ? t : unlockedTodo)
+        })
       })
-    } catch (error) {
-      this.toggleErrorAlert(error)
-    }
+      .catch(error => {
+        this.toggleErrorAlert(error)
+    })
   }
 
   /**
    * Handle edit
    * @param {Object}
    */
-  onHandleEdit (todo) {
+  onHandleEdit(todo) {
     this.setState({
       editing: (todo !== '') ? todo.md.id : ''
     })
@@ -274,7 +264,7 @@ export class Application extends React.Component {
    * Clear edit
    * @param {}
    */
-  onClearEdit () {
+  onClearEdit() {
     this.setState({
       editing: ''
     })
@@ -284,31 +274,31 @@ export class Application extends React.Component {
    * Change startDate
    * @param {Date} date
    */
-  onChangeStartDate (date) {
-    this.setState({startDate: date}, () => this.refetchTodos())
+  onChangeStartDate(date) {
+    this.setState({ startDate: date }, () => this.refetchTodos())
   }
 
   /**
    * Change startDate
    * @param {Date} date
    */
-  onChangeEndDate (date) {
-    this.setState({endDate: date}, () => this.refetchTodos())
+  onChangeEndDate(date) {
+    this.setState({ endDate: date }, () => this.refetchTodos())
   }
 
   /**
    * Change pagination
    * @param {Event} event
    */
-  onChangePagination (e) {
-    this.setState({pageSize: e.target.value}, () => this.refetchTodos())
+  onChangePagination(e) {
+    this.setState({ pageSize: e.target.value }, () => this.refetchTodos())
   }
 
   /**
    * Toggle error alert
    * @param {Object}
    */
-  toggleErrorAlert (error) {
+  toggleErrorAlert(error) {
     if (error.status === undefined) {
       error.status = 500
       error.text = error.message
@@ -325,13 +315,13 @@ export class Application extends React.Component {
     }, 6500)
   }
 
-  handleSelectedFile (event) {
+  handleSelectedFile(event) {
     this.setState({
       selectedFile: event.target.files[0]
     })
   }
 
-  handleUpload () {
+  handleUpload() {
     console.log(this.state.selectedFile)
   }
 
@@ -339,7 +329,7 @@ export class Application extends React.Component {
    * Render View
    * @returns {Component}
    */
-  render () {
+  render() {
     return (
       <React.Fragment>
         <div className="todoapp">

@@ -6,7 +6,7 @@ export class ErrorAlert extends React.Component {
     const alertClassNames = classNames({ 'dnone': this.props.error === undefined, 'alert-error': this.props.error !== undefined })
 
     var errorStatus = this.props.error !== undefined ? this.props.error.status : 0
-    var errorText = this.props.error !== undefined ? this.props.error.text : ''
+    var errorText = this.props.error !== undefined ? this.props.error.message : ''
 
     return (
       <div className={alertClassNames} >
