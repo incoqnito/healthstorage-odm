@@ -322,6 +322,7 @@ export class Application extends React.Component {
   }
 
   handleUpload() {
+
     console.log(this.state.selectedFile)
   }
 

@@ -85,14 +85,17 @@ export class TodoList extends React.Component {
         </section>
         <header className="header">
           <h1>todos</h1>
-          <input
-            className="new-todo"
-            placeholder="What needs to be done?"
-            onKeyDown={this.onKeyDown}
-            onChange={this.onChange}
-            autoFocus={true}
-            value={this.state.value}
-          />
+          <div className="pos-rel">
+            <input
+              className="new-todo"
+              placeholder="What needs to be done?"
+              onKeyDown={this.onKeyDown}
+              onChange={this.onChange}
+              autoFocus={true}
+              value={this.state.value}
+            />
+            <span className="toggle-edit-file">+ Datei</span>
+          </div>
         </header>
         <section className="main">
           <ul className="todo-list">

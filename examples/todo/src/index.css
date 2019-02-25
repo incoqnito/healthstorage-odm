@@ -691,7 +691,28 @@ html .clear-completed:active {
 	padding: 3px 10px;
 }
 
+header.header {
+	clear: both;
+}
+
 .upload-file button:hover {
 	cursor: pointer;
 	background-color: rgba(0,0,0,0.01)
+}
+
+.toggle-edit-file {
+	position: absolute;
+    bottom: 17px;
+    right: 19px;
+    padding: 5px 10px;
+    border: solid 1px rgba(0,0,0,0.1);
+}
+
+.toggle-edit-file:hover {
+	cursor: pointer;
+    background-color: rgba(0,0,0,0.01);
+}	
+
+.pos-rel {
+	position: relative;
 }
