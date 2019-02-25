@@ -110,16 +110,10 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))
       .then(response => response.data)
       .catch(error => {
-        if(error !== undefined && error.response !== undefined) {
-          return Promise.reject(new Error({
-            'status': error.response.status,
-            'text': error.response.statusText
-          }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
         } else {
-          return Promise.reject(new Error({
-            'status': 500,
-            'text': 'Internal API Error'
-          }))
+          throw this.createError(500, 'Internal API Service Error')
         }
       })
   }
@@ -134,10 +128,11 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint, opts.params))
       .then(response => response.data)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -150,10 +145,11 @@ module.exports = class HsStorage {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), JSON.stringify(opts.params), opts.requestOptions)
       .then(response => response.data.schema)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -165,7 +161,13 @@ module.exports = class HsStorage {
   deleteSchema (opts) {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response.status === 204)
-      .catch(error => error)
+      .catch(error => {
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
+      })
   }
 
   /**
@@ -178,15 +180,9 @@ module.exports = class HsStorage {
       .then(response => (response.status === 200))
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
-          return {
-            'status': error.response.status,
-            'text': error.response.statusText
-          }
+          throw this.createError(error.response.statusText, error.response.status)
         } else {
-          return {
-            'status': 500,
-            'text': 'Internal API Service Error'
-          }
+          throw this.createError(500, 'Internal API Service Error')
         }
       })
   }
@@ -200,10 +196,11 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint, opts.params))
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -217,10 +214,11 @@ module.exports = class HsStorage {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -233,10 +231,11 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -250,10 +249,11 @@ module.exports = class HsStorage {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.status === 201) ? JSON.parse(response.config.data) : response.status)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -267,10 +267,11 @@ module.exports = class HsStorage {
     return AXIOS.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => opts.params)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -284,10 +285,11 @@ module.exports = class HsStorage {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => (response.status === 204) ? opts.endpoint.routeParams.id : false)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -300,10 +302,11 @@ module.exports = class HsStorage {
     return AXIOS.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => response)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -319,10 +322,11 @@ module.exports = class HsStorage {
         if (error.response.status === 304) {
           return false
         } else {
-          return Promise.reject(new Error({
-            'status': error.response.status,
-            'text': error.response.statusText
-          }))
+          if(error.response !== undefined && error.response.status !== undefined) {
+            throw this.createError(error.response.statusText, error.response.status)
+          } else {
+            throw this.createError(500, 'Internal API Service Error')
+          }
         }
       })
   }
@@ -341,10 +345,11 @@ module.exports = class HsStorage {
         return (response.status === 201) ? response.data : response.status
       })
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -362,10 +367,11 @@ module.exports = class HsStorage {
         return response.status === 204
       })
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -378,10 +384,11 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response.data)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -394,10 +401,11 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response.data.isLocked)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -414,10 +422,11 @@ module.exports = class HsStorage {
         if (error.response.status === 404) {
           return false
         } else {
-          return Promise.reject(new Error({
-            'status': error.response.status,
-            'text': error.response.statusText
-          }))
+          if(error.response !== undefined && error.response.status !== undefined) {
+            throw this.createError(error.response.statusText, error.response.status)
+          } else {
+            throw this.createError(500, 'Internal API Service Error')
+          }
         }
       })
   }
@@ -431,10 +440,11 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
@@ -447,10 +457,11 @@ module.exports = class HsStorage {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
-        return Promise.reject(new Error({
-          'status': error.response.status,
-          'text': error.response.statusText
-        }))
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status)
+        } else {
+          throw this.createError(500, 'Internal API Service Error')
+        }
       })
   }
 
