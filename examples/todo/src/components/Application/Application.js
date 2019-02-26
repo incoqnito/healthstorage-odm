@@ -27,7 +27,8 @@ export class Application extends React.Component {
       startDate: new Date(),
       endDate: new Date('2019-12-31'),
       pageSize: '',
-      selectedFile: ''
+      selectedFile: false,
+      showFileupload: false
     }
 
     this.onAddTodo = this.onAddTodo.bind(this)
@@ -55,7 +56,8 @@ export class Application extends React.Component {
     this.onChangePagination = this.onChangePagination.bind(this)
 
     this.handleSelectedFile = this.handleSelectedFile.bind(this)
-    this.handleUpload = this.handleUpload.bind(this)
+
+    this.onToggleFileupload = this.onToggleFileupload.bind(this)
   }
 
   /**
@@ -127,6 +129,13 @@ export class Application extends React.Component {
    * @param {Object}
    */
   onAddTodo({ ...attrs }) {
+
+    if(this.state.selectedFile) {
+      attrs.files = [
+        this.state.selectedFile
+      ]
+    }
+
     Todo.create(attrs)
       .then(todo => {
         this.setState({
@@ -295,6 +304,14 @@ export class Application extends React.Component {
   }
 
   /**
+   * Change fileupload
+   * @param {Event} event
+   */
+  onToggleFileupload() {
+    this.setState({showFileupload: !this.state.showFileupload })
+  }
+
+  /**
    * Toggle error alert
    * @param {Object}
    */
@@ -321,11 +338,6 @@ export class Application extends React.Component {
     })
   }
 
-  handleUpload() {
-
-    console.log(this.state.selectedFile)
-  }
-
   /**
    * Render View
    * @returns {Component}
@@ -342,6 +354,8 @@ export class Application extends React.Component {
             onDeleteTodo={this.onDeleteTodo}
             onLockTodo={this.onLockTodo}
             onUnlockTodo={this.onUnlockTodo}
+            onToggleFileupload={this.onToggleFileupload}
+            showFileupload={this.state.showFileupload}
             bulkCompleteTodos={this.bulkCompleteTodos}
             bulkOpenTodos={this.bulkOpenTodos}
             onHandleEdit={this.onHandleEdit}

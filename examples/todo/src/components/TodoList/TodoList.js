@@ -73,16 +73,17 @@ export class TodoList extends React.Component {
             <button onClick={this.props.bulkOpenTodos} className="default-btn">Open All</button>
           </div>
         </section>
-        <section className="upload-file">
-          <div className="inner-list">
-            <div>
-              <input type="file" name="" id="" onChange={this.props.handleSelectedFile} />
+        {
+          this.props.showFileupload && 
+          <section className="upload-file">
+            <div className="inner-list">
+              <div>
+                <label className="d-block mb-10">Wähle eine Datai aus</label>
+                <input type="file" name="" id="" onChange={this.props.handleSelectedFile} />
+              </div>
             </div>
-            <div>
-              <button onClick={this.props.handleUpload}>Hochladen</button>
-            </div>
-          </div>
-        </section>
+          </section>
+        }
         <header className="header">
           <h1>todos</h1>
           <div className="pos-rel">
@@ -94,7 +95,7 @@ export class TodoList extends React.Component {
               autoFocus={true}
               value={this.state.value}
             />
-            <span className="toggle-edit-file">+ Datei</span>
+            <span className="toggle-edit-file" onClick={this.props.onToggleFileupload}>+ Datei</span>
           </div>
         </header>
         <section className="main">

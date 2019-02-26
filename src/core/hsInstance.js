@@ -1,6 +1,7 @@
 
 /** Import modules */
 const HS_MODEL = require('./hsModel.js')
+const HS_BLOB = require('./hsBlob.js')
 const HS_SCHEMA = require('./handler/hsSchema.js')
 const HS_ADAPTER = require('./handler/hsAdapter.js')
 
@@ -143,7 +144,18 @@ module.exports = class HsInstance {
     data = Object.assign(data, {md: this.HsSchema.generateMd()})
     return this.HsAdapter.validateSdo(data).then(validated => {
       if (validated) {
-        return this.HsAdapter.createSdo(data).then(sdo => this.returnModel(sdo))
+        if(data.files === undefined || data.files.length <= 0) {
+          return this.HsAdapter.createSdo(data).then(sdo => this.returnModel(sdo))
+        } else {
+          let hsBlob = this.sdoBlobBridge(data)
+          return this.HsAdapter.createSdoBlob(hsBlob.blobFormData).then(response => this.returnModel(
+            {
+              ...data,
+              ...hsBlob._dataValues.files,
+              'blobRefs': hsBlob._dataValues.sdo.blobRefs
+            }
+          ))
+        }
       }
     })
   }
@@ -322,5 +334,13 @@ module.exports = class HsInstance {
         break
     }
     return value
+  }
+
+  /**
+   * Data Bridge for blob creation
+   * @param {Object} data 
+   */
+  sdoBlobBridge(data) {
+    return new HS_BLOB(data)
   }
 }
