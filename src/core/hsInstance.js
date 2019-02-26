@@ -139,6 +139,7 @@ module.exports = class HsInstance {
    * Create a new sdo for given schema
    * @param {Object} data
    * @returns {Promise}
+   * @issue API not returns created object, workaround implemented for sdo and sdoBlob
    */
   create (data) {
     data = Object.assign(data, {md: this.HsSchema.generateMd()})
@@ -148,7 +149,7 @@ module.exports = class HsInstance {
           return this.HsAdapter.createSdo(data).then(sdo => this.returnModel(sdo))
         } else {
           let hsBlob = this.sdoBlobBridge(data)
-          return this.HsAdapter.createSdoBlob(hsBlob.blobFormData).then(response => this.returnModel(
+          return this.HsAdapter.createSdoBlob(hsBlob.blobFormData).then(sdo => this.returnModel(
             {
               ...data,
               ...hsBlob._dataValues.files,

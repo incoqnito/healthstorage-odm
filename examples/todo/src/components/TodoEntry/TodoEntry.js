@@ -104,6 +104,7 @@ export class TodoEntry extends React.PureComponent {
    * @returns {Component}
    */
   render () {
+    console.log(this.props.todo.blobRefs.length)
     const className = classNames({ completed: this.props.todo.isCompleted === 1, editing: this.props.editing })
     var lockValueDate = this.props.todo.lockValue !== null && this.props.todo.lockValue !== undefined && this.props.todo.lockValue.requestTimestamp !== undefined ? this.props.todo.lockValue.requestTimestamp.split('T')[0] : null
     return (
@@ -118,6 +119,14 @@ export class TodoEntry extends React.PureComponent {
                 : ''
             }
           </label>
+          {
+            this.props.todo.blobRefs.length > 0
+            ?
+            this.props.todo.blobRefs.map(fileRef => {
+              return <button key={fileRef} className="file-btn" onClick={this.onLock}>Datei</button>
+            })
+            : null
+          }
           {
             this.props.todo.lockValue === null || this.props.todo.lockValue === undefined && this.props.todo.lockValue.requestTimestamp === undefined 
               ? <button className="lock-btn" onClick={this.onLock}>Lock</button>
