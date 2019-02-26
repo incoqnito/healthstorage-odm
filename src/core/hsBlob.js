@@ -80,7 +80,6 @@ module.exports = class HsBlob {
    * Crete blob form data
    */
   createFormData() {
-    let that = this
     let formData = new FormData()
 
     let blobRefs = []
@@ -88,7 +87,7 @@ module.exports = class HsBlob {
     this.files.forEach(function(file, index){
         let uuidRef = uuid()
         blobRefs.push(uuidRef)
-        formData.append(blobRefs[index], file)
+        formData.append(blobRefs[index], file, file.name)
     })
 
     this.addSdoProptery("blobRefs", blobRefs)

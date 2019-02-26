@@ -127,6 +127,7 @@ export class TodoList extends React.Component {
       onClearEdit={this.props.onClearEdit}
       onEdit={this.props.onEditTodo}
       toggleErrorAlert={this.props.toggleErrorAlert}
+      handleFileDownload={this.props.handleFileDownload}
     />
   }
 }

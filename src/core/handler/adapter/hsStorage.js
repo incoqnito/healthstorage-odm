@@ -473,13 +473,32 @@ module.exports = class HsStorage {
    */
   createSdoBlob (opts) {
     AXIOS.defaults.headers.common = opts.requestOptions.headers
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+    console.log(AXIOS.defaults.headers.common)
+    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params)
       .then(response => response !== undefined && response.status === 201 ? response : false)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
           throw this.createError(error.response.statusText, error.response.status, "createSdoBlob()")
         } else {
           throw this.createError(500, 'Internal API Service Error', "createSdoBlob()")
+        }
+      })
+  }
+
+  /**
+   * Get sdo
+   * @param {Object} opts
+   * @returns {Promis}
+   */
+  getSdoBlob (opts) {
+    AXIOS.defaults.headers.common = opts.requestOptions.headers
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
+      .then(response => (response.data === undefined) ? response.status : response.data)
+      .catch(error => {
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status, "getSdoBlob()")
+        } else {
+          throw this.createError(500, 'Internal API Service Error', "getSdoBlob()")
         }
       })
   }

@@ -300,6 +300,35 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get sdo by id oder where
+   * @param {Object} opts
+   */
+  getSdoBlob (opts) {
+    if (opts.id !== undefined) {
+      return this.adapter.getSdoBlob({
+        ...this.REQUEST_DATA,
+        ...{
+          'requestOptions': {
+            'headers': {
+              'accept': 'multipart/form-data'
+            }
+          },
+          'endpoint': {
+            'method': this.GET,
+            'type': 'sdoblobs',
+            'action': 'single',
+            'routeParams': {
+              'id': opts.id
+            }
+          }
+        }
+      })
+    } else {
+      // Todo implement filter
+    }
+  }
+
+  /**
    * Add sdo adapter mapping
    * @param {Object} sdo
    * @returns {Promise}
@@ -629,7 +658,7 @@ module.exports = class HsAdapter {
       ...{
         'requestOptions': {
           'headers': {
-            'Content-Type': undefined
+            'Content-Type': 'multipart/form-data; charset=utf-8; boundary=---sdoBlobBoundaray-' + sdo.md.id 
           }
         },
         'endpoint': {

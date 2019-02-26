@@ -58,6 +58,7 @@ export class Application extends React.Component {
     this.handleSelectedFile = this.handleSelectedFile.bind(this)
 
     this.onToggleFileupload = this.onToggleFileupload.bind(this)
+    this.handleFileDownload = this.handleFileDownload.bind(this)
   }
 
   /**
@@ -332,10 +333,26 @@ export class Application extends React.Component {
     }, 6500)
   }
 
+  /**
+   * Handle file select
+   * @param {Event} event 
+   */
   handleSelectedFile(event) {
     this.setState({
       selectedFile: event.target.files[0]
     })
+  }
+
+  /**
+   * Handle download
+   * @param {String} uuid 
+   */
+  handleFileDownload(uuid, fileRef) {
+    Todo.findBlobById(uuid, fileRef)
+      .then(binaryData => {
+        console.log(binaryData)
+      })
+      .catch(error => this.toggleErrorAlert(error))
   }
 
   /**
@@ -364,6 +381,7 @@ export class Application extends React.Component {
             editing={this.state.editing}
             handleSelectedFile={this.handleSelectedFile}
             handleUpload={this.handleUpload}
+            handleFileDownload={this.handleFileDownload}
           />
           {
             showFilter

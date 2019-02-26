@@ -100,11 +100,18 @@ export class TodoEntry extends React.PureComponent {
   }
 
   /**
+   * File download
+   * @param {String} blobRef 
+   */
+  downloadFile(sdoId, fileRef) {
+    this.props.handleFileDownload(sdoId, fileRef)
+  }
+
+  /**
    * Render View
    * @returns {Component}
    */
   render () {
-    console.log(this.props.todo.blobRefs.length)
     const className = classNames({ completed: this.props.todo.isCompleted === 1, editing: this.props.editing })
     var lockValueDate = this.props.todo.lockValue !== null && this.props.todo.lockValue !== undefined && this.props.todo.lockValue.requestTimestamp !== undefined ? this.props.todo.lockValue.requestTimestamp.split('T')[0] : null
     return (
@@ -120,10 +127,10 @@ export class TodoEntry extends React.PureComponent {
             }
           </label>
           {
-            this.props.todo.blobRefs.length > 0
+            this.props.todo.blobRefs !== undefined && this.props.todo.blobRefs.length > 0
             ?
             this.props.todo.blobRefs.map(fileRef => {
-              return <button key={fileRef} className="file-btn" onClick={this.onLock}>Datei</button>
+              return <button key={fileRef} onClick={() => this.downloadFile(this.props.todo.md.id, fileRef)} className="file-btn">Datei</button>
             })
             : null
           }

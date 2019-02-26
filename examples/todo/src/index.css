@@ -647,7 +647,7 @@ html .clear-completed:active {
 
 .file-btn {
 	position: absolute;
-	right: 120px;
+	right: 130px;
 	top: 50%;
     margin-top: -15px;
 	font-size: 15px;
@@ -661,8 +661,6 @@ html .clear-completed:active {
 	cursor: pointer;
 	background-color: #E5E5E5;
 }
-
-
 
 .todo-list li:hover .lock-btn {
 	display: block;

@@ -11,6 +11,7 @@ const DESC = 'Descending'
 const MD_ID = 'id'
 const MD_REVISION = 'r'
 const MD_DATE = 'tsp'
+const BLOB_DIVIDE = "Content-Disposition: attachment; filename={fileRef}; filename*=utf-8''{fileRef}"
 
 module.exports = class HsInstance {
   /**
@@ -132,6 +133,19 @@ module.exports = class HsInstance {
       let lockValue = model.getLockFromLocalStorage()
       model.lockValue = lockValue !== null ? JSON.parse(lockValue) : null
       return model
+    })
+  }
+
+  /**
+   * Get blob by identifier
+   * @param {String} id
+   * @returns {Promise}
+   */
+  findBlobById (id, fileRef) {
+    return this.HsAdapter.getSdoBlob({id: id}).then(blob => {
+        let blobDivide = BLOB_DIVIDE.replace(/{fileRef}/g, fileRef)
+        let binaryData = blob.split(blobDivide).pop()
+        return binaryData;
     })
   }
 
