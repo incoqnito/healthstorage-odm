@@ -143,9 +143,7 @@ module.exports = class HsInstance {
    */
   findBlobById (id, fileRef) {
     return this.HsAdapter.getSdoBlob({id: id}).then(blob => {
-        let blobDivide = BLOB_DIVIDE.replace(/{fileRef}/g, fileRef)
-        let binaryData = blob.split(blobDivide).pop()
-        return binaryData;
+        return blob
     })
   }
 

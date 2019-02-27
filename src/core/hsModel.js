@@ -12,7 +12,6 @@ module.exports = class HsModel {
     this._dataValues = {}
     this._unstored = {}
     this.initProperties(object)
-    console.log(object)
   }
 
   /**

@@ -349,8 +349,11 @@ export class Application extends React.Component {
    */
   handleFileDownload(uuid, fileRef) {
     Todo.findBlobById(uuid, fileRef)
-      .then(binaryData => {
-        console.log(binaryData)
+      .then(blob => {
+        this.toggleErrorAlert({
+          'message': 'Blob/File von Datei erwartet, multipart/form-data returned',
+          'code': 400
+        })
       })
       .catch(error => this.toggleErrorAlert(error))
   }

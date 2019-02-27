@@ -492,7 +492,7 @@ module.exports = class HsStorage {
    */
   getSdoBlob (opts) {
     AXIOS.defaults.headers.common = opts.requestOptions.headers
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions.headers)
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
