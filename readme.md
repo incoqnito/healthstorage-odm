@@ -162,6 +162,7 @@ HealthStorageODM.createSchema({
 ##### findAll(options)
 
 Finds all entries matched for given options and filters.
+Info: the HS API throws 500er on filter use
 
 ```ts
   // Define client...
