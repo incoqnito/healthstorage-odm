@@ -164,7 +164,6 @@ module.exports = class HsInstance {
           return this.HsAdapter.createSdoBlob(hsBlob.blobFormData).then(sdo => this.returnModel(
             {
               ...data,
-              ...hsBlob._dataValues.files,
               'blobRefs': hsBlob._dataValues.sdo.blobRefs
             }
           ))
@@ -198,7 +197,17 @@ module.exports = class HsInstance {
     data.md.r += 1
     return this.HsAdapter.validateSdo(data).then(validated => {
       if (validated) {
-        return this.HsAdapter.editSdo(data).then(sdo => this.returnModel(sdo))
+        if(data.files === undefined || data.files.length <= 0) {
+          return this.HsAdapter.editSdo(data).then(sdo => this.returnModel(sdo))
+        } else {
+          let hsBlob = this.sdoBlobBridge(data)
+          return this.HsAdapter.updateSdoBlob(hsBlob.blobFormData).then(sdo => this.returnModel(
+            {
+              ...data,
+              'blobRefs': hsBlob._dataValues.sdo.blobRefs
+            }
+          ))
+        }
       }
     })
   }

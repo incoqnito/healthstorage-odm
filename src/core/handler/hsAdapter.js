@@ -674,4 +674,31 @@ module.exports = class HsAdapter {
       // Todo implement filter
     }
   }
+
+  /**
+   * Create sdoBlob
+   * @param {*} sdoBlob
+   */
+  updateSdoBlob (sdoBlob) {
+    let sdo = JSON.parse(sdoBlob.get('sdo'))
+    return this.adapter.updateSdoBlob({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'Content-Type': 'multpart/form-data'
+          }
+        },
+        'endpoint': {
+          'method': this.PUT,
+          'type': 'sdoblobs',
+          'action': 'edit',
+          'routeParams': {
+            'id': sdo.md.id
+          }
+        },
+        'params': sdoBlob
+      }
+    })
+  }
 }

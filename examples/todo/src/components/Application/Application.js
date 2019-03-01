@@ -266,6 +266,7 @@ export class Application extends React.Component {
    */
   onHandleEdit(todo) {
     this.setState({
+      showFileupload: true,
       editing: (todo !== '') ? todo.md.id : ''
     })
   }
@@ -276,6 +277,7 @@ export class Application extends React.Component {
    */
   onClearEdit() {
     this.setState({
+      showFileupload: false,
       editing: ''
     })
   }

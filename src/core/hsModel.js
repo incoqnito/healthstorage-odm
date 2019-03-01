@@ -82,7 +82,11 @@ module.exports = class HsModel {
    */
   update () {
     this.md.r += 1
-    return this.HsAdapter.editSdo(this._dataValues).then(sdo => this.returnModel(sdo))
+    if(this._dataValues.blobRefs === undefined && this._dataValues.blobRefs.length <= 0) {
+      return this.HsAdapter.editSdo(this._dataValues).then(sdo => this.returnModel(sdo))
+    } else {
+      return this.HsAdapter.editSdoBlob(this._dataValues).then(sdo => this.returnModel(sdo))
+    }
   }
 
   /**

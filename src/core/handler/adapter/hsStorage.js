@@ -466,26 +466,6 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Create sdoblob
-   * @param {Object} opts
-   * @returns {Promise}
-   * @issue API needs to return created sdo (defaults)
-   */
-  createSdoBlob (opts) {
-    AXIOS.defaults.headers.common = opts.requestOptions.headers
-    console.log(AXIOS.defaults.headers.common)
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params)
-      .then(response => response !== undefined && response.status === 201 ? response : false)
-      .catch(error => {
-        if(error.response !== undefined && error.response.status !== undefined) {
-          throw this.createError(error.response.statusText, error.response.status, "createSdoBlob()")
-        } else {
-          throw this.createError(500, 'Internal API Service Error', "createSdoBlob()")
-        }
-      })
-  }
-
-  /**
    * Get sdo
    * @param {Object} opts
    * @returns {Promis}
@@ -499,6 +479,44 @@ module.exports = class HsStorage {
           throw this.createError(error.response.statusText, error.response.status, "getSdoBlob()")
         } else {
           throw this.createError(500, 'Internal API Service Error', "getSdoBlob()")
+        }
+      })
+  }
+
+  /**
+   * Update sdoblob
+   * @param {Object} opts
+   * @returns {Promise}
+   * @issue API needs to return created sdo (defaults)
+   */
+  createSdoBlob (opts) {
+    AXIOS.defaults.headers.common = opts.requestOptions.headers
+    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params)
+      .then(response => response !== undefined && response.status === 201 ? response : false)
+      .catch(error => {
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status, "updateSdoBlob()")
+        } else {
+          throw this.createError(500, 'Internal API Service Error', "updateSdoBlob()")
+        }
+      })
+  }
+
+  /**
+   * Update sdoblob
+   * @param {Object} opts
+   * @returns {Promise}
+   * @issue API needs to return created sdo (defaults)
+   */
+  updateSdoBlob (opts) {
+    AXIOS.defaults.headers.common = opts.requestOptions.headers
+    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params)
+      .then(response => response !== undefined && response.status === 201 ? response : false)
+      .catch(error => {
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status, "updateSdoBlob()")
+        } else {
+          throw this.createError(500, 'Internal API Service Error', "updateSdoBlob()")
         }
       })
   }
