@@ -49,7 +49,8 @@ const ENDPOINTS = {
   },
   'sdoblobs': {
     'get': {
-      'single': '/sdoblobs/{id}'
+      'single': '/sdoblobs/{id}',
+      'file': '/sdoblobs/{id}/{blobId}'
     },
     'post': {
       'add': '/sdoblobs/{id}'
@@ -471,6 +472,24 @@ module.exports = class HsStorage {
    * @returns {Promis}
    */
   getSdoBlob (opts) {
+    AXIOS.defaults.headers.common = opts.requestOptions.headers
+    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions.headers)
+      .then(response => (response.data === undefined) ? response.status : response.data)
+      .catch(error => {
+        if(error.response !== undefined && error.response.status !== undefined) {
+          throw this.createError(error.response.statusText, error.response.status, "getSdoBlob()")
+        } else {
+          throw this.createError(500, 'Internal API Service Error', "getSdoBlob()")
+        }
+      })
+  }
+
+  /**
+   * Get sdo
+   * @param {Object} opts
+   * @returns {Promis}
+   */
+  getSdoBlobFile (opts) {
     AXIOS.defaults.headers.common = opts.requestOptions.headers
     return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions.headers)
       .then(response => (response.data === undefined) ? response.status : response.data)

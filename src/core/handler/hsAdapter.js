@@ -676,6 +676,37 @@ module.exports = class HsAdapter {
   }
 
   /**
+   * Get sdo blob by id oder where
+   * @param {Object} opts
+   */
+  getSdoBlobFile (opts) {
+    if (opts.id !== undefined) {
+      return this.adapter.getSdoBlobFile({
+        ...this.REQUEST_DATA,
+        ...{
+          'requestOptions': {
+            'headers': {
+              'accept': 'multipart/form-data',
+              'responseType': 'blob'
+            }
+          },
+          'endpoint': {
+            'method': this.GET,
+            'type': 'sdoblobs',
+            'action': 'file',
+            'routeParams': {
+              'id': opts.id,
+              'blobId': opts.blobId
+            }
+          }
+        }
+      })
+    } else {
+      // Todo implement filter
+    }
+  }
+
+  /**
    * Create sdoBlob
    * @param {*} sdoBlob
    */

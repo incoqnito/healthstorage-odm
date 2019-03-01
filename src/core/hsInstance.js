@@ -141,8 +141,19 @@ module.exports = class HsInstance {
    * @param {String} id
    * @returns {Promise}
    */
-  findBlobById (id, fileRef) {
+  findBlobById (id) {
     return this.HsAdapter.getSdoBlob({id: id}).then(blob => {
+        return blob
+    })
+  }
+
+  /**
+   * Get blob by identifier
+   * @param {String} id
+   * @returns {Promise}
+   */
+  findBlobFileById (id, blobId) {
+    return this.HsAdapter.getSdoBlobFile({id: id, blobId: blobId}).then(blob => {
         return blob
     })
   }

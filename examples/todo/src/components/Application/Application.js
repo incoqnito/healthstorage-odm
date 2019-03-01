@@ -10,6 +10,8 @@ import { FilterSort } from '../FilterSort/FilterSort'
 
 import { Pagination } from '../Pagination/Pagination'
 
+const MIME = require('mime-types')
+
 export class Application extends React.Component {
   /**
    * Constructor
@@ -344,16 +346,20 @@ export class Application extends React.Component {
   }
 
   /**
-   * Handle download
+   * Handle blob download
    * @param {String} uuid 
    */
   handleFileDownload(uuid, fileRef) {
-    Todo.findBlobById(uuid, fileRef)
+    Todo.findBlobFileById(uuid, fileRef)
       .then(blob => {
-        this.toggleErrorAlert({
-          'message': 'Blob/File von Datei erwartet, multipart/form-data returned',
-          'code': 400
-        })
+        let extension = MIME.extension(blob.type)
+        let url = window.URL.createObjectURL(blob)
+        let link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', 'DownloadFromTodo.' + extension)
+        document.body.appendChild(link)
+        link.click()
+        link.parentNode.removeChild(link)
       })
       .catch(error => this.toggleErrorAlert(error))
   }
