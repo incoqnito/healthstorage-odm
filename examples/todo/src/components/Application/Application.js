@@ -12,6 +12,10 @@ import { Pagination } from '../Pagination/Pagination'
 
 const MIME = require('mime-types')
 
+const EXTRA_MIMES = {
+  'application/x-iwork-numbers-sffnumbers': 'numbers'
+}
+
 export class Application extends React.Component {
   /**
    * Constructor
@@ -353,13 +357,25 @@ export class Application extends React.Component {
     Todo.findBlobFileById(uuid, fileRef)
       .then(blob => {
         let extension = MIME.extension(blob.type)
-        let url = window.URL.createObjectURL(blob)
-        let link = document.createElement('a')
-        link.href = url
-        link.setAttribute('download', 'DownloadFromTodo.' + extension)
-        document.body.appendChild(link)
-        link.click()
-        link.parentNode.removeChild(link)
+
+        if(!extension) {
+          if(EXTRA_MIMES[blob.type] !== undefined) extension = EXTRA_MIMES[blob.type]
+        }
+
+        if(extension) {
+          let url = window.URL.createObjectURL(blob)
+          let link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'DownloadFromTodo.' + extension)
+          document.body.appendChild(link)
+          link.click()
+          link.parentNode.removeChild(link)
+        } else {
+          this.toggleErrorAlert({
+            'message': "Die Dateierweiterung kann nicht gelesen werden.",
+            'code': 400
+          })
+        }
       })
       .catch(error => this.toggleErrorAlert(error))
   }
