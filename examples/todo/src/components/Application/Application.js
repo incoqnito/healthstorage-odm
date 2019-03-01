@@ -13,7 +13,8 @@ import { Pagination } from '../Pagination/Pagination'
 const MIME = require('mime-types')
 
 const EXTRA_MIMES = {
-  'application/x-iwork-numbers-sffnumbers': 'numbers'
+  'application/x-iwork-numbers-sffnumbers': 'numbers',
+  'application/x-rar': "rar"
 }
 
 export class Application extends React.Component {
@@ -354,12 +355,11 @@ export class Application extends React.Component {
    * @param {String} uuid 
    */
   handleFileDownload(todo) {
-    console.log(todo)
-    
     todo.getBlobFile()
       .then(blob => {
         let extension = MIME.extension(blob.type)
 
+        console.log(blob.type)
         if(!extension) {
           if(EXTRA_MIMES[blob.type] !== undefined) extension = EXTRA_MIMES[blob.type]
         }
