@@ -157,7 +157,7 @@ module.exports = class HsStorage {
   /**
    * Delete schema
    * @param {String} schemaId
-   * @returns {Object}
+   * @returns {Promise}
    */
   deleteSchema (opts) {
     return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
@@ -191,7 +191,7 @@ module.exports = class HsStorage {
   /**
    * Get sdos
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    */
   getSdos (opts) {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint, opts.params))
@@ -226,7 +226,7 @@ module.exports = class HsStorage {
   /**
    * Get sdo
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    */
   getSdo (opts) {
     return AXIOS.get(this.buildRequestUrl(opts.endpoint))
@@ -243,7 +243,7 @@ module.exports = class HsStorage {
   /**
    * Create sdo
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    * @issue API needs to return created sdo (defaults)
    */
   createSdo (opts) {
@@ -261,7 +261,7 @@ module.exports = class HsStorage {
   /**
    * Edit sdo
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    * @issue API needs to return edited sdo
    */
   editSdo (opts) {
@@ -314,7 +314,7 @@ module.exports = class HsStorage {
   /**
    * Changed sdo
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    */
   sdoHasChanged (opts) {
     return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
@@ -467,9 +467,9 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Get sdo
+   * Get sdoblob
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    */
   getSdoBlob (opts) {
     AXIOS.defaults.headers.common = opts.requestOptions.headers
@@ -485,9 +485,9 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Get sdo
+   * Get blob file
    * @param {Object} opts
-   * @returns {Promis}
+   * @returns {Promise}
    */
   getSdoBlobFile (opts) {
     AXIOS.defaults.headers.common = opts.requestOptions.headers
@@ -503,7 +503,7 @@ module.exports = class HsStorage {
   }
 
   /**
-   * Update sdoblob
+   * Create sdoblob
    * @param {Object} opts
    * @returns {Promise}
    * @issue API needs to return created sdo (defaults)

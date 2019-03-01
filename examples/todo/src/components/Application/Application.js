@@ -353,8 +353,10 @@ export class Application extends React.Component {
    * Handle blob download
    * @param {String} uuid 
    */
-  handleFileDownload(uuid, fileRef) {
-    Todo.findBlobFileById(uuid, fileRef)
+  handleFileDownload(todo) {
+    console.log(todo)
+    
+    todo.getBlobFile()
       .then(blob => {
         let extension = MIME.extension(blob.type)
 

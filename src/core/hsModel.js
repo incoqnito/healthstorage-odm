@@ -180,4 +180,12 @@ module.exports = class HsModel {
   getArchiveRevisionNumbers () {
     return this.HsAdapter.getSdoRevisionsArchive(this.md.id)
   }
+
+  /**
+   * Get blob file
+   * @info currently only one file supported
+   */
+  getBlobFile() {
+    return this.HsAdapter.getSdoBlobFile({id: this.md.id, blobId: this.blobRefs[0]})
+  }
 }

@@ -618,34 +618,7 @@ module.exports = class HsAdapter {
     })
   }
 
-  /**
-   * Create sdoBlob
-   * @param {*} sdoBlob
-   */
-  createSdoBlob (sdoBlob) {
-    let sdo = JSON.parse(sdoBlob.get('sdo'))
-    return this.adapter.createSdoBlob({
-      ...this.REQUEST_DATA,
-      ...{
-        'requestOptions': {
-          'headers': {
-            'Content-Type': 'multpart/form-data'
-          }
-        },
-        'endpoint': {
-          'method': this.POST,
-          'type': 'sdoblobs',
-          'action': 'add',
-          'routeParams': {
-            'id': sdo.md.id
-          }
-        },
-        'params': sdoBlob
-      }
-    })
-  }
-
-  /**
+    /**
    * Get sdo blob by id oder where
    * @param {Object} opts
    */
@@ -673,6 +646,33 @@ module.exports = class HsAdapter {
     } else {
       // Todo implement filter
     }
+  }
+  
+  /**
+   * Create sdoBlob
+   * @param {*} sdoBlob
+   */
+  createSdoBlob (sdoBlob) {
+    let sdo = JSON.parse(sdoBlob.get('sdo'))
+    return this.adapter.createSdoBlob({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'Content-Type': 'multpart/form-data'
+          }
+        },
+        'endpoint': {
+          'method': this.POST,
+          'type': 'sdoblobs',
+          'action': 'add',
+          'routeParams': {
+            'id': sdo.md.id
+          }
+        },
+        'params': sdoBlob
+      }
+    })
   }
 
   /**

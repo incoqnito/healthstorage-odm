@@ -19,6 +19,7 @@ export class TodoEntry extends React.PureComponent {
     this.onClearEdit = this.onClearEdit.bind(this)
     this.onLock = this.onLock.bind(this)
     this.onUnlock = this.onUnlock.bind(this)
+    this.downloadFile = this.downloadFile.bind(this)
 
     this.editText = this.props.todo.title
   }
@@ -103,8 +104,8 @@ export class TodoEntry extends React.PureComponent {
    * File download
    * @param {String} blobRef 
    */
-  downloadFile(sdoId, fileRef) {
-    this.props.handleFileDownload(sdoId, fileRef)
+  downloadFile() {
+    this.props.handleFileDownload(this.props.todo)
   }
 
   /**
@@ -130,7 +131,7 @@ export class TodoEntry extends React.PureComponent {
             this.props.todo.blobRefs !== undefined && this.props.todo.blobRefs.length > 0
             ?
             this.props.todo.blobRefs.map(fileRef => {
-              return <button key={fileRef} onClick={() => this.downloadFile(this.props.todo.md.id, fileRef)} className="file-btn">Datei</button>
+              return <button key={fileRef} onClick={this.downloadFile} className="file-btn">Datei</button>
             })
             : null
           }

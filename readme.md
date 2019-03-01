@@ -86,6 +86,7 @@ A HsModel is always used for a single item returned in list, create, update etc.
       id: "", //uuid
       title: "SampleTitle", 
       isCompleted: false, 
+      blobRefs: […]
       md: {…}
     },
     id: (...),
@@ -338,8 +339,76 @@ Check if item exists in lock state by identifier.
 
 #### Sdo Blobs
 
+##### createSdoBlob(opts)
+
+This function is part of the ```ts HsInstance.create``` function. When a files field is present in the passed sdo object  ```ts HsInstance.create``` calls ```ts creatSdoBlob(opts)```. HsModel returned with extended blobRef information.
+
 ```ts
-  var published = COOMING_SOON;
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.create(opts) {
+    if(data.files === undefined && data.files.length <= 0) {
+      // create sdo
+    } else {
+      // create sdo blob
+    }
+  }
+```
+
+##### findBlobById(id)
+
+Returns a complete sdoBlob object from the server. It is a multipart/form-data and contains the parts for sdo and files
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.findBlobById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
+```
+
+##### updateSdoBlob(opts)
+
+This function is part of the ```ts HsInstance.update``` function. When a blobRef field is present in the passed sdo object the ```ts HsInstance.update``` calls ```ts editSdoBlob(opts)```. An updated HsModel returned.
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.update(opts) {
+    if(data.files === undefined && data.files.length <= 0) {
+      // create sdo
+    } else {
+      // create sdo blob
+    }
+  }
+
+  // calling from model 
+  model.update() // same procedure but looking for blobRef
+```
+
+##### getSdoBlobFile(id, blobId)
+
+Returns the uploaded blob from sdo blob
+
+```ts
+  // Define client...
+  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Calling from HsInstance
+  CLIENT.getSdoBlobFile(opts) {
+    if(data.files === undefined && data.files.length <= 0) {
+      // create sdo
+    } else {
+      // create sdo blob
+    }
+  }
+
+  // calling from model 
+  model.getBlobFile() // same procedure but looking for blobRef
 ```
 
 #### Sdo Collections
@@ -351,7 +420,6 @@ Check if item exists in lock state by identifier.
 ```
 
 ##### bulkUpdate(bulkList)
-
 
 Updates a given sdo list (bulk operation)
 
@@ -373,13 +441,13 @@ Updates a given sdo list (bulk operation)
 
 ### Install npm-packages
 
-Open console in healthstorage-odm package and move to ```./src/example/```. Type in ```npm install``` and install dependencies. 
+Open console in healthstorage-odm package and move to ```./src/example/todo```. Type in ```npm install``` and install dependencies. 
 
 ### Run app
 
 Important: First install all dependencies.
 
-Open console healthstorage-odem package and move to ```./src/example/```. Type in ```npm start``` to run webpack.
+Open console healthstorage-odem package and move to ```./src/example/todo```. Type in ```npm start``` to run webpack.
 After successfully created the files move to the link shown in console (eg. http://localhost:8080, http://localhost:8081, http://localhost:8082, ...)
 
 Enjoy.
