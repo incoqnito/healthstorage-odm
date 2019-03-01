@@ -398,17 +398,11 @@ Returns the uploaded blob from sdo blob
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling from HsInstance
-  CLIENT.getSdoBlobFile(opts) {
-    if(data.files === undefined && data.files.length <= 0) {
-      // create sdo
-    } else {
-      // create sdo blob
-    }
-  }
+  // Calling from HsInstance (sdoId, blobId)
+  CLIENT.getSdoBlobFile('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '5ea6caed-5c0c-4dd2-b46b-709ed0f2618a') { }
 
   // calling from model 
-  model.getBlobFile() // same procedure but looking for blobRef
+  model.getBlobFile()
 ```
 
 #### Sdo Collections
