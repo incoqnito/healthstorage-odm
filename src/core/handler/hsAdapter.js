@@ -239,8 +239,8 @@ module.exports = class HsAdapter {
    * @param {Object} filter
    * @returns {Promise}
    */
-  getSdos (oId, sId, options, filter) {
-    if (filter === undefined) {
+  getSdos (oId, sId, options) {
+    if (options.filter === undefined) {
       return this.adapter.getSdos({
         ...this.REQUEST_DATA,
         ...{
@@ -257,9 +257,15 @@ module.exports = class HsAdapter {
         }
       })
     } else {
-      return this.adapter.getSdos({
+      return this.adapter.getSdosFiltered({
         ...this.REQUEST_DATA,
         ...{
+          'requestOptions': {
+            'headers': {
+              'Content-Type': 'application/json',
+              'responseType': 'application/json'
+            }
+          },
           'endpoint': {
             'method': this.POST,
             'type': 'sdo',
@@ -269,11 +275,13 @@ module.exports = class HsAdapter {
               'sId': sId
             }
           },
-          'param': filter
+          'param': options.filter
         }
       })
     }
   }
+
+  
 
   /**
    * Get sdo by id oder where

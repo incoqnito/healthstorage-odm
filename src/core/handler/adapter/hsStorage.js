@@ -17,7 +17,7 @@ const ENDPOINTS = {
       'list': '/sdos/{oId}/{sId}',
       'add': '/sdos/{id}',
       'lock': '/sdos/{id}/locks',
-      'filtered': '/sdos/{ownerId}/{schemaId}'
+      'filtered': '/sdos/{oId}/{sId}'
     },
     'put': {
       'edit': '/sdos/{id}',
@@ -209,7 +209,7 @@ module.exports = class HsStorage {
    * Get sdos filtered
    * @param {Object} opts
    * @returns {Promise}
-   * @issue Throws API errors. Error 500, sometimes NullReferenceException, if boolean used as type, field not working
+   * @issue Throws API errors. Error 500
    */
   getSdosFiltered (opts) {
     return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)

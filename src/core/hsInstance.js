@@ -168,7 +168,7 @@ module.exports = class HsInstance {
     data = Object.assign(data, {md: this.HsSchema.generateMd()})
 
     let files = null
-    if(data.files !== undefined || data.files.length > 0) {
+    if(data.files !== undefined && data.files.length >= 0) {
       files = data.files
       delete data.files
     }
@@ -213,11 +213,19 @@ module.exports = class HsInstance {
    */
   updateById (data) {
     data.md.r += 1
+
+    let files = null
+    if(data.files !== undefined && data.files.length >= 0) {
+      files = data.files
+      delete data.files
+    }
+
     return this.HsAdapter.validateSdo(data).then(validated => {
       if (validated) {
-        if(data.files === undefined || data.files.length <= 0) {
+        if(files !== null) {
           return this.HsAdapter.editSdo(data).then(sdo => this.returnModel(sdo))
         } else {
+          data['files'] = files
           let hsBlob = this.sdoBlobBridge(data)
           return this.HsAdapter.updateSdoBlob(hsBlob.blobFormData).then(sdo => this.returnModel(
             {
