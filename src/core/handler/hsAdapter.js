@@ -1,5 +1,5 @@
 /** Import adapter */
-const HS_STORAGE = require('./adapter/hsStorage.js')
+import HsStorage from "./adapter/hsStorage"
 
 /** GET type string */
 import { GET } from "./../constants/hsConstants"
@@ -13,6 +13,7 @@ import { PUT } from "./../constants/hsConstants"
 import { HEAD } from "./../constants/hsConstants"
 /** DELETE type string */
 import { DELETE } from "./../constants/hsConstants"
+
 /** Request data */
 import REQUEST_DATA from "./../constants/hsConstants"
 
@@ -25,7 +26,7 @@ class HsAdapter {
     if (client === undefined) throw new Error('No client provided for HsAdapter')
     if (client.adapter === undefined) throw new Error('No adapter provided for HsAdapter')
     this.client = client
-    this.adapter = new HS_STORAGE(client)
+    this.adapter = new HsStorage(client)
   }
 
   /**

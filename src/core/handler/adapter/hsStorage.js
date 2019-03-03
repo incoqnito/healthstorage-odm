@@ -1,70 +1,11 @@
 /** Import modules */
-const AXIOS = require('axios')
+import axios from "axios"
 const QSTRING = require('query-string')
 
 /** Constants */
-const ENDPOINTS = {
-  'sdo': {
-    'get': {
-      'list': '/sdos/{oId}/{sId}',
-      'single': '/sdos/{id}',
-      'isLocked': '/sdos/{id}/islocked/{lockValue}',
-      'lockData': '/sdos/{id}/islocked/{lockValue}',
-      'archivedSdos': '/archive/sdos/{id}/{pageNo}/{pageSize}',
-      'archivedRevisions': '/archive/sdos/{id}/revisions'
-    },
-    'post': {
-      'list': '/sdos/{oId}/{sId}',
-      'add': '/sdos/{id}',
-      'lock': '/sdos/{id}/locks',
-      'filtered': '/sdos/{oId}/{sId}'
-    },
-    'put': {
-      'edit': '/sdos/{id}',
-      'bulkEdit': '/sdos/c/{oId}/{sId}'
-    },
-    'head': {
-      'changed': '/sdos/{id}/{r}',
-      'existInLockState': '/sdos/{id}/islocked/{isLocked}'
-    },
-    'delete': {
-      'single': '/eraser/sdos/{id}',
-      'unlock': '/sdos/{id}/locks/{lockValue}'
-    }
-  },
-  'schema': {
-    'get': {
-      'schema': '/schemas/{id}',
-      'schemaByRevision': '/schemas/{id}/{r}',
-      'validateSdo': '/schemas/validateSdo',
-      'list': '/schemas/'
-    },
-    'post': {
-      'create': '/schemas',
-      'validateSdo': '/schemas/validateSdo'
-    },
-    'delete': {
-      'allRevisions': '/eraser/schemas/{id}/?allRevisions=true'
-    }
-  },
-  'sdoblobs': {
-    'get': {
-      'single': '/sdoblobs/{id}',
-      'file': '/sdoblobs/{id}/{blobId}'
-    },
-    'post': {
-      'add': '/sdoblobs/{id}'
-    },
-    'put': {
-      'edit': '/sdoblobs/{id}'
-    },
-    'delete': {
-      'single': '/eraser/sdoblobs/{id}'
-    }
-  }
-}
+import { ENDPOINTS } from "./../../constants/hsConstants"
 
-module.exports = class HsStorage {
+class HsStorage {
   /**
    * Construct
    * @param {Object} client client object
@@ -80,6 +21,14 @@ module.exports = class HsStorage {
    */
   get ENDPOINTS () {
     return ENDPOINTS
+  }
+
+  /**
+   * Get axios
+   * @returns {Object} axios api endpoints
+   */
+  get axios () {
+    return axios
   }
 
   /**
@@ -107,8 +56,8 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSchema (opts) {
-    AXIOS.defaults.headers.common = opts.requestOptions.headers
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
+    axios.defaults.headers.common = opts.requestOptions.headers
+    return axios.get(this.buildRequestUrl(opts.endpoint))
       .then(response => response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -125,8 +74,8 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSchemas (opts) {
-    AXIOS.defaults.headers.common = opts.requestOptions.headers
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint, opts.params))
+    axios.defaults.headers.common = opts.requestOptions.headers
+    return axios.get(this.buildRequestUrl(opts.endpoint, opts.params))
       .then(response => response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -143,7 +92,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   createSchema (opts) {
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), JSON.stringify(opts.params), opts.requestOptions)
+    return axios.post(this.buildRequestUrl(opts.endpoint), JSON.stringify(opts.params), opts.requestOptions)
       .then(response => response.data.schema)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -160,7 +109,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   deleteSchema (opts) {
-    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    return axios.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response.status === 204)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -177,7 +126,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   validateSdo (opts) {
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+    return axios.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.status === 200))
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -194,7 +143,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSdos (opts) {
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint, opts.params))
+    return axios.get(this.buildRequestUrl(opts.endpoint, opts.params))
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -212,7 +161,7 @@ module.exports = class HsStorage {
    * @issue Throws API errors. Error 500
    */
   getSdosFiltered (opts) {
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+    return axios.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -229,7 +178,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSdo (opts) {
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
+    return axios.get(this.buildRequestUrl(opts.endpoint))
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -247,7 +196,7 @@ module.exports = class HsStorage {
    * @issue API needs to return created sdo (defaults)
    */
   createSdo (opts) {
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+    return axios.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.status === 201) ? JSON.parse(response.config.data) : response.status)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -265,7 +214,7 @@ module.exports = class HsStorage {
    * @issue API needs to return edited sdo
    */
   editSdo (opts) {
-    return AXIOS.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+    return axios.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => opts.params)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -283,7 +232,7 @@ module.exports = class HsStorage {
    * @issue API should return the deleted uuid after success
    */
   deleteSdo (opts) {
-    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    return axios.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => (response.status === 204) ? opts.endpoint.routeParams.id : false)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -300,7 +249,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   editSdosBulk (opts) {
-    return AXIOS.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
+    return axios.put(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => response)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -317,7 +266,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   sdoHasChanged (opts) {
-    return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    return axios.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response)
       .catch(error => {
         if (error.response.status === 304) {
@@ -340,7 +289,7 @@ module.exports = class HsStorage {
    * @issue No way to keep lockValue on item. For now stored in local storage, and restored on list load to item
    */
   lockItem (opts) {
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    return axios.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => {
         if (response.status === 201) window.localStorage.setItem('LOCKED_' + opts.endpoint.routeParams.id, JSON.stringify(response.data))
         return (response.status === 201) ? response.data : response.status
@@ -362,7 +311,7 @@ module.exports = class HsStorage {
    * @issue No way to keep lockValue on item. For now removed from local storage
    */
   unlockItem (opts) {
-    return AXIOS.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    return axios.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => {
         if (response.status === 204) window.localStorage.removeItem('LOCKED_' + opts.endpoint.routeParams.id)
         return response.status === 204
@@ -382,7 +331,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getLockData (opts) {
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    return axios.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -399,7 +348,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   isLockedItem (opts) {
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    return axios.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response.data.isLocked)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -417,7 +366,7 @@ module.exports = class HsStorage {
    * @issue API should return true or false, would be better than 204 or 404
    */
   existInLockState (opts) {
-    return AXIOS.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
+    return axios.head(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => response)
       .catch(error => {
         if (error.response.status === 404) {
@@ -438,7 +387,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSdoArchive (opts) {
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
+    return axios.get(this.buildRequestUrl(opts.endpoint))
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -455,7 +404,7 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSdoRevisionsArchive (opts) {
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint))
+    return axios.get(this.buildRequestUrl(opts.endpoint))
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -472,8 +421,8 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSdoBlob (opts) {
-    AXIOS.defaults.headers.common = opts.requestOptions.headers
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions.headers)
+    axios.defaults.headers.common = opts.requestOptions.headers
+    return axios.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions.headers)
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -490,8 +439,8 @@ module.exports = class HsStorage {
    * @returns {Promise}
    */
   getSdoBlobFile (opts) {
-    AXIOS.defaults.headers.common = opts.requestOptions.headers
-    return AXIOS.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions.headers)
+    axios.defaults.headers.common = opts.requestOptions.headers
+    return axios.get(this.buildRequestUrl(opts.endpoint), opts.requestOptions.headers)
       .then(response => (response.data === undefined) ? response.status : response.data)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -509,8 +458,8 @@ module.exports = class HsStorage {
    * @issue API needs to return created sdo (defaults)
    */
   createSdoBlob (opts) {
-    AXIOS.defaults.headers.common = opts.requestOptions.headers
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params)
+    axios.defaults.headers.common = opts.requestOptions.headers
+    return axios.post(this.buildRequestUrl(opts.endpoint), opts.params)
       .then(response => response !== undefined && response.status === 201 ? response : false)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -528,8 +477,8 @@ module.exports = class HsStorage {
    * @issue API needs to return created sdo (defaults)
    */
   updateSdoBlob (opts) {
-    AXIOS.defaults.headers.common = opts.requestOptions.headers
-    return AXIOS.post(this.buildRequestUrl(opts.endpoint), opts.params)
+    axios.defaults.headers.common = opts.requestOptions.headers
+    return axios.post(this.buildRequestUrl(opts.endpoint), opts.params)
       .then(response => response !== undefined && response.status === 201 ? response : false)
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
@@ -552,3 +501,5 @@ module.exports = class HsStorage {
     return error
   }
 }
+
+export default HsStorage
