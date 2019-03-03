@@ -1,33 +1,29 @@
 /** Import HsInstance */
-
 const HS_CLIENT = require('./core/hsClient.js')
 const HS_ADAPTER = require('./core/handler/hsAdapter.js')
 const HS_SCHEMA = require('./core/handler/hsSchema.js')
 
 /** String type */
-const STRING = 'string'
+import { STRING } from "./core/constants/hsConstants"
 /** Number type */
-const NUMBER = 'number'
+import { NUMBER } from "./core/constants/hsConstants"
 /** Integer type */
-const INTEGER = 'integer'
+import { INTEGER } from "./core/constants/hsConstants"
 /** Boolean type */
-const BOOLEAN = 'boolean'
+import { BOOLEAN } from "./core/constants/hsConstants"
 /** Object type */
-const OBJECT = 'object'
+import { OBJECT } from "./core/constants/hsConstants"
 /** Array type */
-const ARRAY = 'array'
+import { ARRAY } from "./core/constants/hsConstants"
 
 /** Adapter */
-const HS_STORAGE_ADAPTER = 'hsStorageAdapter'
-const HS_SQL_ADAPTER = 'hsSqlAdapter'
+import { HS_STORAGE_ADAPTER } from "./core/constants/hsConstants"
+import { HS_SQL_ADAPTER } from "./core/constants/hsConstants"
 
 /** Local server url fallback */
-const LOCAL_CLIENT = {
-  serverUrl: 'http://localhost:8080',
-  adapter: 'hsStorage'
-}
+import { CLIENT } from "./core/constants/hsConstants"
 
-module.exports = class HealthStorageODM {
+class HealthStorageODM {
   /**
    * Construct
    * @param {Object} opts client object
@@ -87,10 +83,10 @@ module.exports = class HealthStorageODM {
 
   /**
    * Get local client
-   * @return {String} LOCAL_CLIENT
+   * @return {String} CLIENT
    */
-  static get LOCAL_CLIENT () {
-    return LOCAL_CLIENT
+  static get CLIENT () {
+    return CLIENT
   }
 
   /**
@@ -116,7 +112,7 @@ module.exports = class HealthStorageODM {
    */
   static createClient (opts) {
     if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
-    if (opts.serverUrl === undefined) opts = LOCAL_CLIENT
+    if (opts.serverUrl === undefined) opts = CLIENT
     return new HS_CLIENT(opts)
   }
 
@@ -128,7 +124,7 @@ module.exports = class HealthStorageODM {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
     var HsSchema = new HS_SCHEMA(opts)
-    var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
+    var HsAdapter = new HS_ADAPTER(CLIENT)
 
     return HsAdapter.createSchema(HsSchema.schema)
   }
@@ -138,7 +134,7 @@ module.exports = class HealthStorageODM {
    * @returns {Promise}
    */
   static deleteSchema (id) {
-    var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
+    var HsAdapter = new HS_ADAPTER(CLIENT)
     return HsAdapter.deleteSchema(id)
   }
 
@@ -149,7 +145,7 @@ module.exports = class HealthStorageODM {
   static getSchema (opts, client = undefined) {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
-    var HsAdapter = (client === undefined) ? new HS_ADAPTER(LOCAL_CLIENT) : new HS_ADAPTER(client)
+    var HsAdapter = (client === undefined) ? new HS_ADAPTER(CLIENT) : new HS_ADAPTER(client)
 
     return HsAdapter.getSchema(opts.id)
   }
@@ -161,10 +157,12 @@ module.exports = class HealthStorageODM {
   static getSchemas (opts) {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
-    var HsAdapter = new HS_ADAPTER(LOCAL_CLIENT)
+    var HsAdapter = new HS_ADAPTER(CLIENT)
 
     var ids = opts.ids.join(',')
 
     return HsAdapter.getSchemas(ids)
   }
 }
+
+export default HealthStorageODM
