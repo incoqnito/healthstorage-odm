@@ -2,8 +2,8 @@
 /** Import modules */
 import HsModel from './hsModel'
 import HsBlob from './hsBlob'
+import HsAdapter from "./handler/hsAdapter"
 const HS_SCHEMA = require('./handler/hsSchema.js')
-const HS_ADAPTER = require('./handler/hsAdapter.js')
 
 /** Get constants */
 import { ASC } from "./constants/hsConstants"
@@ -75,10 +75,10 @@ class HsInstance {
   /**
    * Create request instance for client
    * @param {Object} client client object
-   * @returns {Instance} HS_ADAPTER
+   * @returns {Instance} HsAdapter
    */
   initHsAdapter (client) {
-    return new HS_ADAPTER(client)
+    return new HsAdapter(client)
   }
 
   /**

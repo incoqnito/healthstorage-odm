@@ -2,30 +2,21 @@
 const HS_STORAGE = require('./adapter/hsStorage.js')
 
 /** GET type string */
-const GET = 'get'
+import { GET } from "./../constants/hsConstants"
 /** POST type string */
-const POST = 'post'
+import { POST } from "./../constants/hsConstants"
 /** PATCH type string */
-const PATCH = 'patch'
+import { PATCH } from "./../constants/hsConstants"
 /** PUT type string */
-const PUT = 'put'
+import { PUT } from "./../constants/hsConstants"
 /** HEAD type string */
-const HEAD = 'head'
+import { HEAD } from "./../constants/hsConstants"
 /** DELETE type string */
-const DELETE = 'delete'
+import { DELETE } from "./../constants/hsConstants"
 /** Request data */
-const REQUEST_DATA = {
-  'requestOptions': {},
-  'endpoint': {
-    'method': '',
-    'type': '',
-    'action': '',
-    'routeParams': {}
-  },
-  'params': {}
-}
+import REQUEST_DATA from "./../constants/hsConstants"
 
-module.exports = class HsAdapter {
+class HsAdapter {
   /**
    * Construct
    * @param {Object} client client object
@@ -741,3 +732,5 @@ module.exports = class HsAdapter {
     })
   }
 }
+
+export default HsAdapter

@@ -1,6 +1,6 @@
 /** Import HsInstance */
-import HsClient from "./core/hsClient"
-const HS_ADAPTER = require('./core/handler/hsAdapter.js')
+import HsClient from "./core/hsClient"
+import HsAdapter from "./core/handler/hsAdapter"
 const HS_SCHEMA = require('./core/handler/hsSchema.js')
 
 /** String type */
@@ -124,7 +124,7 @@ class HealthStorageODM {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
     var HsSchema = new HS_SCHEMA(opts)
-    var HsAdapter = new HS_ADAPTER(CLIENT)
+    var HsAdapter = new HsAdapter(CLIENT)
 
     return HsAdapter.createSchema(HsSchema.schema)
   }
@@ -134,7 +134,7 @@ class HealthStorageODM {
    * @returns {Promise}
    */
   static deleteSchema (id) {
-    var HsAdapter = new HS_ADAPTER(CLIENT)
+    var HsAdapter = new HsAdapter(CLIENT)
     return HsAdapter.deleteSchema(id)
   }
 
@@ -145,7 +145,7 @@ class HealthStorageODM {
   static getSchema (opts, client = undefined) {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
-    var HsAdapter = (client === undefined) ? new HS_ADAPTER(CLIENT) : new HS_ADAPTER(client)
+    var HsAdapter = (client === undefined) ? new HsAdapter(CLIENT) : new HsAdapter(client)
 
     return HsAdapter.getSchema(opts.id)
   }
@@ -157,7 +157,7 @@ class HealthStorageODM {
   static getSchemas (opts) {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
-    var HsAdapter = new HS_ADAPTER(CLIENT)
+    var HsAdapter = new HsAdapter(CLIENT)
 
     var ids = opts.ids.join(',')
 

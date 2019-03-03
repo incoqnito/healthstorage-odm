@@ -18,6 +18,27 @@ export const MD_REVISION = 'r'
 export const MD_DATE = 'tsp'
 
 /**
+ * Api interaction constants
+ */
+export const GET = 'get'
+export const POST = 'post'
+export const PATCH = 'patch'
+export const PUT = 'put'
+export const HEAD = 'head'
+export const DELETE = 'delete'
+
+export const REQUEST_DATA = {
+  'requestOptions': {},
+  'endpoint': {
+    'method': '',
+    'type': '',
+    'action': '',
+    'routeParams': {}
+  },
+  'params': {}
+}
+
+/**
  * Adpater constants
  */
 export const HS_STORAGE_ADAPTER = 'hsStorageAdapter'
