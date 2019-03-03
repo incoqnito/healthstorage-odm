@@ -1,5 +1,5 @@
 /** Export module */
-module.exports = class HsHelper {
+class HsHelper {
   /**
    * Find object value by given path
    * @param {Object} obj
@@ -15,3 +15,5 @@ module.exports = class HsHelper {
     return object
   }
 }
+
+export default HsHelper

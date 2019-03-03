@@ -1,6 +1,6 @@
 /** Import modules */
-const uuid = require('uuid/v4')
-const HS_HELPER = require('../lib/hsHelper.js')
+import uuid from "uuid/v4"
+import HsHelper from "./../lib/hsHelper"
 
 /** Constants */
 import { SCHEMA_DRAFT } from "./../constants/hsConstants"
@@ -234,7 +234,7 @@ class HsSchema {
    * @returns {Object}
    */
   generateMd () {
-    var metaFromSchema = HS_HELPER.findValueByPath(this.schema, 'definitions.MetadataSdo.properties')
+    var metaFromSchema = HsHelper.findValueByPath(this.schema, 'definitions.MetadataSdo.properties')
     var md = {}
     for (var key in metaFromSchema) {
       switch (key) {

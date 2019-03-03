@@ -24,14 +24,6 @@ class HsStorage {
   }
 
   /**
-   * Get axios
-   * @returns {Object} axios api endpoints
-   */
-  get axios () {
-    return axios
-  }
-
-  /**
    * Build request url
    * @param {Object} endpoint
    * @returns {String}
