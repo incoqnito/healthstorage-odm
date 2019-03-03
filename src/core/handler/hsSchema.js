@@ -3,22 +3,23 @@ const uuid = require('uuid/v4')
 const HS_HELPER = require('../lib/hsHelper.js')
 
 /** Constants */
-const SCHEMA_DRAFT = 'http://json-schema.org/draft-07/schema#'
-const UUID_PATTERN = '^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$'
-const BTSS_PREFIX = 'urn:btssid:'
-const INT_MIN = 1.0
-const INT_MAX = 2147483647.0
-const NULL = 'null'
-const OBJECT = 'object'
-const ARRAY = 'array'
-const STRING = 'string'
-const NUMBER = 'number'
-const INTEGER = 'integer'
-const DOUBLE = 'double'
-const BOOLEAN = 'boolean'
-const FORMAT_DATE = 'date-time'
+import { SCHEMA_DRAFT } from "./../constants/hsConstants"
+import { UUID_PATTERN } from "./../constants/hsConstants"
+import { BTSS_PREFIX } from "./../constants/hsConstants"
 
-module.exports = class HsSchema {
+import { INT_MIN } from "./../constants/hsConstants"
+import { INT_MAX } from "./../constants/hsConstants"
+import { NULL } from "./../constants/hsConstants"
+import { OBJECT } from "./../constants/hsConstants"
+import { ARRAY } from "./../constants/hsConstants"
+import { STRING } from "./../constants/hsConstants"
+import { NUMBER } from "./../constants/hsConstants"
+import { INTEGER } from "./../constants/hsConstants"
+import { DOUBLE } from "./../constants/hsConstants"
+import { BOOLEAN } from "./../constants/hsConstants"
+import { FORMAT_DATE } from "./../constants/hsConstants"
+
+class HsSchema {
   /**
    * Construct
    * @param {Object} opts instance object
@@ -263,3 +264,5 @@ module.exports = class HsSchema {
     return md
   }
 }
+
+export default HsSchema

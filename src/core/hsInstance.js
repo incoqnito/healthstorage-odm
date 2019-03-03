@@ -3,7 +3,7 @@
 import HsModel from './hsModel'
 import HsBlob from './hsBlob'
 import HsAdapter from "./handler/hsAdapter"
-const HS_SCHEMA = require('./handler/hsSchema.js')
+import HsSchema from "./handler/hsSchema"
 
 /** Get constants */
 import { ASC } from "./constants/hsConstants"
@@ -66,10 +66,10 @@ class HsInstance {
   /**
    * Create schema from options
    * @param {Object} schemaProps propties for schema builduing
-   * @returns {Instance} HS_SCHEMA
+   * @returns {Instance} HsSchema
    */
   buildSchema (schemaProps) {
-    return new HS_SCHEMA(schemaProps)
+    return new HsSchema(schemaProps)
   }
 
   /**

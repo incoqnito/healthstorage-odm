@@ -1,7 +1,7 @@
 /** Import HsInstance */
 import HsClient from "./core/hsClient"
 import HsAdapter from "./core/handler/hsAdapter"
-const HS_SCHEMA = require('./core/handler/hsSchema.js')
+import HsSchema from "./core/handler/hsSchema"
 
 /** String type */
 import { STRING } from "./core/constants/hsConstants"

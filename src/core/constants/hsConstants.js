@@ -7,6 +7,11 @@ export const INTEGER = "integer"
 export const BOOLEAN = "boolean"
 export const OBJECT = "object"
 export const ARRAY = "array"
+export const DOUBLE = "double"
+export const NULL = "null"
+export const FORMAT_DATE = "date-time"
+export const INT_MIN = 1.0
+export const INT_MAX = 2147483647.0
 
 /**
  * Filter constants
@@ -114,12 +119,19 @@ export const LOCAL_API_URL = 'http://localhost:8080'
  * Default client constant
  */
 export const CLIENT = {
-  serverUrl: LOCAL_API_URL,
-  adapter: HS_STORAGE_ADAPTER,
-  debug: true
+  'serverUrl': LOCAL_API_URL,
+  'adapter': HS_STORAGE_ADAPTER,
+  'debug': true
 }
 
 /**
  * Model constants
  */
 export const ASSIGN_TO_CLASS = ['HsAdapter']
+
+/**
+ * Schema constants
+ */
+export const SCHEMA_DRAFT = 'http://json-schema.org/draft-07/schema#'
+export const UUID_PATTERN = '^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$'
+export const BTSS_PREFIX = 'urn:btssid:'
