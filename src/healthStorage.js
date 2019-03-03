@@ -123,7 +123,7 @@ class HealthStorageODM {
   static createSchema (opts) {
     if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
 
-    var HsSchema = new HS_SCHEMA(opts)
+    var HsSchema = new HsSchema(opts)
     var HsAdapter = new HsAdapter(CLIENT)
 
     return HsAdapter.createSchema(HsSchema.schema)
