@@ -1,8 +1,8 @@
 /** Constants */
-const ASSIGN_TO_CLASS = ['HsAdapter']
+import { ASSIGN_TO_CLASS } from "./constants/hsConstants"
 
 /** Export module */
-module.exports = class HsModel {
+class HsModel {
   /**
    * Construct
    * @param {Object} opts instance object
@@ -189,3 +189,5 @@ module.exports = class HsModel {
     return this.HsAdapter.getSdoBlobFile({id: this.md.id, blobId: this.blobRefs[0]})
   }
 }
+
+export default HsModel

@@ -27,3 +27,8 @@ export const CLIENT = {
   adapter: HS_STORAGE_ADAPTER,
   debug: true
 }
+
+/**
+ * Model constants
+ */
+export const ASSIGN_TO_CLASS = ['HsAdapter']
