@@ -426,6 +426,31 @@ Updates a given sdo list (bulk operation)
   CLIENT.bulkUpdate(bulkList)
 ```
 
+## HsDebugger
+
+The HsDebugger is buil at instance creation. It can be accessed by e.g. ```ts CLIENT.HsDebugger```. It brings up some debug functions.
+
+### logConsole(key, value, stringified = false)
+
+Logs a key value into the console.
+
+```ts 
+  // Log to console without stringified value
+  CLIENT.HsDebugger.logConsole("Key", "Value")
+
+  // Log to console with stringified value
+  CLIENT.HsDebugger.logConsole("Key", "Value", true)
+```
+
+### logTable(mixed)
+
+Logs a key value into the console as table format.
+
+```ts 
+  // Log to console as table
+  CLIENT.HsDebugger.logConsole({'test': 'value'})
+```
+
 ## HS-CLI
 
 ```ts

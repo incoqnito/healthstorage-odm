@@ -4,6 +4,7 @@ import HsModel from './hsModel'
 import HsBlob from './hsBlob'
 import HsAdapter from "./handler/hsAdapter"
 import HsSchema from "./handler/hsSchema"
+import HsDebugger from "./lib/hsDebugger"
 
 /** Get constants */
 import { ASC } from "./constants/hsConstants"
@@ -21,6 +22,7 @@ class HsInstance {
     if (opts === undefined) throw new Error('No instance options provided for HsInstance')
     this.HsSchema = this.buildSchema(opts)
     this.HsAdapter = this.initHsAdapter(opts.client)
+    this.HsDebugger = HsDebugger
   }
 
   /**
