@@ -1,5 +1,5 @@
 /** Import HsInstance */
-const HS_CLIENT = require('./core/hsClient.js')
+import HsClient from "./core/hsClient"
 const HS_ADAPTER = require('./core/handler/hsAdapter.js')
 const HS_SCHEMA = require('./core/handler/hsSchema.js')
 
@@ -113,7 +113,7 @@ class HealthStorageODM {
   static createClient (opts) {
     if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
     if (opts.serverUrl === undefined) opts = CLIENT
-    return new HS_CLIENT(opts)
+    return new HsClient(opts)
   }
 
   /**

@@ -1,19 +1,18 @@
 
 /** Import modules */
-const HS_MODEL = require('./hsModel.js')
-const HS_BLOB = require('./hsBlob.js')
+import HsModel from './hsModel'
+import HsBlob from './hsBlob'
 const HS_SCHEMA = require('./handler/hsSchema.js')
 const HS_ADAPTER = require('./handler/hsAdapter.js')
 
 /** Get constants */
-const ASC = 'Ascending'
-const DESC = 'Descending'
-const MD_ID = 'id'
-const MD_REVISION = 'r'
-const MD_DATE = 'tsp'
-const BLOB_DIVIDE = "Content-Disposition: attachment; filename={fileRef}; filename*=utf-8''{fileRef}"
+import { ASC } from "./constants/hsConstants"
+import { DESC } from "./constants/hsConstants"
+import { MD_ID } from "./constants/hsConstants"
+import { MD_REVISION } from "./constants/hsConstants"
+import { MD_DATE } from "./constants/hsConstants"
 
-module.exports = class HsInstance {
+class HsInstance {
   /**
    * Construct
    * @param {Object} opts instance object
@@ -84,10 +83,10 @@ module.exports = class HsInstance {
 
   /**
    * Return new instance of model
-   * @param {Object} mdoel HS_MODEL
+   * @param {Object} mdoel HsModel
    */
   returnModel (object) {
-    var model = new HS_MODEL(object)
+    var model = new HsModel(object)
     model.HsAdapter = this.HsAdapter
     return model
   }
@@ -389,6 +388,8 @@ module.exports = class HsInstance {
    * @param {Object} data 
    */
   sdoBlobBridge(data) {
-    return new HS_BLOB(data)
+    return new HsBlob(data)
   }
 }
+
+export default HsInstance

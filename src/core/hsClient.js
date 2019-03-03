@@ -1,8 +1,8 @@
 /** Import modules */
-const HS_INSTANCE = require('./hsInstance.js')
+import HsInstance from "./hsInstance"
 
 /** Export module */
-module.exports = class HsClient {
+class HsClient {
   /**
    * Constructor
    * @param {Object} client client object
@@ -14,10 +14,12 @@ module.exports = class HsClient {
   /**
    * Static define
    * @param {Object} opts define object
-   * @returns {Instance} HS_INSTANCE
+   * @returns {Instance} hsInstance
    */
   define (opts) {
     opts.client = this.client
-    return new HS_INSTANCE(opts)
+    return new HsInstance(opts)
   }
 }
+
+export default HsClient

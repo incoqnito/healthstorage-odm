@@ -9,6 +9,15 @@ export const OBJECT = "object"
 export const ARRAY = "array"
 
 /**
+ * Filter constants
+ */
+export const ASC = 'Ascending'
+export const DESC = 'Descending'
+export const MD_ID = 'id'
+export const MD_REVISION = 'r'
+export const MD_DATE = 'tsp'
+
+/**
  * Adpater constants
  */
 export const HS_STORAGE_ADAPTER = 'hsStorageAdapter'

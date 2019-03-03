@@ -2,7 +2,7 @@
 const uuid = require('uuid/v4')
 
 /** Export module */
-module.exports = class HsBlob {
+class HsBlob {
 
   /**
    * Construct
@@ -96,3 +96,5 @@ module.exports = class HsBlob {
     return formData
   }
 }
+
+export default HsBlob
