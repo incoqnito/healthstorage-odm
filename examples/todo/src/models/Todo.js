@@ -1,6 +1,8 @@
 import HealthStorageODM from '../../../../src/healthStorage'
 
-var client = new HealthStorageODM() // local
+var client = new HealthStorageODM({
+  debug: true
+})
 
 export default client.define({
   title: 'TodoSchema',

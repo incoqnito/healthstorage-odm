@@ -29,8 +29,8 @@ class HealthStorageODM {
    * @param {Object} opts client object
    */
   constructor (opts) {
-    if (opts === undefined) opts = CLIENT
-    return this.constructor.createClient(opts)
+    let client = Object.assign({}, CLIENT, opts)
+    return this.constructor.createClient(client)
   }
 
   /**
