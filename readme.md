@@ -448,7 +448,7 @@ Logs a key value into the console as table format.
 
 ```ts 
   // Log to console as table
-  CLIENT.HsDebugger.logConsole({'test': 'value'})
+  CLIENT.HsDebugger.logTable{'test': 'value'})
 ```
 
 ## HS-CLI

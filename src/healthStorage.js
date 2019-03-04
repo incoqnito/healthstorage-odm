@@ -100,6 +100,7 @@ class HealthStorageODM {
   /**
    * Get hs sql adapter
    * @return {String} HS_SQL_ADAPTER
+   * @info under construction
    */
   static get HS_SQL_ADAPTER () {
     return HS_SQL_ADAPTER
