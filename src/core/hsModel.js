@@ -1,16 +1,20 @@
 /** Constants */
 import { ASSIGN_TO_CLASS } from "./constants/hsConstants"
 
+/** Class */
+import HsDebugger from "./lib/hsDebugger"
+
 /** Export module */
 class HsModel {
   /**
    * Construct
    * @param {Object} opts instance object
    */
-  constructor (opts) {
+  constructor (opts, debug) {
     if (opts === undefined) throw new Error('No options provided for HsModel')
     this._dataValues = {}
     this._unstored = {}
+    this._unstored.debug = debug || false
     this.initProperties(opts)
   }
 
@@ -54,7 +58,8 @@ class HsModel {
    * @returns {Mixed}
    */
   returnModel (item) {
-    var model = new HsModel(item)
+    var model = new HsModel(item, this._unstored.debug)
+    if(this._unstored.debug) HsDebugger.logConsole("HsModel.returnModel", model, true)
     model.HsAdapter = this.HsAdapter
     return model
   }
@@ -73,7 +78,10 @@ class HsModel {
    * @returns {Promise}
    */
   changedSince () {
-    return this.HsAdapter.sdoHasChanged(this._dataValues.md.id, this._dataValues.md.r).then(changedSince => changedSince)
+    return this.HsAdapter.sdoHasChanged(this._dataValues.md.id, this._dataValues.md.r).then(changedSince => {
+      if(this._unstored.debug) HsDebugger.logConsole("HsModel.changedSince", changedSince, true)
+      return changedSince
+    })
   }
 
   /**
@@ -82,6 +90,9 @@ class HsModel {
    */
   update () {
     this.md.r += 1
+
+    if(this._unstored.debug) HsDebugger.logConsole("HsModel.update", changedSince, true)
+
     if(this._dataValues.blobRefs === undefined && this._dataValues.blobRefs.length <= 0) {
       return this.HsAdapter.editSdo(this._dataValues).then(sdo => this.returnModel(sdo))
     } else {
@@ -95,6 +106,9 @@ class HsModel {
    */
   lock () {
     return this.HsAdapter.lockItem(this._dataValues.md.id).then(lockValue => {
+
+      if(this._unstored.debug) HsDebugger.logConsole("HsModel.lock", lockValue, true)
+
       this.lockValue = lockValue
       return this.returnModel(this._dataValues)
     })
@@ -106,6 +120,9 @@ class HsModel {
    */
   unlock () {
     return this.HsAdapter.unlockItem(this._dataValues.md.id, this.lockValue.value).then(response => {
+
+      if(this._unstored.debug) HsDebugger.logConsole("HsModel.unlock", response, true)
+
       if (response) this.lockValue = null
       return this.returnModel(this._dataValues)
     })
@@ -124,7 +141,10 @@ class HsModel {
    * @returns {Object}
    */
   getLock () {
-    return this.HsAdapter.getLockData(this.md.id, this.lockValue.value)
+    return this.HsAdapter.getLockData(this.md.id, this.lockValue.value).then(response => {
+      if(this._unstored.debug) HsDebugger.logConsole("HsModel.getLock", response, true)
+      return response
+    })
   }
 
   /**
@@ -133,7 +153,10 @@ class HsModel {
    */
   isLocked () {
     if (this.lockValue !== undefined && this.lockValue !== null) {
-      return this.HsAdapter.isLockedItem(this.md.id, this.lockValue.value)
+      return this.HsAdapter.isLockedItem(this.md.id, this.lockValue.value).then(response => {
+        if(this._unstored.debug) HsDebugger.logConsole("HsModel.isLocked", response, true)
+        return response
+      })
     } else {
       return false
     }
@@ -144,7 +167,10 @@ class HsModel {
    * @returns {Object}
    */
   existInLockState (lockState = true) {
-    return this.HsAdapter.existInLockState(this.md.id, lockState)
+    return this.HsAdapter.existInLockState(this.md.id, lockState).then(response => {
+      if(this._unstored.debug) HsDebugger.logConsole("HsModel.existInLockState", response, true)
+      return response
+    })
   }
 
   /**
@@ -152,7 +178,10 @@ class HsModel {
    * @returns {Object} object
    */
   destroy () {
-    return this.HsAdapter.deleteSdo(this.md.id)
+    return this.HsAdapter.deleteSdo(this.md.id).then(deletedSdo => {
+      if(this._unstored.debug) HsDebugger.logConsole("HsModel.destroy", deletedSdo, true)
+      return deletedSdo
+    })
   }
 
   /**

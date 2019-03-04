@@ -23,8 +23,7 @@ class HsInstance {
     
     this.HsSchema = this.buildSchema(opts)
     this.HsAdapter = this.initHsAdapter(opts.client)
-    
-    this.HsDebugger = HsDebugger
+  
     this.debug = opts.client.debug || false
   }
 
@@ -91,7 +90,8 @@ class HsInstance {
    * @param {Object} mdoel HsModel
    */
   returnModel (object) {
-    var model = new HsModel(object)
+    var model = new HsModel(object, this.debug)
+    if(this.debug) HsDebugger.logConsole("HsInstance.returnModel", model, true)
     model.HsAdapter = this.HsAdapter
     return model
   }
@@ -105,7 +105,7 @@ class HsInstance {
     return this.HsAdapter.getSdos(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
       var list = []
 
-      if(this.debug) this.HsDebugger.logConsole("findAll", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.findAll", response, true)
 
       for (var sdo in response.body) {
         let model = this.returnModel(response.body[sdo])
@@ -114,7 +114,7 @@ class HsInstance {
         list.push(model)
       }
 
-      if(this.debug) this.HsDebugger.logTable(list)
+      if(this.debug) HsDebugger.logTable(list)
 
       return {
         list: list,
@@ -140,7 +140,7 @@ class HsInstance {
   findById (id) {
     return this.HsAdapter.getSdo({id: id}).then(sdo => {
 
-      if(this.debug) this.HsDebugger.logConsole("findById", sdo, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.findById", sdo, true)
 
       let model = this.returnModel(sdo)
       let lockValue = model.getLockFromLocalStorage()
@@ -156,7 +156,7 @@ class HsInstance {
    */
   findBlobById (id) {
     return this.HsAdapter.getSdoBlob({id: id}).then(blob => {
-        if(this.debug) this.HsDebugger.logConsole("FindBlobById", blob)
+        if(this.debug) HsDebugger.logConsole("HsInstance.findBlobById", blob)
         return blob
     })
   }
@@ -168,7 +168,7 @@ class HsInstance {
    */
   findBlobFileById (id, blobId) {
     return this.HsAdapter.getSdoBlobFile({id: id, blobId: blobId}).then(blob => {
-        if(this.debug) this.HsDebugger.logConsole("findBlobFileById", sdo, true)
+        if(this.debug) HsDebugger.logConsole("HsInstance.findBlobFileById", sdo, true)
         return blob
     })
   }
@@ -182,7 +182,7 @@ class HsInstance {
   create (data) {
     data = Object.assign(data, {md: this.HsSchema.generateMd()})
 
-    if(this.debug) this.HsDebugger.logConsole("create", data, true)
+    if(this.debug) HsDebugger.logConsole("HsInstance.create", data, true)
 
     let files = null
     if(data.files !== undefined && data.files.length >= 0) {
@@ -216,7 +216,7 @@ class HsInstance {
    */
   changedSince (id, r) {
     return this.HsAdapter.sdoHasChanged(id, r).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("changedSince", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.changedSince", response, true)
       return response
     })
   }
@@ -235,7 +235,7 @@ class HsInstance {
   updateById (data) {
     data.md.r += 1
 
-    if(this.debug) this.HsDebugger.logConsole("changedSince", data, true)
+    if(this.debug) HsDebugger.logConsole("HsInstance.changedSince", data, true)
 
     let files = null
     if(data.files !== undefined && data.files.length >= 0) {
@@ -280,7 +280,7 @@ class HsInstance {
       collectedSods.push(bulkList[sdo]._dataValues)
     }
     return this.HsAdapter.editSdosBulk(collectedSods).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("changedSince", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.bulkUpdate", response, true)
       return response
     })
   }
@@ -306,7 +306,7 @@ class HsInstance {
    */
   lockById (id) {
     return this.HsAdapter.lockItem(id).then(lockValue => {
-      if(this.debug) this.HsDebugger.logConsole("lockById", lockValue, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.lockById", lockValue, true)
       return lockValue
     })
   }
@@ -318,7 +318,7 @@ class HsInstance {
    */
   unlockById (id, lockValueId) {
     return this.HsAdapter.unlockItem(id, lockValueId).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("unlockById", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.unlockById", response, true)
       return response !== undefined
     })
   }
@@ -330,7 +330,7 @@ class HsInstance {
    */
   getLockDataById (sdoId, lockValueId) {
     return this.HsAdapter.getLockData(sdoId, lockValueId).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("getLockDataById", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.getLockDataById", response, true)
       return response
     })
   }
@@ -342,7 +342,7 @@ class HsInstance {
    */
   isLockedById (sdoId, lockValueId) {
     return this.HsAdapter.isLockedItem(sdoId, lockValueId).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("isLockedById", response, true)
+      if(this.debug) HsDebugger.logConsole("isLockedById", response, true)
       return response
     })
   }
@@ -354,7 +354,7 @@ class HsInstance {
    */
   existsInLockStateById (sdoId, lockState) {
     return this.HsAdapter.existInLockState(sdoId, lockState).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("existsInLockStateById", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.existsInLockStateById", response, true)
       return response
     })
   }
@@ -366,7 +366,7 @@ class HsInstance {
    */
   deleteById (id) {
     return this.HsAdapter.deleteSdo(id).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("deleteById", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.deleteById", response, true)
       return response
     })
   }
@@ -380,7 +380,7 @@ class HsInstance {
    */
   getArchiveBySdoId (sdoId, pageNo = 1, pageSize = 10) {
     return this.HsAdapter.getSdoArchive(sdoId, pageNo, pageSize).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("getArchiveBySdoId", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.getArchiveBySdoId", response, true)
       return response
     })
   }
@@ -392,7 +392,7 @@ class HsInstance {
    */
   getRevisionsArchiveBySdoId (sdoId) {
     return this.HsAdapter.getSdoRevisionsArchive(sdoId).then(response => {
-      if(this.debug) this.HsDebugger.logConsole("getRevisionsArchiveBySdoId", response, true)
+      if(this.debug) HsDebugger.logConsole("HsInstance.getRevisionsArchiveBySdoId", response, true)
       return response
     })
   }
@@ -409,7 +409,7 @@ class HsInstance {
       if (validated) {
         sdoBlob.set('sdo', JSON.stringify(sdo))
         return this.HsAdapter.createSdoBlob(sdoBlob).then(response => {
-          if(this.debug) this.HsDebugger.logConsole("createBlob", response, true)
+          if(this.debug) HsDebugger.logConsole("createBlob", response, true)
           return response
         })
       }
