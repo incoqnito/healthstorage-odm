@@ -104,7 +104,7 @@ class HsInstance {
   findAll (options) {
     return this.HsAdapter.getSdos(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
       var list = []
-
+      
       if(this.debug) HsDebugger.logConsole("HsInstance.findAll", response, true)
 
       for (var sdo in response.body) {

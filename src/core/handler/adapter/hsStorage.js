@@ -1,5 +1,8 @@
 /** Import modules */
 import axios from "axios"
+
+/** Constants */
+import { PROXY } from "./../../constants/hsConstants"
 const QSTRING = require('query-string')
 
 /** Constants */
@@ -135,7 +138,8 @@ class HsStorage {
    * @returns {Promise}
    */
   getSdos (opts) {
-    return axios.get(this.buildRequestUrl(opts.endpoint, opts.params))
+    axios.defaults.headers.common = opts.requestOptions.headers
+    return axios.get(this.buildRequestUrl(opts.endpoint, opts.params), opts.requestOptions)
       .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {

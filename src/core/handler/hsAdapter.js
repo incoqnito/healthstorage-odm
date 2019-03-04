@@ -236,6 +236,9 @@ class HsAdapter {
       return this.adapter.getSdos({
         ...this.REQUEST_DATA,
         ...{
+          'requestOptions': {
+            'accept': 'application/json'
+          },
           'endpoint': {
             'method': this.GET,
             'type': 'sdo',
