@@ -136,7 +136,7 @@ export class TodoEntry extends React.PureComponent {
             : null
           }
           {
-            this.props.todo.lockValue === null || this.props.todo.lockValue === undefined && this.props.todo.lockValue.requestTimestamp === undefined 
+            (this.props.todo.lockValue === null || this.props.todo.lockValue === undefined || this.props.todo.lockValue === "")
               ? <button className="lock-btn" onClick={this.onLock}>Lock</button>
               : <button className="lock-btn" onClick={this.onUnlock}>Unlock</button>
           }

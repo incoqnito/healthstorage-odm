@@ -29,7 +29,7 @@ class HealthStorageODM {
    * @param {Object} opts client object
    */
   constructor (opts) {
-    if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
+    if (opts === undefined) opts = CLIENT
     return this.constructor.createClient(opts)
   }
 
@@ -112,8 +112,7 @@ class HealthStorageODM {
    * @returns {HS_INSTANCE} HealthStorgaeODM instace
    */
   static createClient (opts) {
-    if (opts === undefined) throw new Error('No client options provided for HealthStorageODM')
-    if (opts.serverUrl === undefined) opts = CLIENT
+    if (opts === undefined) opts = CLIENT
     return new HsClient(opts)
   }
 

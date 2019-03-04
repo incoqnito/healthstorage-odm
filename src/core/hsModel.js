@@ -7,11 +7,11 @@ class HsModel {
    * Construct
    * @param {Object} opts instance object
    */
-  constructor (object) {
-    if (object === undefined) throw new Error('No options provided for HsModel')
+  constructor (opts) {
+    if (opts === undefined) throw new Error('No options provided for HsModel')
     this._dataValues = {}
     this._unstored = {}
-    this.initProperties(object)
+    this.initProperties(opts)
   }
 
   /**
@@ -28,7 +28,7 @@ class HsModel {
    */
   initProperties (properties) {
     for (let field in properties) {
-      if (ASSIGN_TO_CLASS.indexOf(field) <= -1) {
+      if (this.ASSIGN_TO_CLASS.indexOf(field) <= -1) {
         this._dataValues[field] = properties[field]
       } else {
         this[field] = properties[field]
