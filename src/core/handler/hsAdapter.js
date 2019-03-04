@@ -15,7 +15,7 @@ import { HEAD } from "./../constants/hsConstants"
 import { DELETE } from "./../constants/hsConstants"
 
 /** Request data */
-import REQUEST_DATA from "./../constants/hsConstants"
+import { REQUEST_DATA } from "./../constants/hsConstants"
 
 class HsAdapter {
   /**

@@ -1,7 +1,6 @@
 /** Import HsInstance */
 import HsClient from "./core/hsClient"
 import HsAdapter from "./core/handler/hsAdapter"
-import HsSchema from "./core/handler/hsSchema"
 
 /** String type */
 import { STRING } from "./core/constants/hsConstants"
@@ -29,8 +28,7 @@ class HealthStorageODM {
    * @param {Object} opts client object
    */
   constructor (opts) {
-    let client = Object.assign({}, CLIENT, opts)
-    return this.constructor.createClient(client)
+    return this.constructor.createClient(opts)
   }
 
   /**
@@ -112,56 +110,53 @@ class HealthStorageODM {
    * @returns {HS_INSTANCE} HealthStorgaeODM instace
    */
   static createClient (opts) {
-    if (opts === undefined) opts = CLIENT
-    return new HsClient(opts)
+    let client = Object.assign({}, this.CLIENT, opts)
+    return new HsClient(client)
+  }
+
+  /**
+   * Get schema by identifier
+   * @param {Object} opts
+   * @param {Object} client
+   * @return {Mixed}
+   */
+  static getSchema(opts, client = {}) {
+    let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
+    return adapter.getSchema(opts.id)
+  }
+
+  /**
+   * Get schemas by identifiers
+   * @param {Object} opts
+   * @param {Object} client
+   * @return {Mixed}
+   */
+  static getSchemas(opts, client) {
+    let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
+    return adapter.getSchemas(opts.ids.join(','))
   }
 
   /**
    * Create schema
-   * @returns {Promise}
+   * @param {Object} opts
+   * @param {Object} client
+   * @return {Mixed}
    */
-  static createSchema (opts) {
-    if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
-
-    var HsSchema = new HsSchema(opts)
-    var HsAdapter = new HsAdapter(CLIENT)
-
-    return HsAdapter.createSchema(HsSchema.schema)
+  static createSchema(opts, client) {
+    let schema = new HsSchema(opts)
+    let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
+    return adapter.createSchema(schema.schema)
   }
 
   /**
-   * Delete schema
-   * @returns {Promise}
+   * Delete schema by identifier
+   * @param {Object} opts
+   * @param {Object} client
+   * @return {Mixed}
    */
-  static deleteSchema (id) {
-    var HsAdapter = new HsAdapter(CLIENT)
-    return HsAdapter.deleteSchema(id)
-  }
-
-  /**
-   * Get schema
-   * @returns {Promise}
-   */
-  static getSchema (opts, client = undefined) {
-    if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
-
-    var HsAdapter = (client === undefined) ? new HsAdapter(CLIENT) : new HsAdapter(client)
-
-    return HsAdapter.getSchema(opts.id)
-  }
-
-  /**
-   * Get schemas
-   * @returns {Promise}
-   */
-  static getSchemas (opts) {
-    if (opts === undefined) throw new Error('No options provided for HealthStorageODM')
-
-    var HsAdapter = new HsAdapter(CLIENT)
-
-    var ids = opts.ids.join(',')
-
-    return HsAdapter.getSchemas(ids)
+  static deleteSchema(id, client) {
+    let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
+    return adapter.deleteSchema(id)
   }
 }
 

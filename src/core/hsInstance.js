@@ -97,6 +97,42 @@ class HsInstance {
   }
 
   /**
+   * Get schemas
+   * @param {Object} opts
+   * @returns {Promise}
+   */
+  findAllSchemas (opts) {
+    return HsAdapter.getSchemas(opts.ids.join(','))
+  }
+
+  /**
+   * Get schema by identifier
+   * @param {Object} opts
+   * @returns {Promise}
+   */
+  findSchemaById (opts) {
+    return HsAdapter.getSchema(opts.id)
+  }
+
+  /**
+   * Create schema
+   * @returns {Promise}
+   */
+  createSchema (opts) {
+    var HsSchema = new HsSchema(opts)
+    return HsAdapter.createSchema(HsSchema.schema)
+  }
+
+  /**
+   * Delete schema
+   * @param {String} id
+   * @returns {Promise}
+   */
+  deleteSchema (id) {
+    return HsAdapter.deleteSchema(id)
+  }
+
+  /**
    * Get all sdos from owner and schema
    * @param {Object} data
    * @returns {Promise}
