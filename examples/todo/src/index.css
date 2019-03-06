@@ -374,7 +374,7 @@ body {
 .todo-list li .destroy {
 	display: none;
 	position: absolute;
-	top: 50%;
+	top: 35px;
 	right: 10px;
 	bottom: 0;
 	width: 40px;
@@ -631,7 +631,7 @@ html .clear-completed:active {
 .lock-btn {
 	position: absolute;
 	right: 57px;
-	top: 50%;
+	top: 35px;
     margin-top: -15px;
 	font-size: 15px;
 	padding: 5px 10px;
@@ -648,7 +648,7 @@ html .clear-completed:active {
 .file-btn {
 	position: absolute;
 	right: 130px;
-	top: 50%;
+	top: 35px;
     margin-top: -15px;
 	font-size: 15px;
 	padding: 5px 10px;
@@ -748,4 +748,52 @@ header.header {
 
 .mb-15 {
 	margin-bottom: 15px;
+}
+
+.show-revisons {
+	display: block;
+	text-align: right;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 12px;
+	cursor: pointer;
+	padding-right: 15px;
+}
+
+.fixed-revisions {
+	width: 50vw;
+	height: 50vh;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	position: fixed;
+	background-color: #FFFFFF;
+	z-index: 200;
+	padding: 20px;
+	-webkit-box-shadow: 0px 0px 31px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 31px 0px rgba(0,0,0,0.3);
+	box-shadow: 0px 0px 31px 0px rgba(0,0,0,0.3);
+}
+
+.revisions-list {
+	overflow: auto;
+	max-height: 80%;
+}
+
+.close-revisions {
+	font-size: 30px;
+	color: #cc9a9a;
+	transition: color 0.2s ease-out;
+	float: right;
+	display: block;
+	position: relative;
+}
+
+.close-revisions:after {
+	content: '×';
+	position: absolute;
+	top: 0;
+	right:0;
 }

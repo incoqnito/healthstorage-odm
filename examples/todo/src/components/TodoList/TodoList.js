@@ -105,6 +105,32 @@ export class TodoList extends React.Component {
             }
           </ul>
         </section>
+        {
+          this.props.archive.length > 0 && 
+          <div className="fixed-revisions">
+              <h3>
+                Revisionen
+                <span onClick={this.props.closeRevisions} className="close-revisions"></span>
+              </h3>
+              <hr></hr>
+              <ul className="revisions-list">
+              {
+                this.props.archive.map(revision => {
+                  return (
+                    <li>
+                      <span className="d-block"><b>Revision: </b>{revision.md.r}</span>
+                      <p className="d-block">
+                        <span className="d-block">ID: {revision.md.id}</span>
+                        <span className="d-block">Titel: {revision.title}</span>
+                        <span className="d-block">Status: {revision.isCompleted == 1 ? "Abgeschlossen" : "Offen"}</span>
+                      </p>
+                    </li>
+                  )
+                })
+              }
+              </ul>
+          </div>
+        }
       </div>
     )
   }
@@ -128,6 +154,7 @@ export class TodoList extends React.Component {
       onEdit={this.props.onEditTodo}
       toggleErrorAlert={this.props.toggleErrorAlert}
       handleFileDownload={this.props.handleFileDownload}
+      onShowRevisions={this.props.onShowRevisions}
     />
   }
 }

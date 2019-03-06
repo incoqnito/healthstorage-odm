@@ -35,7 +35,8 @@ export class Application extends React.Component {
       endDate: new Date('2019-12-31'),
       pageSize: '',
       selectedFile: false,
-      showFileupload: false
+      showFileupload: false,
+      archive: []
     }
 
     this.onAddTodo = this.onAddTodo.bind(this)
@@ -66,6 +67,9 @@ export class Application extends React.Component {
 
     this.onToggleFileupload = this.onToggleFileupload.bind(this)
     this.handleFileDownload = this.handleFileDownload.bind(this)
+
+    this.onShowRevisions = this.onShowRevisions.bind(this)
+    this.closeRevisions = this.closeRevisions.bind(this)
   }
 
   /**
@@ -382,6 +386,23 @@ export class Application extends React.Component {
       .catch(error => this.toggleErrorAlert(error))
   }
 
+  onShowRevisions(todo) {
+    todo.getArchive()
+    .then(response => {
+      let archivedSdos = response.body
+      this.setState({
+        archive: archivedSdos
+      })
+    })
+    .catch(error => this.toggleErrorAlert(error))
+  }
+
+  closeRevisions() {
+    this.setState({
+      archive: []
+    })
+  }
+
   /**
    * Render View
    * @returns {Component}
@@ -409,6 +430,9 @@ export class Application extends React.Component {
             handleSelectedFile={this.handleSelectedFile}
             handleUpload={this.handleUpload}
             handleFileDownload={this.handleFileDownload}
+            onShowRevisions={this.onShowRevisions}
+            archive={this.state.archive}
+            closeRevisions={this.closeRevisions}
           />
           {
             showFilter

@@ -20,6 +20,7 @@ export class TodoEntry extends React.PureComponent {
     this.onLock = this.onLock.bind(this)
     this.onUnlock = this.onUnlock.bind(this)
     this.downloadFile = this.downloadFile.bind(this)
+    this.onShowRevisions = this.onShowRevisions.bind(this)
 
     this.editText = this.props.todo.title
   }
@@ -108,6 +109,10 @@ export class TodoEntry extends React.PureComponent {
     this.props.handleFileDownload(this.props.todo)
   }
 
+  onShowRevisions() {
+    this.props.onShowRevisions(this.props.todo)
+  }
+
   /**
    * Render View
    * @returns {Component}
@@ -143,6 +148,7 @@ export class TodoEntry extends React.PureComponent {
           <button className="destroy" onClick={this.onDelete} />
         </div>
         <input ref="editField" className="edit" onBlur={this.onClearEdit} onKeyDown={this.onEdit} defaultValue={this.editText} onChange={this.onChangeTitle.bind(this)}/>
+        <small className="show-revisons" onClick={this.onShowRevisions}>+ Revisionen anzeigen</small>
       </li>
     )
   }

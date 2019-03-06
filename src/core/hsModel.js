@@ -199,7 +199,7 @@ class HsModel {
   /**
    * Get archive for sdo
    */
-  getArchive (pageNo = 1, pageSize = 10) {
+  getArchive (pageNo = 1, pageSize = 100) {
     return this.HsAdapter.getSdoArchive(this.md.id, pageNo, pageSize)
   }
 
