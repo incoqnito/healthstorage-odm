@@ -91,9 +91,9 @@ class HsModel {
   update () {
     this.md.r += 1
 
-    if(this._unstored.debug) HsDebugger.logConsole("HsModel.update", changedSince, true)
+    if(this._unstored.debug) HsDebugger.logConsole("HsModel.update", this, true)
 
-    if(this._dataValues.blobRefs === undefined && this._dataValues.blobRefs.length <= 0) {
+    if(this._dataValues.blobRefs === undefined) {
       return this.HsAdapter.editSdo(this._dataValues).then(sdo => this.returnModel(sdo))
     } else {
       return this.HsAdapter.editSdoBlob(this._dataValues).then(sdo => this.returnModel(sdo))
