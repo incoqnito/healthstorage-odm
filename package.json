@@ -20,6 +20,7 @@
   "homepage": "https://github.com/incoqnito/healthstorage-odm#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "axios-https-proxy-fix": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "clear": "^0.1.0",
     "query-string": "^6.2.0"

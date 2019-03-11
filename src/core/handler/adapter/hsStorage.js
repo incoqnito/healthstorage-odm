@@ -140,7 +140,8 @@ class HsStorage {
   getSdos (opts) {
     axios.defaults.headers.common = opts.requestOptions.headers
     return axios.get(this.buildRequestUrl(opts.endpoint, opts.params), opts.requestOptions)
-      .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
+      // .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
+      .then(response => console.log(response))
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
           throw this.createError(error.response.statusText, error.response.status, "getSdos()")

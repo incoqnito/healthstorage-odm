@@ -135,3 +135,11 @@ export const ASSIGN_TO_CLASS = ['HsAdapter']
 export const SCHEMA_DRAFT = 'http://json-schema.org/draft-07/schema#'
 export const UUID_PATTERN = '^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$'
 export const BTSS_PREFIX = 'urn:btssid:'
+
+/**
+ * PROXY
+ */
+export const PROXY = {
+  'host': "127.0.0.1",
+  'post': 8080
+}

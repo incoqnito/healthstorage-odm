@@ -1,3 +1,5 @@
+import axios from 'axios-https-proxy-fix'; 
+
 /** Import adapter */
 import HsStorage from "./adapter/hsStorage"
 
@@ -16,6 +18,8 @@ import { DELETE } from "./../constants/hsConstants"
 
 /** Request data */
 import { REQUEST_DATA } from "./../constants/hsConstants"
+import { PROXY } from "./../constants/hsConstants"
+
 
 class HsAdapter {
   /**
@@ -83,6 +87,14 @@ class HsAdapter {
    */
   get DELETE () {
     return DELETE
+  }
+
+  /**
+   * Get PROXY type string
+   * @return {String} PROXY
+   */
+  get PROXY () {
+    return PROXY
   }
 
   /**
@@ -232,6 +244,7 @@ class HsAdapter {
    * @returns {Promise}
    */
   getSdos (oId, sId, options) {
+    
     if (options.filter === undefined) {
       return this.adapter.getSdos({
         ...this.REQUEST_DATA,
