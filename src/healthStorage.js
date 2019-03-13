@@ -1,5 +1,6 @@
 /** Import HsInstance */
 import HsClient from "./core/hsClient"
+import HsSchema from "./core/handler/HsSchema"
 import HsAdapter from "./core/handler/hsAdapter"
 
 /** String type */

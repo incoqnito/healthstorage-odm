@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "HsOdm Cli",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "babel src --out-dir dist"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/incoqnito/healthstorage-odm.git"
@@ -16,5 +18,14 @@
   "homepage": "https://github.com/incoqnito/healthstorage-odm#readme",
   "dependencies": {
     "commander": "^2.19.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "nodemon": "^1.18.10"
   }
 }
