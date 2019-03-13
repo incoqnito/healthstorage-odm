@@ -1,0 +1,20 @@
+{
+  "name": "hsodm-cli",
+  "version": "1.0.0",
+  "description": "HsOdm Cli",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incoqnito/healthstorage-odm.git"
+  },
+  "author": "Christian Birg <cbirg@incoqnito.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/incoqnito/healthstorage-odm/issues"
+  },
+  "homepage": "https://github.com/incoqnito/healthstorage-odm#readme",
+  "dependencies": {
+    "commander": "^2.19.0"
+  }
+}
