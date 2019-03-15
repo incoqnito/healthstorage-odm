@@ -1,3 +1,5 @@
-/** imports */
-require("./commands/schemaUp")
-require("./commands/schemaDown")
+/** require commands */
+require("./commands/schema/create")
+require("./commands/schema/delete")
+require("./commands/schema/schema")
+require("./commands/schema/schemas")

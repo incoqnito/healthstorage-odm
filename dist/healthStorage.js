@@ -70,13 +70,16 @@ function () {
      * @param {Object} opts
      * @param {Object} client
      * @return {Mixed}
+     * @info getSchemas Api Endpoint unknown format of concat ids
      */
 
   }, {
     key: "getSchemas",
     value: function getSchemas(opts, client) {
       var adapter = new _hsAdapter.default(Object.assign({}, this.CLIENT, client));
-      return adapter.getSchemas(opts.ids.join(','));
+      return opts.ids.map(function (schemaId) {
+        return adapter.getSchema(schemaId);
+      }); // return adapter.getSchemas(opts.ids.join(',')) not supported currently
     }
     /**
      * Create schema

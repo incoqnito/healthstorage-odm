@@ -1,5 +1,5 @@
 /** Import */
-import HealthStorageODM from "../../../dist/healthStorage"
+import HealthStorageODM from "../../../../dist/healthStorage"
 import uuid from 'uuid'
 
 /** Require */

@@ -1,6 +1,5 @@
 /** Import */
-import HealthStorageODM from "../../../dist/healthStorage"
-import uuid from 'uuid'
+import HealthStorageODM from "../../../../dist/healthStorage"
 
 /** Require */
 const program = require('commander')
@@ -15,7 +14,7 @@ program
 program
 .command('schemaDown')
 .option('-c, --client <client>', 'Add client data')
-.option('-s, --schemaId <path>', 'Add add schema id')
+.option('-s, --schemaId <schemaId>', 'Add add schema id')
 .action(options => {
     let client = options.client || {}
     let schemaId = (options.schemaId !== undefined) ? options.schemaId : false

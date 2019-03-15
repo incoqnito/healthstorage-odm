@@ -131,10 +131,14 @@ class HealthStorageODM {
    * @param {Object} opts
    * @param {Object} client
    * @return {Mixed}
+   * @info getSchemas Api Endpoint unknown format of concat ids
    */
   static getSchemas(opts, client) {
     let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
-    return adapter.getSchemas(opts.ids.join(','))
+    return opts.ids.map(schemaId => {
+      return adapter.getSchema(schemaId)
+    })
+    // return adapter.getSchemas(opts.ids.join(',')) not supported currently
   }
 
   /**
