@@ -363,7 +363,6 @@ export class Application extends React.Component {
       .then(blob => {
         let extension = MIME.extension(blob.type)
 
-        console.log(blob.type)
         if(!extension) {
           if(EXTRA_MIMES[blob.type] !== undefined) extension = EXTRA_MIMES[blob.type]
         }
