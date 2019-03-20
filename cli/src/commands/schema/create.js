@@ -33,14 +33,14 @@ program
 
     HealthStorageODM.createSchema(opts, client)
       .then(schema => {
-          console.log("\n\n=========> Generated schema id")
+          console.log("\n=========> Generated schema id")
           console.log(schema.$id.replace('urn:btssid:',"").split("/").shift())
-          console.log("\n\n")
+          console.log("\n")
       })
       .catch(error => {
-          console.log("\n\n=========> Error schema up")
+          console.log("\n=========> Error schema up")
           console.log(error.message)
-          console.log("\n\n")
+          console.log("\n")
       })
   })
   .description('Add a schema to HsOdm')
