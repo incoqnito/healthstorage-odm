@@ -1,0 +1,29 @@
+{
+  "name": "hsodm-cli",
+  "version": "1.0.0",
+  "description": "hsodm-cli package",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "hsodm-cli": "node dist/index.js"
+  },
+  "author": "Maik",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/node": "^7.2.2",
+    "@babel/polyfill": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/register": "^7.4.0",
+    "chalk": "^2.4.2",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
+    "configstore": "^4.0.0",
+    "figlet": "^1.2.1",
+    "inquirer": "^6.2.2",
+    "minimist": "^1.2.0",
+    "regenerator-runtime": "^0.13.2"
+  }
+}

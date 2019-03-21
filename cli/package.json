@@ -4,7 +4,9 @@
   "description": "HsOdm Cli",
   "main": "index.js",
   "scripts": {
-    "build": "babel src --out-dir dist"
+    "build": "babel src --out-dir dist",
+    "hsodm-add-schema": "node dist/cmd/schema/create.js addSchema",
+    "hsodm-add-sdos": "node dist/cmd/sdo/create.js addSdos"
   },
   "repository": {
     "type": "git",
