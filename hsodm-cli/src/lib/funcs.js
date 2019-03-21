@@ -27,5 +27,31 @@ export const apiFuncLib = {
             .catch(error => {
                 console.log(chalk.redBright("\nError: " + error.message + "\n"))
             })
+    },
+
+    /** get schema by id */
+    addSchema: async () => {
+        const schemaPath = await inquirer.askForPathToSchema()
+        const ownerId = await inquirer.askForOwnerId()
+
+        let schema = require(schemaPath.schemaPath)
+        let opts = {
+            'title': schema.schema.title,
+            'options': {
+                'required': schema.schema.required,
+                'id': schema.schema.$id.replace('urn:btssid:',"").split("/").shift() || uuid(),
+                'oId': ownerId
+            },
+            'properties': schema.schema.properties
+        }
+        HealthStorageODM.createSchema(opts, localClient)
+            .then(schema => {
+                console.log(chalk.greenBright("\n=========> Created schema with id\n"))
+                console.log(schema.$id.replace('urn:btssid:',"").split("/").shift())
+                console.log("\n")
+            })
+            .catch(error => {
+                console.log(chalk.redBright("\nError: " + error.message + "\n"))
+            })
     }
 }

@@ -2,11 +2,15 @@
 
 var _inquirer = _interopRequireDefault(require("inquirer"));
 
+var _v = _interopRequireDefault(require("uuid/v4"));
+
 var _constants = require("./../constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /** import inquirer */
+
+/** import uuid */
 
 /** import constants */
 module.exports = {
@@ -37,7 +41,7 @@ module.exports = {
   /** Ask for schemId input */
   askForSchemaId: function askForSchemaId() {
     var askForSchemaId = [{
-      type: 'inpiut',
+      type: 'input',
       name: 'schemaId',
       message: 'Enter schema id:',
       validate: function validate(value) {
@@ -49,5 +53,40 @@ module.exports = {
       }
     }];
     return _inquirer.default.prompt(askForSchemaId);
+  },
+
+  /** Ask for ownerId input */
+  askForOwnerId: function askForOwnerId() {
+    var askForOwnerId = [{
+      type: 'input',
+      name: 'schemaId',
+      message: 'Enter owner id:',
+      default: (0, _v.default)(),
+      validate: function validate(value) {
+        if (value.length) {
+          return true;
+        } else {
+          return 'Please enter a valid schema id';
+        }
+      }
+    }];
+    return _inquirer.default.prompt(askForOwnerId);
+  },
+
+  /** Ask for schema path */
+  askForPathToSchema: function askForPathToSchema() {
+    var askForSchemaPath = [{
+      type: 'input',
+      name: 'schemaPath',
+      message: 'Enter path to schema:',
+      validate: function validate(value) {
+        if (value.length) {
+          return true;
+        } else {
+          return 'Please enter a valid schema path';
+        }
+      }
+    }];
+    return _inquirer.default.prompt(askForSchemaPath);
   }
 };

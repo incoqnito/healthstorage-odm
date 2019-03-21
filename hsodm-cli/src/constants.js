@@ -32,6 +32,9 @@ export const apiEndpointActionInput = {
     'schema': {
         'single': {
             'func': 'getSchema'
+        },
+        'add': {
+            'func': 'addSchema'
         }
     }
 }

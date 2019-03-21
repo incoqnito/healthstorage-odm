@@ -61,6 +61,9 @@ var apiEndpointActionInput = {
   'schema': {
     'single': {
       'func': 'getSchema'
+    },
+    'add': {
+      'func': 'addSchema'
     }
   }
 };

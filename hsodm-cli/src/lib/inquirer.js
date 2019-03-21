@@ -1,6 +1,9 @@
 /** import inquirer */
 import inquirer from "inquirer"
 
+/** import uuid */
+import uuid from "uuid/v4"
+
 /** import constants */
 import { apiEndpointChoices, apiEndpointActionChoices } from "./../constants"
 
@@ -37,7 +40,7 @@ module.exports = {
    askForSchemaId: () => {
     const askForSchemaId = [
       {
-        type: 'inpiut',
+        type: 'input',
         name: 'schemaId',
         message: 'Enter schema id:',
         validate: function( value ) {
@@ -51,4 +54,43 @@ module.exports = {
     ];
     return inquirer.prompt(askForSchemaId);
   },
+
+  /** Ask for ownerId input */
+  askForOwnerId: () => {
+    const askForOwnerId = [
+      {
+        type: 'input',
+        name: 'schemaId',
+        message: 'Enter owner id:',
+        default: uuid(),
+        validate: function( value ) {
+          if (value.length) {
+            return true;
+          } else {
+            return 'Please enter a valid schema id';
+          }
+        }
+      }
+    ];
+    return inquirer.prompt(askForOwnerId);
+  },
+
+  /** Ask for schema path */
+  askForPathToSchema: () => {
+    const askForSchemaPath = [
+      {
+        type: 'input',
+        name: 'schemaPath',
+        message: 'Enter path to schema:',
+        validate: function( value ) {
+          if (value.length) {
+            return true;
+          } else {
+            return 'Please enter a valid schema path';
+          }
+        }
+      }
+    ];
+    return inquirer.prompt(askForSchemaPath);
+  }
 }
