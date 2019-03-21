@@ -31,9 +31,6 @@ var apiEndpointActionChoices = {
     'name': 'Add Schema',
     'value': 'add'
   }, {
-    'name': 'Add Schema Bulk',
-    'value': 'addBulk'
-  }, {
     'name': 'Delete Schema',
     'value': 'delete'
   }],
@@ -64,6 +61,9 @@ var apiEndpointActionInput = {
     },
     'add': {
       'func': 'addSchema'
+    },
+    'delete': {
+      'func': 'deleteSchema'
     }
   }
 };

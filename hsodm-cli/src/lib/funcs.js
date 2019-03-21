@@ -29,7 +29,7 @@ export const apiFuncLib = {
             })
     },
 
-    /** get schema by id */
+    /** add schema */
     addSchema: async () => {
         const schemaPath = await inquirer.askForPathToSchema()
         const ownerId = await inquirer.askForOwnerId()
@@ -49,6 +49,25 @@ export const apiFuncLib = {
                 console.log(chalk.greenBright("\n=========> Created schema with id\n"))
                 console.log(schema.$id.replace('urn:btssid:',"").split("/").shift())
                 console.log("\n")
+            })
+            .catch(error => {
+                console.log(chalk.redBright("\nError: " + error.message + "\n"))
+            })
+    },
+
+    /** add schema */
+    deleteSchema: async () => {
+        const schemaId = await inquirer.askForSchemaId()
+
+        HealthStorageODM.deleteSchema(schemaId, localClient)
+            .then(response => {
+                if(response) {
+                    console.log(chalk.greenBright("\n=========> Deleted schema with id\n"))
+                    console.log(schemaId.schemaId)
+                    console.log("\n")
+                } else {
+                    console.log(chalk.redBright("\nError: Could not delete schema\n"))
+                }
             })
             .catch(error => {
                 console.log(chalk.redBright("\nError: " + error.message + "\n"))

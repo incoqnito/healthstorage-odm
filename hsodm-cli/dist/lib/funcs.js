@@ -69,7 +69,7 @@ var apiFuncLib = {
     return getSchema;
   }(),
 
-  /** get schema by id */
+  /** add schema */
   addSchema: function () {
     var _addSchema = _asyncToGenerator(
     /*#__PURE__*/
@@ -121,6 +121,49 @@ var apiFuncLib = {
     }
 
     return addSchema;
+  }(),
+
+  /** add schema */
+  deleteSchema: function () {
+    var _deleteSchema = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee3() {
+      var schemaId;
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _inquirer.default.askForSchemaId();
+
+            case 2:
+              schemaId = _context3.sent;
+
+              _healthStorage.default.deleteSchema(schemaId, _constants.localClient).then(function (response) {
+                if (response) {
+                  console.log(_chalk.default.greenBright("\n=========> Deleted schema with id\n"));
+                  console.log(schemaId.schemaId);
+                  console.log("\n");
+                } else {
+                  console.log(_chalk.default.redBright("\nError: Could not delete schema\n"));
+                }
+              }).catch(function (error) {
+                console.log(_chalk.default.redBright("\nError: " + error.message + "\n"));
+              });
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function deleteSchema() {
+      return _deleteSchema.apply(this, arguments);
+    }
+
+    return deleteSchema;
   }()
 };
 exports.apiFuncLib = apiFuncLib;

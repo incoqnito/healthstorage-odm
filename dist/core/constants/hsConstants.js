@@ -112,7 +112,7 @@ var ENDPOINTS = {
       'validateSdo': '/schemas/validateSdo'
     },
     'delete': {
-      'allRevisions': '/eraser/schemas/{id}/?allRevisions=true'
+      'allRevisions': '/eraser/schemas/{id}'
     }
   },
   'sdoblobs': {

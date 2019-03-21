@@ -15,7 +15,6 @@ export const apiEndpointActionChoices = {
     'schema': [
         { 'name': 'Get Schema', 'value': 'single' },
         { 'name': 'Add Schema', 'value': 'add' },
-        { 'name': 'Add Schema Bulk', 'value': 'addBulk' },
         { 'name': 'Delete Schema', 'value': 'delete' }
     ],
     'sdo': [
@@ -35,6 +34,9 @@ export const apiEndpointActionInput = {
         },
         'add': {
             'func': 'addSchema'
+        },
+        'delete': {
+            'func': 'deleteSchema'
         }
     }
 }

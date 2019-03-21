@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _hsClient = _interopRequireDefault(require("./core/hsClient"));
 
-var _HsSchema = _interopRequireDefault(require("./core/handler/HsSchema"));
+var _hsSchema = _interopRequireDefault(require("./core/handler/hsSchema"));
 
 var _hsAdapter = _interopRequireDefault(require("./core/handler/hsAdapter"));
 
@@ -91,7 +91,7 @@ function () {
   }, {
     key: "createSchema",
     value: function createSchema(opts, client) {
-      var schema = new _HsSchema.default(opts);
+      var schema = new _hsSchema.default(opts);
       var adapter = new _hsAdapter.default(Object.assign({}, this.CLIENT, client));
       return adapter.createSchema(schema.schema);
     }
