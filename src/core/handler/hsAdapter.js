@@ -243,7 +243,7 @@ class HsAdapter {
    * @param {Object} filter
    * @returns {Promise}
    */
-  getSdos (oId, sId, options) {
+  getSdos (oId, sId, options = {filter: undefined}) {
     
     if (options.filter === undefined) {
       return this.adapter.getSdos({
@@ -454,29 +454,25 @@ class HsAdapter {
    * @param {Object} sdo
    */
   lockItem (sdoId) {
-    if (window.localStorage.getItem('LOCKED_' + sdoId) === null) {
-      return this.adapter.lockItem({
-        ...this.REQUEST_DATA,
-        ...{
-          'requestOptions': {
-            'headers': {
-              'accept': 'application/json',
-              'responseType': 'application/json'
-            }
-          },
-          'endpoint': {
-            'method': this.POST,
-            'type': 'sdo',
-            'action': 'lock',
-            'routeParams': {
-              'id': sdoId
-            }
+    return this.adapter.lockItem({
+      ...this.REQUEST_DATA,
+      ...{
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/json',
+            'responseType': 'application/json'
+          }
+        },
+        'endpoint': {
+          'method': this.POST,
+          'type': 'sdo',
+          'action': 'lock',
+          'routeParams': {
+            'id': sdoId
           }
         }
-      })
-    } else {
-      throw new Error('Item already locked.')
-    }
+      }
+    })
   }
 
   /**

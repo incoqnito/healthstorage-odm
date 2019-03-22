@@ -147,8 +147,6 @@ function () {
         for (var sdo in response.body) {
           var model = _this.returnModel(response.body[sdo]);
 
-          var lockValue = model.getLockFromLocalStorage();
-          model.lockValue = lockValue !== null ? JSON.parse(lockValue) : null;
           list.push(model);
         }
 
@@ -188,7 +186,6 @@ function () {
 
         var model = _this2.returnModel(sdo);
 
-        var lockValue = model.getLockFromLocalStorage();
         model.lockValue = lockValue !== null ? JSON.parse(lockValue) : null;
         return model;
       });

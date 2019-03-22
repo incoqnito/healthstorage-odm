@@ -69,8 +69,67 @@ export const apiFuncLib = {
                     console.log(chalk.redBright("\nError: Could not delete schema\n"))
                 }
             })
-            .catch(error => {
-                console.log(chalk.redBright("\nError: " + error.message + "\n"))
+            .catch(error => console.log(chalk.redBright("\nError: " + error.message + "\n")))
+    },
+
+    /** get sdos */
+    getSdos: async () => {
+        const schemaId = await inquirer.askForSchemaId()
+        const ownerId = await inquirer.askForOwnerId()
+
+        HealthStorageODM.getSchema({'id': schemaId.schemaId}, localClient)
+            .then(schema => {
+                let hsClient = new HealthStorageODM(localClient)
+                let hsInstance = hsClient.define({
+                    title: schema.title,
+                    properties: schema.properties,
+                    options: {
+                        required: schema.required,
+                        id: schemaId.schemaId,
+                        oId: ownerId.ownerId,
+                        r: 1
+                    }
+                })
+
+                hsInstance.findAll()
+                    .then(sdos => {
+                        console.log(chalk.greenBright("\n=========> Found sdo models\n"))
+                        sdos.list.map(sdo => console.log(sdo))
+                        console.log("\n")
+                    })
+                    .catch(error => console.log(chalk.redBright("\nError sdo models: " + error.message + "\n")))
             })
+            .catch(error => console.log(chalk.redBright("\nError hsodm: " + error.message + "\n")))
+    },
+
+    /** get sdo by id */
+    getSdo: async () => {
+        const schemaId = await inquirer.askForSchemaId()
+        const ownerId = await inquirer.askForOwnerId()
+        const sdoId = await inquirer.askForSdoId()
+
+        HealthStorageODM.getSchema({'id': schemaId.schemaId}, localClient)
+            .then(schema => {
+                let hsClient = new HealthStorageODM(localClient)
+                let hsInstance = hsClient.define({
+                    title: schema.title,
+                    properties: schema.properties,
+                    options: {
+                        required: schema.required,
+                        id: schemaId.schemaId,
+                        oId: ownerId.ownerId,
+                        r: 1
+                    }
+                })
+
+                hsInstance.findById(sdoId.sdoId)
+                    .then(sdoModel => {
+                        console.log(chalk.greenBright("\n=========> Found sdo model\n"))
+                        console.log(sdoModel)
+                        console.log("\n")
+                    })
+                    .catch(error => console.log(chalk.redBright("\nError: " + error.message + "\n")))
+            })
+            .catch(error => console.log(chalk.redBright("\nError: " + error.message + "\n")))
     }
 }

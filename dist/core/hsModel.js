@@ -172,16 +172,6 @@ function () {
       });
     }
     /**
-     * Get locked from local storage
-     * @returns {Object} localStroage item
-     */
-
-  }, {
-    key: "getLockFromLocalStorage",
-    value: function getLockFromLocalStorage() {
-      return window.localStorage.getItem('LOCKED_' + this.md.id) || null;
-    }
-    /**
      * Get locked
      * @returns {Object}
      */

@@ -1,7 +1,8 @@
 /** local client */
 export const localClient = {
     serverUrl: "http://localhost:8080",
-    adapter: "hsStorageAdapter"
+    adapter: "hsStorageAdapter",
+    debug: false
 }
 
 /** api endpoints */
@@ -18,8 +19,8 @@ export const apiEndpointActionChoices = {
         { 'name': 'Delete Schema', 'value': 'delete' }
     ],
     'sdo': [
-        { 'name': 'Get Sdo', 'value': 'get' },
-        { 'name': 'Get All Sdos', 'value': 'getAll' },
+        { 'name': 'Get Sdo', 'value': 'single' },
+        { 'name': 'Get All Sdos', 'value': 'all' },
         { 'name': 'Update Sdo', 'value': 'update' },
         { 'name': 'Add Sdo', 'value': 'add' },
         { 'name': 'Delete Sdo', 'value': 'delete' }
@@ -37,6 +38,14 @@ export const apiEndpointActionInput = {
         },
         'delete': {
             'func': 'deleteSchema'
+        }
+    },
+    'sdo': {
+        'single': {
+            'func': 'getSdo'
+        },
+        'all': {
+            'func': 'getSdos'
         }
     }
 }

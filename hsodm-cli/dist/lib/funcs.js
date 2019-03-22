@@ -148,7 +148,7 @@ var apiFuncLib = {
                   console.log(_chalk.default.redBright("\nError: Could not delete schema\n"));
                 }
               }).catch(function (error) {
-                console.log(_chalk.default.redBright("\nError: " + error.message + "\n"));
+                return console.log(_chalk.default.redBright("\nError: " + error.message + "\n"));
               });
 
             case 4:
@@ -164,6 +164,135 @@ var apiFuncLib = {
     }
 
     return deleteSchema;
+  }(),
+
+  /** get sdos */
+  getSdos: function () {
+    var _getSdos = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee4() {
+      var schemaId, ownerId;
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return _inquirer.default.askForSchemaId();
+
+            case 2:
+              schemaId = _context4.sent;
+              _context4.next = 5;
+              return _inquirer.default.askForOwnerId();
+
+            case 5:
+              ownerId = _context4.sent;
+
+              _healthStorage.default.getSchema({
+                'id': schemaId.schemaId
+              }, _constants.localClient).then(function (schema) {
+                var hsClient = new _healthStorage.default(_constants.localClient);
+                var hsInstance = hsClient.define({
+                  title: schema.title,
+                  properties: schema.properties,
+                  options: {
+                    required: schema.required,
+                    id: schemaId.schemaId,
+                    oId: ownerId.ownerId,
+                    r: 1
+                  }
+                });
+                hsInstance.findAll().then(function (sdos) {
+                  console.log(_chalk.default.greenBright("\n=========> Found sdo model\n"));
+                  sdos.list.map(function (sdo) {
+                    return console.log(sdo);
+                  });
+                  console.log("\n");
+                }).catch(function (error) {
+                  return console.log(_chalk.default.redBright("\nError sdo models: " + error.message + "\n"));
+                });
+              }).catch(function (error) {
+                return console.log(_chalk.default.redBright("\nError hsodm: " + error.message + "\n"));
+              });
+
+            case 7:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    function getSdos() {
+      return _getSdos.apply(this, arguments);
+    }
+
+    return getSdos;
+  }(),
+
+  /** get sdo by id */
+  getSdo: function () {
+    var _getSdo = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee5() {
+      var schemaId, ownerId, sdoId;
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return _inquirer.default.askForSchemaId();
+
+            case 2:
+              schemaId = _context5.sent;
+              _context5.next = 5;
+              return _inquirer.default.askForOwnerId();
+
+            case 5:
+              ownerId = _context5.sent;
+              _context5.next = 8;
+              return _inquirer.default.askForSdoId();
+
+            case 8:
+              sdoId = _context5.sent;
+
+              _healthStorage.default.getSchema({
+                'id': schemaId.schemaId
+              }, _constants.localClient).then(function (schema) {
+                var hsClient = new _healthStorage.default(_constants.localClient);
+                var hsInstance = hsClient.define({
+                  title: schema.title,
+                  properties: schema.properties,
+                  options: {
+                    required: schema.required,
+                    id: schemaId.schemaId,
+                    oId: ownerId.ownerId,
+                    r: 1
+                  }
+                });
+                hsInstance.findById(sdoId.sdoId).then(function (sdoModel) {
+                  console.log(_chalk.default.greenBright("\n=========> Found sdo model\n"));
+                  console.log(sdoModel);
+                  console.log("\n");
+                }).catch(function (error) {
+                  return console.log(_chalk.default.redBright("\nError: " + error.message + "\n"));
+                });
+              }).catch(function (error) {
+                return console.log(_chalk.default.redBright("\nError: " + error.message + "\n"));
+              });
+
+            case 10:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }));
+
+    function getSdo() {
+      return _getSdo.apply(this, arguments);
+    }
+
+    return getSdo;
   }()
 };
 exports.apiFuncLib = apiFuncLib;

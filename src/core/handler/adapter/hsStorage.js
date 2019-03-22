@@ -140,8 +140,7 @@ class HsStorage {
   getSdos (opts) {
     axios.defaults.headers.common = opts.requestOptions.headers
     return axios.get(this.buildRequestUrl(opts.endpoint, opts.params), opts.requestOptions)
-      // .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
-      .then(response => console.log(response))
+      .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
           throw this.createError(error.response.statusText, error.response.status, "getSdos()")
@@ -288,7 +287,6 @@ class HsStorage {
   lockItem (opts) {
     return axios.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => {
-        if (response.status === 201) window.localStorage.setItem('LOCKED_' + opts.endpoint.routeParams.id, JSON.stringify(response.data))
         return (response.status === 201) ? response.data : response.status
       })
       .catch(error => {
@@ -310,7 +308,6 @@ class HsStorage {
   unlockItem (opts) {
     return axios.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => {
-        if (response.status === 204) window.localStorage.removeItem('LOCKED_' + opts.endpoint.routeParams.id)
         return response.status === 204
       })
       .catch(error => {

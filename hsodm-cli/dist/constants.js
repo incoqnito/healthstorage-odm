@@ -8,7 +8,8 @@ exports.apiEndpointActionInput = exports.apiEndpointActionChoices = exports.apiE
 /** local client */
 var localClient = {
   serverUrl: "http://localhost:8080",
-  adapter: "hsStorageAdapter"
+  adapter: "hsStorageAdapter",
+  debug: false
   /** api endpoints */
 
 };
@@ -36,10 +37,10 @@ var apiEndpointActionChoices = {
   }],
   'sdo': [{
     'name': 'Get Sdo',
-    'value': 'get'
+    'value': 'single'
   }, {
     'name': 'Get All Sdos',
-    'value': 'getAll'
+    'value': 'all'
   }, {
     'name': 'Update Sdo',
     'value': 'update'
@@ -64,6 +65,14 @@ var apiEndpointActionInput = {
     },
     'delete': {
       'func': 'deleteSchema'
+    }
+  },
+  'sdo': {
+    'single': {
+      'func': 'getSdo'
+    },
+    'all': {
+      'func': 'getSdos'
     }
   }
 };

@@ -191,7 +191,11 @@ function () {
 
   }, {
     key: "getSdos",
-    value: function getSdos(oId, sId, options) {
+    value: function getSdos(oId, sId) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+        filter: undefined
+      };
+
       if (options.filter === undefined) {
         return this.adapter.getSdos(_objectSpread({}, this.REQUEST_DATA, {
           'requestOptions': {
@@ -388,26 +392,22 @@ function () {
   }, {
     key: "lockItem",
     value: function lockItem(sdoId) {
-      if (window.localStorage.getItem('LOCKED_' + sdoId) === null) {
-        return this.adapter.lockItem(_objectSpread({}, this.REQUEST_DATA, {
-          'requestOptions': {
-            'headers': {
-              'accept': 'application/json',
-              'responseType': 'application/json'
-            }
-          },
-          'endpoint': {
-            'method': this.POST,
-            'type': 'sdo',
-            'action': 'lock',
-            'routeParams': {
-              'id': sdoId
-            }
+      return this.adapter.lockItem(_objectSpread({}, this.REQUEST_DATA, {
+        'requestOptions': {
+          'headers': {
+            'accept': 'application/json',
+            'responseType': 'application/json'
           }
-        }));
-      } else {
-        throw new Error('Item already locked.');
-      }
+        },
+        'endpoint': {
+          'method': this.POST,
+          'type': 'sdo',
+          'action': 'lock',
+          'routeParams': {
+            'id': sdoId
+          }
+        }
+      }));
     }
     /**
      * Unlock sdo mapping

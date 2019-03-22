@@ -180,9 +180,11 @@ function () {
       var _this6 = this;
 
       _axios.default.defaults.headers.common = opts.requestOptions.headers;
-      return _axios.default.get(this.buildRequestUrl(opts.endpoint, opts.params), opts.requestOptions) // .then(response => (response.data === undefined) ? response.status : { body: response.data, headers: response.headers })
-      .then(function (response) {
-        return console.log(response);
+      return _axios.default.get(this.buildRequestUrl(opts.endpoint, opts.params), opts.requestOptions).then(function (response) {
+        return response.data === undefined ? response.status : {
+          body: response.data,
+          headers: response.headers
+        };
       }).catch(function (error) {
         if (error.response !== undefined && error.response.status !== undefined) {
           throw _this6.createError(error.response.statusText, error.response.status, "getSdos()");
@@ -363,7 +365,6 @@ function () {
       var _this14 = this;
 
       return _axios.default.post(this.buildRequestUrl(opts.endpoint), opts.requestOptions).then(function (response) {
-        if (response.status === 201) window.localStorage.setItem('LOCKED_' + opts.endpoint.routeParams.id, JSON.stringify(response.data));
         return response.status === 201 ? response.data : response.status;
       }).catch(function (error) {
         if (error.response !== undefined && error.response.status !== undefined) {
@@ -387,7 +388,6 @@ function () {
       var _this15 = this;
 
       return _axios.default.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions).then(function (response) {
-        if (response.status === 204) window.localStorage.removeItem('LOCKED_' + opts.endpoint.routeParams.id);
         return response.status === 204;
       }).catch(function (error) {
         if (error.response !== undefined && error.response.status !== undefined) {

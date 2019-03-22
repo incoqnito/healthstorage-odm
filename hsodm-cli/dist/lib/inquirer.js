@@ -59,7 +59,7 @@ module.exports = {
   askForOwnerId: function askForOwnerId() {
     var askForOwnerId = [{
       type: 'input',
-      name: 'schemaId',
+      name: 'ownerId',
       message: 'Enter owner id:',
       default: (0, _v.default)(),
       validate: function validate(value) {
@@ -88,5 +88,23 @@ module.exports = {
       }
     }];
     return _inquirer.default.prompt(askForSchemaPath);
+  },
+
+  /** Ask for sdoId input */
+  askForSdoId: function askForSdoId() {
+    var askForSdoId = [{
+      type: 'input',
+      name: 'sdoId',
+      message: 'Enter sdo id:',
+      default: (0, _v.default)(),
+      validate: function validate(value) {
+        if (value.length) {
+          return true;
+        } else {
+          return 'Please enter a valid sdo id';
+        }
+      }
+    }];
+    return _inquirer.default.prompt(askForSdoId);
   }
 };

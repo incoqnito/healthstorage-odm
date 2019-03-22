@@ -129,14 +129,6 @@ class HsModel {
   }
 
   /**
-   * Get locked from local storage
-   * @returns {Object} localStroage item
-   */
-  getLockFromLocalStorage () {
-    return window.localStorage.getItem('LOCKED_' + this.md.id) || null
-  }
-
-  /**
    * Get locked
    * @returns {Object}
    */
