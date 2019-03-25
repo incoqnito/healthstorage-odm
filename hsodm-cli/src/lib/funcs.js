@@ -166,5 +166,43 @@ export const apiFuncLib = {
                 })
             })
             .catch(error => console.log(chalk.redBright("\nError schema find: " + error.message + "\n")))
+    },
+
+    /** get sdo by id */
+    deleteSdos: async () => {
+    const schemaId = await inquirer.askForSchemaId()
+    const ownerId = await inquirer.askForOwnerId()
+
+    HealthStorageODM.getSchema({'id': schemaId.schemaId}, localClient)
+        .then(schema => {
+            let hsClient = new HealthStorageODM(localClient)
+            let hsInstance = hsClient.define({
+                title: schema.title,
+                properties: schema.properties,
+                options: {
+                    required: schema.required,
+                    id: schemaId.schemaId,
+                    oId: ownerId.ownerId,
+                    r: 1
+                }
+            })
+            
+            hsInstance.findAll()
+                .then(sdos => {
+                    console.log(chalk.greenBright("\n=========> Found sdo models to delete\n"))
+                    sdos.list.map(sdo => {
+                        sdo.destroy()
+                            .then(deletedSdo => {
+                                console.log(chalk.greenBright("\n=========> Deleted sdo\n"))
+                                console.log(deletedSdo)
+                                console.log("\n")
+                            })
+                            .catch(error => console.log(chalk.redBright("\nError sdo delete: " + error.message + "\n")))
+                    })
+                    console.log("\n")
+                })
+                .catch(error => console.log(chalk.redBright("\nError sdo found models: " + error.message + "\n")))
+        })
+        .catch(error => console.log(chalk.redBright("\nError schema find: " + error.message + "\n")))
     }
 }

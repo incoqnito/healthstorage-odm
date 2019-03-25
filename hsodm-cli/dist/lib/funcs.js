@@ -364,6 +364,75 @@ var apiFuncLib = {
     }
 
     return addSdos;
+  }(),
+
+  /** get sdo by id */
+  deleteSdos: function () {
+    var _deleteSdos = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee7() {
+      var schemaId, ownerId;
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return _inquirer.default.askForSchemaId();
+
+            case 2:
+              schemaId = _context7.sent;
+              _context7.next = 5;
+              return _inquirer.default.askForOwnerId();
+
+            case 5:
+              ownerId = _context7.sent;
+
+              _healthStorage.default.getSchema({
+                'id': schemaId.schemaId
+              }, _constants.localClient).then(function (schema) {
+                var hsClient = new _healthStorage.default(_constants.localClient);
+                var hsInstance = hsClient.define({
+                  title: schema.title,
+                  properties: schema.properties,
+                  options: {
+                    required: schema.required,
+                    id: schemaId.schemaId,
+                    oId: ownerId.ownerId,
+                    r: 1
+                  }
+                });
+                hsInstance.findAll().then(function (sdos) {
+                  console.log(_chalk.default.greenBright("\n=========> Found sdo models to delete\n"));
+                  sdos.list.map(function (sdo) {
+                    sdo.destroy().then(function (deletedSdo) {
+                      console.log(_chalk.default.greenBright("\n=========> Deleted sdo\n"));
+                      console.log(deletedSdo);
+                      console.log("\n");
+                    }).catch(function (error) {
+                      return console.log(_chalk.default.redBright("\nError sdo delete: " + error.message + "\n"));
+                    });
+                  });
+                  console.log("\n");
+                }).catch(function (error) {
+                  return console.log(_chalk.default.redBright("\nError sdo found models: " + error.message + "\n"));
+                });
+              }).catch(function (error) {
+                return console.log(_chalk.default.redBright("\nError schema find: " + error.message + "\n"));
+              });
+
+            case 7:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    }));
+
+    function deleteSdos() {
+      return _deleteSdos.apply(this, arguments);
+    }
+
+    return deleteSdos;
   }()
 };
 exports.apiFuncLib = apiFuncLib;

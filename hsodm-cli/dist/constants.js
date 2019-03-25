@@ -73,6 +73,9 @@ var apiEndpointActionInput = {
     },
     'addBulk': {
       'func': 'addSdos'
+    },
+    'deleteBulk': {
+      'func': 'deleteSdos'
     }
   }
 };
