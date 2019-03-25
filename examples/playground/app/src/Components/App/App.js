@@ -32,8 +32,7 @@ const mapStateToProps = (state) => {
 }
 
 /** dispatch props */
-const mapDispatchToProps = {
-}
+const mapDispatchToProps = {}
 
 /** export application container */
 export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent)
