@@ -249,7 +249,6 @@ function () {
       return this.HsAdapter.validateSdo(data).then(function (validated) {
         if (validated) {
           if (files === null) {
-            console.log(data);
             return _this5.HsAdapter.createSdo(data).then(function (sdo) {
               return _this5.returnModel(sdo);
             });
