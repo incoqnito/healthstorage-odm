@@ -2,16 +2,16 @@
     {
         "title": "Test Sdo 1",
         "isCompleted": 1,
-        "blobRefs": []
+        "files": []
     },
     {
         "title": "Test Sdo 2",
         "isCompleted": 0,
-        "blobRefs": []
+        "files": []
     },
     {
         "title": "Test Sdo 3",
         "isCompleted": 1,
-        "blobRefs": []
+        "files": []
     }
 ]

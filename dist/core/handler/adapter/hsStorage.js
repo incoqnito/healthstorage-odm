@@ -251,6 +251,7 @@ function () {
     value: function createSdo(opts) {
       var _this9 = this;
 
+      _axios.default.defaults.headers.common = opts.requestOptions.headers;
       return _axios.default.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions).then(function (response) {
         return response.status === 201 ? JSON.parse(response.config.data) : response.status;
       }).catch(function (error) {

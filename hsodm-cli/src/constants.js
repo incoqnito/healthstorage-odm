@@ -21,9 +21,8 @@ export const apiEndpointActionChoices = {
     'sdo': [
         { 'name': 'Get Sdo', 'value': 'single' },
         { 'name': 'Get All Sdos', 'value': 'all' },
-        { 'name': 'Update Sdo', 'value': 'update' },
-        { 'name': 'Add Sdo', 'value': 'add' },
-        { 'name': 'Delete Sdo', 'value': 'delete' }
+        { 'name': 'Add Sdos', 'value': 'addBulk' },
+        { 'name': 'Delete Sdos', 'value': 'deleteBulk' }
     ]
 }
 
@@ -46,6 +45,9 @@ export const apiEndpointActionInput = {
         },
         'all': {
             'func': 'getSdos'
+        },
+        'addBulk': {
+            'func': 'addSdos'
         }
     }
 }

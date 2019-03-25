@@ -244,15 +244,12 @@ function () {
       });
       if (this.debug) _hsDebugger.default.logConsole("HsInstance.create", data, true);
       var files = null;
-
-      if (data.files !== undefined && data.files.length >= 0) {
-        files = data.files;
-        delete data.files;
-      }
-
+      if (data.files !== undefined && data.files.length > 0) files = data.files;
+      delete data.files;
       return this.HsAdapter.validateSdo(data).then(function (validated) {
         if (validated) {
           if (files === null) {
+            console.log(data);
             return _this5.HsAdapter.createSdo(data).then(function (sdo) {
               return _this5.returnModel(sdo);
             });

@@ -192,6 +192,7 @@ class HsStorage {
    * @issue API needs to return created sdo (defaults)
    */
   createSdo (opts) {
+    axios.defaults.headers.common = opts.requestOptions.headers
     return axios.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
       .then(response => (response.status === 201) ? JSON.parse(response.config.data) : response.status)
       .catch(error => {

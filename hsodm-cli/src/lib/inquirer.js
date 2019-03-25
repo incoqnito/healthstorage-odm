@@ -113,4 +113,23 @@ module.exports = {
     ];
     return inquirer.prompt(askForSdoId);
   },
+
+  /** Ask for schema path */
+  askForPathToSdos: () => {
+    const askForSdoPath = [
+      {
+        type: 'input',
+        name: 'sdosPath',
+        message: 'Enter path to import sdos froms:',
+        validate: function( value ) {
+          if (value.length) {
+            return true;
+          } else {
+            return 'Please enter a valid sdo path';
+          }
+        }
+      }
+    ];
+    return inquirer.prompt(askForSdoPath);
+  },
 }

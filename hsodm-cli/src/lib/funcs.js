@@ -131,5 +131,40 @@ export const apiFuncLib = {
                     .catch(error => console.log(chalk.redBright("\nError: " + error.message + "\n")))
             })
             .catch(error => console.log(chalk.redBright("\nError: " + error.message + "\n")))
+    },
+
+    /** get sdo by id */
+    addSdos: async () => {
+        const schemaId = await inquirer.askForSchemaId()
+        const ownerId = await inquirer.askForOwnerId()
+        const sdosPath = await inquirer.askForPathToSdos()
+
+        HealthStorageODM.getSchema({'id': schemaId.schemaId}, localClient)
+            .then(schema => {
+                let hsClient = new HealthStorageODM(localClient)
+                let hsInstance = hsClient.define({
+                    title: schema.title,
+                    properties: schema.properties,
+                    options: {
+                        required: schema.required,
+                        id: schemaId.schemaId,
+                        oId: ownerId.ownerId,
+                        r: 1
+                    }
+                })
+
+                let sodsToImport = require(sdosPath.sdosPath)
+
+                sodsToImport.map(sdo => {
+                    hsInstance.create(sdo)
+                    .then(sdoModel => {
+                        console.log(chalk.greenBright("\n=========> Created sdo model\n"))
+                        console.log(sdoModel._dataValues)
+                        console.log("\n")
+                    })
+                    .catch(error => console.log(chalk.redBright("\nError sdo create: " + error.message + "\n")))
+                })
+            })
+            .catch(error => console.log(chalk.redBright("\nError schema find: " + error.message + "\n")))
     }
 }

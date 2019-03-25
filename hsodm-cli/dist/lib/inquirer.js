@@ -106,5 +106,22 @@ module.exports = {
       }
     }];
     return _inquirer.default.prompt(askForSdoId);
+  },
+
+  /** Ask for schema path */
+  askForPathToSdos: function askForPathToSdos() {
+    var askForSdoPath = [{
+      type: 'input',
+      name: 'sdosPath',
+      message: 'Enter path to import sdos froms:',
+      validate: function validate(value) {
+        if (value.length) {
+          return true;
+        } else {
+          return 'Please enter a valid sdo path';
+        }
+      }
+    }];
+    return _inquirer.default.prompt(askForSdoPath);
   }
 };

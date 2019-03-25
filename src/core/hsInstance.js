@@ -218,11 +218,8 @@ class HsInstance {
     if(this.debug) HsDebugger.logConsole("HsInstance.create", data, true)
 
     let files = null
-    if(data.files !== undefined && data.files.length >= 0) {
-      files = data.files
-      delete data.files
-    }
-
+    if(data.files !== undefined && data.files.length > 0) files = data.files
+    delete data.files
 
     return this.HsAdapter.validateSdo(data).then(validated => {
       if (validated) {

@@ -202,7 +202,7 @@ var apiFuncLib = {
                   }
                 });
                 hsInstance.findAll().then(function (sdos) {
-                  console.log(_chalk.default.greenBright("\n=========> Found sdo model\n"));
+                  console.log(_chalk.default.greenBright("\n=========> Found sdo models\n"));
                   sdos.list.map(function (sdo) {
                     return console.log(sdo);
                   });
@@ -293,6 +293,77 @@ var apiFuncLib = {
     }
 
     return getSdo;
+  }(),
+
+  /** get sdo by id */
+  addSdos: function () {
+    var _addSdos = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee6() {
+      var schemaId, ownerId, sdosPath;
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return _inquirer.default.askForSchemaId();
+
+            case 2:
+              schemaId = _context6.sent;
+              _context6.next = 5;
+              return _inquirer.default.askForOwnerId();
+
+            case 5:
+              ownerId = _context6.sent;
+              _context6.next = 8;
+              return _inquirer.default.askForPathToSdos();
+
+            case 8:
+              sdosPath = _context6.sent;
+
+              _healthStorage.default.getSchema({
+                'id': schemaId.schemaId
+              }, _constants.localClient).then(function (schema) {
+                var hsClient = new _healthStorage.default(_constants.localClient);
+                var hsInstance = hsClient.define({
+                  title: schema.title,
+                  properties: schema.properties,
+                  options: {
+                    required: schema.required,
+                    id: schemaId.schemaId,
+                    oId: ownerId.ownerId,
+                    r: 1
+                  }
+                });
+
+                var sodsToImport = require(sdosPath.sdosPath);
+
+                sodsToImport.map(function (sdo) {
+                  hsInstance.create(sdo).then(function (sdoModel) {
+                    console.log(_chalk.default.greenBright("\n=========> Created sdo model\n"));
+                    console.log(sdoModel._dataValues);
+                    console.log("\n");
+                  }).catch(function (error) {
+                    return console.log(_chalk.default.redBright("\nError sdo create: " + error.message + "\n"));
+                  });
+                });
+              }).catch(function (error) {
+                return console.log(_chalk.default.redBright("\nError schema find: " + error.message + "\n"));
+              });
+
+            case 10:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }));
+
+    function addSdos() {
+      return _addSdos.apply(this, arguments);
+    }
+
+    return addSdos;
   }()
 };
 exports.apiFuncLib = apiFuncLib;

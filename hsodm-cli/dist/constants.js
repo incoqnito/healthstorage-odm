@@ -42,14 +42,11 @@ var apiEndpointActionChoices = {
     'name': 'Get All Sdos',
     'value': 'all'
   }, {
-    'name': 'Update Sdo',
-    'value': 'update'
+    'name': 'Add Sdos',
+    'value': 'addBulk'
   }, {
-    'name': 'Add Sdo',
-    'value': 'add'
-  }, {
-    'name': 'Delete Sdo',
-    'value': 'delete'
+    'name': 'Delete Sdos',
+    'value': 'deleteBulk'
   }]
   /** api endpoint action input */
 
@@ -73,6 +70,9 @@ var apiEndpointActionInput = {
     },
     'all': {
       'func': 'getSdos'
+    },
+    'addBulk': {
+      'func': 'addSdos'
     }
   }
 };
