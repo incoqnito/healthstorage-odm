@@ -1,17 +1,15 @@
 /** toggle sidebar */
-export const addSomeSdo = (state, payload) => {
-
-    state.sdoList.unshift(payload.sdoModel)
+export const getSdosForSchema = (state, payload) => {
 
     state.requestStack.unshift({
-        name: 'Add Some Sdo',
+        name: 'Get sdos for schema',
         state: 'OK',
-        value: payload.sdoModel
+        value: payload.sdoList
     })
 
     return {
         ...state,
-        sdoList: state.sdoList,
+        sdoList: payload.sdoList,
         currentError: {},
         requestStack: state.requestStack
     }

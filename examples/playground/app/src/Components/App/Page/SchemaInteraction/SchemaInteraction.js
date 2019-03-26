@@ -6,6 +6,7 @@ import Prism from 'prismjs'
 import { Form, Field } from 'react-final-form'
 
 /** redux */
+import { getSdosForSchema } from "./../../../../Redux/Actions/getSdosForSchema"
 import { addSomeSdo } from "./../../../../Redux/Actions/addSomeSdo"
 
 import "prismjs/themes/prism.css"
@@ -15,12 +16,13 @@ class SchemaInteraction extends Component {
 
     /** will mount */
     componentWillMount = () => {
-        if(this.props.config.schema === undefined) this.props.history.push('/')
+        if(this.props.config.schema.properties === undefined) this.props.history.push('/')
     }
 
     /** did mount */
     componentDidMount = () => {
         Prism.highlightAll();
+        this.props.getSdosForSchema(this.props.config.hsInstance)
     }
 
     /** did mount */
@@ -84,7 +86,7 @@ class SchemaInteraction extends Component {
                         <div className="--iq-sidebar-content">
                             <pre>
                                 <code className="language-json --iq-schema-display">
-                                    {`${JSON.stringify(this.props.config.schema, null, 2)}`}
+                                    {this.props.config.schema !== undefined ? `${JSON.stringify(this.props.config.schema, null, 2)}` : ""}
                                 </code>
                             </pre>
                         </div>
@@ -102,49 +104,51 @@ class SchemaInteraction extends Component {
                                         <form  onSubmit={handleSubmit}>
 
                                             {
-                                                Object.keys(this.props.config.schema.properties).map(propertyKey => {
-                                                    if(propertyKey !== 'md' && propertyKey !== 'blobRefs') {
-                                                        let property = this.props.config.schema.properties[propertyKey]
-                                                        
-                                                        let inputType = ""
-                                                        switch(this.props.config.schema.properties[propertyKey].type) {
-                                                            case 'integer':
-                                                                inputType = 'number'
-                                                            break
-                                                            case 'double':
-                                                                inputType = "number"
-                                                            break
-                                                            case 'string':
-                                                                inputType = "text"
-                                                            break
-                                                            case 'boolean':
-                                                                inputType = "checkbox"
-                                                            break
-                                                            default: inputType = "text"
+                                                (this.props.config.schema.properties !== undefined) 
+                                                ?
+                                                    Object.keys(this.props.config.schema.properties).map(propertyKey => {
+                                                        if(propertyKey !== 'md' && propertyKey !== 'blobRefs') {
+                                                            let property = this.props.config.schema.properties[propertyKey]
+                                                            
+                                                            let inputType = ""
+                                                            switch(this.props.config.schema.properties[propertyKey].type) {
+                                                                case 'integer':
+                                                                    inputType = 'number'
+                                                                break
+                                                                case 'double':
+                                                                    inputType = "number"
+                                                                break
+                                                                case 'string':
+                                                                    inputType = "text"
+                                                                break
+                                                                case 'boolean':
+                                                                    inputType = "checkbox"
+                                                                break
+                                                                default: inputType = "text"
+                                                            }
+
+                                                            return (
+                                                                <Row key={propertyKey} className="mb-3">
+                                                                    <Col className="text-left">
+                                                                        <label>
+                                                                            <small>{(property.title !== undefined) ? property.title : propertyKey} (type: {property.type})</small>
+                                                                        </label>
+                                                                        <Field name={propertyKey} validate={(this.props.config.schema.required.indexOf(propertyKey) > -1) ? this.isRequired : undefined}>
+                                                                            {({input, meta}) => (
+                                                                                <Fragment>
+                                                                                    <input {...input} className="form-control" type={inputType} placeholder={"Enter " + (property.title !== undefined) ? property.title : propertyKey} />
+                                                                                    <small className="--iq-error-input">{meta.error && meta.touched && <span>*{meta.error}</span>}</small>
+                                                                                </Fragment>
+                                                                            )}
+                                                                        </Field>
+                                                                        {property.description !== undefined && <p class="mb-0">{property.description}</p>}
+                                                                    </Col>
+                                                                </Row> 
+                                                            )
                                                         }
-
-                                                        return (
-                                                            <Row key={propertyKey} className="mb-3">
-                                                                <Col className="text-left">
-                                                                    <label>
-                                                                        <small>{(property.title !== undefined) ? property.title : propertyKey} (type: {property.type})</small>
-                                                                    </label>
-                                                                    <Field name={propertyKey} validate={(this.props.config.schema.required.indexOf(propertyKey) > -1) ? this.isRequired : undefined}>
-                                                                        {({input, meta}) => (
-                                                                            <Fragment>
-                                                                                <input {...input} className="form-control" type={inputType} placeholder={"Enter " + (property.title !== undefined) ? property.title : propertyKey} />
-                                                                                <small className="--iq-error-input">{meta.error && meta.touched && <span>*{meta.error}</span>}</small>
-                                                                            </Fragment>
-                                                                        )}
-                                                                    </Field>
-                                                                    {property.description !== undefined && <p class="mb-0">{property.description}</p>}
-                                                                </Col>
-                                                            </Row> 
-                                                        )
-                                                    }
-                                                })
+                                                    })
+                                                : null
                                             }
-
                                             <Button type="submit" disabled={submitting || pristine} className="--iq-btn purple mt-3">Add SDO</Button>
                                         </form>
                                     )}
@@ -152,10 +156,56 @@ class SchemaInteraction extends Component {
                             </Col>
                             </div>
                         </div>
+                        <div className="mb-3">
+                            <div className="--iq-interaction-header">
+                                <span>Sdos for schema</span>
+                            </div>
+                            <Col>
+                                <div className="mt-2 --iq-sdo-stack">
+                                    {
+                                        this.props.sdoList.map(sdo => { 
+                                            return (
+                                                <div className="--iq-sdo-stack-item">
+                                                    <div className="--iq-sdo-stack-item-header">
+                                                        <span>{sdo.md.id} (Revision: {sdo.md.r})</span>
+                                                    </div>
+                                                    <div class="--iq-sdo-stack-item-content">
+                                                        <Row>
+                                                            <Col>
+                                                                <span className="d-block mb-2 text-pink">Sdo properties</span>
+                                                                {
+                                                                    Object.keys(sdo._dataValues).map(dataKey => {
+                                                                        if(dataKey !== "md" && dataKey !== "blobRefs") {
+                                                                            return (
+                                                                                <span className="d-block">{dataKey}: {sdo._dataValues[dataKey]}</span>
+                                                                            )
+                                                                        }
+                                                                    })
+                                                                }
+                                                            </Col>
+                                                            <Col>
+                                                                <span class="d-block mb-2 text-purple">Sdo meta</span>
+                                                                {
+                                                                    Object.keys(sdo._dataValues.md).map(dataKey => {
+                                                                        return (
+                                                                            <span className="d-block">{dataKey}: {sdo._dataValues.md[dataKey]}</span>
+                                                                        )
+                                                                    })
+                                                                }
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }  
+                                </div>
+                            </Col>
+                        </div>
                     </Col>
                     <Col xs="12" md="3" className="--iq-sticky-sidebar dark">
                         <div className="--iq-sidebar-header">
-                            <span>Api Interaction</span>
+                            <span>HsODM Interaction</span>
                         </div>
                         <div className="mt-2 --iq-request-stack">
                             {this.props.requestStack.map(request => {
@@ -203,6 +253,7 @@ const mapStateToProps = (state) => {
 
 /** dispatch props */
 const mapDispatchToProps = {
+    getSdosForSchema,
     addSomeSdo
 }
 
