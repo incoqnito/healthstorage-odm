@@ -2,7 +2,7 @@
 export const deleteSomeSdo = (state, payload) => {
 
     state.requestStack.unshift({
-        name: 'Delete Some Sdo',
+        name: 'Delete Sdo',
         state: 'OK',
         value: payload.sdoModelId
     })

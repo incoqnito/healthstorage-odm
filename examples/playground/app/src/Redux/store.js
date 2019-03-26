@@ -10,6 +10,9 @@ import { GET_SDOS_FOR_SCHEMA_SUCCESS } from "./constants"
 import { GET_SDOS_FOR_SCHEMA_FAILED } from "./constants"
 import { DELETE_SOME_SDO_SUCCESS } from "./constants"
 import { DELETE_SOME_SDO_FAILED } from "./constants"
+import { SHOW_EDIT_MODAL } from "./constants"
+import { EDIT_SOME_SDO_SUCCESS } from "./constants"
+import { EDIT_SOME_SDO_FAILED } from "./constants"
 
 /** library */
 import { configSelectSchemaOwnerId } from "./Library/configSelectSchemaOwnerId"
@@ -19,7 +22,9 @@ import { getSdosForSchema } from "./Library/getSdosForSchema"
 import { failedSdosForSchema } from "./Library/failedSdosForSchema"
 import { deleteSomeSdo } from "./Library/deleteSomeSdo"
 import { failedDeleteSomeSdo } from "./Library/failedDeleteSomeSdo"
-
+import { showEditModal } from "./Library/showEditModal"
+import { editSomeSdo } from "./Library/editSomeSdo"
+import { failedEditSomeSdo } from "./Library/failedEditSomeSdo"
 
 /** create initial state */
 const initialState = {
@@ -31,7 +36,10 @@ const initialState = {
     },
     sdoList: [],
     currentError: {},
-    requestStack: []
+    requestStack: [],
+    showEditModalToggle: false,
+    sdoToEdit: {},
+    initialValues: {}
 }
 
 /** reduces */
@@ -51,6 +59,12 @@ const reduxReducer = (state = initialState, action) => {
             return deleteSomeSdo(state, action.payload)
         case DELETE_SOME_SDO_FAILED:
             return failedDeleteSomeSdo(state, action.payload)
+        case SHOW_EDIT_MODAL:
+            return showEditModal(state, action.payload)
+        case EDIT_SOME_SDO_SUCCESS:
+            return editSomeSdo(state, action.payload)
+        case EDIT_SOME_SDO_FAILED:
+            return failedEditSomeSdo(state, action.payload)
         default: return state
     }
 }

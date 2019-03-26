@@ -1,7 +1,7 @@
 /** toggle sidebar */
 export const failedSomeSdo = (state, payload) => {
     state.requestStack.push({
-        name: 'Add Some Sdo',
+        name: 'Add Sdo',
         state: 'FAILED',
         value: payload.error.message
     })

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Container, Col, Row, Button, Input } from 'reactstrap'
 import { Form, Field } from 'react-final-form'
 
+
 /** HsOdm */
 import HealthStorageODM from '../../../../../../../../src/healthStorage'
 
@@ -40,8 +41,8 @@ class SelectSchema extends Component {
         }
     }
 
+    /** uuid validator */
     isUuid = value => (RegExp(uuidPattern).test(value) ? undefined : "Input does not match the uuid pattern");
-
 
     /** render view */
     render = () => {

@@ -4,7 +4,7 @@ export const addSomeSdo = (state, payload) => {
     state.sdoList.unshift(payload.sdoModel)
 
     state.requestStack.unshift({
-        name: 'Add Some Sdo',
+        name: 'Add Sdo',
         state: 'OK',
         value: payload.sdoModel
     })
