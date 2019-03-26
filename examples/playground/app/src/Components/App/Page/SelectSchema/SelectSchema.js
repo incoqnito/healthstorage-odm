@@ -14,7 +14,7 @@ import { configSelectSchemaOwnerId } from '../../../../Redux/Actions/configSelec
 import { uuidPattern } from "./../../../constants"
 import { devClient } from "./../../../constants"
 
-class SelectSchemaComponent extends Component {
+class SelectSchema extends Component {
 
     /** submit */
     onSubmit = async (values) => {
@@ -28,13 +28,13 @@ class SelectSchemaComponent extends Component {
                 properties: foundSchema.properties,
                 options: {
                     required: foundSchema.required,
-                    id: foundSchema.schemaId,
+                    id: values.schemaId,
                     oId: values.ownerId,
                     r: 1
                 }
             })
 
-            this.props.configSelectSchemaOwnerId(foundSchema.schemaId, values.ownerId, foundSchema, hsInstance)
+            this.props.configSelectSchemaOwnerId(values.schemaId, values.ownerId, foundSchema, hsInstance)
 
             this.props.history.push('/schemaInteraction')
         }
@@ -79,7 +79,7 @@ class SelectSchemaComponent extends Component {
                                                 <Field name="ownerId" validate={this.isUuid}>
                                                     {({input, meta}) => (
                                                         <Fragment>
-                                                            <input {...input} className="form-control" type="text" placeholder="Enter a valid schema id" />
+                                                            <input {...input} className="form-control" type="text" placeholder="Enter a valid owner id" />
                                                             <small className="--iq-error-input">{meta.error && meta.touched && <span>*{meta.error}</span>}</small>
                                                         </Fragment>
                                                     )}
@@ -115,4 +115,4 @@ const mapDispatchToProps = {
 }
 
 /** export application container */
-export const SelectSchema = connect(mapStateToProps, mapDispatchToProps)(SelectSchemaComponent)
+export default SelectSchema = connect(mapStateToProps, mapDispatchToProps)(SelectSchema)

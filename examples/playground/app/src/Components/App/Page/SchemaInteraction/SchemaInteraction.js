@@ -1,37 +1,87 @@
 /** import bootstrap */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, Button, Badge } from 'reactstrap'
 import Prism from 'prismjs'
+import { Form, Field } from 'react-final-form'
 
-/** constants */
-import { uuidPattern } from "./../../../constants"
+/** redux */
+import { addSomeSdo } from "./../../../../Redux/Actions/addSomeSdo"
 
 import "prismjs/themes/prism.css"
 import "prismjs/themes/prism-coy.css"
 
-class SchemaInteractionComponent extends Component {
+class SchemaInteraction extends Component {
 
-    componentDidMount = () => {
+    /** will mount */
+    componentWillMount = () => {
         if(this.props.config.schema === undefined) this.props.history.push('/')
+    }
+
+    /** did mount */
+    componentDidMount = () => {
+        Prism.highlightAll();
+    }
+
+    /** did mount */
+    componentDidUpdate = () => {
         Prism.highlightAll();
     }
 
     /** submit */
-    onSubmit = async (values) => {
-       
+    onSubmit = (sdoProps) => {
+        let validatedSdoProps = this.typeValidation(sdoProps)
+        this.props.addSomeSdo(validatedSdoProps, this.props.config.hsInstance)
     }
 
-    isUuid = value => (RegExp(uuidPattern).test(value) ? undefined : "Input does not match the uuid pattern");
+    /** type validator */
+    typeValidation = (properties) => {
+
+        let validatedData = {}
+
+        Object.keys(properties).forEach(propertyKey => {
+
+            let propertyType = this.props.config.schema.properties[propertyKey].type
+            let evaluatedInput = ""
+
+            switch(propertyType) {
+                case "integer": 
+                    evaluatedInput = parseInt(properties[propertyKey])
+                    break;
+                case "double": 
+                    evaluatedInput = parseFloat(properties[propertyKey])
+                    break
+                case "float": evaluatedInput = parseFloat(properties[propertyKey])
+                case "number": 
+                    evaluatedInput = parseFloat(properties[propertyKey])
+                    break
+                case "string": 
+                    evaluatedInput = properties[propertyKey]
+                    break
+                default: 
+                    evaluatedInput = properties[propertyKey]
+                    break
+            }
+
+            validatedData[propertyKey] = evaluatedInput
+        })
+
+        return validatedData
+    }
+
+    /** is required validation */
+    isRequired = value => (value) ? undefined : "This field is required.";
 
     /** render view */
     render = () => {
         return (
             <Container fluid={true} className="align-self-center --iq-height-parent">
                 <Row className="--iq-height-parent">
-                    <Col xs="12" md="4" className="--iq-sticky-sidebar">
+                    <Col xs="12" md="3" className="--iq-sticky-sidebar">
                         <div className="--iq-sidebar-header">
-                            <span>Gewähltes Schema</span>
+                            <span>Selected schema</span>
+                        </div>
+                        <div className="--iq-sidebar-content">
                             <pre>
                                 <code className="language-json --iq-schema-display">
                                     {`${JSON.stringify(this.props.config.schema, null, 2)}`}
@@ -39,7 +89,102 @@ class SchemaInteractionComponent extends Component {
                             </pre>
                         </div>
                     </Col>
-                    <Col xs="12" md="8"></Col>
+                    <Col xs="12" md="6" className="--iq-interaction-content">
+                        <div className="mb-5">
+                            <div className="--iq-interaction-header">
+                                <span>Schema property inputs</span>
+                            </div>
+                            <div>
+                            <Col>
+                                <Form
+                                    onSubmit={this.onSubmit}
+                                    render={({ handleSubmit, form, submitting, pristine, values }) => (
+                                        <form  onSubmit={handleSubmit}>
+
+                                            {
+                                                Object.keys(this.props.config.schema.properties).map(propertyKey => {
+                                                    if(propertyKey !== 'md' && propertyKey !== 'blobRefs') {
+                                                        let property = this.props.config.schema.properties[propertyKey]
+                                                        
+                                                        let inputType = ""
+                                                        switch(this.props.config.schema.properties[propertyKey].type) {
+                                                            case 'integer':
+                                                                inputType = 'number'
+                                                            break
+                                                            case 'double':
+                                                                inputType = "number"
+                                                            break
+                                                            case 'string':
+                                                                inputType = "text"
+                                                            break
+                                                            case 'boolean':
+                                                                inputType = "checkbox"
+                                                            break
+                                                            default: inputType = "text"
+                                                        }
+
+                                                        return (
+                                                            <Row key={propertyKey} className="mb-3">
+                                                                <Col className="text-left">
+                                                                    <label>
+                                                                        <small>{(property.title !== undefined) ? property.title : propertyKey} (type: {property.type})</small>
+                                                                    </label>
+                                                                    <Field name={propertyKey} validate={(this.props.config.schema.required.indexOf(propertyKey) > -1) ? this.isRequired : undefined}>
+                                                                        {({input, meta}) => (
+                                                                            <Fragment>
+                                                                                <input {...input} className="form-control" type={inputType} placeholder={"Enter " + (property.title !== undefined) ? property.title : propertyKey} />
+                                                                                <small className="--iq-error-input">{meta.error && meta.touched && <span>*{meta.error}</span>}</small>
+                                                                            </Fragment>
+                                                                        )}
+                                                                    </Field>
+                                                                    {property.description !== undefined && <p class="mb-0">{property.description}</p>}
+                                                                </Col>
+                                                            </Row> 
+                                                        )
+                                                    }
+                                                })
+                                            }
+
+                                            <Button type="submit" disabled={submitting || pristine} className="--iq-btn purple mt-3">Add SDO</Button>
+                                        </form>
+                                    )}
+                                />
+                            </Col>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col xs="12" md="3" className="--iq-sticky-sidebar dark">
+                        <div className="--iq-sidebar-header">
+                            <span>Api Interaction</span>
+                        </div>
+                        <div className="mt-2 --iq-request-stack">
+                            {this.props.requestStack.map(request => {
+                                let badgeClass = (request.state === 'OK') ? "success" : "danger"
+                                return (
+                                    <div className="--iq-request">
+                                        <div class="--iq-request-title">
+                                            <span className="--iq-request-name">{request.name}</span>
+                                            <Badge className="--iq-request-status float-right d-block" color={badgeClass}>{request.state}</Badge>
+                                        </div>
+                                        <div class="--iq-request-content">
+                                            <small className="d-block">Response:</small>
+                                            {
+                                                ((request.state === 'OK')) 
+                                                ? 
+                                                    <pre>
+                                                        <code className="language-json">
+                                                            {`${JSON.stringify(request.value, null, 2)}`}
+                                                        </code>
+                                                    </pre>
+                                                : 
+                                                <span class="text-danger d-block">API Error: {request.value}</span>
+                                            }
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </Col>
                 </Row>
             </Container>
         )
@@ -49,12 +194,17 @@ class SchemaInteractionComponent extends Component {
 /** map states to prop */
 const mapStateToProps = (state) => {
     return {
-        config: state.config
+        config: state.config,
+        sdoList: state.sdoList,
+        currentError: state.currentError,
+        requestStack: state.requestStack
     }
 }
 
 /** dispatch props */
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    addSomeSdo
+}
 
 /** export application container */
-export const SchemaInteraction = connect(mapStateToProps, mapDispatchToProps)(SchemaInteractionComponent)
+export default SchemaInteraction = connect(mapStateToProps, mapDispatchToProps)(SchemaInteraction)

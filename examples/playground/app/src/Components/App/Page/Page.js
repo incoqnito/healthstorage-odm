@@ -4,8 +4,8 @@ import { Container, Row } from 'reactstrap';
 import { Route } from 'react-router-dom';
 
 /** import content */
-import { SelectSchema } from './SelectSchema/SelectSchema'
-import { SchemaInteraction } from './SchemaInteraction/SchemaInteraction'
+import SelectSchema from './SelectSchema/SelectSchema'
+import SchemaInteraction from './SchemaInteraction/SchemaInteraction'
 
 export default class Page extends Component {
     /** render view */

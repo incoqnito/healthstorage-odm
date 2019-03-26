@@ -8,7 +8,10 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
     z-index: 1000;
-    position: relative;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #FFFFFF;
     .--iq-app-logo {
         img {
             max-width: 150px;
@@ -63,6 +66,7 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     font-weight: 300;
     background-color: transparent !important;
+    cursor: pointer;
     &.pink {
         border: solid 2px #da1c5c;
         color: #da1c5c;
@@ -101,6 +105,18 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: rgba(0, 0, 0, 0.2) 0 3px 6px;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+    pre[class*="language-"]>code {
+        background-color: transparent !important;
+    }
+    pre[class*="language-"] {
+        background-color: transparent !important;
+        &:before {
+            display: none;
+        }
+        &:after {
+            display: none;
+        }
+    }
     .--iq-sidebar-header {
         padding: 15px;
         span {
@@ -111,9 +127,75 @@ h1, h2, h3, h4, h5, h6 {
             padding-bottom: 15px;
         }
     }
+    .--iq-sidebar-content {
+        padding: 0 15px 15px 15px;
+    }
+    &.dark {
+        box-shadow: none;
+        background: #2d2d2d;
+        .--iq-sidebar-header {
+            span {
+                color: #FFFFFF;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+        }
+    }
 }
+
+.--iq-interaction-content {
+    .--iq-interaction-header {
+        padding: 15px;
+        span {
+            display: block;
+            text-transform: uppercase;
+            font-weight: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 15px;
+        }
+    }
+    small {
+        opacity: 0.7;
+    }
+}
+
+.--iq-request-stack {
+    .--iq-request {
+        padding: 0 15px 15px 15px;
+        .--iq-request-title {
+            span {
+                color: #FFFFFF;
+            }
+        }
+        .--iq-request-content {
+            small {
+                color: #FFFFFF;
+            }
+            pre {
+                code {
+                    font-size: 10px !important;
+                    text-shadow: none;
+                    color: #ffffff;
+                }
+                &:before {
+                    display: none;
+                }
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
 
 .--iq-schema-display {
     font-size: 12px !important;
     padding: 10px !important;
+}
+
+
+pre[class*="language-"]>code {
+    border-left: 2px solid #da1c5c !important;
+    box-shadow: none !important;
+    background-image: none !important;
 }
