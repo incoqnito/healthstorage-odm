@@ -91,7 +91,7 @@ class EditModal extends Component {
                                     (this.props.config.schema.properties !== undefined) 
                                     ?
                                         Object.keys(this.props.config.schema.properties).map(propertyKey => {
-                                            if(propertyKey !== 'md' && propertyKey !== 'blobRefs') {
+                                            if(propertyKey !== 'md' && propertyKey !== 'blobRefs' && this.props.config.schema.properties[propertyKey].type !== 'array' && !Array.isArray(this.props.config.schema.properties[propertyKey].type)) {
                                                 let property = this.props.config.schema.properties[propertyKey]
                                                 
                                                 let inputType = ""

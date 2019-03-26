@@ -1,2 +1,14 @@
 node_modules
 .vscode
+config/api/btss/BlackTusk.Schemas.QMCms.DataUnitBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.TenantBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.DataUnitVersionBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.DocumentationUnitBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.DocumentationUnitVersionBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.FileBlobBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.PermissionBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.PermissionInObjectBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.ProjectUnitBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.RoleBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.RolesInObjectBTSS.json
+config/api/btss/BlackTusk.Schemas.QMCms.UserBTSS.json
