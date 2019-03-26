@@ -8,11 +8,18 @@ import { Form, Field } from 'react-final-form'
 /** redux */
 import { getSdosForSchema } from "./../../../../Redux/Actions/getSdosForSchema"
 import { addSomeSdo } from "./../../../../Redux/Actions/addSomeSdo"
+import { deleteSomeSdo } from "./../../../../Redux/Actions/deleteSomeSdo"
 
 import "prismjs/themes/prism.css"
 import "prismjs/themes/prism-coy.css"
 
 class SchemaInteraction extends Component {
+
+    /** constructor */
+    constructor(props) {
+        super(props)
+        this.onDeleteSdoItem = this.onDeleteSdoItem.bind(this)
+    }
 
     /** will mount */
     componentWillMount = () => {
@@ -73,6 +80,11 @@ class SchemaInteraction extends Component {
 
     /** is required validation */
     isRequired = value => (value) ? undefined : "This field is required.";
+
+    /** delete sdo item */
+    onDeleteSdoItem = (sdoModel) => {
+        this.props.deleteSomeSdo(sdoModel)
+    }
 
     /** render view */
     render = () => {
@@ -167,7 +179,10 @@ class SchemaInteraction extends Component {
                                             return (
                                                 <div className="--iq-sdo-stack-item">
                                                     <div className="--iq-sdo-stack-item-header">
-                                                        <span>{sdo.md.id} (Revision: {sdo.md.r})</span>
+                                                        <span>
+                                                            {sdo.md.id} (Revision: {sdo.md.r})
+                                                            <Button onClick={() => this.onDeleteSdoItem(sdo)} size="sm" className="d-block float-right" color="danger">Delete</Button>
+                                                        </span>
                                                     </div>
                                                     <div class="--iq-sdo-stack-item-content">
                                                         <Row>
@@ -254,7 +269,8 @@ const mapStateToProps = (state) => {
 /** dispatch props */
 const mapDispatchToProps = {
     getSdosForSchema,
-    addSomeSdo
+    addSomeSdo,
+    deleteSomeSdo
 }
 
 /** export application container */

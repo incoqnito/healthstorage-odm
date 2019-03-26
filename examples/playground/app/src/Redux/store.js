@@ -8,6 +8,8 @@ import { ADD_SOME_SDO_SUCCESS } from "./constants"
 import { ADD_SOME_SDO_FAILED } from "./constants"
 import { GET_SDOS_FOR_SCHEMA_SUCCESS } from "./constants"
 import { GET_SDOS_FOR_SCHEMA_FAILED } from "./constants"
+import { DELETE_SOME_SDO_SUCCESS } from "./constants"
+import { DELETE_SOME_SDO_FAILED } from "./constants"
 
 /** library */
 import { configSelectSchemaOwnerId } from "./Library/configSelectSchemaOwnerId"
@@ -15,6 +17,9 @@ import { addSomeSdo } from "./Library/addSomeSdo"
 import { failedSomeSdo } from "./Library/failedSomeSdo"
 import { getSdosForSchema } from "./Library/getSdosForSchema"
 import { failedSdosForSchema } from "./Library/failedSdosForSchema"
+import { deleteSomeSdo } from "./Library/deleteSomeSdo"
+import { failedDeleteSomeSdo } from "./Library/failedDeleteSomeSdo"
+
 
 /** create initial state */
 const initialState = {
@@ -42,6 +47,10 @@ const reduxReducer = (state = initialState, action) => {
             return getSdosForSchema(state, action.payload)
         case GET_SDOS_FOR_SCHEMA_FAILED:
             return failedSdosForSchema(state, action.payload)
+        case DELETE_SOME_SDO_SUCCESS:
+            return deleteSomeSdo(state, action.payload)
+        case DELETE_SOME_SDO_FAILED:
+            return failedDeleteSomeSdo(state, action.payload)
         default: return state
     }
 }

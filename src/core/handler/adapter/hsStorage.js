@@ -229,6 +229,7 @@ class HsStorage {
    * @issue API should return the deleted uuid after success
    */
   deleteSdo (opts) {
+    axios.defaults.headers.common = opts.requestOptions.headers
     return axios.delete(this.buildRequestUrl(opts.endpoint), opts.requestOptions)
       .then(response => (response.status === 204) ? opts.endpoint.routeParams.id : false)
       .catch(error => {
