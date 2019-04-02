@@ -41,7 +41,7 @@ module.exports = {
   devServer: {
     compress: true,
     clientLogLevel: 'none',
-    contentBase: './dist',
+    contentBase: './lib',
     overlay: true,
     hot: false,
     quiet: true,

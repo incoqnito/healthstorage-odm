@@ -5,7 +5,13 @@
   "main": "lib/healthStorage.js",
   "scripts": {
     "development": "forever --watchDirectory=./src index.js",
-    "build": "babel ./src --out-dir dist",
+    "build": "npm run rimraf && babel ./src --out-dir lib",
+    "watch": "npm run rimraf && babel ./src --out-dir lib --source-maps inline -w",
+    "rimraf": "rimraf lib && mkdir lib",
+    "prepublish": "npm run build",
+    "publish:patch": "npm version patch && npm publish",
+    "publish:minor": "npm version minor && npm publish",
+    "publish:major": "npm version major && npm publish",
     "test": "jest --verbose"
   },
   "repository": {
@@ -41,6 +47,7 @@
     "forever": "^0.15.3",
     "jest": "19.0.2",
     "jest-cli": "^23.6.0",
+    "rimraf": "^2.6.3",
     "run-func": "^1.0.2",
     "standard": "10.0.2"
   }

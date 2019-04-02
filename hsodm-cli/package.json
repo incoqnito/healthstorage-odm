@@ -4,9 +4,9 @@
   "description": "hsodm-cli package",
   "main": "src/index.js",
   "scripts": {
-    "build": "babel src --out-dir dist",
+    "build": "babel src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "hsodm-cli": "node dist/index.js"
+    "hsodm-cli": "node lib/index.js"
   },
   "author": "Maik",
   "license": "ISC",
