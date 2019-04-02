@@ -22,6 +22,7 @@ class SchemaInteraction extends Component {
     /** constructor */
     constructor(props) {
         super(props)
+        this.defaultInputTypes = ['string', 'number', 'boolean', 'date']
         this.onDeleteSdoItem = this.onDeleteSdoItem.bind(this)
     }
 
@@ -131,11 +132,24 @@ class SchemaInteraction extends Component {
                                                     (this.props.config.schema.properties !== undefined) 
                                                     ?
                                                         Object.keys(this.props.config.schema.properties).map(propertyKey => {
-                                                            if(propertyKey !== 'md' && propertyKey !== 'blobRefs' && this.props.config.schema.properties[propertyKey].type !== 'array' && !Array.isArray(this.props.config.schema.properties[propertyKey].type)) {
-                                                                let property = this.props.config.schema.properties[propertyKey]
-                                                                
+
+                                                            let propertyType = this.props.config.schema.properties[propertyKey].type
+
+                                                            if(propertyKey !== 'md' && propertyKey !== 'blobRefs' && propertyType !== 'array') {
                                                                 let inputType = ""
-                                                                switch(this.props.config.schema.properties[propertyKey].type) {
+
+                                                                let property = this.props.config.schema.properties[propertyKey]
+                                                                let propIsArray = Array.isArray(propertyType)
+
+                                                                if(propIsArray) {
+                                                                    let propertyTypeTmp = propertyType.map(type => {
+                                                                        let idx = this.defaultInputTypes.indexOf(type)
+                                                                        return (idx > -1) ? this.defaultInputTypes[idx] : false
+                                                                    }).filter(item => item !== false)[0]
+                                                                    propertyType = propertyTypeTmp
+                                                                }
+                                                                
+                                                                switch(propertyType) {
                                                                     case 'integer':
                                                                         inputType = 'number'
                                                                     break
@@ -155,7 +169,7 @@ class SchemaInteraction extends Component {
                                                                     <Row key={propertyKey} className="mb-3">
                                                                         <Col className="text-left">
                                                                             <label>
-                                                                                <small>{(property.title !== undefined) ? property.title : propertyKey} (type: {property.type})</small>
+                                                                                <small>{(property.title !== undefined) ? property.title : propertyKey} (type: {(Array.isArray(property.type) ? property.type.join(",") : property.type)})</small>
                                                                             </label>
                                                                             <Field name={propertyKey} validate={(this.props.config.schema.required.indexOf(propertyKey) > -1) ? this.isRequired : undefined}>
                                                                                 {({input, meta}) => (
@@ -165,7 +179,8 @@ class SchemaInteraction extends Component {
                                                                                     </Fragment>
                                                                                 )}
                                                                             </Field>
-                                                                            {property.description !== undefined && <p class="mb-0">{property.description}</p>}
+                                                                            {property.description !== undefined && <small class=" d-block mb-0 text-purple">Description: {property.description}</small>}
+                                                                            {property.$comment !== undefined && <small class="d-block mb-0 text-purple">Comment: {property.$comment}</small>}
                                                                         </Col>
                                                                     </Row> 
                                                                 )

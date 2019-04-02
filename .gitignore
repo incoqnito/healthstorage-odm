@@ -12,3 +12,4 @@ config/api/btss/BlackTusk.Schemas.QMCms.ProjectUnitBTSS.json
 config/api/btss/BlackTusk.Schemas.QMCms.RoleBTSS.json
 config/api/btss/BlackTusk.Schemas.QMCms.RolesInObjectBTSS.json
 config/api/btss/BlackTusk.Schemas.QMCms.UserBTSS.json
+docker/config/api/btss/QMCmsUserBTSS.json
