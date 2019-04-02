@@ -39,8 +39,7 @@ export const apiFuncLib = {
             'title': schema.schema.title,
             'options': {
                 'required': schema.schema.required,
-                'id': schema.schema.$id.replace('urn:btssid:',"").split("/").shift() || uuid(),
-                'oId': ownerId
+                'id': schema.schema.$id.replace('urn:btssid:',"").split("/").shift() || uuid()
             },
             'properties': schema.schema.properties
         }

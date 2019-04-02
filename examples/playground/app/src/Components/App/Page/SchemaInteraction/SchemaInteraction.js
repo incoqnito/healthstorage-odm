@@ -55,6 +55,7 @@ class SchemaInteraction extends Component {
         Object.keys(properties).forEach(propertyKey => {
 
             let propertyType = this.props.config.schema.properties[propertyKey].type
+            let formatType = (this.props.config.schema.properties[propertyKey].format !== undefined) ? this.props.config.schema.properties[propertyKey].format : false
             let evaluatedInput = ""
 
             switch(propertyType) {
@@ -70,6 +71,7 @@ class SchemaInteraction extends Component {
                     break
                 case "string": 
                     evaluatedInput = properties[propertyKey]
+                    if(formatType === "date-time")  evaluatedInput = new Date(Date.parse(properties[propertyKey])).toISOString()
                     break
                 default: 
                     evaluatedInput = properties[propertyKey]

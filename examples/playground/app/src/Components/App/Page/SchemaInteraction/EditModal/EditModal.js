@@ -126,6 +126,7 @@ class EditModal extends Component {
                                                                 )}
                                                             </Field>
                                                             {property.description !== undefined && <p class="mb-0">{property.description}</p>}
+                                                            {property.$comment !== undefined && <p class="mb-0">{property.$comment}</p>}
                                                         </Col>
                                                     </Row> 
                                                 )
