@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.apiFuncLib = void 0;
 
-var _healthStorage = _interopRequireDefault(require("./../../../dist/healthStorage"));
+var _healthStorage = _interopRequireDefault(require("./../../../lib/healthStorage"));
 
 var _inquirer = _interopRequireDefault(require("./inquirer"));
 
