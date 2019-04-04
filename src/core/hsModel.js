@@ -58,9 +58,12 @@ class HsModel {
    * @returns {Mixed}
    */
   returnModel (item) {
+    if(item.files !== undefined) delete item.files
+
     var model = new HsModel(item, this._unstored.debug)
     if(this._unstored.debug) HsDebugger.logConsole("HsModel.returnModel", model, true)
     model.HsAdapter = this.HsAdapter
+
     return model
   }
 

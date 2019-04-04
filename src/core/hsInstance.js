@@ -221,8 +221,8 @@ class HsInstance {
     if(data.files !== undefined && data.files.length > 0) files = data.files
     delete data.files
 
-    // return this.HsAdapter.validateSdo(data).then(validated => {
-    //   if (validated) {
+    return this.HsAdapter.validateSdo(data).then(validated => {
+      if (validated) {
         if(files === null) {
           return this.HsAdapter.createSdo(data).then(sdo => this.returnModel(sdo))
         } else {
@@ -234,8 +234,8 @@ class HsInstance {
             }
           ))
         }
-    //   }
-    // })
+      }
+    })
   }
 
   /**

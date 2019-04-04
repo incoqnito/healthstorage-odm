@@ -79,9 +79,15 @@ class SchemaInteraction extends Component {
                     break
             }
 
-            validatedData[propertyKey] = evaluatedInput
+            /** final form not supporting files */
+            if(propertyKey === 'blobRefs') {
+                let fileInput = document.getElementById("sdo-add-blobRefs")
+                validatedData['files'] = []
+                validatedData.files.push(fileInput.files[0])
+            } else {
+                validatedData[propertyKey] = evaluatedInput
+            }  
         })
-
         return validatedData
     }
 
@@ -126,7 +132,7 @@ class SchemaInteraction extends Component {
                                     <Form
                                         onSubmit={this.onSubmit}
                                         render={({ handleSubmit, form, submitting, pristine, values }) => (
-                                            <form  onSubmit={handleSubmit}>
+                                            <form enctype="multipart/form-data" onSubmit={handleSubmit}>
 
                                                 {
                                                     (this.props.config.schema.properties !== undefined) 
@@ -135,7 +141,7 @@ class SchemaInteraction extends Component {
 
                                                             let propertyType = this.props.config.schema.properties[propertyKey].type
 
-                                                            if(propertyKey !== 'md' && propertyKey !== 'blobRefs' && propertyType !== 'array') {
+                                                            if(propertyKey !== 'md') {
                                                                 let inputType = ""
 
                                                                 let property = this.props.config.schema.properties[propertyKey]
@@ -165,6 +171,8 @@ class SchemaInteraction extends Component {
                                                                     default: inputType = "text"
                                                                 }
 
+                                                                if(propertyKey === 'blobRefs') inputType = 'file'
+
                                                                 return (
                                                                     <Row key={propertyKey} className="mb-3">
                                                                         <Col className="text-left">
@@ -174,7 +182,7 @@ class SchemaInteraction extends Component {
                                                                             <Field name={propertyKey} validate={(this.props.config.schema.required.indexOf(propertyKey) > -1) ? this.isRequired : undefined}>
                                                                                 {({input, meta}) => (
                                                                                     <Fragment>
-                                                                                        <input {...input} className="form-control" type={inputType} placeholder={"Enter " + (property.title !== undefined) ? property.title : propertyKey} />
+                                                                                        <input {...input} className="form-control" type={inputType} id={"sdo-add-"+propertyKey} placeholder={"Enter " + (property.title !== undefined) ? property.title : propertyKey} />
                                                                                         <small className="--iq-error-input">{meta.error && meta.touched && <span>*{meta.error}</span>}</small>
                                                                                     </Fragment>
                                                                                 )}
@@ -216,9 +224,11 @@ class SchemaInteraction extends Component {
                                                                     <span className="d-block mb-2 text-pink">Sdo properties</span>
                                                                     {
                                                                         Object.keys(sdo._dataValues).map(dataKey => {
-                                                                            if(dataKey !== "md" && dataKey !== "blobRefs") {
+                                                                            if(dataKey !== "md") {
                                                                                 return (
-                                                                                    <span className="d-block">{dataKey}: {sdo._dataValues[dataKey]}</span>
+                                                                                    dataKey !== "blobRefs" 
+                                                                                    ? <span className="d-block">{dataKey}: {sdo._dataValues[dataKey]}</span>
+                                                                                    : <Button size="sm" className="d-block float-right ml-1" color="warning">File download</Button>
                                                                                 )
                                                                             }
                                                                         })

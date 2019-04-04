@@ -17,6 +17,7 @@ class EditModal extends Component {
     /** constructor */
     constructor(props) {
         super(props)
+        this.defaultInputTypes = ['string', 'number', 'boolean', 'date']
     }
 
     /** is required validation */
@@ -91,11 +92,23 @@ class EditModal extends Component {
                                     (this.props.config.schema.properties !== undefined) 
                                     ?
                                         Object.keys(this.props.config.schema.properties).map(propertyKey => {
-                                            if(propertyKey !== 'md' && propertyKey !== 'blobRefs' && this.props.config.schema.properties[propertyKey].type !== 'array' && !Array.isArray(this.props.config.schema.properties[propertyKey].type)) {
-                                                let property = this.props.config.schema.properties[propertyKey]
-                                                
+                                            if(propertyKey !== 'md' && propertyKey !== 'blobRefs' && this.props.config.schema.properties[propertyKey].type !== 'array') {
                                                 let inputType = ""
-                                                switch(this.props.config.schema.properties[propertyKey].type) {
+
+                                                let property = this.props.config.schema.properties[propertyKey]
+                                                let propertyType = this.props.config.schema.properties[propertyKey].type
+
+                                                let propIsArray = Array.isArray(propertyType)
+
+                                                if(propIsArray) {
+                                                    let propertyTypeTmp = propertyType.map(type => {
+                                                        let idx = this.defaultInputTypes.indexOf(type)
+                                                        return (idx > -1) ? this.defaultInputTypes[idx] : false
+                                                    }).filter(item => item !== false)[0]
+                                                    propertyType = propertyTypeTmp
+                                                }
+
+                                                switch(propertyType) {
                                                     case 'integer':
                                                         inputType = 'number'
                                                     break
@@ -125,8 +138,8 @@ class EditModal extends Component {
                                                                     </Fragment>
                                                                 )}
                                                             </Field>
-                                                            {property.description !== undefined && <p class="mb-0">{property.description}</p>}
-                                                            {property.$comment !== undefined && <p class="mb-0">{property.$comment}</p>}
+                                                            {property.description !== undefined && <small class=" d-block mb-0 text-purple">Description: {property.description}</small>}
+                                                            {property.$comment !== undefined && <small class="d-block mb-0 text-purple">Comment: {property.$comment}</small>}
                                                         </Col>
                                                     </Row> 
                                                 )

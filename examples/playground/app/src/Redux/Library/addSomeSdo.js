@@ -3,6 +3,8 @@ export const addSomeSdo = (state, payload) => {
 
     state.sdoList.unshift(payload.sdoModel)
 
+    console.log(payload.sdoModel)
+    
     state.requestStack.unshift({
         name: 'Add Sdo',
         state: 'OK',
