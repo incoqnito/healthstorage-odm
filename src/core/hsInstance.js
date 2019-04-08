@@ -161,9 +161,19 @@ class HsInstance {
    * Get sdo by where
    * @param {String} id
    * @returns {Promise}
+   * @issue filters not working on, currently implemented by find all and custom search
    */
   findOne (where) {
-    console.log('Will search sdos for given where')
+    return this.findAll()
+      .then(sdos => {
+        let matchedEntries = []
+        sdos.list.forEach(sdo => {
+          Object.keys(where).forEach(key => {
+            if(sdo[key] === where[key]) matchedEntries.push(sdo)
+          })
+        })
+        return (matchedEntries[0] !== undefined) ? matchedEntries[0] : false
+      })
   }
 
   /**

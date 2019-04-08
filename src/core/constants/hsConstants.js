@@ -5,6 +5,7 @@ export const STRING = "string"
 export const NUMBER = "number"
 export const INTEGER = "integer"
 export const BOOLEAN = "boolean"
+export const DATE = "date"
 export const OBJECT = "object"
 export const ARRAY = "array"
 export const DOUBLE = "double"
@@ -142,4 +143,25 @@ export const BTSS_PREFIX = 'urn:btssid:'
 export const PROXY = {
   'host': "127.0.0.1",
   'post': 8080
+}
+
+/**
+ * FilterRequest
+ */
+export const FILTER_REQUEST = {
+  'take': 0,
+  'skip': 0,
+  'sort': [{
+      'field': 'string',
+      'dir': 'string'
+  }],
+  'filter': {
+    'field': 'string',
+    'operator': 'string',
+    'value': {},
+    'logic': 'string',
+    'filters': [
+      null
+    ]
+  }
 }

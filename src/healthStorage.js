@@ -15,6 +15,8 @@ import { BOOLEAN } from "./core/constants/hsConstants"
 import { OBJECT } from "./core/constants/hsConstants"
 /** Array type */
 import { ARRAY } from "./core/constants/hsConstants"
+/** Array type */
+import { DATE } from "./core/constants/hsConstants"
 
 /** Adapter */
 import { HS_STORAGE_ADAPTER } from "./core/constants/hsConstants"
@@ -78,6 +80,14 @@ class HealthStorageODM {
    */
   static get ARRAY () {
     return ARRAY
+  }
+
+  /**
+   * Get date type
+   * @return {String} DATE
+   */
+  static get DATE () {
+    return DATE
   }
 
   /**

@@ -289,14 +289,12 @@ class HsAdapter {
     }
   }
 
-  
-
   /**
    * Get sdo by id oder where
    * @param {Object} opts
    */
   getSdo (opts) {
-    if (opts.id !== undefined) {
+    if (opts.id !== undefined && opts.filter !== undefined) {
       return this.adapter.getSdo({
         ...this.REQUEST_DATA,
         ...{
@@ -311,7 +309,19 @@ class HsAdapter {
         }
       })
     } else {
-      // Todo implement filter
+      return this.adapter.getSdo({
+        ...this.REQUEST_DATA,
+        ...{
+          'endpoint': {
+            'method': this.GET,
+            'type': 'sdo',
+            'action': 'single',
+            'routeParams': {
+              'id': opts.id
+            }
+          }
+        }
+      })
     }
   }
 
