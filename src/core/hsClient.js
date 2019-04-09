@@ -1,5 +1,7 @@
 /** Import modules */
-import HsInstance from "./hsInstance"
+import HsModel from "./hsModel"
+import HsSchema from "./handler/hsSchema"
+import HsAdapter from "./handler/hsAdapter"
 
 /** Export module */
 class HsClient {
@@ -17,8 +19,8 @@ class HsClient {
    * @returns {Instance} hsInstance
    */
   define (opts) {
-    opts.client = this.client
-    return new HsInstance(opts)
+    HsModel.instance(new HsSchema(opts), new HsAdapter(this.client))
+    return HsModel
   }
 }
 

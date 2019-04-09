@@ -1,5 +1,3 @@
-import axios from 'axios-https-proxy-fix'; 
-
 /** Import adapter */
 import HsStorage from "./adapter/hsStorage"
 

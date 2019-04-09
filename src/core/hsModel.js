@@ -1,217 +1,143 @@
-/** Constants */
-import { ASSIGN_TO_CLASS } from "./constants/hsConstants"
+/** Get constants */
+import { ASC } from "./constants/hsConstants"
+import { DESC } from "./constants/hsConstants"
+import { MD_ID } from "./constants/hsConstants"
+import { MD_REVISION } from "./constants/hsConstants"
+import { MD_DATE } from "./constants/hsConstants"
 
-/** Class */
-import HsDebugger from "./lib/hsDebugger"
-
-/** Export module */
-class HsModel {
-  /**
-   * Construct
-   * @param {Object} opts instance object
-   */
-  constructor (opts, debug) {
-    if (opts === undefined) throw new Error('No options provided for HsModel')
-    this._dataValues = {}
-    this._unstored = {}
-    this._unstored.debug = debug || false
-    this.initProperties(opts)
-  }
-
-  /**
-   * Get assign to class properties
-   * @returns {Array}
-   */
-  get ASSIGN_TO_CLASS () {
-    return ASSIGN_TO_CLASS
-  }
-
-  /**
-   * Init properties of instance
-   * @param {Object} properties instance properties
-   */
-  initProperties (properties) {
-    for (let field in properties) {
-      if (this.ASSIGN_TO_CLASS.indexOf(field) <= -1) {
-        this._dataValues[field] = properties[field]
-      } else {
-        this[field] = properties[field]
-      }
+export default class HsModel {
+    
+    /**
+     * Constructor
+     * @param {Object} schema 
+     * @param {Object} opts 
+     */
+    constructor(opts) {
+        this._props = {}
+        this.initProperties(opts)
     }
 
-    for (let key in this._dataValues) {
-      Object.defineProperty(this, key, {
-        get: function () { return this._dataValues[key] },
-        set: function (value) {
-          if (this._dataValues[key] !== value) {
-            this.setRevision()
-            this._dataValues[key] = value
-          }
+    /**
+     * Get sort asc type
+     * @return {String} ASC
+     */
+    static get ASC () {
+        return ASC
+    }
+
+    /**
+     * Get sort desc type
+     * @return {String} DESC
+     */
+    static get DESC () {
+        return DESC
+    }
+
+    /**
+     * Get meta id type
+     * @return {String} MD_ID
+     */
+    static get MD_ID () {
+        return MD_ID
+    }
+
+    /**
+     * Get meta revision type
+     * @return {String} MD_REVISION
+     */
+    static get MD_REVISION () {
+        return MD_REVISION
+    }
+
+    /**
+     * Get meta date type
+     * @return {String} MD_DATE
+     */
+    static get MD_DATE () {
+        return MD_DATE
+    }
+
+    /**
+     * Create new instance of model with given schema
+     * @param {Object} schema 
+     */
+    static instance(schema, adapter) {
+        this.HsSchema = schema
+        this.HsAdapter = adapter
+    }
+
+    /**
+     * Get all sdos from owner and schema
+     * @param {Object} data
+     * @returns {Promise}
+     */
+    static findAll(options) {
+        return HsModel.HsAdapter.getSdos(HsModel.HsSchema.props.oId, HsModel.HsSchema.props.id, options).then(response => {
+            var list = response.body.map(sdo => new HsModel(sdo))
+            return {
+              list: list,
+              headers: response.headers
+            }
+        })
+    }
+    
+    /**
+     * Get sdo by where
+     * @param {String} id
+     * @returns {Promise}
+     * @issue filters not working on, currently implemented by find all and custom search
+     */
+    static findOne(where) {
+        if(where === undefined) return Promise.resolve({})   
+        return this.findAll()
+            .then(sdos => {
+                let matchedEntries = []
+                sdos.list.forEach(models => {
+                    Object.keys(where).forEach(key => {
+                        if(models[key] === where[key]) matchedEntries.push(models)
+                    })
+                })
+                return (matchedEntries[0] !== undefined) ? matchedEntries[0] : false
+            })
+    }
+
+    /**
+     * Create a new sdo for given schema
+     * @param {Object} data
+     * @returns {Promise}
+     * @issue API not returns created object, workaround implemented for sdo and sdoBlob
+     */
+    create (props) {
+        let propsForSdo = Object.assign(props, {md: HsModel.HsSchema.generateMd()})
+        return HsModel.HsAdapter.validateSdo(propsForSdo).then(validated => {
+            if (validated) {
+                return HsModel.HsAdapter.createSdo(propsForSdo).then(sdo => new HsModel(sdo))
+            }
+        })
+    }
+
+    /**
+     * Init props of instance
+     * @param {Object} props
+     */
+    initProperties (props) {
+        this._props = props
+        for (let key in this._props) {
+            Object.defineProperty(this, key, {
+                get: function () { return this._props[key] },
+                set: function (value) {
+                    if (this._props[key] !== value) {
+                        this._props[key] = value
+                    }
+                }
+            })
         }
-      })
     }
-  }
 
-  /**
-   * Return extended model
-   * @param {Object} item
-   * @returns {Mixed}
-   */
-  returnModel (item) {
-    if(item.files !== undefined) delete item.files
-
-    var model = new HsModel(item, this._unstored.debug)
-    if(this._unstored.debug) HsDebugger.logConsole("HsModel.returnModel", model, true)
-    model.HsAdapter = this.HsAdapter
-
-    return model
-  }
-
-  /**
-   * Save data of instance manually
-   * @param {Object} client client object
-   * @returns {Instance} HS_ADAPTER
-   */
-  save () {
-    return this.update()
-  }
-
-  /**
-   * Check if sdo changed since
-   * @returns {Promise}
-   */
-  changedSince () {
-    return this.HsAdapter.sdoHasChanged(this._dataValues.md.id, this._dataValues.md.r).then(changedSince => {
-      if(this._unstored.debug) HsDebugger.logConsole("HsModel.changedSince", changedSince, true)
-      return changedSince
-    })
-  }
-
-  /**
-   * Update instance data
-   * @returns {Instance} HsModel
-   */
-  update () {
-    this.md.r += 1
-
-    if(this._unstored.debug) HsDebugger.logConsole("HsModel.update", this, true)
-
-    if(this._dataValues.blobRefs === undefined) {
-      return this.HsAdapter.editSdo(this._dataValues).then(sdo => this.returnModel(sdo))
-    } else {
-      return this.HsAdapter.editSdoBlob(this._dataValues).then(sdo => this.returnModel(sdo))
+    /**
+     * Save created model with its properties
+     */
+    save() {
+        return this.create(this._props)
     }
-  }
-
-  /**
-   * Lock sdo object
-   * @returns {Object}
-   */
-  lock () {
-    return this.HsAdapter.lockItem(this._dataValues.md.id).then(lockValue => {
-
-      if(this._unstored.debug) HsDebugger.logConsole("HsModel.lock", lockValue, true)
-
-      this.lockValue = lockValue
-      return this.returnModel(this._dataValues)
-    })
-  }
-
-  /**
-   * Unlock sdo object
-   * @returns {Object}
-   */
-  unlock () {
-    return this.HsAdapter.unlockItem(this._dataValues.md.id, this.lockValue.value).then(response => {
-
-      if(this._unstored.debug) HsDebugger.logConsole("HsModel.unlock", response, true)
-
-      if (response) this.lockValue = null
-      return this.returnModel(this._dataValues)
-    })
-  }
-
-  /**
-   * Get locked
-   * @returns {Object}
-   */
-  getLock () {
-    return this.HsAdapter.getLockData(this.md.id, this.lockValue.value).then(response => {
-      if(this._unstored.debug) HsDebugger.logConsole("HsModel.getLock", response, true)
-      return response
-    })
-  }
-
-  /**
-   * Check is locked sdo object
-   * @returns {Object}
-   */
-  isLocked () {
-    if (this.lockValue !== undefined && this.lockValue !== null) {
-      return this.HsAdapter.isLockedItem(this.md.id, this.lockValue.value).then(response => {
-        if(this._unstored.debug) HsDebugger.logConsole("HsModel.isLocked", response, true)
-        return response
-      })
-    } else {
-      return false
-    }
-  }
-
-  /**
-   * Check sdo exists with lock state
-   * @returns {Object}
-   */
-  existInLockState (lockState = true) {
-    return this.HsAdapter.existInLockState(this.md.id, lockState).then(response => {
-      if(this._unstored.debug) HsDebugger.logConsole("HsModel.existInLockState", response, true)
-      return response
-    })
-  }
-
-  /**
-   * Destroy instance
-   * @returns {Object} object
-   */
-  destroy () {
-    return this.HsAdapter.deleteSdo(this.md.id).then(deletedSdo => {
-      if(this._unstored.debug) HsDebugger.logConsole("HsModel.destroy", deletedSdo, true)
-      return deletedSdo
-    })
-  }
-
-  /**
-   * Create local revision for object
-   */
-  setRevision () {
-    if (this.revision === undefined) this.revision = {}
-
-    var timestamp = new Date().getTime()
-    var copyFromThis = Object.assign({}, this._dataValues)
-
-    this.revision[timestamp] = copyFromThis
-  }
-
-  /**
-   * Get archive for sdo
-   */
-  getArchive (pageNo = 1, pageSize = 100) {
-    return this.HsAdapter.getSdoArchive(this.md.id, pageNo, pageSize)
-  }
-
-  /**
-   * Get archived revision numbers for sdo
-   */
-  getArchiveRevisionNumbers () {
-    return this.HsAdapter.getSdoRevisionsArchive(this.md.id)
-  }
-
-  /**
-   * Get blob file
-   * @info currently only one file supported
-   */
-  getBlobFile() {
-    return this.HsAdapter.getSdoBlobFile({id: this.md.id, blobId: this.blobRefs[0]})
-  }
 }
-
-export default HsModel

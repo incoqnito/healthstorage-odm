@@ -1,6 +1,6 @@
 
 /** Import modules */
-import HsModel from './hsModel'
+import HsModel from './_hsModel'
 import HsBlob from './hsBlob'
 import HsAdapter from "./handler/hsAdapter"
 import HsSchema from "./handler/hsSchema"
@@ -14,6 +14,7 @@ import { MD_REVISION } from "./constants/hsConstants"
 import { MD_DATE } from "./constants/hsConstants"
 
 class HsInstance {
+  
   /**
    * Construct
    * @param {Object} opts instance object
@@ -137,7 +138,7 @@ class HsInstance {
    * @param {Object} data
    * @returns {Promise}
    */
-  findAll (options) {
+  static findAll (options) {
     return this.HsAdapter.getSdos(this.HsSchema.props.oId, this.HsSchema.props.id, options).then(response => {
       var list = []
       
@@ -164,7 +165,7 @@ class HsInstance {
    * @issue filters not working on, currently implemented by find all and custom search
    */
   findOne (where) {
-    return this.findAll()
+    return this.constructor.findAll()
       .then(sdos => {
         let matchedEntries = []
         sdos.list.forEach(sdo => {
