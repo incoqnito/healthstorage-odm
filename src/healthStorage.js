@@ -1,29 +1,14 @@
 /** Import HsInstance */
-import HsClient from "./core/hsClient"
-import HsSchema from "./core/handler/hsSchema"
-import HsAdapter from "./core/handler/hsAdapter"
+import HsClient from './core/hsClient'
+import HsSchema from './core/handler/hsSchema'
+import HsAdapter from './core/handler/hsAdapter'
 
-/** String type */
-import { STRING } from "./core/constants/hsConstants"
-/** Number type */
-import { NUMBER } from "./core/constants/hsConstants"
-/** Integer type */
-import { INTEGER } from "./core/constants/hsConstants"
-/** Boolean type */
-import { BOOLEAN } from "./core/constants/hsConstants"
-/** Object type */
-import { OBJECT } from "./core/constants/hsConstants"
-/** Array type */
-import { ARRAY } from "./core/constants/hsConstants"
-/** Array type */
-import { DATE } from "./core/constants/hsConstants"
-
-/** Adapter */
-import { HS_STORAGE_ADAPTER } from "./core/constants/hsConstants"
-import { HS_SQL_ADAPTER } from "./core/constants/hsConstants"
-
-/** Local server url fallback */
-import { CLIENT } from "./core/constants/hsConstants"
+/** constants */
+import {
+  STRING, NUMBER, INTEGER, BOOLEAN, OBJECT, ARRAY, DATE,
+  HS_STORAGE_ADAPTER, HS_SQL_ADAPTER,
+  CLIENT
+} from './core/constants/hsConstants'
 
 class HealthStorageODM {
   /**
@@ -131,7 +116,7 @@ class HealthStorageODM {
    * @param {Object} client
    * @return {Mixed}
    */
-  static getSchema(opts, client = {}) {
+  static getSchema (opts, client = {}) {
     let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
     return adapter.getSchema(opts.id)
   }
@@ -143,7 +128,7 @@ class HealthStorageODM {
    * @return {Mixed}
    * @info getSchemas Api Endpoint unknown format of concat ids
    */
-  static getSchemas(opts, client) {
+  static getSchemas (opts, client) {
     let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
     return opts.ids.map(schemaId => {
       return adapter.getSchema(schemaId)
@@ -157,7 +142,7 @@ class HealthStorageODM {
    * @param {Object} client
    * @return {Mixed}
    */
-  static createSchema(opts, client) {
+  static createSchema (opts, client) {
     let schema = new HsSchema(opts)
     let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
     return adapter.createSchema(schema.schema)
@@ -169,7 +154,7 @@ class HealthStorageODM {
    * @param {Object} client
    * @return {Mixed}
    */
-  static deleteSchema(id, client) {
+  static deleteSchema (id, client) {
     let adapter = new HsAdapter(Object.assign({}, this.CLIENT, client))
     return adapter.deleteSchema(id)
   }
