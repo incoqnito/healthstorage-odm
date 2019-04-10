@@ -18,8 +18,8 @@ class HsClient {
    * @param {Object} opts define object
    * @returns {Instance} hsInstance
    */
-  define (opts) {
-    HsModel.instance(new HsSchema(opts), new HsAdapter(this.client))
+  define (identifier, opts) {
+    HsModel.instance(new HsSchema(opts), new HsAdapter(this.client), identifier)
     return HsModel
   }
 }

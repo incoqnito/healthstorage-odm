@@ -61,9 +61,10 @@ export default class HsModel {
      * Create new instance of model with given schema
      * @param {Object} schema 
      */
-    static instance(schema, adapter) {
+    static instance(schema, adapter, identifier) {
         this.HsSchema = schema
         this.HsAdapter = adapter
+        this.HsIdentifier = identifier
     }
 
     /**
@@ -71,13 +72,9 @@ export default class HsModel {
      * @param {Object} data
      * @returns {Promise}
      */
-    static findAll(options) {
+    static find(options) {
         return HsModel.HsAdapter.getSdos(HsModel.HsSchema.props.oId, HsModel.HsSchema.props.id, options).then(response => {
-            var list = response.body.map(sdo => new HsModel(sdo))
-            return {
-              list: list,
-              headers: response.headers
-            }
+            return response.body.map(sdo => new HsModel(sdo))
         })
     }
 
@@ -102,10 +99,10 @@ export default class HsModel {
      */
     static findOne(where) {
         if(where === undefined) return Promise.resolve({})   
-        return this.findAll()
+        return this.find()
             .then(sdos => {
                 let matchedEntries = []
-                sdos.list.forEach(model => {
+                sdos.forEach(model => {
                     Object.keys(where).forEach(key => {
                         if(model[key] === where[key]) matchedEntries.push(model)
                     })
@@ -370,16 +367,12 @@ export default class HsModel {
      */
     initProperties (props) {
         this._props = props
+
+        if(props.md !== undefined && props.md.id !== undefined) this['_id'] = props.md.id
+        if(props.md !== undefined && props.md.r !== undefined) this['__v'] = props.md.r
+
         for (let key in this._props) {
-            Object.defineProperty(this, key, {
-                get: function () { return this._props[key] },
-                set: function (value) {
-                    if (this._props[key] !== value) {
-                        this.setRevision()
-                        this._props[key] = value
-                    }
-                }
-            })
+            this[key] = props[key]
         }
     }
 
