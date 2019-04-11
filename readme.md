@@ -40,14 +40,14 @@ If there are no parameters set, it will take http://localhost:8080 as a default 
 
 The created client returns an instance for further use.
 
-### Defining a HsInstance
+### Defining a instance of HsModel
 
-Defining a HsInstance is realized by calling the define function from created Hsclient. It returns an instance of HsInstance which holds the api functionallity.
+Defining an instace of HsModel is realized by calling the define function from created Hsclient. It returns an instance of HsInstance which holds the api functionallity.
 
 Example:
 ```ts
 // Create a HsInstance with schema data
-const sampleSchema = CLIENT.define({
+const veryNiceSchema = {
   title: 'SomeSchema',
   properties: {
     title: {
@@ -71,25 +71,22 @@ const sampleSchema = CLIENT.define({
     oId: '1a8a1956-fde7-486f-91b8-ce9a3d9b4be1', // uuid
     id: '5cc6ae3e-bf8f-4be5-b6fb-5de55ca9fd8a' // uuid
   }
-})
+}
+
+const veryNiceModel = CLIENT.define('veryNiceIdentifier', veryNiceSchema)
 ```
 
 ### HsModel
 
-A HsModel is always used for a single item returned in list, create, update etc. It holds the single item information and function to update, lock, delete itself. The properties are dynamically assigned as getter/setter and stored additionally in the _dataValues property of the model.
+The HsModel holds all functionallity of the HS Api. You can use the static function for direct calls like find, findeById etc. or the build in model binded functions by createing a model like save, update, destroy etc. 
 
 ```ts
   // Simple example of HsModel
   HsModel = {
     HsAdapter: HsAdapter {client: {…}},
-    _dataValues: {
-      id: "", //uuid
-      title: "SampleTitle", 
-      isCompleted: false, 
-      blobRefs: […]
-      md: {…}
-    },
-    id: (...),
+    HsSchema: HsSchema {schema: {…}}
+    _id: (...), // reference from md.id
+    __v: (...), // reference from md.r
     isCompleted: (...),
     lockValue: (...),
     md: (...),
@@ -105,7 +102,7 @@ A HsModel is always used for a single item returned in list, create, update etc.
   }
 ```
 
-### HsInstance / HealthStorageODM Functions
+### HsModel / HealthStorageODM Functions
 
 #### Ereaser (during development)
 
@@ -168,8 +165,11 @@ Info: the HS API throws 500er on filter use
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+
   // Calling findAll
-  await CLIENT.findAll({
+  await MODEL.findAll({
       orderBy: CLIENT.MD_DATE, // Ordering by provieded meta field tsp
       orderByDirection: CLIENT.ASC, // Sortorder ASC or DESC
       from: "", // ISO-Date string from date
@@ -187,8 +187,11 @@ Finds an entry by its identifier.
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+
   // Calling findById
-  CLIENT.findById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
+  MODEL.findById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
 ```
 
 ##### findOne(where)
@@ -205,11 +208,19 @@ Creates new sdo in database.
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+  
   // Calling create
-  CLIENT.create({
+  MODEL.create({
     title: 'Title',
     isCompleted: false
   })
+
+  // OOORRR
+
+  const newModel = new MODEL({...attrs})
+  newModel.save()
 ```
 
 ##### changedSince(id, r)
@@ -220,11 +231,14 @@ Checks if an item was changed since specified.
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling from HsInstance
-  CLIENT.changedSince('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', 1) // id, revision
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
 
-  // Calling from HsModel
-  model.changedSince()
+  // Calling static
+  MODEL.changedSinceByIdAndRevision('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', 1) // id, revision
+
+  // Calling from model
+  MODEL.changedSince()
 ```
 
 ##### updateById(id)
@@ -235,14 +249,17 @@ Updates an item by its identifier.
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling update from HsInstance
-  CLIENT.update('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', {
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+
+  // Calling update static
+  MODEL.update({
     title: 'New title',
     isCompleted: true 
-  }) // id, new data
+  }) // new data
 
-  // Calling from HsModel
-  model.update()
+  // Calling from model
+  MODEL.update()
 ```
 
 ##### update(where, data)
@@ -283,14 +300,12 @@ Create lock value for item.
 Removes a lock value for item.
 
 ```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
+   c
+  // Calling static
+  MODEL.unlockById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
 
-  // Calling from HsInstance
-  CLIENT.unlockById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
-
-  // Calling from HsModel
-  model.unlock()
+  // Calling from model
+  MOEDEL.unlock()
 ```
 
 ##### getLockById(id, lockValue)
@@ -316,11 +331,14 @@ Check if item is locked by identifier.
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling from HsInstance
-  CLIENT.isLockedById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+  
+  // Calling static
+  MODEL.isLockedById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
 
-  // Calling from HsModel
-  model.isLocked()
+  // Calling from model
+  MODEL.isLocked()
 ```
 
 ##### isLockState(id, lockState)
@@ -331,11 +349,14 @@ Check if item exists in lock state by identifier.
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling from HsInstance
-  CLIENT.isLockStateById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+  
+  // Calling static
+  MODEL.isLockStateById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
 
-  // Calling from HsModel
-  model.isLockState()
+  // Calling from model
+  MODEL.isLockState()
 ```
 
 #### Sdo Blobs
@@ -348,14 +369,21 @@ This function is part of the ```ts HsInstance.create``` function. When a files f
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling from HsInstance
-  CLIENT.create(opts) {
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+  
+  // Calling static
+  MODEL.create(opts) {
     if(data.files === undefined && data.files.length <= 0) {
       // create sdo
     } else {
       // create sdo blob
     }
   }
+
+  // Calling from model
+  const newModel = new HsModel({...attrs})
+  newModel.save()
 ```
 
 ##### findBlobById(id)
@@ -366,20 +394,29 @@ Returns a complete sdoBlob object from the server. It is a multipart/form-data a
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling from HsInstance
-  CLIENT.findBlobById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+
+  // Calling static
+  MODEL.findBlobById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
+
+  // Calling from model
+  MODEL.getFile()
 ```
 
-##### updateSdoBlob(opts)
+##### getSdoBlobFile(opts)
 
-This function is part of the ```ts HsInstance.update``` function. When a blobRef field is present in the passed sdo object the ```ts HsInstance.update``` calls ```ts editSdoBlob(opts)```. An updated HsModel returned.
+This function is part of the ```ts HsModel.update``` function. When a blobRef field is present in the passed sdo object the ```ts HsModel.update``` calls ```ts editSdoBlob(opts)```. An updated HsModel returned.
 
 ```ts
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling from HsInstance
-  CLIENT.update(opts) {
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+
+  // Calling static
+  MODEL.update(opts) {
     if(data.files === undefined && data.files.length <= 0) {
       // create sdo
     } else {
@@ -388,22 +425,7 @@ This function is part of the ```ts HsInstance.update``` function. When a blobRef
   }
 
   // calling from model 
-  model.update() // same procedure but looking for blobRef
-```
-
-##### getSdoBlobFile(id, blobId)
-
-Returns the uploaded blob from sdo blob
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Calling from HsInstance (sdoId, blobId)
-  CLIENT.getSdoBlobFile('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '5ea6caed-5c0c-4dd2-b46b-709ed0f2618a') { }
-
-  // calling from model 
-  model.getBlobFile()
+  MODEL.update()
 ```
 
 #### Sdo Collections
@@ -422,11 +444,14 @@ Updates a given sdo list (bulk operation)
   // Define client...
   const CLIENT = HealthStorageODM.createClient() // no options using local address
 
-  // Calling from HsInstance
-  CLIENT.bulkUpdate(bulkList)
+  // Define Model
+  const MODEL = CLIENT.define("Identfier", SomeSchema)
+
+  // Calling static
+  MODEL.bulkUpdate(bulkList)
 ```
 
-## HsDebugger
+## HsDebugger (under construction)
 
 The HsDebugger is buil at instance creation. It can be accessed by e.g. ```ts CLIENT.HsDebugger```. It brings up some debug functions.
 
