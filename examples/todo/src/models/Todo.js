@@ -4,7 +4,7 @@ var client = new HealthStorageODM({
   debug: true
 })
 
-export default client.define({
+const TodoSchema = {
   title: 'TodoSchema',
   properties: {
     title: {
@@ -23,4 +23,6 @@ export default client.define({
     oId: '82897c48-92f8-4a7f-4550-929e8b12356c',
     r: 1
   }
-})
+};
+
+export default client.define('todos', TodoSchema)

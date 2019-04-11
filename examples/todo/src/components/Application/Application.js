@@ -76,7 +76,7 @@ export class Application extends React.Component {
    * Async mount
    */
   componentDidMount() {
-    Todo.findAll({
+    Todo.find({
       orderBy: this.state.orderBy,
       orderByDirection: this.state.orderByDirection,
       from: this.state.startDate.toISOString().slice(0, 10).replace(/-/g, '-'),
@@ -85,7 +85,7 @@ export class Application extends React.Component {
     })
       .then(todos => {
         this.setState({
-          todos: todos.list
+          todos: todos
         })
       })
       .catch(error => this.toggleErrorAlert(error))
@@ -95,7 +95,7 @@ export class Application extends React.Component {
    * Refetch
    */
   refetchTodos() {
-    Todo.findAll({
+    Todo.find({
       orderBy: this.state.orderBy,
       orderByDirection: this.state.orderByDirection,
       from: this.state.startDate.toISOString().slice(0, 10).replace(/-/g, '-'),
@@ -104,7 +104,7 @@ export class Application extends React.Component {
     })
       .then(todos => {
         this.setState({
-          todos: todos.list
+          todos: todos
         })
       })
       .catch(error => this.toggleErrorAlert(error))
@@ -141,19 +141,16 @@ export class Application extends React.Component {
    * @param {Object}
    */
   onAddTodo({ ...attrs }) {
-
     if(this.state.selectedFile) {
       attrs.files = [
         this.state.selectedFile
       ]
     }
 
-    Todo.create(attrs)
-      .then(todo => {
-        this.setState({
-          todos: [todo, ...this.state.todos]
-        })
-      })
+    const newTodo = new Todo(attrs)
+
+    newTodo.save()
+      .then(todo => this.setState({todos: [todo, ...this.state.todos]}))
       .catch(error => this.toggleErrorAlert(error))
   }
 
@@ -163,12 +160,8 @@ export class Application extends React.Component {
    */
   onToggleTodo(todo) {
     todo.isCompleted = todo.isCompleted === 0 ? 1 : 0
-    todo.update(todo)
-      .then(updatedTodo => {
-        this.setState({
-          todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo)
-        })
-      })
+    todo.update()
+      .then(updatedTodo => this.setState({todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo)}))
       .catch(error => this.toggleErrorAlert(error))
   }
 
@@ -177,13 +170,8 @@ export class Application extends React.Component {
    * @param {Object}
    */
   onEditTodo(todo) {
-    todo.save()
-      .then(updatedTodo => {
-        this.setState({
-          todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo),
-          editing: ''
-        })
-      })
+    todo.update()
+      .then(updatedTodo => this.setState({todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo), editing: ''}))
       .catch(error => this.toggleErrorAlert(error))
   }
 
@@ -193,11 +181,7 @@ export class Application extends React.Component {
    */
   onDeleteTodo(todo) {
     todo.destroy()
-      .then(() => {
-        this.setState({
-          todos: this.state.todos.filter(t => t.md.id !== todo.md.id)
-        })
-      })
+      .then(() => this.setState({todos: this.state.todos.filter(t => t.md.id !== todo.md.id)}))
       .catch(error => this.toggleErrorAlert(error))
   }
 

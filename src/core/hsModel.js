@@ -167,6 +167,7 @@ export default class HsModel {
      */
     static updateById (data) {
         data.md.r += 1
+        console.log(data)
         return HsModel.HsAdapter.validateSdo(data).then(validated => {
             if (validated) {
                 return HsModel.HsAdapter.editSdo(data).then(sdo => new HsModel(sdo))
@@ -200,7 +201,7 @@ export default class HsModel {
     static bulkUpdate (bulkList) {
         let collectedSods = bulkList.map(item => {
             item.md.r += 1
-            return item._dataValues
+            return item
         })
         return HsModel.HsAdapter.editSdosBulk(collectedSods).then(response => {
             return response
@@ -366,12 +367,10 @@ export default class HsModel {
      * @param {Object} props
      */
     initProperties (props) {
-        this._props = props
-
         if(props.md !== undefined && props.md.id !== undefined) this['_id'] = props.md.id
         if(props.md !== undefined && props.md.r !== undefined) this['__v'] = props.md.r
 
-        for (let key in this._props) {
+        for (let key in props) {
             this[key] = props[key]
         }
     }
@@ -381,7 +380,7 @@ export default class HsModel {
      * @return {Promise}
      */
     save() {
-        return HsModel.create(this._props)
+        return HsModel.create(this)
     }
 
     /**
@@ -389,7 +388,15 @@ export default class HsModel {
      * @return {Promise}
      */
     update() {
-        return HsModel.updateById(this.md.id, this._props)
+        return HsModel.updateById(this)
+    }
+
+    /**
+     * Delete model by identifier
+     * @return {Promise}
+     */
+    destroy() {
+        return HsModel.deleteById(this._id)
     }
 
     /**
@@ -397,7 +404,7 @@ export default class HsModel {
      * @return {Promise}
      */
     archive() {
-        return HsModel.archiveById(this.md.id)
+        return HsModel.archiveById(this._id)
     }
 
     /**
@@ -405,7 +412,7 @@ export default class HsModel {
      * @return {Promise}
      */
     getArchivedRevisions() {
-        return HsModel.getRevisionsArchiveBySdoId(this.md.id)
+        return HsModel.getRevisionsArchiveBySdoId(this._id)
     }
 
     /**
@@ -415,7 +422,7 @@ export default class HsModel {
      * @return {Promise}
      */
     getArchive(pageNo = 1, pageSize = 10) {
-        return HsModel.getArchiveBySdoId(this.md.id, pageNo, pageSize)
+        return HsModel.getArchiveBySdoId(this._id, pageNo, pageSize)
     }
 
     /**
@@ -423,7 +430,7 @@ export default class HsModel {
      * @return {Promise}
      */
     changedSince() {
-        return HsModel.changedSinceByIdAndRevision(this.md.id, this.md.r)
+        return HsModel.changedSinceByIdAndRevision(this._id, this.__v)
     }
 
     /**
@@ -431,7 +438,7 @@ export default class HsModel {
      * @return {Promise}
      */
     lock() {
-        return HsModel.lockById(this.md.id)
+        return HsModel.lockById(this._id)
     }
 
     /**
@@ -439,7 +446,7 @@ export default class HsModel {
      * @return {Promise}
      */
     unlock() {
-        return HsModel.unlockById(this.md.id)
+        return HsModel.unlockById(this._id)
     }
 
     /**
@@ -447,7 +454,7 @@ export default class HsModel {
      * @return {Promise}
      */
     getLockData() {
-        return HsModel.getLockDataById(this.md.id, this.lockValue.value)
+        return HsModel.getLockDataById(this._id, this.lockValue.value)
     }
 
     /**
@@ -455,7 +462,7 @@ export default class HsModel {
      * @return {Promise}
      */
     isLocked() {
-        return HsModel.isLockedById(this.md.id)
+        return HsModel.isLockedById(this._id)
     }
 
     /**
@@ -464,14 +471,6 @@ export default class HsModel {
      * @return {Promise}
      */
     isInLockState(lockState) {
-        return HsModel.existsInLockStateById(this.md.id, lockState)
-    }
-
-    /**
-     * Store revision to local model
-     */
-    setRevision () {
-        if (this.revision === undefined) this.revision = {}
-        this.revision[new Date().getTime()] = Object.assign({}, this._props)
+        return HsModel.existsInLockStateById(this._id, lockState)
     }
 }
