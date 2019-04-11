@@ -1,5 +1,6 @@
 node_modules
 .vscode
+lib
 config/api/btss/BlackTusk.Schemas.QMCms.DataUnitBTSS.json
 config/api/btss/BlackTusk.Schemas.QMCms.TenantBTSS.json
 config/api/btss/BlackTusk.Schemas.QMCms.DataUnitVersionBTSS.json

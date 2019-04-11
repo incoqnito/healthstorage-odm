@@ -1,21 +1,21 @@
-const HSODM = require('../healthStorage') // import currently not working with jest config, need to be implemented later
+import HealthStorageODM from '../healthStorage'
 
-const CLIENT = new HSODM({
+const client = new HealthStorageODM({
   serverUrl: 'http://localhost:8080',
   adapter: 'healthStorageApi'
 })
 
-const HS_INSTANCE = CLIENT.define({
-  'title': 'TodoSchema',
-  'properties': {
-    'title': {
-      'type': HSODM.STRING
+const Todo = client.define({
+  title: 'TodoSchema',
+  properties: {
+    title: {
+      type: HealthStorageODM.STRING
     },
-    'isCompleted': {
-      'type': HSODM.INTEGER
+    isCompleted: {
+      type: HealthStorageODM.INTEGER
     }
   },
-  'options': {
+  options: {
     required: ['md'],
     id: '82897c48-92f8-4a7f-8360-929e8b12356c',
     oId: '82897c48-92f8-4a7f-4550-929e8b12356c',
@@ -24,9 +24,9 @@ const HS_INSTANCE = CLIENT.define({
 })
 
 test('Edit sdo via model', async () => {
-  var todo1 = await HS_INSTANCE.create({
-    'title': 'Todo1 - Created',
-    'isCompleted': 0
+  var todo1 = await Todo.create({
+    title: 'Todo1 - Created',
+    isCompleted: 0
   })
 
   todo1.title = 'Todo1 - Edited by model'
@@ -37,9 +37,9 @@ test('Edit sdo via model', async () => {
 })
 
 test('Check sdo changed sinced sepcified via model', async () => {
-  var todo2 = await HS_INSTANCE.create({
-    'title': 'Todo2 - Sdo changed',
-    'isCompleted': 0
+  var todo2 = await Todo.create({
+    title: 'Todo2 - Sdo changed',
+    isCompleted: 0
   })
 
   var changedSince = await todo2.changedSince()
@@ -48,9 +48,9 @@ test('Check sdo changed sinced sepcified via model', async () => {
 })
 
 test('Lock item via model', async () => {
-  var todo3 = await HS_INSTANCE.create({
-    'title': 'Todo3 - Lock sdo',
-    'isCompleted': 0
+  var todo3 = await Todo.create({
+    title: 'Todo3 - Lock sdo',
+    isCompleted: 0
   })
 
   await todo3.lock()
@@ -59,9 +59,9 @@ test('Lock item via model', async () => {
 })
 
 test('Unlock item via model', async () => {
-  var todo4 = await HS_INSTANCE.create({
-    'title': 'Todo4 - Unlock sdo',
-    'isCompleted': 0
+  var todo4 = await Todo.create({
+    title: 'Todo4 - Unlock sdo',
+    isCompleted: 0
   })
 
   await todo4.lock()
@@ -71,9 +71,9 @@ test('Unlock item via model', async () => {
 })
 
 test('Check is locked item via model', async () => {
-  var todo6 = await HS_INSTANCE.create({
-    'title': 'Todo6 - Is locked',
-    'isCompleted': 0
+  var todo6 = await Todo.create({
+    title: 'Todo6 - Is locked',
+    isCompleted: 0
   })
 
   let isLocked = await todo6.isLocked()
@@ -82,9 +82,9 @@ test('Check is locked item via model', async () => {
 })
 
 test('Exists not in lock state via model', async () => {
-  var todo7 = await HS_INSTANCE.create({
-    'title': 'Todo6 - Exists in lock state',
-    'isCompleted': 0
+  var todo7 = await Todo.create({
+    title: 'Todo6 - Exists in lock state',
+    isCompleted: 0
   })
 
   let lockState = await todo7.existInLockState()
@@ -93,9 +93,9 @@ test('Exists not in lock state via model', async () => {
 })
 
 test('Get archive via model', async () => {
-  var todo8 = await HS_INSTANCE.create({
-    'title': 'Todo8 - Get Archive',
-    'isCompleted': 0
+  var todo8 = await Todo.create({
+    title: 'Todo8 - Get Archive',
+    isCompleted: 0
   })
 
   todo8.title = 'Todo8 - Edited for revision'
@@ -107,9 +107,9 @@ test('Get archive via model', async () => {
 })
 
 test('Get archive revision numbers via model', async () => {
-  var todo9 = await HS_INSTANCE.create({
-    'title': 'Todo9 - Get Archive',
-    'isCompleted': 0
+  var todo9 = await Todo.create({
+    title: 'Todo9 - Get Archive',
+    isCompleted: 0
   })
 
   todo9.title = 'Todo9 - Edited for revision'
@@ -121,7 +121,7 @@ test('Get archive revision numbers via model', async () => {
 })
 
 test('Delete sdo by id via model', async () => {
-  var todos = await HS_INSTANCE.findAll()
+  var todos = await Todo.findAll()
 
   for (let todo in todos.list) {
     let deletedId = await todos.list[todo].destroy()
