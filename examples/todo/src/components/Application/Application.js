@@ -161,7 +161,7 @@ export class Application extends React.Component {
   onToggleTodo(todo) {
     todo.isCompleted = todo.isCompleted === 0 ? 1 : 0
     todo.update()
-      .then(updatedTodo => this.setState({todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo)}))
+      .then(updatedTodo => this.setState({todos: this.state.todos.map(t => t._id !== updatedTodo._id ? t : updatedTodo)}))
       .catch(error => this.toggleErrorAlert(error))
   }
 
@@ -171,7 +171,7 @@ export class Application extends React.Component {
    */
   onEditTodo(todo) {
     todo.update()
-      .then(updatedTodo => this.setState({todos: this.state.todos.map(t => t.md.id !== updatedTodo.md.id ? t : updatedTodo), editing: ''}))
+      .then(updatedTodo => this.setState({todos: this.state.todos.map(t => t._id !== updatedTodo._id ? t : updatedTodo), editing: ''}))
       .catch(error => this.toggleErrorAlert(error))
   }
 
@@ -181,7 +181,7 @@ export class Application extends React.Component {
    */
   onDeleteTodo(todo) {
     todo.destroy()
-      .then(() => this.setState({todos: this.state.todos.filter(t => t.md.id !== todo.md.id)}))
+      .then(() => this.setState({todos: this.state.todos.filter(t => t._id !== todo._id)}))
       .catch(error => this.toggleErrorAlert(error))
   }
 
@@ -231,11 +231,7 @@ export class Application extends React.Component {
    */
   onLockTodo(todo) {
     todo.lock()
-      .then(lockedTodo => {
-        this.setState({
-          todos: this.state.todos.map(t => t.md.id !== lockedTodo.md.id ? t : lockedTodo)
-        })
-      })
+      .then(lockedTodo => this.setState({todos: this.state.todos.map(t => t._id !== lockedTodo._id ? t : lockedTodo)}))
       .catch(error => this.toggleErrorAlert(error))
   }
 
@@ -245,11 +241,7 @@ export class Application extends React.Component {
    */
   onUnlockTodo(todo) {
     todo.unlock()
-      .then(unlockedTodo => {
-        this.setState({
-          todos: this.state.todos.map(t => t.md.id !== unlockedTodo.md.id ? t : unlockedTodo)
-        })
-      })
+      .then(unlockedTodo => this.setState({todos: this.state.todos.map(t => t._id !== unlockedTodo._id ? t : unlockedTodo)}))
       .catch(error => {
         this.toggleErrorAlert(error)
     })
@@ -343,7 +335,7 @@ export class Application extends React.Component {
    * @param {String} uuid 
    */
   handleFileDownload(todo) {
-    todo.getBlobFile()
+    todo.getFile()
       .then(blob => {
         let extension = MIME.extension(blob.type)
 
@@ -366,15 +358,13 @@ export class Application extends React.Component {
           })
         }
       })
-      .catch(error => this.toggleErrorAlert(error))
   }
 
   onShowRevisions(todo) {
     todo.getArchive()
-    .then(response => {
-      let archivedSdos = response.body
+    .then(archive => {
       this.setState({
-        archive: archivedSdos
+        archive: archive
       })
     })
     .catch(error => this.toggleErrorAlert(error))

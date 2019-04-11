@@ -1,4 +1,7 @@
-/** Get constants */
+/** imports */
+import HsBlob from "./hsBlob"
+
+/** get constants */
 import { ASC } from "./constants/hsConstants"
 import { DESC } from "./constants/hsConstants"
 import { MD_ID } from "./constants/hsConstants"
@@ -141,9 +144,24 @@ export default class HsModel {
      */
     static create (props) {
         let propsForSdo = Object.assign(props, {md: HsModel.HsSchema.generateMd()})
+
+        let files = null
+        if(propsForSdo.files !== undefined && propsForSdo.files.length > 0) files = propsForSdo.files
+        delete propsForSdo.files
+
         return HsModel.HsAdapter.validateSdo(propsForSdo).then(validated => {
             if (validated) {
-                return HsModel.HsAdapter.createSdo(propsForSdo).then(sdo => new HsModel(sdo))
+                if(files === null) {
+                    return HsModel.HsAdapter.createSdo(propsForSdo).then(sdo => new HsModel(sdo))
+                } else {
+                    propsForSdo['files'] = files
+                    let hsBlob = HsModel.sdoBlobBridge(propsForSdo)
+                    return HsModel.HsAdapter.createSdoBlob(hsBlob.blobFormData).then(sdo => HsModel({
+                        ...propsForSdo,
+                        'blobRefs': hsBlob.sdo.blobRefs
+                        }
+                    ))
+                }
             }
         })
     }
@@ -167,7 +185,6 @@ export default class HsModel {
      */
     static updateById (data) {
         data.md.r += 1
-        console.log(data)
         return HsModel.HsAdapter.validateSdo(data).then(validated => {
             if (validated) {
                 return HsModel.HsAdapter.editSdo(data).then(sdo => new HsModel(sdo))
@@ -308,7 +325,7 @@ export default class HsModel {
      */
     static getArchiveBySdoId (sdoId, pageNo = 1, pageSize = 10) {
         return HsModel.HsAdapter.getSdoArchive(sdoId, pageNo, pageSize).then(response => {
-            return response
+            return response.body.length !== undefined ? response.body : false
         })
     }
 
@@ -363,6 +380,14 @@ export default class HsModel {
     }
 
     /**
+     * Data Bridge for blob creation
+     * @param {Object} data 
+     */
+    static sdoBlobBridge(data) {
+        return new HsBlob(data)
+    }
+
+    /**
      * Init props of instance
      * @param {Object} props
      */
@@ -397,6 +422,14 @@ export default class HsModel {
      */
     destroy() {
         return HsModel.deleteById(this._id)
+    }
+
+    /**
+     * Get attached File from model
+     * @return {Promise}
+     */
+    getFile() {
+        return HsModel.findBlobFileById(this._id, this.blobRefs[0])
     }
 
     /**
