@@ -146,22 +146,49 @@ export const PROXY = {
 }
 
 /**
+ * Filter oprators
+ */
+export const EQUAL = 'eq'
+export const NOT_EQUAL = 'neq'
+export const CONTAINS = 'contains'
+export const NOT_CONTAINS = 'doesnotcontain'
+export const START_WITH = 'startswith'
+export const END_WITH = 'endswith'
+export const LOWER_THAN = 'lt'
+export const LOWER_EQUAL_THAN = 'lte'
+export const GREATER_THAN = 'gt'
+export const GREATER_EQUAL_THAN = 'gte'
+export const AND = 'and'
+export const OR = 'or'
+
+/**
  * FilterRequest
  */
 export const FILTER_REQUEST = {
-  'take': 0,
+  'take': 1,
   'skip': 0,
-  'sort': [{
-      'field': 'string',
-      'dir': 'string'
-  }],
+  'sort': [],
   'filter': {
-    'field': 'string',
-    'operator': 'string',
-    'value': {},
-    'logic': 'string',
-    'filters': [
-      null
-    ]
+    'logic': '',
+    'filters': []
   }
 }
+
+export const FILTER_REQUEST_SORT = [{
+    'field': "_id",
+    'dir': ASC
+}]
+
+export const FILTER_REQUEST_FILTER_LOGIC = {
+  'logic': AND,
+  'filters': []
+}
+
+export const FILTER_REQUEST_FILTER = {
+  'field': '',
+  'operator': '',
+  'value': {},
+}
+
+
+

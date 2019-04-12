@@ -7,6 +7,21 @@ import { DESC } from "./constants/hsConstants"
 import { MD_ID } from "./constants/hsConstants"
 import { MD_REVISION } from "./constants/hsConstants"
 import { MD_DATE } from "./constants/hsConstants"
+import { FILTER_REQUEST } from "./constants/hsConstants"
+import { FILTER_REQUEST_FILTER } from "./constants/hsConstants"
+import { FILTER_REQUEST_SORT } from "./constants/hsConstants"
+import { EQUAL } from "./constants/hsConstants"
+import { NOT_EQUAL } from "./constants/hsConstants"
+import { CONTAINS } from "./constants/hsConstants"
+import { NOT_CONTAIN } from "./constants/hsConstants"
+import { START_WITH } from "./constants/hsConstants"
+import { END_WITH } from "./constants/hsConstants"
+import { LOWER_THAN } from "./constants/hsConstants"
+import { LOWER_EQUAL_THAN } from "./constants/hsConstants"
+import { GREATER_THAN } from "./constants/hsConstants"
+import { GREATER_EQUAL_THAN } from "./constants/hsConstants"
+import { AND } from "./constants/hsConstants"
+import { OR } from "./constants/hsConstants"
 
 export default class HsModel {
     
@@ -61,6 +76,126 @@ export default class HsModel {
     }
 
     /**
+     * Get filter request
+     * @return {Object}
+     */
+    static get FILTER_REQUEST () {
+        return FILTER_REQUEST
+    }
+
+    /**
+     * Get filter request sort options
+     * @return {Object}
+     */
+    static get FILTER_REQUEST_SORT () {
+        return FILTER_REQUEST_SORT
+    }
+
+    /**
+     * Get filter request filter options
+     * @return {Object}
+     */
+    static get FILTER_REQUEST_FILTER () {
+        return FILTER_REQUEST_FILTER
+    }
+
+    /**
+     * Get equal compare type
+     * @return {String}
+     */
+    static get EQUAL () {
+        return EQUAL
+    }
+
+    /**
+     * Get not equal compare type
+     * @return {String}
+     */
+    static get NOT_EQUAL () {
+        return NOT_EQUAL
+    }
+
+    /**
+     * Get contains compare type
+     * @return {String}
+     */
+    static get CONTAINS () {
+        return CONTAINS
+    }
+
+    /**
+     * Get not contains compare type
+     * @return {String}
+     */
+    static get NOT_CONTAIN () {
+        return NOT_CONTAIN
+    }
+
+    /**
+     * Get lower than compare type
+     * @return {String}
+     */
+    static get LOWER_THAN () {
+        return LOWER_THAN
+    }
+
+    /**
+     * Get lower equal than compare type
+     * @return {String}
+     */
+    static get LOWER_EQUAL_THAN () {
+        return LOWER_EQUAL_THAN
+    }
+
+    /**
+     * Get greater than compare type
+     * @return {String}
+     */
+    static get GREATER_THAN () {
+        return GREATER_THAN
+    }
+
+    /**
+     * Get greater equal than compare type
+     * @return {String}
+     */
+    static get GREATER_EQUAL_THAN () {
+        return GREATER_EQUAL_THAN
+    }
+
+    /**
+     * Get starts with compare type
+     * @return {String}
+     */
+    static get START_WITH () {
+        return START_WITH
+    }
+
+    /**
+     * Get ends with compare type
+     * @return {String}
+     */
+    static get END_WITH () {
+        return END_WITH
+    }
+
+    /**
+     * Get logic and type
+     * @return {String}
+     */
+    static get AND () {
+        return AND
+    }
+
+    /**
+     * Get logic or type
+     * @return {String}
+     */
+    static get OR () {
+        return OR
+    }
+
+    /**
      * Create new instance of model with given schema
      * @param {Object} schema 
      */
@@ -101,6 +236,17 @@ export default class HsModel {
      * @issue filters not working on, currently implemented by find all and custom search
      */
     static findOne(where) {
+        let filterRequest = HsModel.FILTER_REQUEST
+        filterRequest.filter.filters = Object.keys(where).map(whereKey => {
+            let filterObject = Object.assign({}, HsModel.FILTER_REQUEST_FILTER, {
+                'field': whereKey,
+                'opeator': HsModel.EQUAL,
+                'value': where[whereKey]
+            })
+            console.log(filterObject)
+            return filterObject
+
+        })
         if(where === undefined) return Promise.resolve({})   
         return this.find()
             .then(sdos => {
