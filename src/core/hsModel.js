@@ -212,7 +212,7 @@ export default class HsModel {
      */
     static find(options) {
         return HsModel.HsAdapter.getSdos(HsModel.HsSchema.props.oId, HsModel.HsSchema.props.id, options).then(response => {
-            return response.body.map(sdo => new HsModel(sdo))
+            return (response.body !== undefined && response.body.length > 0) ? response.body.map(sdo => new HsModel(sdo)) : false
         })
     }
 
@@ -249,9 +249,8 @@ export default class HsModel {
             })
             return filterObject
         })
-
-        return this.find({filter: filterRequest})
-            .then(modelOrModels => modelOrModels)
+   
+        return this.find({filter: filterRequest}).then(modelOrModels => modelOrModels[0])
     }
 
     /**

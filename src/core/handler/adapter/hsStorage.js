@@ -158,10 +158,7 @@ class HsStorage {
    */
   getSdosFiltered (opts) {
     return axios.post(this.buildRequestUrl(opts.endpoint), opts.params, opts.requestOptions)
-      .then(response => {
-        if(opts.params.filter.take == 1) return (response.data === undefined && response.data.length <= 0) ? false : response.data
-        return (response.data === undefined && response.data.length <= 0) ? false : { body: response.data, headers: response.headers }
-      })
+      .then(response => (response.data === undefined || response.data.length <= 0) ? { body: [], headers: [] } : { body: response.data, headers: response.headers })
       .catch(error => {
         if(error.response !== undefined && error.response.status !== undefined) {
           throw this.createError(error.response.statusText, error.response.status, "getSdosFiltered()")
