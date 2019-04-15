@@ -169,26 +169,18 @@ export const FILTER_REQUEST = {
   'skip': 0,
   'sort': [],
   'filter': {
-    'logic': '',
+    'logic': 'and',
     'filters': []
   }
 }
 
 export const FILTER_REQUEST_SORT = [{
-    'field': "_id",
-    'dir': ASC
+    'field': "md.id",
+    'dir': "asc"
 }]
-
-export const FILTER_REQUEST_FILTER_LOGIC = {
-  'logic': AND,
-  'filters': []
-}
 
 export const FILTER_REQUEST_FILTER = {
   'field': '',
   'operator': '',
   'value': {},
 }
-
-
-

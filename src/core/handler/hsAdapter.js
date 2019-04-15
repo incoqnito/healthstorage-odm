@@ -281,7 +281,7 @@ class HsAdapter {
               'sId': sId
             }
           },
-          'param': options.filter
+          'params': options.filter
         }
       })
     }

@@ -235,29 +235,23 @@ export default class HsModel {
      * @returns {Promise}
      * @issue filters not working on, currently implemented by find all and custom search
      */
-    static findOne(where) {
+    static findOne(where, opts = {}) {
         let filterRequest = HsModel.FILTER_REQUEST
+        
+        filterRequest.sort = (opts.sort === undefined) ? HsModel.FILTER_REQUEST_SORT : opts.sort
+        filterRequest.filter.logic = (opts.logic === undefined) ? filterRequest.filter.logic : opts.logic 
+
         filterRequest.filter.filters = Object.keys(where).map(whereKey => {
             let filterObject = Object.assign({}, HsModel.FILTER_REQUEST_FILTER, {
                 'field': whereKey,
-                'opeator': HsModel.EQUAL,
+                'operator': HsModel.EQUAL,
                 'value': where[whereKey]
             })
-            console.log(filterObject)
             return filterObject
-
         })
-        if(where === undefined) return Promise.resolve({})   
-        return this.find()
-            .then(sdos => {
-                let matchedEntries = []
-                sdos.forEach(model => {
-                    Object.keys(where).forEach(key => {
-                        if(model[key] === where[key]) matchedEntries.push(model)
-                    })
-                })
-                return (matchedEntries[0] !== undefined) ? matchedEntries[0] : false
-            })
+
+        return this.find({filter: filterRequest})
+            .then(modelOrModels => modelOrModels)
     }
 
     /**
