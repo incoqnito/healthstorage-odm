@@ -257,7 +257,7 @@ export default class HsModel {
      * @param {String} id
      * @returns {Promise}
      */
-    static async findOneAndUpdate(where, update, opts = {}) {
+    static findOneAndUpdate(where, update, opts = {}) {
         return HsModel.findOne(where, opts)
             .then(matchedModel => {
                 Object.assign(matchedModel, update.$set)
@@ -516,7 +516,7 @@ export default class HsModel {
     }
 
     /**
-     * Create a new sdo for given schema
+     * Create a new sod blob for given schema
      * @param {Object} data
      * @returns {Promise}
      */

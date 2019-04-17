@@ -7,155 +7,256 @@ The healthstorage-odm serves the HS storage api. It provides a simple structure 
 First install [node.js](https://nodejs.org/en/).
 
 ```ts
-npm install healthstorage-odm
+
+  npm install healthstorage-odm
+
 ```
 
 ## Importing
 
 ```ts
-// Using ES6 imports
-import HealthStorageODM from 'healthstorage-odm';
+
+  // Using ES6 imports
+  import HealthStorageODM from 'healthstorage-odm';
+
 ```
 ## Documentation
 
-### HsClient
+### HealthStorageODM
 
-The HsClient holds specific data for server connection, adapoter and debugging. You can create muliple HsClients in your project to connect to different servers. In future use the used adapter could be anything we implement to build a bridge between systems. For now only the HsStorage is ready to use.
+#### HealthStorageODM usable constants
 
-### Create a HsClient
+#### HealthStorageODM functions
+
+##### createSchema
 
 ```ts
 
-// By calling constructor with default
-const CLIENT = new HealthStorageODM();
-
-// By calling constructor with custom options
-const CLIENT = new HealthStorageODM({
-  serverUrl: 'https://your.server.url',
-  adapter: 'adapter'
-});
-
-// By calling static createClient
-const CLIENT = HealthStorageODM.createClient({
-  serverUrl: 'https://your.server.url',
-  adapter: 'adpater'
-});
+  // Calling static function create schema
+  HealthStorageODM.createSchema({
+    title: 'SampleSchema',
+    properties: {
+      id: {
+        type: HealthStorageODM.STRING
+      },
+      title: {
+        type: HealthStorageODM.STRING
+      },
+      color: {
+        type: HealthStorageODM.STRING
+      }
+    },
+    options: {
+      required: ['md']
+    }
+  })
 
 ```
 
-### Defining a instance of HsModel
+##### deleteSchemaById
 
-Defining an instace of HsModel is realized by calling the define function from created Hsclient. It returns an instance of HsInstance which holds the api functionallity.
+```ts 
 
-Example:
+  // Calling static function in HealthStorageODM
+  HealthStorageODM.deleteSchemaById(id)
+
+```
+
+##### createClient
+
 ```ts
-// Create a HsInstance with schema data
-const veryNiceSchema = {
-  title: 'SomeSchema',
-  properties: {
-    title: {
-      type: HealthStorageODM.STRING
-    },
-    description: {
-      type: HealthStorageODM.STRING
-    },
-    price: {
-      type: HealthStorageODM.DOUBLE
-    },
-    online: {
-      type: HealthStorageODM.BOOLEAN
-    },
-    hits: {
-      type: HealthStorageODM.INTEGER
-    }
-  },
-  options: {
-    required: [md],
-    oId: '1a8a1956-fde7-486f-91b8-ce9a3d9b4be1', // uuid
-    id: '5cc6ae3e-bf8f-4be5-b6fb-5de55ca9fd8a' // uuid
-  }
-}
 
-const veryNiceModel = CLIENT.define('veryNiceIdentifier', veryNiceSchema)
+  // By calling constructor with default options
+  const CLIENT = new HealthStorageODM();
+
+  // By calling static createClient
+  const CLIENT = HealthStorageODM.createClient({
+    serverUrl: 'https://your.server.url',
+    adapter: 'adpater'
+  });
+
+```
+
+### HsClient
+
+The HsClient holds specific data for server connection, adapter and debugging. You can create muliple HsClients in your project to connect to different servers. In future use the used adapter could be anything we implement to build a bridge between systems. For now only the HsStorage is ready to use.
+
+##### Create a HsClient
+
+```ts
+
+  // By calling constructor with default
+  const CLIENT = new HealthStorageODM();
+
+  // By calling constructor with custom options
+  const CLIENT = new HealthStorageODM({
+    serverUrl: 'https://your.server.url',
+    adapter: 'adapter'
+  });
+
+  // By calling static createClient
+  const CLIENT = HealthStorageODM.createClient({
+    serverUrl: 'https://your.server.url',
+    adapter: 'adpater'
+  });
+
 ```
 
 ### HsModel
 
-The HsModel holds all functionallity of the HS Api. You can use the static function for direct calls like find, findeById etc. or the build in model binded functions by createing a model like save, update, destroy etc. 
+The HsModel provides functionallity to interact with the selected adapter. It is like a services between this two layers. The Model needs a schema and identifier to deal with. There are static function which you can call directly after initialize the model and model binded function which interacts with the model itself.
+
+##### Creating a HsModel
 
 ```ts
-  // Simple example of HsModel
-  HsModel = {
-    HsAdapter: HsAdapter {client: {…}},
-    HsSchema: HsSchema {schema: {…}}
-    _id: (...), // reference from md.id
-    __v: (...), // reference from md.r
-    isCompleted: (...),
-    lockValue: (...),
-    md: (...),
-    title: (...),
-    get id: ƒ (),
-    set id: ƒ (value),
-    get isCompleted: ƒ ()
-    set isCompleted: ƒ (value),
-    get md: ƒ (),
-    set md: ƒ (value),
-    get title: ƒ (),
-    set title: ƒ (value)
+
+  // Create a const which is holding the schema data
+  const SomeSchema = {
+    title: 'SomeSchema',
+    properties: {
+      title: {
+        type: HealthStorageODM.STRING
+      },
+      description: {
+        type: HealthStorageODM.STRING
+      },
+      price: {
+        type: HealthStorageODM.DOUBLE
+      },
+      online: {
+        type: HealthStorageODM.BOOLEAN
+      },
+      hits: {
+        type: HealthStorageODM.INTEGER
+      }
+    },
+    options: {
+      required: [md],
+      oId: '1a8a1956-fde7-486f-91b8-ce9a3d9b4be1', // uuid
+      id: '5cc6ae3e-bf8f-4be5-b6fb-5de55ca9fd8a' // uuid
+    }
   }
+
+  // create the new model
+  const SomeModel = CLIENT.define('SomeModel', SomeSchema)
+
 ```
 
-### HsModel / HealthStorageODM Functions
+#### HsModel constants
 
-#### Ereaser (during development)
+#### HsModel functions
 
-##### deleteSchemaById(id)
-
-Deletes during development a schema by its identifier.
+##### static find
 
 ```ts
-  // Calling static function in HealthStorageODM
-  HealthStorageODM.deleteSchemaById(id)
+
+  // finde models by defaults
+  SomeModel.find()
+  
+  // find models by given options
+  SomeModel.find({
+    filter: {
+      take: 10,
+      skip: 0,
+      sort:[{
+        field: 'md.id',
+        dir: 'asc
+      }],
+      filters: [{
+        'field': 'name',
+        'operator': HsModel.EQUAL,
+        'value': 'Username',
+      }]
+    }
+  })
+
 ```
 
-##### deleteById(id)
+##### static findOne
 
-Deletes during development a sdo by its identifier.
+##### static findOneAndUpdate
+
+##### static findById
+
+##### static findBlobById
+
+##### static findBlobFileById
+
+##### static create
+
+##### static changedSinceByIdAndRevision
+
+##### static updateById
+
+##### static updateWhere
+
+##### static bulkCreate
+
+##### static bulkUpdate
+
+##### static archiveById
+
+##### static archiveWhere
+
+##### static lockById
+
+##### static unlockById
+
+##### static getLockDataById
+
+##### static isLockedById
+
+##### static existsInLockStateById
+
+##### static deleteById
+
+##### static deleteWhere
+
+##### static getArchiveBySdoId
+
+##### static getRevisionsArchiveBySdoId
+
+##### static createBlob
+
+##### save
+
+##### update
+
+##### destroy
+
+##### geFile
+
+##### archive
+
+##### getArchivedRevisions
+
+##### getArchive
+
+##### changedSince
+
+##### lock
+
+##### unlock
+
+##### getLockData 
+
+##### isLocked
+
+##### isInLockState
 
 ```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
+
+  // Define client
+  const CLIENT = new HealthStorageODM()
 
   // Calling from HsInstance
   CLIENT.deleteById(id)
 
-  // Otherwise calling from HsModel
+  // Calling from HsModel
   model.destroy()
+
 ```
 
-#### Schemas (during development)
-
-##### createSchema()
-
-```ts
-// Calling static function create schema
-HealthStorageODM.createSchema({
-  title: 'SampleSchema',
-  properties: {
-    id: {
-      type: HealthStorageODM.STRING
-    },
-    title: {
-      type: HealthStorageODM.STRING
-    },
-    color: {
-      type: HealthStorageODM.STRING
-    }
-  },
-  options: {
-    required: ['md']
-  }
-```
 
 #### Sdo
 
