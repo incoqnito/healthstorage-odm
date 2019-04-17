@@ -233,7 +233,6 @@ export default class HsModel {
      * Get sdo by where
      * @param {String} id
      * @returns {Promise}
-     * @issue filters not working on, currently implemented by find all and custom search
      */
     static findOne(where, opts = {}) {
         let filterRequest = HsModel.FILTER_REQUEST
@@ -249,8 +248,24 @@ export default class HsModel {
             })
             return filterObject
         })
-   
-        return this.find({filter: filterRequest}).then(modelOrModels => modelOrModels[0])
+
+        return HsModel.find({filter: filterRequest}).then(modelOrModels => modelOrModels[0])
+    }
+
+    /**
+     * Get sdo by where and update it
+     * @param {String} id
+     * @returns {Promise}
+     */
+    static async findOneAndUpdate(where, update, opts = {}) {
+        return HsModel.findOne(where, opts)
+            .then(matchedModel => {
+                Object.assign(matchedModel, update.$set)
+                return matchedModel.update()
+                    .then(updatedModel => updatedModel)
+                    .catch(error => error)
+            })
+            .catch(error => error)
     }
 
     /**
