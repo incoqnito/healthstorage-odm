@@ -16,14 +16,20 @@ npm install healthstorage-odm
 // Using ES6 imports
 import HealthStorageODM from 'healthstorage-odm';
 ```
-## Overview
+## Documentation
 
-### Defining a HsClient
+### HsClient
 
-It is possible to create multiple HsClient instances for diffrent servers. Creating a new Hsclient works like this:
+The HsClient holds specific data for server connection, adapoter and debugging. You can create muliple HsClients in your project to connect to different servers. In future use the used adapter could be anything we implement to build a bridge between systems. For now only the HsStorage is ready to use.
+
+### Create a HsClient
 
 ```ts
-// By calling constructor
+
+// By calling constructor with default
+const CLIENT = new HealthStorageODM();
+
+// By calling constructor with custom options
 const CLIENT = new HealthStorageODM({
   serverUrl: 'https://your.server.url',
   adapter: 'adapter'
@@ -34,11 +40,8 @@ const CLIENT = HealthStorageODM.createClient({
   serverUrl: 'https://your.server.url',
   adapter: 'adpater'
 });
+
 ```
-
-If there are no parameters set, it will take http://localhost:8080 as a default client server url and hsStorage as default adapter.
-
-The created client returns an instance for further use.
 
 ### Defining a instance of HsModel
 
