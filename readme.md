@@ -28,6 +28,20 @@ This is the entry point of the odm.
 
 #### HealthStorageODM usable constants
 
+Usable constants for schema creation in field types.
+
+```ts
+
+  HealthStorag.STRING // string type
+  HealthStorag.NUMBER // number type
+  HealthStorag.INTEGER // integer type
+  HealthStorag.BOOLEAN // boolean type
+  HealthStorag.OBJECT // object type
+  HealthStorag.ARRAY // array type
+  HealthStorag.DATE // date type
+
+```
+
 #### HealthStorageODM functions
 
 ##### createSchema
