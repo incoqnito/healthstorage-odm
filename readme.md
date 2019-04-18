@@ -162,6 +162,28 @@ All models reference from md.id to _id and md.r to __v (id of model and version 
 
 #### HsModel constants
 
+```ts
+
+  HsModel.ASC // ascending sort dir
+  HsModel.DESC // descending sort dir
+  HsModel.MD_ID // meta id sort field
+  HsModel.MD_REVISION // meta revision sort field
+  HsModel.MD_DATE // meta date sort field
+  HsModel.EQUAL // filter request equal
+  HsModel.NOT_EQUAL // filter request unequal
+  HsModel.CONTAINS // filter request contains
+  HsModel.NOT_CONTAIN // filter request not contains
+  HsModel.START_WITH // filter request string start with
+  HsModel.END_WITH // filter request string end with
+  HsModel.LOWER_THAN // filter request lower than
+  HsModel.LOWER_EQUAL_THAN // filter request lower equal than
+  HsModel.GREATER_THAN // filter request greater than
+  HsModel.GREATER_EQUAL_THAN // filter request greater equal than
+  HsModel.AND // filter request logical and for filter fields
+  HsModel.OR // filter request logical or for filter fields
+
+```
+
 #### HsModel functions
 
 ##### static find
