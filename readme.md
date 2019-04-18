@@ -24,6 +24,8 @@ First install [node.js](https://nodejs.org/en/).
 
 ### HealthStorageODM
 
+This is the entry point of the odm. 
+
 #### HealthStorageODM usable constants
 
 #### HealthStorageODM functions
@@ -496,372 +498,176 @@ All models reference from md.id to _id and md.r to __v (id of model and version 
 
 ##### static createBlob
 
+```ts
+
+  /**
+   * Create a new sod blob
+   * @param {Object} data needs to be form data
+   * @returns {Promise}
+   */
+  SomeModel.createBlob(sdoBlobFormdata)
+
+```
+
 ##### save
+
+```ts
+
+  /**
+   * Save created model with its properties
+   * @return {Promise}
+   */
+  SomeModel.save()
+
+```
+
 
 ##### update
 
+```ts
+
+  /**
+   * Update changed properties in model
+   * @return {Promise}
+   */
+  SomeModel.update()
+
+```
+
 ##### destroy
+
+```ts
+
+  /**
+   * Destroy model itself
+   * @return {Promise}
+   */
+  SomeModel.destroy()
+
+```
 
 ##### geFile
 
+```ts
+
+  /**
+   * Get attached File from model
+   * @return {Promise}
+   */
+  SomeModel.destroy()
+
+```
+
 ##### archive
+
+```ts
+
+  /**
+   * Archive model
+   * @return {Promise}
+   */
+  SomeModel.archive()
+
+```
 
 ##### getArchivedRevisions
 
+
+```ts
+
+  /**
+   * Get archived revison numbers for model
+   * @return {Promise}
+   */
+  SomeModel.getArchivedRevisions()
+
+```
+
 ##### getArchive
+
+```ts
+
+  /**
+   * Get archived sdos mof model
+   * @param {Integer} pageNo
+   * @param {Integer} pageSize
+   * @return {Promise}
+   */
+  SomeModel.getArchive(pageNo = 1, pageSize = 10)
+
+```
 
 ##### changedSince
 
+```ts
+
+  /**
+   * Check model last change since
+   * @return {Promise}
+   */
+  SomeModel.changedSince()
+
+```
+
 ##### lock
+
+```ts
+
+  /**
+   * Lock model
+   * @return {Promise}
+   */
+  SomeModel.lock()
+
+```
 
 ##### unlock
 
+```ts
+
+  /**
+   * Unlock model
+   * @return {Promise}
+   */
+  SomeModel.unlock()
+
+```
+
 ##### getLockData 
 
+```ts
+
+  /**
+   * Get lock data for model
+   * @return {Promise}
+   */
+  SomeModel.getLockData()
+
+```
+
 ##### isLocked
+
+```ts
+
+  /**
+   * Check if model is locked
+   * @return {Promise}
+   */
+  SomeModel.isLocked()
+
+```
 
 ##### isInLockState
 
 ```ts
 
-  // Define client
-  const CLIENT = new HealthStorageODM()
+  /**
+   * Check if model exists in specific lock state
+   * @param {String} lockState
+   * @return {Promise}
+   */
+  SomeModel.isInLockState()
 
-  // Calling from HsInstance
-  CLIENT.deleteById(id)
-
-  // Calling from HsModel
-  model.destroy()
-
-```
-
-
-#### Sdo
-
-##### findAll(options)
-
-Finds all entries matched for given options and filters.
-Info: the HS API throws 500er on filter use
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-
-  // Calling findAll
-  await MODEL.findAll({
-      orderBy: CLIENT.MD_DATE, // Ordering by provieded meta field tsp
-      orderByDirection: CLIENT.ASC, // Sortorder ASC or DESC
-      from: "", // ISO-Date string from date
-      until: "", // ISO-Date string to date
-      pageSize: 5 // Integer value for page sizing,
-      pageNum: 1 // define page to show
-    })
-```
-
-##### findById(id)
-
-Finds an entry by its identifier.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-
-  // Calling findById
-  MODEL.findById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
-```
-
-##### findOne(where)
-
-```ts
-  var published = COOMING_SOON;
-```
-
-##### create(data)
-
-Creates new sdo in database.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-  
-  // Calling create
-  MODEL.create({
-    title: 'Title',
-    isCompleted: false
-  })
-
-  // OOORRR
-
-  const newModel = new MODEL({...attrs})
-  newModel.save()
-```
-
-##### changedSince(id, r)
-
-Checks if an item was changed since specified.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-
-  // Calling static
-  MODEL.changedSinceByIdAndRevision('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', 1) // id, revision
-
-  // Calling from model
-  MODEL.changedSince()
-```
-
-##### updateById(id)
-
-Updates an item by its identifier.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-
-  // Calling update static
-  MODEL.update({
-    title: 'New title',
-    isCompleted: true 
-  }) // new data
-
-  // Calling from model
-  MODEL.update()
-```
-
-##### update(where, data)
-
-```ts
-  var published = COOMING_SOON;
-```
-
-##### archiveById(id)
-
-```ts
-  var published = COOMING_SOON;
-```
-
-##### archive(where)
-
-```ts
-  var published = COOMING_SOON;
-```
-
-##### lockById(id)
-
-Create lock value for item.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Calling from HsInstance
-  CLIENT.lockById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
-
-  // Calling from HsModel
-  model.lock()
-```
-
-##### unlockById(id, lockValue)
-
-Removes a lock value for item.
-
-```ts
-   c
-  // Calling static
-  MODEL.unlockById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
-
-  // Calling from model
-  MOEDEL.unlock()
-```
-
-##### getLockById(id, lockValue)
-
-Get lock from item by identifier.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Calling from HsInstance
-  CLIENT.getLockById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
-
-  // Calling from HsModel
-  model.getLock()
-```
-
-##### isLockedById(id, lockValue)
-
-Check if item is locked by identifier.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-  
-  // Calling static
-  MODEL.isLockedById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
-
-  // Calling from model
-  MODEL.isLocked()
-```
-
-##### isLockState(id, lockState)
-
-Check if item exists in lock state by identifier.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-  
-  // Calling static
-  MODEL.isLockStateById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a', '8ea6caed-5c0d-4dd2-b46b-709ed0f7818a')
-
-  // Calling from model
-  MODEL.isLockState()
-```
-
-#### Sdo Blobs
-
-##### createSdoBlob(opts)
-
-This function is part of the ```ts HsInstance.create``` function. When a files field is present in the passed sdo object  ```ts HsInstance.create``` calls ```ts creatSdoBlob(opts)```. HsModel returned with extended blobRef information.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-  
-  // Calling static
-  MODEL.create(opts) {
-    if(data.files === undefined && data.files.length <= 0) {
-      // create sdo
-    } else {
-      // create sdo blob
-    }
-  }
-
-  // Calling from model
-  const newModel = new HsModel({...attrs})
-  newModel.save()
-```
-
-##### findBlobById(id)
-
-Returns a complete sdoBlob object from the server. It is a multipart/form-data and contains the parts for sdo and files
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-
-  // Calling static
-  MODEL.findBlobById('5ea6caed-5c0c-4dd2-b46b-709ed0f2618a')
-
-  // Calling from model
-  MODEL.getFile()
-```
-
-##### getSdoBlobFile(opts)
-
-This function is part of the ```ts HsModel.update``` function. When a blobRef field is present in the passed sdo object the ```ts HsModel.update``` calls ```ts editSdoBlob(opts)```. An updated HsModel returned.
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-
-  // Calling static
-  MODEL.update(opts) {
-    if(data.files === undefined && data.files.length <= 0) {
-      // create sdo
-    } else {
-      // create sdo blob
-    }
-  }
-
-  // calling from model 
-  MODEL.update()
-```
-
-#### Sdo Collections
-
-##### bulkCreate(bulkList)
-
-```ts
-  var published = COOMING_SOON;
-```
-
-##### bulkUpdate(bulkList)
-
-Updates a given sdo list (bulk operation)
-
-```ts
-  // Define client...
-  const CLIENT = HealthStorageODM.createClient() // no options using local address
-
-  // Define Model
-  const MODEL = CLIENT.define("Identfier", SomeSchema)
-
-  // Calling static
-  MODEL.bulkUpdate(bulkList)
-```
-
-## HsDebugger (under construction)
-
-The HsDebugger is buil at instance creation. It can be accessed by e.g. ```ts CLIENT.HsDebugger```. It brings up some debug functions.
-
-### logConsole(key, value, stringified = false)
-
-Logs a key value into the console.
-
-```ts 
-  // Log to console without stringified value
-  CLIENT.HsDebugger.logConsole("Key", "Value")
-
-  // Log to console with stringified value
-  CLIENT.HsDebugger.logConsole("Key", "Value", true)
-```
-
-### logTable(mixed)
-
-Logs a key value into the console as table format.
-
-```ts 
-  // Log to console as table
-  CLIENT.HsDebugger.logTable{'test': 'value'})
-```
-
-## HS-CLI
-
-```ts
-  var published = COOMING_SOON;
 ```
 
 ## Installing Sample App

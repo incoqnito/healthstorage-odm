@@ -518,7 +518,7 @@ export default class HsModel {
     }
 
     /**
-     * Create a new sod blob for given schema
+     * Create a new sod blob
      * @param {Object} data
      * @returns {Promise}
      */
