@@ -85,7 +85,7 @@ export class Application extends React.Component {
     })
       .then(todos => {
         this.setState({
-          todos: todos
+          todos: (todos) ? todos : []
         })
       })
       .catch(error => this.toggleErrorAlert(error))
@@ -104,7 +104,7 @@ export class Application extends React.Component {
     })
       .then(todos => {
         this.setState({
-          todos: todos
+          todos: (todos) ? todos : []
         })
       })
       .catch(error => this.toggleErrorAlert(error))

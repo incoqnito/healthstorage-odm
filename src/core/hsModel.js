@@ -310,7 +310,7 @@ export default class HsModel {
                 } else {
                     propsForSdo['files'] = files
                     let hsBlob = HsModel.sdoBlobBridge(propsForSdo)
-                    return HsModel.HsAdapter.createSdoBlob(hsBlob.blobFormData).then(sdo => HsModel({
+                    return HsModel.HsAdapter.createSdoBlob(hsBlob.blobFormData).then(sdo => new HsModel({
                         ...propsForSdo,
                         'blobRefs': hsBlob.sdo.blobRefs
                         }
