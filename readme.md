@@ -402,17 +402,97 @@ All models reference from md.id to _id and md.r to __v (id of model and version 
 
 ##### static getLockDataById
 
+```ts
+
+  /**
+   * Get lock value on sdo by its identifier and lock value
+   * @param {String} id
+   * @param {String} lockValueId
+   * @returns {Promise}
+   */
+  SomeModel.getLockDataById('013f6860-56c1-4299-b418-07ba4f13d16a', '013f6860-56c1-4299-b418-07ba4f13d90k')
+
+```
+
 ##### static isLockedById
+
+```ts
+
+  /**
+   * Check if sdo is locked
+   * @param {String} id
+   * @param {String} lockValueId
+   * @returns {Promise}
+   */
+  SomeModel.isLockedById('013f6860-56c1-4299-b418-07ba4f13d16a', '013f6860-56c1-4299-b418-07ba4f13d90k')
+
+```
 
 ##### static existsInLockStateById
 
+```ts
+
+  /**
+   * Check if sdo exists with lock State
+   * @param {String} id
+   * @param {Boolean} lockState
+   * @returns {Promise}
+   */
+  SomeModel.existsInLockStateById('013f6860-56c1-4299-b418-07ba4f13d16a', true)
+
+```
+
 ##### static deleteById
+
+```ts
+
+  /**
+   * Delete entry by its identifier
+   * @param {String} id
+   * @returns {Promise}
+   */
+  SomeModel.deleteById('013f6860-56c1-4299-b418-07ba4f13d16a')
+
+```
 
 ##### static deleteWhere
 
+```ts
+
+  /**
+   * Coming soon
+   */
+  SomeModel.toBeDefined()
+
+```
+
 ##### static getArchiveBySdoId
 
+```ts
+
+  /**
+   * Get archive from entry (full arichve entries as array of object)
+   * @param {String} id
+   * @param {Integer} pageNo
+   * @param {Integer} pagesize
+   * @returns {Promise}
+   */
+  SomeModel.getArchiveBySdoId('013f6860-56c1-4299-b418-07ba4f13d16a', 1, 15)
+
+```
+
 ##### static getRevisionsArchiveBySdoId
+
+```ts
+
+  /**
+   * Get archive from entry (revison numbers as array)
+   * @param {String} id
+   * @returns {Promise}
+   */
+  SomeModel.getRevisionsArchiveBySdoId('013f6860-56c1-4299-b418-07ba4f13d16a')
+
+```
 
 ##### static createBlob
 
