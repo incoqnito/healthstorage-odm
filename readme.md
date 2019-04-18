@@ -204,7 +204,7 @@ All models reference from md.id to _id and md.r to __v (id of model and version 
       skip: 0,
       sort:[{
         field: 'md.id',
-        dir: 'asc
+        dir: 'asc'
       }],
       filters: [{
         'field': 'name',
