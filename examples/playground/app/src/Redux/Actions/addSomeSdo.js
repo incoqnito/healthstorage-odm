@@ -2,11 +2,13 @@
 /** constants */
 import { ADD_SOME_SDO_SUCCESS } from "../constants"
 import { ADD_SOME_SDO_FAILED } from "../constants"
+import HsModel from "../../../../../../src/core/hsModel";
 
 /** sidebar toggle */
-export const addSomeSdo = (sdo, hsInstance) => {
+export const addSomeSdo = (sdo, hsModel) => {
     return (dispatch) => {
-        hsInstance.create(sdo)
+        const newModel = new HsModel(sdo)
+        newModel.save()
             .then(sdoModel => {
                 return dispatch({
                     type: ADD_SOME_SDO_SUCCESS,

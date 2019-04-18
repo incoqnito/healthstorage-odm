@@ -6,7 +6,7 @@ export const configSelectSchemaOwnerId = (state, payload) => {
             schemaId: payload.schemaId,
             ownerId: payload.ownerId,
             schema: payload.schema,
-            hsInstance: payload.hsInstance,
+            hsModel: payload.hsModel,
         }
     }
 }

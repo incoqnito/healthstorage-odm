@@ -14,6 +14,7 @@ import { configSelectSchemaOwnerId } from '../../../../Redux/Actions/configSelec
 /** constants */
 import { uuidPattern } from "./../../../constants"
 import { devClient } from "./../../../constants"
+import HsModel from '../../../../../../../../src/core/hsModel';
 
 class SelectSchema extends Component {
 
@@ -24,7 +25,8 @@ class SelectSchema extends Component {
             let foundSchema = await HealthStorageODM.getSchema({id: values.schemaId})
             
             let hsClient = new HealthStorageODM(devClient)
-            let hsInstance = hsClient.define({
+
+            const Schema = {
                 title: foundSchema.title,
                 properties: foundSchema.properties,
                 options: {
@@ -33,9 +35,10 @@ class SelectSchema extends Component {
                     oId: values.ownerId,
                     r: 1
                 }
-            })
+            }
+            let hsModel = hsClient.define('dynamic', Schema)
 
-            this.props.configSelectSchemaOwnerId(values.schemaId, values.ownerId, foundSchema, hsInstance)
+            this.props.configSelectSchemaOwnerId(values.schemaId, values.ownerId, foundSchema, hsModel)
 
             this.props.history.push('/schemaInteraction')
         }

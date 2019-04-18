@@ -34,7 +34,7 @@ class SchemaInteraction extends Component {
     /** did mount */
     componentDidMount = () => {
         Prism.highlightAll();
-        this.props.getSdosForSchema(this.props.config.hsInstance)
+        this.props.getSdosForSchema(this.props.config.hsModel)
     }
 
     /** did mount */
@@ -45,7 +45,7 @@ class SchemaInteraction extends Component {
     /** submit */
     onSubmit = (sdoProps) => {
         let validatedSdoProps = this.typeValidation(sdoProps)
-        this.props.addSomeSdo(validatedSdoProps, this.props.config.hsInstance)
+        this.props.addSomeSdo(validatedSdoProps, this.props.config.hsModel)
     }
 
     /** type validator */
@@ -223,11 +223,11 @@ class SchemaInteraction extends Component {
                                                                 <Col>
                                                                     <span className="d-block mb-2 text-pink">Sdo properties</span>
                                                                     {
-                                                                        Object.keys(sdo._dataValues).map(dataKey => {
+                                                                        Object.keys(sdo).map(dataKey => {
                                                                             if(dataKey !== "md") {
                                                                                 return (
                                                                                     dataKey !== "blobRefs" 
-                                                                                    ? <span className="d-block">{dataKey}: {sdo._dataValues[dataKey]}</span>
+                                                                                    ? <span className="d-block">{dataKey}: {sdo[dataKey]}</span>
                                                                                     : <Button size="sm" className="d-block float-right ml-1" color="warning">File download</Button>
                                                                                 )
                                                                             }
@@ -237,9 +237,9 @@ class SchemaInteraction extends Component {
                                                                 <Col>
                                                                     <span class="d-block mb-2 text-purple">Sdo meta</span>
                                                                     {
-                                                                        Object.keys(sdo._dataValues.md).map(dataKey => {
+                                                                        Object.keys(sdo.md).map(dataKey => {
                                                                             return (
-                                                                                <span className="d-block">{dataKey}: {sdo._dataValues.md[dataKey]}</span>
+                                                                                <span className="d-block">{dataKey}: {sdo.md[dataKey]}</span>
                                                                             )
                                                                         })
                                                                     }

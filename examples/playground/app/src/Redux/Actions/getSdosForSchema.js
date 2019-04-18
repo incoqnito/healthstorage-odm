@@ -4,14 +4,14 @@ import { GET_SDOS_FOR_SCHEMA_SUCCESS } from "../constants"
 import { GET_SDOS_FOR_SCHEMA_FAILED } from "../constants"
 
 /** sidebar toggle */
-export const getSdosForSchema = (hsInstance) => {
+export const getSdosForSchema = (hsModel) => {
     return (dispatch) => {
-        hsInstance.findAll()
-            .then(response => {
+        hsModel.find()
+            .then(sdos => {
                 return dispatch({
                     type: GET_SDOS_FOR_SCHEMA_SUCCESS,
                     payload: {
-                        sdoList: response.list
+                        sdoList: sdos
                     }
                 })
             })

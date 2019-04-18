@@ -31,7 +31,6 @@ export default class HsModel {
      * @param {Object} opts 
      */
     constructor(opts) {
-        this._props = {}
         this.initProperties(opts)
     }
 
@@ -212,7 +211,7 @@ export default class HsModel {
      */
     static find(options) {
         return HsModel.HsAdapter.getSdos(HsModel.HsSchema.props.oId, HsModel.HsSchema.props.id, options).then(response => {
-            return (response.body !== undefined && response.body.length > 0) ? response.body.map(sdo => new HsModel(sdo)) : false
+            return (response.body !== undefined && response.body.length > 0) ? response.body.map(sdo => new HsModel(sdo)) : []
         })
     }
 

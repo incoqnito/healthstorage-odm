@@ -32,7 +32,7 @@ const initialState = {
         schemaId: false,
         ownerId: false,
         schema: {},
-        hsInstance: false
+        hsModel: false
     },
     sdoList: [],
     currentError: {},

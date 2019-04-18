@@ -1,4 +1,4 @@
-/** Import HsInstance */
+/** Import */
 import HsClient from './core/hsClient'
 import HsSchema from './core/handler/hsSchema'
 import HsAdapter from './core/handler/hsAdapter'
