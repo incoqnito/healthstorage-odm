@@ -237,7 +237,7 @@ export default class HsModel {
     static findOne(where, opts = {}) {
         let filterRequest = HsModel.FILTER_REQUEST
         
-        filterRequest.sort = (opts.sort === undefined) ? HsModel.FILTER_REQUEST_SORT : opts.sort
+        filterRequest.sort = HsModel.FILTER_REQUEST_SORT
         filterRequest.filter.logic = (opts.logic === undefined) ? filterRequest.filter.logic : opts.logic 
 
         filterRequest.filter.filters = Object.keys(where).map(whereKey => {
@@ -334,10 +334,11 @@ export default class HsModel {
 
     /** 
      * Update sdo by its identifier
+     * @param {String} sdoId
      * @param {Object} data
      * @returns {HsModel} 
      */
-    static updateById (data) {
+    static updateById (sdoId, data) {
         data.md.r += 1
         return HsModel.HsAdapter.validateSdo(data).then(validated => {
             if (validated) {
@@ -407,9 +408,10 @@ export default class HsModel {
     }
 
     /**
-     * Lock object by its identifier
+     * Unlock object by its identifier and lockValueId
      * @param {String} id
      * @returns {Object}
+     * @issue lock values not stored permanent
      */
     static unlockById (id, lockValueId) {
         return HsModel.HsAdapter.unlockItem(id, lockValueId).then(response => {
@@ -567,7 +569,7 @@ export default class HsModel {
      * @return {Promise}
      */
     update() {
-        return HsModel.updateById(this)
+        return HsModel.updateById(this._id, this)
     }
 
     /**

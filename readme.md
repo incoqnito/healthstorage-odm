@@ -106,6 +106,8 @@ The HsClient holds specific data for server connection, adapter and debugging. Y
 
 The HsModel provides functionallity to interact with the selected adapter. It is like a services between this two layers. The Model needs a schema and identifier to deal with. There are static function which you can call directly after initialize the model and model binded function which interacts with the model itself.
 
+All models reference from md.id to _id and md.r to __v (id of model and version of model)
+
 ##### Creating a HsModel
 
 ```ts
@@ -150,10 +152,14 @@ The HsModel provides functionallity to interact with the selected adapter. It is
 
 ```ts
 
-  // finde models by defaults
-  SomeModel.find()
-  
-  // find models by given options
+   /**
+   * Find one entry
+   * @param {Object} where key value pairs for filter
+   * @param {Object} opts logic, take, skip, sort
+   * @returns {Promise}
+   * 
+   * Can also called without the filter param. In this case all entries for your request retruned
+   **/
   SomeModel.find({
     filter: {
       take: 10,
@@ -174,33 +180,225 @@ The HsModel provides functionallity to interact with the selected adapter. It is
 
 ##### static findOne
 
+```ts
+
+  /**
+   * Find one entry
+   * @param {Object} where key value pairs for filter
+   * @param {Object} opts logic, take, skip, sort
+   * @returns {Promise}
+   **/
+  SomeModel.findOne(
+    {
+      username: 'username',
+      email: 'email'
+    },
+    {
+      logic: HsModel.AND
+    }
+  )
+
+```
+
+
 ##### static findOneAndUpdate
+
+```ts
+
+  /**
+   * Find one entry and update it with new data
+   * @param {Object} where key value pairs for filter
+   * @param {Object} data new data for update
+   * @param {Object} opts logic, take, skip, sort
+   * @returns {Promise}
+   **/
+  SomeModel.findOneAndUpdate(
+    {
+      username: 'username'
+    },
+    {
+      firstName: 'Karsten',
+      lastName: 'Grizzle'
+    }
+    {
+      logic: HsModel.AND
+    }
+  )
+
+```
 
 ##### static findById
 
+```ts
+
+  /**
+   * Find entry by its identifier
+   * @param {String} sdoId
+   * @returns {Promise}
+   **/
+  SomeModel.findById('013f6860-56c1-4299-b418-07ba4f13d16a')
+
+```
+
 ##### static findBlobById
+
+```ts
+
+  /**
+   * Find blob for entry by its identifier
+   * @param {String} id
+   * @returns {Promise}
+   **/
+  SomeModel.findBlobById('013f6860-56c1-4299-b418-07ba4f13d16a')
+
+```
 
 ##### static findBlobFileById
 
+```ts
+
+  /**
+   * Find blob file entry by its identifier
+   * @param {String} sdoId
+   * @param {String} blobId
+   * @returns {Promise}
+   **/
+  SomeModel.findBlobFileById('013f6860-56c1-4299-b418-07ba4f13d16a', '013f6860-56c1-4299-b418-07ba4f13d16b')
+
+```
+
 ##### static create
+
+```ts 
+  /**
+   * Create a new entry
+   * @param {Object} data
+   * @returns {Promise}
+   */
+  SomeModel.create({
+    username: 'username',
+    email: 'email',
+    password: 'password'
+  })
+
+```
 
 ##### static changedSinceByIdAndRevision
 
+```ts 
+
+  /**
+   * Check if sdo changed since specified item
+   * @param {String} sdoId
+   * @param {Integer} r
+   * @returns {Promise}
+   */
+  SomeModel.changedSinceByIdAndRevision('013f6860-56c1-4299-b418-07ba4f13d16a', 1)
+
+```
+
 ##### static updateById
+
+```ts 
+
+  /**
+   * Update sdo by identifiern and given data
+   * @param {String} sdoId
+   * @param {Object|HsModel} data
+   * @returns {Promise}
+   */
+  SomeModel.updateById('013f6860-56c1-4299-b418-07ba4f13d16a', {
+    username: 'username',
+    email: 'email'
+  })
+
+```
 
 ##### static updateWhere
 
+```ts 
+
+  /**
+   * Coming soon
+   */
+  SomeModel.toBeDefined()
+
+```
+
 ##### static bulkCreate
+
+```ts 
+
+  /**
+   * Coming soon
+   */
+  SomeModel.toBeDefined()
+
+```
 
 ##### static bulkUpdate
 
+```ts
+
+  /**
+   * Update bulk list
+   * @param {Array} bulkList holds HsModels to update
+   * @returns {Promise}
+   */
+  SomeModel.updateById(bulkList)
+)
+
+```
+
 ##### static archiveById
+
+```ts
+
+  /**
+   * Coming soon
+   */
+  SomeModel.toBeDefined()
+
+```
 
 ##### static archiveWhere
 
+```ts
+
+  /**
+   * Coming soon
+   */
+  SomeModel.toBeDefined()
+
+```
+
 ##### static lockById
 
+```ts
+
+  /**
+   * Lock entry by its identifier
+   * @param {String} id
+   * @returns {Promise}
+   */
+  SomeModel.lockById('013f6860-56c1-4299-b418-07ba4f13d16a')
+
+```
+
 ##### static unlockById
+
+```ts
+
+  /**
+   * Unlock entry by its identifier and lockValueId
+   * @param {String} id
+   * @param {String} lockValueId
+   * @returns {Promise}
+   */
+  SomeModel.unlockById('013f6860-56c1-4299-b418-07ba4f13d16a', '013f6860-56c1-4299-b418-07ba4f13d90k')
+
+
+```
 
 ##### static getLockDataById
 
