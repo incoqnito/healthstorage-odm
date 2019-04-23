@@ -1,7 +1,7 @@
 /** import bootstrap */
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
-import { Container, Row, Col, Button, Badge } from 'reactstrap'
+import { Container, Row, Col, Button, Badge, UncontrolledCollapse } from 'reactstrap'
 import Prism from 'prismjs'
 import { Form, Field } from 'react-final-form'
 
@@ -13,6 +13,7 @@ import { getSdosForSchema } from "./../../../../Redux/Actions/getSdosForSchema"
 import { addSomeSdo } from "./../../../../Redux/Actions/addSomeSdo"
 import { deleteSomeSdo } from "./../../../../Redux/Actions/deleteSomeSdo"
 import { showEditModal } from "./../../../../Redux/Actions/showEditModal"
+import { getSdoById } from "./../../../../Redux/Actions/getSdoById"
 
 import "prismjs/themes/prism.css"
 import "prismjs/themes/prism-coy.css"
@@ -46,6 +47,16 @@ class SchemaInteraction extends Component {
     onSubmit = (sdoProps) => {
         let validatedSdoProps = this.typeValidation(sdoProps)
         this.props.addSomeSdo(validatedSdoProps, this.props.config.hsModel)
+    }
+
+    /** submit */
+    onSearchSubmit = (searchProps) => {
+        console.log(searchProps)
+    }
+
+    /** submit */
+    onFindByIdSubmit = (searchProps) => {
+        this.props.getSdoById(this.props.config.hsModel, searchProps.term)
     }
 
     /** type validator */
@@ -123,91 +134,198 @@ class SchemaInteraction extends Component {
                             </div>
                         </Col>
                         <Col xs="12" md="6" className="--iq-interaction-content">
-                            <div className="mb-5">
+                            <Fragment>
                                 <div className="--iq-interaction-header">
-                                    <span>Schema property inputs</span>
+                                    <span>
+                                        Sdo Search
+                                        <Button className="float-right" size="sm" id="sdoSearchElement" color="primary">Open Search</Button>
+                                    </span>
                                 </div>
-                                <div>
-                                <Col>
-                                    <Form
-                                        onSubmit={this.onSubmit}
-                                        render={({ handleSubmit, form, submitting, pristine, values }) => (
-                                            <form enctype="multipart/form-data" onSubmit={handleSubmit}>
-
-                                                {
-                                                    (this.props.config.schema.properties !== undefined) 
-                                                    ?
-                                                        Object.keys(this.props.config.schema.properties).map(propertyKey => {
-
-                                                            let propertyType = this.props.config.schema.properties[propertyKey].type
-
-                                                            if(propertyKey !== 'md') {
-                                                                let inputType = ""
-
-                                                                let property = this.props.config.schema.properties[propertyKey]
-                                                                let propIsArray = Array.isArray(propertyType)
-
-                                                                if(propIsArray) {
-                                                                    let propertyTypeTmp = propertyType.map(type => {
-                                                                        let idx = this.defaultInputTypes.indexOf(type)
-                                                                        return (idx > -1) ? this.defaultInputTypes[idx] : false
-                                                                    }).filter(item => item !== false)[0]
-                                                                    propertyType = propertyTypeTmp
-                                                                }
-                                                                
-                                                                switch(propertyType) {
-                                                                    case 'integer':
-                                                                        inputType = 'number'
-                                                                    break
-                                                                    case 'double':
-                                                                        inputType = "number"
-                                                                    break
-                                                                    case 'string':
-                                                                        inputType = "text"
-                                                                    break
-                                                                    case 'boolean':
-                                                                        inputType = "checkbox"
-                                                                    break
-                                                                    default: inputType = "text"
-                                                                }
-
-                                                                if(propertyKey === 'blobRefs') inputType = 'file'
-
-                                                                return (
-                                                                    <Row key={propertyKey} className="mb-3">
-                                                                        <Col className="text-left">
-                                                                            <label>
-                                                                                <small>{(property.title !== undefined) ? property.title : propertyKey} (type: {(Array.isArray(property.type) ? property.type.join(",") : property.type)})</small>
-                                                                            </label>
-                                                                            <Field name={propertyKey} validate={(this.props.config.schema.required.indexOf(propertyKey) > -1) ? this.isRequired : undefined}>
-                                                                                {({input, meta}) => (
-                                                                                    <Fragment>
-                                                                                        <input {...input} className="form-control" type={inputType} id={"sdo-add-"+propertyKey} placeholder={"Enter " + (property.title !== undefined) ? property.title : propertyKey} />
-                                                                                        <small className="--iq-error-input">{meta.error && meta.touched && <span>*{meta.error}</span>}</small>
-                                                                                    </Fragment>
-                                                                                )}
-                                                                            </Field>
-                                                                            {property.description !== undefined && <small class=" d-block mb-0 text-purple">Description: {property.description}</small>}
-                                                                            {property.$comment !== undefined && <small class="d-block mb-0 text-purple">Comment: {property.$comment}</small>}
-                                                                        </Col>
-                                                                    </Row> 
-                                                                )
-                                                            }
-                                                        })
-                                                    : null
-                                                }
-                                                <Button type="submit" disabled={submitting || pristine} className="--iq-btn purple mt-3">Add SDO</Button>
-                                            </form>
-                                        )}
-                                    />
-                                </Col>
-                                </div>
-                            </div>
-                            <div className="mb-3">
+                                <UncontrolledCollapse toggler="#sdoSearchElement">
+                                    <Col>
+                                        <Row>
+                                            <Col>
+                                                <Button id="findSearchBlock" color="info" size="sm" className="btn-block">Find</Button>
+                                            </Col>
+                                            <Col>
+                                                <Button id="findOneSearchBlock" color="info" size="sm" className="btn-block">FindOne</Button>
+                                            </Col>
+                                            <Col>
+                                                <Button id="findByIdBlock" color="info" size="sm" className="btn-block">FindById</Button>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col className="mb-5">
+                                        <UncontrolledCollapse toggler="#findSearchBlock">
+                                            <Form
+                                                onSubmit={this.onSearchSubmit}
+                                                render={({ handleSubmit, form, submitting, pristine, values }) => (
+                                                    <form encType="multipart/form-data" onSubmit={handleSubmit} className="mt-3">
+                                                        <Row className="mb-1">
+                                                            <Col className="text-left">
+                                                                <input className="form-control" name="term" type="text" placeholder="Enter search term" />
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="mb-1">
+                                                            <Col className="text-left">
+                                                                <select className="form-control" name="hsodmOperation">
+                                                                    <option disbled>Select search action to perform</option>
+                                                                    <option value="find">Find all</option>
+                                                                    <option value="findById">Find sdo by its identifier</option>
+                                                                    <option value="findOne">Find sdo by constraints</option>
+                                                                </select>
+                                                            </Col>
+                                                        </Row> 
+                                                        <Row className="mb-1">
+                                                            <Col className="text-left">
+                                                                <select className="form-control" multiple name="propertiesToSearch">
+                                                                    <option disbled>Select properties to search</option>
+                                                                    { 
+                                                                        Object.keys(this.props.config.schema.properties).map(propertyKey => {
+                                                                            
+                                                                        })
+                                                                    }
+                                                                </select>
+                                                            </Col>
+                                                        </Row> 
+                                                        <Button type="submit" disabled={submitting || pristine} className="--iq-btn purple mt-3">Search</Button>
+                                                    </form>
+                                                )}
+                                            />
+                                        </UncontrolledCollapse>
+                                        <UncontrolledCollapse toggler="#findOneSearchBlock">
+                                            <Form
+                                                onSubmit={this.onSearchSubmit}
+                                                render={({ handleSubmit, form, submitting, pristine, values }) => (
+                                                    <form encType="multipart/form-data" onSubmit={handleSubmit} className="mt-3">
+                                                        <Row className="mb-1">
+                                                            <Col className="text-left">
+                                                                <input className="form-control" name="term" type="text" placeholder="Enter search term" />
+                                                            </Col>
+                                                        </Row> 
+                                                        <Row className="mb-1">
+                                                            <Col className="text-left">
+                                                                <select className="form-control" multiple name="propertiesToSearch">
+                                                                    <option disbled>Select properties to search</option>
+                                                        
+                                                                </select>
+                                                            </Col>
+                                                        </Row> 
+                                                        <Button type="submit" disabled={submitting || pristine} className="--iq-btn purple mt-3">Search</Button>
+                                                    </form>
+                                                )}
+                                            />
+                                        </UncontrolledCollapse>
+                                        <UncontrolledCollapse toggler="#findByIdBlock">
+                                            <Form
+                                                onSubmit={this.onFindByIdSubmit}
+                                                render={({ handleSubmit, form, submitting, pristine, values }) => (
+                                                    <form encType="multipart/form-data" onSubmit={handleSubmit} className="mt-3">
+                                                        <Row className="mb-1">
+                                                            <Col className="text-left">
+                                                                <Field
+                                                                    name="term"
+                                                                    component="input"
+                                                                    type="text"
+                                                                    placeholder="Enter uuid of sdo"
+                                                                    className="form-control"
+                                                                />
+                                                            </Col>
+                                                        </Row> 
+                                                        <Button type="submit" disabled={submitting || pristine} className="--iq-btn purple mt-3">Search</Button>
+                                                    </form>
+                                                )}
+                                            />
+                                        </UncontrolledCollapse>
+                                    </Col>
+                                </UncontrolledCollapse>
                                 <div className="--iq-interaction-header">
-                                    <span>Sdos for schema</span>
+                                    <span>
+                                        Schema property inputs
+                                        <Button className="float-right" size="sm" id="sdoFormElement" color="primary">Open Form</Button>
+                                    </span>
                                 </div>
-                                <Col>
+                                <UncontrolledCollapse toggler="#sdoFormElement">
+                                    <Col className="mb-5">
+                                        <Form
+                                            onSubmit={this.onSubmit}
+                                            render={({ handleSubmit, form, submitting, pristine, values }) => (
+                                                <form enctype="multipart/form-data" onSubmit={handleSubmit}>
+
+                                                    {
+                                                        (this.props.config.schema.properties !== undefined) 
+                                                        ?
+                                                            Object.keys(this.props.config.schema.properties).map(propertyKey => {
+
+                                                                let propertyType = this.props.config.schema.properties[propertyKey].type
+
+                                                                if(propertyKey !== 'md') {
+                                                                    let inputType = ""
+
+                                                                    let property = this.props.config.schema.properties[propertyKey]
+                                                                    let propIsArray = Array.isArray(propertyType)
+
+                                                                    if(propIsArray) {
+                                                                        let propertyTypeTmp = propertyType.map(type => {
+                                                                            let idx = this.defaultInputTypes.indexOf(type)
+                                                                            return (idx > -1) ? this.defaultInputTypes[idx] : false
+                                                                        }).filter(item => item !== false)[0]
+                                                                        propertyType = propertyTypeTmp
+                                                                    }
+                                                                    
+                                                                    switch(propertyType) {
+                                                                        case 'integer':
+                                                                            inputType = 'number'
+                                                                        break
+                                                                        case 'double':
+                                                                            inputType = "number"
+                                                                        break
+                                                                        case 'string':
+                                                                            inputType = "text"
+                                                                        break
+                                                                        case 'boolean':
+                                                                            inputType = "checkbox"
+                                                                        break
+                                                                        default: inputType = "text"
+                                                                    }
+
+                                                                    if(propertyKey === 'blobRefs') inputType = 'file'
+
+                                                                    return (
+                                                                        <Row key={propertyKey} className="mb-3">
+                                                                            <Col className="text-left">
+                                                                                <label>
+                                                                                    <small>{(property.title !== undefined) ? property.title : propertyKey} (type: {(Array.isArray(property.type) ? property.type.join(",") : property.type)})</small>
+                                                                                </label>
+                                                                                <Field name={propertyKey} validate={(this.props.config.schema.required.indexOf(propertyKey) > -1) ? this.isRequired : undefined}>
+                                                                                    {({input, meta}) => (
+                                                                                        <Fragment>
+                                                                                            <input {...input} className="form-control" type={inputType} id={"sdo-add-"+propertyKey} placeholder={"Enter " + (property.title !== undefined) ? property.title : propertyKey} />
+                                                                                            <small className="--iq-error-input">{meta.error && meta.touched && <span>*{meta.error}</span>}</small>
+                                                                                        </Fragment>
+                                                                                    )}
+                                                                                </Field>
+                                                                                {property.description !== undefined && <small class=" d-block mb-0 text-purple">Description: {property.description}</small>}
+                                                                                {property.$comment !== undefined && <small class="d-block mb-0 text-purple">Comment: {property.$comment}</small>}
+                                                                            </Col>
+                                                                        </Row> 
+                                                                    )
+                                                                }
+                                                            })
+                                                        : null
+                                                    }
+                                                    <Button type="submit" disabled={submitting || pristine} className="--iq-btn purple mt-3">Add SDO</Button>
+                                                </form>
+                                            )}
+                                        />
+                                    </Col>
+                                </UncontrolledCollapse>
+                                <div className="--iq-interaction-header">
+                                    <span>
+                                        Sdos for schema 
+                                    </span>
+                                </div>
+                                <Col className="mb-3">
                                     <div className="mt-2 --iq-sdo-stack">
                                         {
                                             this.props.sdoList.map(sdo => { 
@@ -260,7 +378,7 @@ class SchemaInteraction extends Component {
                                         }  
                                     </div>
                                 </Col>
-                            </div>
+                            </Fragment>
                         </Col>
                         <Col xs="12" md="3" className="--iq-sticky-sidebar dark">
                             <div className="--iq-sidebar-header">
@@ -286,7 +404,7 @@ class SchemaInteraction extends Component {
                                                             </code>
                                                         </pre>
                                                     : 
-                                                    <span class="text-danger d-block">API Error: {request.value}</span>
+                                                    <span class="text-danger d-block">API Error: {request.value.status} - {request.value.text}</span>
                                                 }
                                             </div>
                                         </div>
@@ -319,7 +437,8 @@ const mapDispatchToProps = {
     getSdosForSchema,
     addSomeSdo,
     deleteSomeSdo,
-    showEditModal
+    showEditModal,
+    getSdoById
 }
 
 /** export application container */

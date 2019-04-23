@@ -494,6 +494,7 @@ class HsStorage {
     let error = new Error(message) 
     error.status = status
     error.callee = callee
+    error.text = message
     return error
   }
 }

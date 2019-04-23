@@ -26,7 +26,7 @@ class EditModal extends Component {
     /** submit */
     onSubmit = (sdoProps) => {
         let validatedSdoProps = this.typeValidation(sdoProps)
-        Object.assign(this.props.sdoToEdit._dataValues, validatedSdoProps)
+        Object.assign(this.props.sdoToEdit, validatedSdoProps)
         this.props.editSomeSdo(this.props.sdoToEdit)
     }
 

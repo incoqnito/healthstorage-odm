@@ -221,11 +221,7 @@ export default class HsModel {
      * @returns {Promise}
      */
     static findById (id) {
-        return HsModel.HsAdapter.getSdo({id: id}).then(sdo => {
-            let model = new HsModel(sdo)
-            model.lockValue = lockValue !== null ? JSON.parse(lockValue) : null
-            return model
-        })
+        return HsModel.HsAdapter.getSdo({id: id}).then(sdo => new HsModel(sdo))
     }
     
     /**
@@ -339,6 +335,7 @@ export default class HsModel {
      */
     static updateById (sdoId, data) {
         data.md.r += 1
+        data.__v = data.md.r
         return HsModel.HsAdapter.validateSdo(data).then(validated => {
             if (validated) {
                 return HsModel.HsAdapter.editSdo(data).then(sdo => new HsModel(sdo))

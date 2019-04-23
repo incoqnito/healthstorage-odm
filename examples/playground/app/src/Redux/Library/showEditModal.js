@@ -3,10 +3,10 @@ export const showEditModal = (state, payload) => {
 
     let initialValues = {}
     
-    if(payload.sdoModel._dataValues !== undefined) {
-        Object.keys(payload.sdoModel._dataValues).forEach(dataKey => {
-            if(dataKey !== 'md' && dataKey !== 'blobRefs') {
-                initialValues[dataKey] = payload.sdoModel._dataValues[dataKey]
+    if(payload.sdoModel !== undefined) {
+        Object.keys(payload.sdoModel).forEach(dataKey => {
+            if(dataKey !== 'md' && dataKey !== 'blobRefs' && dataKey !== '_id' && dataKey !== '__v') {
+                initialValues[dataKey] = payload.sdoModel[dataKey]
             }
         })
     }
