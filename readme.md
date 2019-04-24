@@ -716,11 +716,19 @@ Open console in healthstorage-odm package and move to ```./src/example/todo```. 
 
 Important: First install all dependencies.
 
-Open console healthstorage-odem package and move to ```./src/example/todo```. Type in ```npm start``` to run webpack.
-After successfully created the files move to the link shown in console (eg. http://localhost:8080, http://localhost:8081, http://localhost:8082, ...)
+## Examples
+
+### Todo
+
+We adapt an example app from todoMVC to demonstrate the HsOdm in an runnable environment.
+Move to ```./src/example/todo```. Type in ```npm start``` to run webpack.
 
 Enjoy.
 
-## Test cases
+### Playground
 
-Under the folder ```./src/__tests__/``` are several tests stored. Run ```npm test``` in root directory of the project an see the tests running.
+We made an hsodm playground to demonstrate the HsOdm and see requests and response. Type in the schema id and owner id to interact with yout schema. You can add, edit, delete and search for entries.
+
+Move to ```./src/example/playground```. Type in ```npm start``` to run webpack.
+
+Enjoy.
