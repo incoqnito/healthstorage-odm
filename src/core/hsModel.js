@@ -243,8 +243,8 @@ export default class HsModel {
             })
             return filterObject
         })
-
-        return HsModel.find({filter: filterRequest}).then(modelOrModels => modelOrModels[0])
+        
+        return HsModel.find({filter: filterRequest}).then(modelOrModels => (modelOrModels[0] !== undefined) ? modelOrModels[0] : false)
     }
 
     /**

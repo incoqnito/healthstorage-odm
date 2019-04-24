@@ -14,6 +14,7 @@ import { addSomeSdo } from "./../../../../Redux/Actions/addSomeSdo"
 import { deleteSomeSdo } from "./../../../../Redux/Actions/deleteSomeSdo"
 import { showEditModal } from "./../../../../Redux/Actions/showEditModal"
 import { getSdoById } from "./../../../../Redux/Actions/getSdoById"
+import { getSdoByConstraints } from "./../../../../Redux/Actions/getSdoByConstraints"
 
 import "prismjs/themes/prism.css"
 import "prismjs/themes/prism-coy.css"
@@ -50,8 +51,16 @@ class SchemaInteraction extends Component {
     }
 
     /** submit */
-    onSearchSubmit = (searchProps) => {
-        console.log(searchProps)
+    onFindOneSubmit = (searchProps) => {
+        let where = {}
+        searchProps.propertiesToSearch.forEach(property => {
+           where[property] = searchProps.term
+           
+        })
+        let opts = {
+            logic: searchProps.logicalOperator
+        }
+        this.props.getSdoByConstraints(this.props.config.hsModel, where, opts)
     }
 
     /** submit */
@@ -195,20 +204,43 @@ class SchemaInteraction extends Component {
                                         </UncontrolledCollapse>
                                         <UncontrolledCollapse toggler="#findOneSearchBlock">
                                             <Form
-                                                onSubmit={this.onSearchSubmit}
+                                                onSubmit={this.onFindOneSubmit}
                                                 render={({ handleSubmit, form, submitting, pristine, values }) => (
                                                     <form encType="multipart/form-data" onSubmit={handleSubmit} className="mt-3">
-                                                        <Row className="mb-1">
+                                                        <Row className="mb-3">
                                                             <Col className="text-left">
-                                                                <input className="form-control" name="term" type="text" placeholder="Enter search term" />
+                                                                <Field
+                                                                    name="term"
+                                                                    component="input"
+                                                                    type="text"
+                                                                    placeholder="Enter uuid of sdo"
+                                                                    className="form-control"
+                                                                />
                                                             </Col>
                                                         </Row> 
                                                         <Row className="mb-1">
                                                             <Col className="text-left">
-                                                                <select className="form-control" multiple name="propertiesToSearch">
-                                                                    <option disbled>Select properties to search</option>
-                                                        
-                                                                </select>
+                                                                <label>Logical operator</label>
+                                                                <Field defaultValue="and" className="form-control" name="logicalOperator" component="select">
+                                                                   <option value="and">AND</option>
+                                                                   <option value="or">OR</option>
+                                                                </Field>
+                                                            </Col>
+                                                        </Row> 
+                                                        <Row className="mb-1">
+                                                            <Col className="text-left">
+                                                                <label>Properties to filter by (multiple select)</label>
+                                                                <Field className="form-control" name="propertiesToSearch" component="select" multiple>
+                                                                    {
+                                                                        Object.keys(this.props.config.schema.properties).map(propertyKey => {
+                                                                            if(propertyKey !== 'blobRefs' && propertyKey !== 'md') {
+                                                                                return (
+                                                                                    <option value={propertyKey}>{propertyKey}</option>
+                                                                                )
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                </Field>
                                                             </Col>
                                                         </Row> 
                                                         <Button type="submit" disabled={submitting || pristine} className="--iq-btn purple mt-3">Search</Button>
@@ -346,7 +378,7 @@ class SchemaInteraction extends Component {
                                                                                 return (
                                                                                     dataKey !== "blobRefs" 
                                                                                     ? <span className="d-block">{dataKey}: {sdo[dataKey]}</span>
-                                                                                    : <Button size="sm" className="d-block float-right ml-1" color="warning">File download</Button>
+                                                                                    : <Button size="sm" className="d-block mt-2" color="warning">File download</Button>
                                                                                 )
                                                                             }
                                                                         })
@@ -438,7 +470,8 @@ const mapDispatchToProps = {
     addSomeSdo,
     deleteSomeSdo,
     showEditModal,
-    getSdoById
+    getSdoById,
+    getSdoByConstraints
 }
 
 /** export application container */

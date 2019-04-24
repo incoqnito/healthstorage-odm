@@ -15,6 +15,8 @@ import { EDIT_SOME_SDO_SUCCESS } from "./constants"
 import { EDIT_SOME_SDO_FAILED } from "./constants"
 import { GET_SDO_BY_ID_SUCCESS } from "./constants"
 import { GET_SDO_BY_ID_FAILED } from "./constants"
+import { GET_SDO_BY_CONSTRAINTS_SUCCESS } from "./constants"
+import { GET_SDO_BY_CONSTRAINTS_FAILED } from "./constants"
 
 /** library */
 import { configSelectSchemaOwnerId } from "./Library/configSelectSchemaOwnerId"
@@ -29,6 +31,8 @@ import { editSomeSdo } from "./Library/editSomeSdo"
 import { failedEditSomeSdo } from "./Library/failedEditSomeSdo"
 import { getSdoById } from "./Library/getSdoById"
 import { failedGetSdoById } from "./Library/failedGetSdoById"
+import { getSdoByConstraints } from "./Library/getSdoByConstraints"
+import { failedGetSdoByConstraints } from "./Library/failedGetSdoByConstraints"
 
 /** create initial state */
 const initialState = {
@@ -57,12 +61,16 @@ const reduxReducer = (state = initialState, action) => {
             return failedSomeSdo(state, action.payload)
         case GET_SDOS_FOR_SCHEMA_SUCCESS:
             return getSdosForSchema(state, action.payload)
+            case GET_SDOS_FOR_SCHEMA_FAILED:
+                return failedGetSdosForSchema(state, action.payload)
         case GET_SDO_BY_ID_SUCCESS:
             return getSdoById(state, action.payload)
         case GET_SDO_BY_ID_FAILED:
             return failedGetSdoById(state, action.payload)
-        case GET_SDOS_FOR_SCHEMA_FAILED:
-            return failedSdosForSchema(state, action.payload)
+        case GET_SDO_BY_CONSTRAINTS_SUCCESS:
+            return getSdoByConstraints(state, action.payload)
+        case GET_SDO_BY_CONSTRAINTS_FAILED:
+            return failedGetSdoByConstraints(state, action.payload)
         case DELETE_SOME_SDO_SUCCESS:
             return deleteSomeSdo(state, action.payload)
         case DELETE_SOME_SDO_FAILED:
