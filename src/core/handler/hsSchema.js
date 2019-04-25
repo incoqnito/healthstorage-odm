@@ -3,21 +3,12 @@ import uuid from "uuid/v4"
 import HsHelper from "./../lib/hsHelper"
 
 /** Constants */
-import { SCHEMA_DRAFT } from "./../constants/hsConstants"
-import { UUID_PATTERN } from "./../constants/hsConstants"
-import { BTSS_PREFIX } from "./../constants/hsConstants"
-
-import { INT_MIN } from "./../constants/hsConstants"
-import { INT_MAX } from "./../constants/hsConstants"
-import { NULL } from "./../constants/hsConstants"
-import { OBJECT } from "./../constants/hsConstants"
-import { ARRAY } from "./../constants/hsConstants"
-import { STRING } from "./../constants/hsConstants"
-import { NUMBER } from "./../constants/hsConstants"
-import { INTEGER } from "./../constants/hsConstants"
-import { DOUBLE } from "./../constants/hsConstants"
-import { BOOLEAN } from "./../constants/hsConstants"
-import { FORMAT_DATE } from "./../constants/hsConstants"
+import {
+  SCHEMA_DRAFT, UUID_PATTERN, BTSS_PREFIX,
+  STRING, NUMBER, INTEGER, DOUBLE, BOOLEAN, 
+  OBJECT, ARRAY, DATE,
+  INT_MIN, INT_MAX, NULL, FORMAT_DATE
+} from './../constants/hsConstants'
 
 class HsSchema {
   /**
@@ -159,24 +150,24 @@ class HsSchema {
    */
   createSchema () {
     var schema = {
-      '$schema': this.SCHEMA_DRAFT,
+      '$schema': HsSchema.SCHEMA_DRAFT,
       'title': this.props.title,
       'definitions': {
         'MetadataSdo': {
           'type': [
-            this.OBJECT,
-            this.NULL
+            HsSchema.OBJECT,
+            HsSchema.NULL
           ],
           'additionalProperties': true,
           'properties': {
             'id': {
-              'type': this.STRING,
-              'pattern': this.UUID_PATTERN
+              'type': HsSchema.STRING,
+              'pattern': HsSchema.UUID_PATTERN
             },
             'r': {
-              'type': this.INTEGER,
-              'minimum': this.INT_MIN,
-              'maximum': this.INT_MAX
+              'type': HsSchema.INTEGER,
+              'minimum': HsSchema.INT_MIN,
+              'maximum': HsSchema.INT_MAX
             },
             'eId': {
               'type': [
@@ -185,21 +176,21 @@ class HsSchema {
               ]
             },
             'sId': {
-              'type': this.STRING,
-              'pattern': this.UUID_PATTERN
+              'type': HsSchema.STRING,
+              'pattern': HsSchema.UUID_PATTERN
             },
             'sr': {
               'type': 'integer',
-              'minimum': this.INT_MIN,
-              'maximum': this.INT_MAX
+              'minimum': HsSchema.INT_MIN,
+              'maximum': HsSchema.INT_MAX
             },
             'oId': {
-              'type': this.STRING,
-              'pattern': this.UUID_PATTERN
+              'type': HsSchema.STRING,
+              'pattern': HsSchema.UUID_PATTERN
             },
             'tsp': {
-              'type': this.STRING,
-              'format': this.FORMAT_DATE
+              'type': HsSchema.STRING,
+              'format': HsSchema.FORMAT_DATE
             }
           },
           'required': [
@@ -213,7 +204,7 @@ class HsSchema {
           ]
         }
       },
-      '$id': this.BTSS_PREFIX + this.props.id + '/' + this.props.r,
+      '$id': HsSchema.BTSS_PREFIX + this.props.id + '/' + this.props.r,
       'type': 'object',
       'properties': {
         'md': {

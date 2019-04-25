@@ -1,27 +1,18 @@
 /** imports */
 import HsBlob from "./hsBlob"
 
-/** get constants */
-import { ASC } from "./constants/hsConstants"
-import { DESC } from "./constants/hsConstants"
-import { MD_ID } from "./constants/hsConstants"
-import { MD_REVISION } from "./constants/hsConstants"
-import { MD_DATE } from "./constants/hsConstants"
-import { FILTER_REQUEST } from "./constants/hsConstants"
-import { FILTER_REQUEST_FILTER } from "./constants/hsConstants"
-import { FILTER_REQUEST_SORT } from "./constants/hsConstants"
-import { EQUAL } from "./constants/hsConstants"
-import { NOT_EQUAL } from "./constants/hsConstants"
-import { CONTAINS } from "./constants/hsConstants"
-import { NOT_CONTAIN } from "./constants/hsConstants"
-import { START_WITH } from "./constants/hsConstants"
-import { END_WITH } from "./constants/hsConstants"
-import { LOWER_THAN } from "./constants/hsConstants"
-import { LOWER_EQUAL_THAN } from "./constants/hsConstants"
-import { GREATER_THAN } from "./constants/hsConstants"
-import { GREATER_EQUAL_THAN } from "./constants/hsConstants"
-import { AND } from "./constants/hsConstants"
-import { OR } from "./constants/hsConstants"
+/** constants */
+import {
+    STRING, NUMBER, INTEGER, BOOLEAN, OBJECT, ARRAY, DATE,
+    ASC, DESC, MD_ID, MD_REVISION, MD_DATE, 
+    FILTER_REQUEST, FILTER_REQUEST_FILTER, FILTER_REQUEST_SORT,
+    EQUAL, NOT_EQUAL,
+    CONTAINS, NOT_CONTAINS,
+    START_WITH, END_WITH,
+    LOWER_THAN, LOWER_EQUAL_THAN,
+    GREATER_THAN, GREATER_EQUAL_THAN, 
+    AND, OR
+} from './constants/hsConstants'
 
 export default class HsModel {
     
@@ -32,6 +23,62 @@ export default class HsModel {
      */
     constructor(opts) {
         this.initProperties(opts)
+    }
+
+    /**
+     * Get string type
+     * @return {String} STRING
+     */
+    static get STRING () {
+        return STRING
+    }
+
+    /**
+     * Get number type
+     * @return {String} NUMBER
+     */
+    static get NUMBER () {
+        return NUMBER
+    }
+
+    /**
+     * Get integer type
+     * @return {String} INTEGER
+     */
+    static get INTEGER () {
+        return INTEGER
+    }
+
+    /**
+     * Get boolean type
+     * @return {String} BOOLEAN
+     */
+    static get BOOLEAN () {
+        return BOOLEAN
+    }
+
+    /**
+     * Get object type
+     * @return {String} OBJECT
+     */
+    static get OBJECT () {
+        return OBJECT
+    }
+
+    /**
+     * Get array type
+     * @return {String} ARRAY
+     */
+    static get ARRAY () {
+        return ARRAY
+    }
+
+    /**
+     * Get date type
+     * @return {String} DATE
+     */
+    static get DATE () {
+        return DATE
     }
 
     /**
@@ -126,8 +173,8 @@ export default class HsModel {
      * Get not contains compare type
      * @return {String}
      */
-    static get NOT_CONTAIN () {
-        return NOT_CONTAIN
+    static get NOT_CONTAINS () {
+        return NOT_CONTAINS
     }
 
     /**
