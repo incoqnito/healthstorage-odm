@@ -150,24 +150,24 @@ class HsSchema {
    */
   createSchema () {
     var schema = {
-      '$schema': HsSchema.SCHEMA_DRAFT,
+      '$schema': this.SCHEMA_DRAFT,
       'title': this.props.title,
       'definitions': {
         'MetadataSdo': {
           'type': [
-            HsSchema.OBJECT,
-            HsSchema.NULL
+            this.OBJECT,
+            this.NULL
           ],
           'additionalProperties': true,
           'properties': {
             'id': {
-              'type': HsSchema.STRING,
-              'pattern': HsSchema.UUID_PATTERN
+              'type': this.STRING,
+              'pattern': this.UUID_PATTERN
             },
             'r': {
-              'type': HsSchema.INTEGER,
-              'minimum': HsSchema.INT_MIN,
-              'maximum': HsSchema.INT_MAX
+              'type': this.INTEGER,
+              'minimum': this.INT_MIN,
+              'maximum': this.INT_MAX
             },
             'eId': {
               'type': [
@@ -176,21 +176,21 @@ class HsSchema {
               ]
             },
             'sId': {
-              'type': HsSchema.STRING,
-              'pattern': HsSchema.UUID_PATTERN
+              'type': this.STRING,
+              'pattern': this.UUID_PATTERN
             },
             'sr': {
               'type': 'integer',
-              'minimum': HsSchema.INT_MIN,
-              'maximum': HsSchema.INT_MAX
+              'minimum': this.INT_MIN,
+              'maximum': this.INT_MAX
             },
             'oId': {
-              'type': HsSchema.STRING,
-              'pattern': HsSchema.UUID_PATTERN
+              'type': this.STRING,
+              'pattern': this.UUID_PATTERN
             },
             'tsp': {
-              'type': HsSchema.STRING,
-              'format': HsSchema.FORMAT_DATE
+              'type': this.STRING,
+              'format': this.FORMAT_DATE
             }
           },
           'required': [
@@ -204,7 +204,7 @@ class HsSchema {
           ]
         }
       },
-      '$id': HsSchema.BTSS_PREFIX + this.props.id + '/' + this.props.r,
+      '$id': this.BTSS_PREFIX + this.props.id + '/' + this.props.r,
       'type': 'object',
       'properties': {
         'md': {
