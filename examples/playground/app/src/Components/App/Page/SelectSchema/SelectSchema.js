@@ -4,9 +4,8 @@ import { connect } from 'react-redux'
 import { Container, Col, Row, Button, Input } from 'reactstrap'
 import { Form, Field } from 'react-final-form'
 
-
 /** HsOdm */
-import HealthStorageODM from '../../../../../../../../src/healthStorage'
+import { HealthStorageODM } from '../../../../../../../../src/healthStorage'
 
 /** redux action */
 import { configSelectSchemaOwnerId } from '../../../../Redux/Actions/configSelectSchemaOwnerId';
@@ -14,7 +13,7 @@ import { configSelectSchemaOwnerId } from '../../../../Redux/Actions/configSelec
 /** constants */
 import { uuidPattern } from "./../../../constants"
 import { devClient } from "./../../../constants"
-import HsModel from '../../../../../../../../src/core/hsModel';
+
 
 class SelectSchema extends Component {
 
@@ -22,6 +21,7 @@ class SelectSchema extends Component {
     onSubmit = async (values) => {
         if(values.schemaId !== undefined && values.ownerId !== undefined) {
 
+            console.log(HealthStorageODM)
             let foundSchema = await HealthStorageODM.getSchema({id: values.schemaId})
             
             let hsClient = new HealthStorageODM(devClient)

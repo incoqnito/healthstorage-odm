@@ -159,5 +159,4 @@ class HealthStorageODM {
     return adapter.deleteSchema(id)
   }
 }
-
 export default HealthStorageODM
