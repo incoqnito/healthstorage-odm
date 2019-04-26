@@ -82,6 +82,7 @@ class HsClient {
    */
   define (identifier, opts) {
     HsModel.instance(new HsSchema(opts), new HsAdapter(this.client), identifier)
+    HsModel.setDebug(this.client.debug)
     return HsModel
   }
 }

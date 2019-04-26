@@ -25,6 +25,10 @@ export default class HsModel {
         this.initProperties(opts)
     }
 
+    static setDebug (debug) {
+        this.debug = debug
+    }
+
     /**
      * Get string type
      * @return {String} STRING

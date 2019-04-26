@@ -5,7 +5,7 @@ import { Container, Col, Row, Button, Input } from 'reactstrap'
 import { Form, Field } from 'react-final-form'
 
 /** HsOdm */
-import { HealthStorageODM } from '../../../../../../../../src/healthStorage'
+import HealthStorageODM from '../../../../../../../../src/healthStorage'
 
 /** redux action */
 import { configSelectSchemaOwnerId } from '../../../../Redux/Actions/configSelectSchemaOwnerId';
